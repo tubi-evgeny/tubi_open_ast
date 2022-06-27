@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,7 +42,7 @@ public class DeliveryToReceiveGoodsActivity extends AppCompatActivity
         implements View.OnClickListener {
 
     private RecyclerView recyclerView;
-    private TextView tvCarInfo, tvAcceptProd, tvHandOverProd, tvApply;
+    private TextView tvCarInfo,  tvApply;//tvAcceptProd, tvHandOverProd,
     private ListView lvCars;
     private ArrayList<CarModel> carModelList = new ArrayList<>();
     private ArrayList<CarrierPanelModel> deliveryList = new ArrayList<>();
@@ -64,19 +65,19 @@ public class DeliveryToReceiveGoodsActivity extends AppCompatActivity
         recyclerView = (RecyclerView) findViewById(R.id.rvList);
         lvCars = findViewById(R.id.lvCars);
         tvCarInfo = findViewById(R.id.tvCarInfo);
-        tvAcceptProd = findViewById(R.id.tvAcceptProd);
-        tvHandOverProd = findViewById(R.id.tvHandOverProd);
+       // tvAcceptProd = findViewById(R.id.tvAcceptProd);
+       // tvHandOverProd = findViewById(R.id.tvHandOverProd);
         tvApply = findViewById(R.id.tvApply);
 
         tvCarInfo.setOnClickListener(this);
-        tvAcceptProd.setOnClickListener(this);
-        tvHandOverProd.setOnClickListener(this);
+        //tvAcceptProd.setOnClickListener(this);
+       // tvHandOverProd.setOnClickListener(this);
         tvApply.setOnClickListener(this);
 
         tvApply.setClickable(false);
 
         //--------------------
-        tvHandOverProd.setClickable(false); // кнопку удалить и все методы и классы тоже
+       // tvHandOverProd.setClickable(false); // кнопку удалить и все методы и классы тоже
                                             // (есть рабочая копия)
         //----------------
 
@@ -103,8 +104,8 @@ public class DeliveryToReceiveGoodsActivity extends AppCompatActivity
                 deliveryList.clear();
                 sortProdList.clear();
                 adapter.notifyDataSetChanged();
-                tvAcceptProd.setBackgroundColor(TUBI_WHITE);
-                tvHandOverProd.setBackgroundColor(TUBI_WHITE);
+               // tvAcceptProd.setBackgroundColor(TUBI_WHITE);
+               // tvHandOverProd.setBackgroundColor(TUBI_WHITE);
                 startList();
                 tvApply.setClickable(false);
                 tvApply.setBackgroundColor(TUBI_GREY_200);
@@ -139,7 +140,7 @@ public class DeliveryToReceiveGoodsActivity extends AppCompatActivity
     public void onClick(View v) {
         if (v.equals(tvCarInfo)) {
             lvCars.setVisibility(View.VISIBLE);
-        } else if (v.equals(tvAcceptProd)) {
+        } /*else if (v.equals(tvAcceptProd)) {
             writeCheckToTable();
             accept = true;
             makeAcceptOrHandOverList("accept");
@@ -155,7 +156,8 @@ public class DeliveryToReceiveGoodsActivity extends AppCompatActivity
             tvHandOverProd.setBackgroundColor(TUBI_GREEN_600);
             tvApply.setClickable(false);
             tvApply.setBackgroundColor(TUBI_GREY_200);
-        } else if (v.equals(tvApply)) {
+        } */
+        else if (v.equals(tvApply)) {
             writeCheckToTable();
             tvApply.setClickable(false);
             tvApply.setBackgroundColor(TUBI_GREY_200);
@@ -166,9 +168,9 @@ public class DeliveryToReceiveGoodsActivity extends AppCompatActivity
 
     //собрать список в соответствии с запросом или (принять товар) или (сдать товар)
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void makeAcceptOrHandOverList(String string) {
+    private void makeAcceptOrHandOverList() {
         sortProdList.clear();
-        if (string.equals("accept")) {
+        //if (string.equals("accept")) {
             for (int i = 0; i < deliveryList.size(); i++) {
                 if (deliveryList.get(i).getCheck_give_out() == 0) {
                     //Toast.makeText(this, "give: ", Toast.LENGTH_SHORT).show();
@@ -194,8 +196,8 @@ public class DeliveryToReceiveGoodsActivity extends AppCompatActivity
                     sortProdList.add(delivery);
                 }
             }
-        }
-        if (string.equals("hand_over")) {
+       // }
+       /* if (string.equals("hand_over")) {
             for (int i = 0; i < deliveryList.size(); i++) {
                 if (deliveryList.get(i).getCheck_take_in() == 1) {
 
@@ -218,7 +220,8 @@ public class DeliveryToReceiveGoodsActivity extends AppCompatActivity
                     sortProdList.add(delivery);
                 }
             }
-        }
+        }*/
+        Log.d("A111","sortProdList size="+sortProdList.size());
         //сортируем лист по 2 полям(warehouse_id, getDocument_num )
         sortProdList.sort(Comparator.comparing(CarrierPanelModel::getWarehouse_id)
                 .thenComparing(CarrierPanelModel::getDocument_num));
@@ -459,14 +462,15 @@ public class DeliveryToReceiveGoodsActivity extends AppCompatActivity
                 }
             }
             //обновить данные
-            if(applyFlag){
+           /* if(applyFlag){
                 if(accept){
                     makeAcceptOrHandOverList("accept");
                 }else{
                     makeAcceptOrHandOverList("hand_over");
                 }
             }
-            applyFlag = false;
+            applyFlag = false;*/
+            makeAcceptOrHandOverList();
             /*
             //сортируем лист по 2 полям (logistic_product и car_or_warehouse_id)
             deliveryList.sort(Comparator.comparing(CarrierPanelModel::getDocument_num)
@@ -475,6 +479,7 @@ public class DeliveryToReceiveGoodsActivity extends AppCompatActivity
         }catch(Exception ex){
              Toast.makeText(this, "Exception: "+ex, Toast.LENGTH_SHORT).show();
         }
+        Log.d("A111","DeliveryToReceiveGoodsActivity / splitResult res="+result);
         //Toast.makeText(this, "out: "+out_active, Toast.LENGTH_SHORT).show();
     }
     //сделать список строк для показа в ListView
