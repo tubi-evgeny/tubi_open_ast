@@ -58,86 +58,99 @@ public class AcceptProductAdapter
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        CarrierPanelModel product=acceptProductList.get(position);
+        CarrierPanelModel product = acceptProductList.get(position);
 
         String url;
         String whatQuestion;
         url = Constant.PROVIDER_OFFICE;
         url += "receive_out_warehouse_info";
-        url += "&"+"warehouse_id="+product.getOutWarehouse_id();
+        url += "&" + "warehouse_id=" + product.getOutWarehouse_id();
         whatQuestion = "receive_out_warehouse_info";
         setInitialData(holder, url, whatQuestion);
 
        /* if(product.getLogistic_product() == 0){
             holder.llCar.setVisibility(GONE);
         }else */
-            if(product.getLogistic_product() == 1){
+        if (product.getLogistic_product() == 1) {
             //holder.llCar.setVisibility(View.VISIBLE);
             url = Constant.PROVIDER_OFFICE;
             url += "receive_car_info";
-            url += "&"+"car_id="+product.getCar_id();
+            url += "&" + "car_id=" + product.getCar_id();
             whatQuestion = "receive_car_info";
             setInitialData(holder, url, whatQuestion);
-            }
+        }
 
-        String description = product.getCategory()+" "+product.getProduct_name()+" "
-                +product.getCharacteristic()+" "+product.getBrand()+" "
-                +product.getTypePackaging()+" "+product.getWeight_volume()+" "+product.getUnit_measure()+" "
-                +IN_PACKAGE+" "+product.getQuantityPackage();
+        String description = product.getCategory() + " " + product.getProduct_name() + " "
+                + product.getCharacteristic() + " " + product.getBrand() + " "
+                + product.getTypePackaging() + " " + product.getWeight_volume() + " " + product.getUnit_measure() + " "
+                + IN_PACKAGE + " " + product.getQuantityPackage();
 
-      //  holder.tvWarehous.setText("hi: "+car_or_warehouse);
-        holder.tvProductInfo.setText(""+description);
-        holder.tvQuantity.setText(""+product.getQuantity());
+        //  holder.tvWarehous.setText("hi: "+car_or_warehouse);
+        holder.tvProductInfo.setText("" + description);
+        holder.tvQuantity.setText("" + product.getQuantity());
         holder.tvDocumentInfo.setText(""
-                +product.getDocument_name()+" № "+product.getDocument_num());
+                + product.getDocument_name() + " № " + product.getDocument_num());
 
-        if(product.getChecked() == 0){
+        if (product.getChecked() == 0) {
             holder.checkBox.setChecked(false);
             holder.checkBox.setClickable(true);
-        }else{
+        } else {
             holder.checkBox.setChecked(true);
             holder.checkBox.setClickable(false);
         }
-        if(product.getColorDelivery() == 1){
+        if (product.getColorDelivery() == 1) {
             holder.llProdInfo.setBackgroundResource(R.drawable.round_corners_green);
-        }else holder.llProdInfo.setBackgroundResource(R.drawable.krugliye_ugli);
+        } else holder.llProdInfo.setBackgroundResource(R.drawable.krugliye_ugli);
 
         //если транспорт есть то скрываем повторения
-        try{
-            if(product.getLogistic_product() == 1 && product.getCar_id() ==
+        if(position != 0){
+            try {
+                if (product.getLogistic_product() == 1 && product.getCar_id() ==
                         acceptProductList.get(position - 1).getCar_id()) {
                     holder.llCar.setVisibility(GONE);
-            }else if(product.getLogistic_product() == 0){
-                holder.llCar.setVisibility(GONE);
-            }else holder.llCar.setVisibility(View.VISIBLE);
-        }catch (Exception ex){}
+                } else if (product.getLogistic_product() == 0) {
+                    holder.llCar.setVisibility(GONE);
+                } else {
+                    holder.llCar.setVisibility(View.VISIBLE);
+                }
+            } catch (Exception ex) {
+            }
 
-        try{
-            if(product.getCar_id() ==
-                    acceptProductList.get(position - 1).getCar_id() &&
-                    product.getOutWarehouse_id() ==
-                    acceptProductList.get(position - 1).getOutWarehouse_id()){
-                holder.llWarehouse.setVisibility(GONE);
-            }else holder.llWarehouse.setVisibility(View.VISIBLE);
-        }catch (Exception ex){}
-        //название накладной показать/скрыть
-        try{
-            if(product.getDocument_name()
-                    .equals(acceptProductList.get(position - 1).getDocument_name())
-                && product.getDocument_num()
-                    == acceptProductList.get(position-1).getDocument_num()){
+            try {
+                if (product.getCar_id() ==
+                        acceptProductList.get(position - 1).getCar_id() &&
+                        product.getOutWarehouse_id() ==
+                                acceptProductList.get(position - 1).getOutWarehouse_id()) {
+                    holder.llWarehouse.setVisibility(GONE);
+                } else{
+                    holder.llWarehouse.setVisibility(View.VISIBLE);
+                }
+            } catch (Exception ex) {
+            }
+            //название накладной показать/скрыть
+            try {
+                if (product.getDocument_name()
+                        .equals(acceptProductList.get(position - 1).getDocument_name())
+                        && product.getDocument_num()
+                        == acceptProductList.get(position - 1).getDocument_num()) {
 
-                if(product.getOutWarehouse_id() ==
-                        acceptProductList.get(position - 1).getOutWarehouse_id()){
-                    holder.llDocumentInfo.setVisibility(GONE);
-                }else{
+                    if (product.getOutWarehouse_id() ==
+                            acceptProductList.get(position - 1).getOutWarehouse_id()) {
+                        holder.llDocumentInfo.setVisibility(GONE);
+                    } else {
+                        holder.llDocumentInfo.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
                     holder.llDocumentInfo.setVisibility(View.VISIBLE);
                 }
-
-            }else{
-                holder.llDocumentInfo.setVisibility(View.VISIBLE);
-            }
-        }catch (Exception ex){}
+            } catch (Exception ex) {
+        }
+        }else{
+            holder.llCar.setVisibility(View.VISIBLE);
+            holder.llWarehouse.setVisibility(View.VISIBLE);
+            holder.llDocumentInfo.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
