@@ -1,0 +1,659 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    tools:context="ru.tubi.project.activity.CompanyMyActivity">
+
+    <TextView
+        android:id="@+id/tvCmpanyName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:text="TextView" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_backgraund_white_black"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="40dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="2dp"
+                app:srcCompat="@drawable/gruzchik_150_ps" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:text="@string/buy_products" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llAcceptProduct_buy"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/round_backgraund_gray_200"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvAcceptProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="@string/accept_product" />
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                app:srcCompat="@drawable/strelka_dalshe_60ps" />
+        </LinearLayout>
+
+    <!--    <LinearLayout
+            android:id="@+id/llOrdersProviders"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/round_backgraund_gray_200"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvOrdersProviders"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="@string/orders_providers_big" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                app:srcCompat="@drawable/strelka_dalshe_60ps" />
+        </LinearLayout>-->
+
+        <LinearLayout
+            android:id="@+id/llBuyHistory"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/round_backgraund_gray_200"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvBuyHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="@string/buy_history_big" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                app:srcCompat="@drawable/strelka_dalshe_60ps" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/llSaleProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_backgraund_white_black"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="40dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="2dp"
+                app:srcCompat="@drawable/pogruzhchik_150_ps" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:text="@string/sale_products" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnGoMyCatalog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="@string/my_catalog_slash_stocks_big" />
+
+        <Button
+            android:id="@+id/btnOrdersBuyers"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/orders_buyers_big" />
+
+        <LinearLayout
+            android:id="@+id/llOrderForCollect"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/round_backgraund_gray_200"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:layout_margin="3dp"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="@string/order_for_collect" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                app:srcCompat="@drawable/strelka_dalshe_60ps" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llOrdersShipment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/round_backgraund_gray_200"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:layout_margin="3dp"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="@string/shipment_product" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                app:srcCompat="@drawable/strelka_dalshe_60ps" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSaleHistory"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/history_sale_big" />
+
+        <LinearLayout
+            android:id="@+id/llCollectProductFor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/round_backgraund_gray_200"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:layout_margin="3dp"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="@string/collect_product_for" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                app:srcCompat="@drawable/strelka_dalshe_60ps" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvOrdersForProvider"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:layout_margin="3dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/round_backgraund_white_black"
+                android:text="@string/orders" />
+
+            <TextView
+                android:id="@+id/tvProviderProductInvoice"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:layout_margin="3dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/round_backgraund_white_black"
+                android:text="@string/products_invoice" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/llPartner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/round_backgraund_white_black"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView7"
+                        android:layout_width="40dp"
+                        android:layout_height="37dp"
+                        android:layout_marginTop="2dp"
+                        app:srcCompat="@drawable/rukopozhatie_150_ps" />
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:text="@string/partner" />
+
+                </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llAcceptProduct_partner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/round_backgraund_gray_200"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView97"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:layout_margin="3dp"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/accept_product" />
+
+                <ImageView
+                    android:id="@+id/imageView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    app:srcCompat="@drawable/strelka_dalshe_60ps" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/llCollectProduct"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/round_backgraund_gray_200"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView98"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:layout_margin="3dp"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/collect_product" />
+
+                <ImageView
+                    android:id="@+id/imageView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    app:srcCompat="@drawable/strelka_dalshe_60ps" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/llGiveAwayProduct"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/round_backgraund_gray_200"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView99"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:layout_margin="3dp"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/give_away_product" />
+
+                <ImageView
+                    android:id="@+id/imageView13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    app:srcCompat="@drawable/strelka_dalshe_60ps" />
+            </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:gravity="left"
+                    android:weightSum="3"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvOrders"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:layout_margin="3dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:background="@drawable/round_backgraund_white_black"
+                        android:text="@string/orders" />
+
+                  <!--  <TextView
+                        android:id="@+id/tvProductInvoice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:layout_margin="3dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:background="@drawable/round_backgraund_white_black"
+                        android:text="@string/products_invoice" />-->
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvProductReceipt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:layout_margin="3dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:background="@drawable/round_backgraund_white_black"
+                        android:text="@string/products_receipt" />
+
+                    <TextView
+                        android:id="@+id/tvProductInvoice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:layout_margin="3dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:background="@drawable/round_backgraund_white_black"
+                        android:text="@string/products_invoice" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/llLogistics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_backgraund_white_black"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView16"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:srcCompat="@drawable/auto_green_150ps" />
+
+                <TextView
+                android:id="@+id/textView83"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:text="@string/logistics" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llCarrierPanel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/round_backgraund_gray_200"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvCarrierPanel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:layout_margin="3dp"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/carrier_panel" />
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    app:srcCompat="@drawable/strelka_dalshe_60ps" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llIntercityDeliveryCal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/round_backgraund_gray_200"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvIntercityDeliveryCal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textColor="@color/black"
+                    android:textSize="17dp"
+                    android:layout_margin="3dp"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/intercity_delivery_calendar" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    app:srcCompat="@drawable/strelka_dalshe_60ps" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llDeliveryToWarehouse"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/round_backgraund_gray_200"
+                android:layout_margin="30dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvDeliveryToWarehouse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:layout_margin="3dp"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/delivery_to_warehouse" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    app:srcCompat="@drawable/strelka_dalshe_60ps" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llHandOverProduct"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/round_backgraund_gray_200"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvHandOverProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:layout_margin="3dp"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/hand_over_product" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    app:srcCompat="@drawable/strelka_dalshe_60ps" />
+            </LinearLayout>
+
+        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="100dp"
+                android:orientation="vertical">
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</LinearLayout>

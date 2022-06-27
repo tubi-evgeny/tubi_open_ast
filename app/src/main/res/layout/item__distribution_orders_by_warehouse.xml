@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_corners_green"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvMyWarehouseInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="TextView"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="7">
+
+            <TextView
+                android:id="@+id/textView84"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:layout_weight="5"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:text="@string/warehouse_partner" />
+
+            <TextView
+                android:id="@+id/tvWarehousePartnerNums"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_weight="2"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:text="" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="7">
+
+            <TextView
+                android:id="@+id/textView86"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:layout_weight="5"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:text="@string/quantity_position" />
+
+            <TextView
+                android:id="@+id/tvQuantityPositionNums"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_weight="2"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:text="" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="7">
+
+            <TextView
+                android:id="@+id/textView89"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:layout_weight="5"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:text="@string/number_product_units" />
+
+            <TextView
+                android:id="@+id/tvProductUnits_nums"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_weight="2"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:text="" />
+        </TableRow>
+    </TableLayout>
+    <TextView
+        android:id="@+id/tv3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/tubi_grey_600"
+        android:text="" />
+</LinearLayout>

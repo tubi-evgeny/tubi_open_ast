@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:title="@string/menu_mainActivity"
+        android:id="@+id/main"
+        />
+
+    <item
+        android:title="@string/menu_catalog"
+        android:id="@+id/category"
+        />
+
+    <item
+        android:title="@string/menu_shoping_box"
+        android:id="@+id/shoping_box"
+        app:showAsAction="always"
+        android:icon="@drawable/shoping_box_60ps"
+        />
+    <!--android:visible="true"-->
+
+    <item
+        android:title="@string/menu_menu"
+        android:id="@+id/menu"
+        />
+
+    <item
+        android:title="@string/update"
+        android:id="@+id/update"
+        android:icon="@drawable/simbol_update_60ps_white"
+        app:showAsAction="always"
+        android:visible="false"
+        />
+
+</menu>

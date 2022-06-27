@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context="ru.tubi.project.activity.AdminPanel.ListProvidersProcessingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView69"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:background="@color/tubi_grey_200"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/textView68"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/tubi_grey_200"
+            android:text="@string/provider_product_is_ready_for_delivery"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView59"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:background="@color/tubi_grey_200"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/textView60"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/tubi_grey_200"
+            android:layout_weight="1"
+            android:text="@string/counterparty" />
+
+        <TextView
+            android:id="@+id/textView61"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:background="@color/tubi_grey_200"
+            android:text="@string/volume" />
+
+        <TextView
+            android:id="@+id/textView64"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:background="@color/tubi_grey_200"
+            android:text="@string/weight" />
+
+        <TextView
+            android:id="@+id/textView62"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:background="@color/tubi_grey_200"
+            android:text="@string/ready" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+    </androidx.recyclerview.widget.RecyclerView>
+
+</LinearLayout>

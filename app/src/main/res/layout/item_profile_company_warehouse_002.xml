@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvWarehouseInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="TextView"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <ImageView
+                android:id="@+id/ivWarehouseEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                app:srcCompat="@android:drawable/ic_menu_edit" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvWarStorageNum"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:textSize="17dp"
+                android:textColor="@color/black"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tvWarProviderNum"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:textSize="17dp"
+                android:textColor="@color/black"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tvWarPartnerNum"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:textSize="17dp"
+                android:textColor="@color/black"
+                android:text="" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/llBuyerWarehouse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivCheckBuyerWarehouse"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:srcCompat="@drawable/checkmark_gray_140ps" />
+
+                <TextView
+                    android:id="@+id/tvBuyerWarehouse"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/buyer_is"
+                    android:textColor="@color/black"
+                    android:textSize="17dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivCheckProviderWarhouse"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:srcCompat="@drawable/checkmark_gray_140ps" />
+
+                <TextView
+                    android:id="@+id/tvProviderWarehouse"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/provider_is"
+                    android:textColor="@color/black"
+                    android:textSize="17dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivCheckPartnerWarehouse"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:srcCompat="@drawable/checkmark_gray_140ps" />
+
+                <TextView
+                    android:id="@+id/tvPartnerWarehouse"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/partner_is"
+                    android:textColor="@color/black"
+                    android:textSize="17dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView86"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/tubi_grey_400"
+        android:text="" />
+</LinearLayout>

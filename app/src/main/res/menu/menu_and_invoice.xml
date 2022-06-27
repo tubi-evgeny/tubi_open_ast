@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:title="@string/menu_mainActivity"
+        android:id="@+id/main"
+        />
+
+    <item
+        android:title="@string/menu_catalog"
+        android:id="@+id/category"
+        />
+
+    <item
+        android:title="@string/menu_menu"
+        android:id="@+id/menu"
+        />
+
+    <item
+        android:title="@string/menu_invoice_list"
+        android:id="@+id/invoice_list"
+        app:showAsAction="always"
+        android:icon="@drawable/doc_150_ps"
+        />
+    <!--android:visible="true"-->
+
+
+</menu>

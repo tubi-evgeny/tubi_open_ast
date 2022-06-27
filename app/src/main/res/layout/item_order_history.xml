@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:weightSum="3"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llShowOrder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:weightSum="4"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/llProdInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvOrderNum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/tvPositionCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/tvDescriptionFirst"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:text="TextView" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="right"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:gravity="right"
+                android:text="text" />
+
+            <TextView
+                android:id="@+id/tvGetDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:gravity="right"
+                android:text="text" />
+
+            <ImageView
+                android:id="@+id/ivCondition"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:srcCompat="@drawable/tubi_logo_200ps" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_weight="2"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvDescriptionSecond"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:layout_weight="3"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/textView37"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:textSize="18dp"
+            android:gravity="right|center_vertical"
+            android:textColor="@color/black"
+            android:text="@string/summ" />
+
+        <TextView
+            android:id="@+id/tvSumm"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:textSize="21dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:textColor="@color/black"
+            android:text="TextView" />
+    </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView46"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/tubi_grey_400"
+        android:text="TextView" />
+</LinearLayout>
