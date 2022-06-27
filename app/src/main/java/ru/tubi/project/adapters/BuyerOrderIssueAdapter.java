@@ -1,6 +1,7 @@
 package ru.tubi.project.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import ru.tubi.project.R;
 
 import ru.tubi.project.models.OrderModel;
+import ru.tubi.project.utilites.DownloadImage;
+import ru.tubi.project.utilites.MakeImageToSquare;
 
 import java.util.List;
 
+import static ru.tubi.project.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_600;
 import static ru.tubi.project.free.AllText.IN_PACKAGE;
@@ -56,6 +60,23 @@ public class BuyerOrderIssueAdapter
 
         holder.tvDescription.setText(""+product.getDescription());
         holder.tvQuantity.setText(""+product.getQuantity_to_order());
+
+        if(!product.getImage_url().equals("null")) {
+            new DownloadImage(){
+                @Override
+                protected void onPostExecute(Bitmap result) {
+                    try {
+                        int check = result.getWidth();
+                        new MakeImageToSquare(result,holder.ivImageProduct);
+                    } catch (Exception w) {
+                        //bitmap пустой image не найден
+                        holder.ivImageProduct.setImageResource(R.drawable.tubi_logo_no_image_300ps);
+                    }
+                }
+            }
+                    .execute(ADMIN_PANEL_URL_PREVIEW_IMAGES+product.getImage_url());
+        }else holder.ivImageProduct.setImageResource(R.drawable.tubi_logo_no_image_300ps);
+
 
         if(product.getChecked() == 1){
             holder.llAll.setBackgroundResource(R.drawable.krugliye_ugli);
