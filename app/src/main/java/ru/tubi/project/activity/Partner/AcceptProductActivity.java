@@ -329,9 +329,11 @@ public class AcceptProductActivity extends AppCompatActivity implements View.OnC
             checkedList.add(acceptProductList.get(i).getChecked());
         }
         //отсортировать есть доставка или нет и добавить данные доставщика(склад это или транспорт)
-        //сортируем лист по 2 полям (logistic_product и car_or_warehouse_id)
+        //сортируем лист по 4 полям (logistic_product )
         acceptProductList.sort(Comparator.comparing(CarrierPanelModel::getLogistic_product)
-                                .thenComparing(CarrierPanelModel::getCar_or_warehouse_id));
+                                .thenComparing(CarrierPanelModel::getCar_id)
+                                .thenComparing(CarrierPanelModel::getOutWarehouse_id)
+                                .thenComparing(CarrierPanelModel::getDocument_num));//getCar_or_warehouse_id
 
         adapter.notifyDataSetChanged();
     }
