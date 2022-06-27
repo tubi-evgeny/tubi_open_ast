@@ -37,6 +37,7 @@ public class AllText {
     public static String CHOOSE = "Выбор";
     public static String ISSUED_SMALL = "выдан";
     public static String NUMBER_SMALL = "номер";
+    public static String NUMBER_TEXT = "Номер";
     public static String POINT_OF_ISSUE = "пункт выдачи";
     public static String NO_DELIVERY = "Нет доставки";
     public static String PRODUCT_RECEIPT_DOC = "товарный чек";
