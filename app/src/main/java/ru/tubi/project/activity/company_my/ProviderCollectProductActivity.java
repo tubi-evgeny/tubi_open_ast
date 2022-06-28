@@ -156,7 +156,8 @@ public class ProviderCollectProductActivity extends AppCompatActivity
                 adChengeDataInTheCollect(position);
             }
         };
-        adapDeal = new ProviderCollectProductDealAdapter(this,productDealList,check,click);
+        adapDeal = new ProviderCollectProductDealAdapter(
+                this,productDealList,checkedList,check,click);
         rvList.setAdapter(adapDeal);
 
         if(order_active == 0){
@@ -177,7 +178,7 @@ public class ProviderCollectProductActivity extends AppCompatActivity
     private void whatCheckClicked(boolean flag, int position){
         if(productDealList.get(position).getProvider_stock_quantity() <
                 productDealList.get(position).getQuantity_to_deal()){
-            adapter.notifyItemChanged(position);
+           // adapter.notifyItemChanged(position);
         }else{
             int check=0;
             if (flag) check = 1;
@@ -187,6 +188,7 @@ public class ProviderCollectProductActivity extends AppCompatActivity
             tvApply.setBackgroundResource(R.drawable.round_corners_green_600_and_black);
             tvApply.setClickable(true);
         }
+        adapter.notifyItemChanged(position);
     }
     @Override
     public void onClick(View v) {

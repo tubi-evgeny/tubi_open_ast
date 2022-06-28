@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ru.tubi.project.R;
@@ -40,14 +41,17 @@ public class ProviderCollectProductDealAdapter
     private final ProviderCollectProductDealAdapter.OnClickListener clicked;
     private final LayoutInflater inflater;
     private final List<ProviderCollectProductModel> productList;
+    private final List<Integer> checkedList;
 
     public ProviderCollectProductDealAdapter(Context context
             ,List<ProviderCollectProductModel> productList
+            ,List<Integer> checkedList
             ,ProviderCollectProductDealAdapter.OnCheckedChangeListener checked
             ,ProviderCollectProductDealAdapter.OnClickListener clicked) {
 
         this.inflater = LayoutInflater.from(context);
         this.productList = productList;
+        this.checkedList = checkedList;
         this.checked=checked;
         this.clicked=clicked;
     }
@@ -106,13 +110,19 @@ public class ProviderCollectProductDealAdapter
         });
 
         if (product.getCollected_check() == 0) {
-            holder.checkBox.setChecked(false);
+           // holder.checkBox.setChecked(false);
             holder.checkBox.setClickable(true);
             holder.tvQuantityColected.setClickable(true);
         } else {
-            holder.checkBox.setChecked(true);
+            //holder.checkBox.setChecked(true);
             holder.checkBox.setClickable(false);
             holder.tvQuantityColected.setClickable(false);
+        }
+
+        if(checkedList.get(position) == 0){
+            holder.checkBox.setChecked(false);
+        }else{
+            holder.checkBox.setChecked(true);
         }
 
         if(product.getLogistic_product() == 1){
