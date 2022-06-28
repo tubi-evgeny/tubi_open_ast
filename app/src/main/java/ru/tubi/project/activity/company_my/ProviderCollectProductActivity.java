@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -46,6 +47,7 @@ import static ru.tubi.project.free.AllText.COLLECTED;
 import static ru.tubi.project.free.AllText.ERROR_BIG;
 import static ru.tubi.project.free.AllText.FOR_COLLECT;
 import static ru.tubi.project.free.AllText.LIST_PRODUCT;
+import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.PERFORM;
 import static ru.tubi.project.free.AllText.RESERVE;
 import static ru.tubi.project.free.AllText.RESERVE_IN_WAAREHOUSE;
@@ -237,6 +239,8 @@ public class ProviderCollectProductActivity extends AppCompatActivity
         url += "&"+"user_uid="+userDataModel.getUid();
         String whatQuestion = "correct_stock_to_warehouse_to_order";
         setInitialData(url, whatQuestion);
+
+        showProductForWorkToCollect();
     }
     //записать статус доставки
     private void writeAllLogisticToDB(int logistic){
@@ -247,6 +251,7 @@ public class ProviderCollectProductActivity extends AppCompatActivity
         String whatQuestion = "write_this_deal_delivery_status";
         setInitialData(url, whatQuestion);
 
+        //Обновить старт список
         showProductForWorkToCollect();
     }
     //запись в (t_warehouse_inventory_in_out and t_order_product_part) о том что товар собран(collected)
@@ -284,6 +289,8 @@ public class ProviderCollectProductActivity extends AppCompatActivity
         setInitialData(url, whatQuestion);
     }
     private void setInitialData(String url_get, String whatQuestion) {
+        ProgressDialog asyncDialog = new ProgressDialog(this);
+
         //проверка соединения интернета
         if ( !isOnline() ){
             Toast.makeText(getApplicationContext(),
@@ -292,6 +299,12 @@ public class ProviderCollectProductActivity extends AppCompatActivity
         }
 
         InitialData task=new InitialData(){
+            @Override
+            protected void onPreExecute() {
+                asyncDialog.setMessage(LOAD_TEXT);
+                asyncDialog.show();
+                super.onPreExecute();
+            }
 
             @RequiresApi(api = Build.VERSION_CODES.N)
             protected void onPostExecute(String result) {
@@ -302,7 +315,7 @@ public class ProviderCollectProductActivity extends AppCompatActivity
                     splitProductForCollectResult(result);
                 }
                 //hide the dialog
-                // asyncDialog.dismiss();
+                asyncDialog.dismiss();
             }
         };
         task.execute(url_get);
