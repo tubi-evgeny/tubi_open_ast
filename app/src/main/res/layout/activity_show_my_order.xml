@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:layout_margin="5dp"
+            android:layout_margin="3dp"
             android:orientation="horizontal">
 
             <TextView
@@ -50,8 +50,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_height="match_parent"
+        android:layout_weight="10"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -67,6 +67,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="60"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
         android:weightSum="6"
         android:orientation="horizontal">
 
@@ -81,8 +84,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 android:layout_weight="4"
                 android:gravity="center_vertical"
                 android:background="@drawable/round_backgraund_white_black"
@@ -107,7 +108,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_weight="2"
                 android:background="@drawable/round_background_grey_200_black"
                 android:gravity="center_vertical"
@@ -129,7 +131,7 @@
                     android:id="@+id/tvTotalSumm"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginRight="10dp"
                     android:gravity="center"
                     android:text=""
                     android:textColor="@color/black"
@@ -138,7 +140,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="5dp"
                     android:text="@string/rouble_short"
                     android:textColor="@color/black"
                     android:textSize="17dp" />
@@ -148,10 +150,10 @@
 
     </LinearLayout>
 
-    <ImageView
+   <!-- <ImageView
         android:id="@+id/imageView18"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_delete" />
+        app:srcCompat="@android:drawable/ic_delete" />-->
 
 </LinearLayout>
