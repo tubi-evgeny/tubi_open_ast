@@ -84,6 +84,7 @@ public class AllText {
     public static String CREATURE= "Оформление";
     public static String INVOICE= "накладной";
     public static String SUMM_SMOLL= "сумма";
+    public static String ALL_GOODS_TEXT= "Все товары";
     public static String PRESS_NEW= "Нажмите на кнопку /Новая/";
     public static String LOGISTIC_TO_PRODUCT_FALSE= "Есть товары для которых не определен транспорт";
     public static String NO_PRODUCT_HAS_BEEN_SELECTED= "Не выбран ни один товар";

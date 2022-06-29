@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -32,9 +33,12 @@ import ru.tubi.project.utilites.Constant;
 import static ru.tubi.project.Config.MY_UID;
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
+import static ru.tubi.project.free.AllText.ALL_GOODS_TEXT;
 import static ru.tubi.project.free.AllText.CARGO_WEGHT;
 import static ru.tubi.project.free.AllText.CHOICE_CAR;
 import static ru.tubi.project.free.AllText.DATA_RECORDER;
+import static ru.tubi.project.free.AllText.KG;
+import static ru.tubi.project.free.AllText.LOAD_TEXT;
 
 public class CarrierPanelActivity extends AppCompatActivity implements View.OnClickListener  {
 
@@ -42,7 +46,7 @@ public class CarrierPanelActivity extends AppCompatActivity implements View.OnCl
     private ImageView ivFilter;
     private RecyclerView recyclerView;
     private Spinner spinnerTransport;
-    private TextView tvGeneralWeght,tvApply;
+    private TextView tvGeneralWeght,tvApply, tvTotalWeight;
     private CarrierPanelAdapter adapter;
     private ArrayList<CarrierPanelModel> deliveryList=new ArrayList<>();
     private ArrayList<CarrierPanelModel> fullDeliveryList=new ArrayList<>();
@@ -64,13 +68,14 @@ public class CarrierPanelActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrier_panel);
-        //Панель перевозчика
+        setTitle(getResources().getString(R.string.carrier_panel));//Панель перевозчика
 
         recyclerView=(RecyclerView)findViewById(R.id.rvList);
         ivFilter = findViewById(R.id.ivFilter);
         spinnerTransport = findViewById(R.id.spinnerTransport);
         tvGeneralWeght = findViewById(R.id.tvGeneralWeght);
         tvApply = findViewById(R.id.tvApply);
+        tvTotalWeight = findViewById(R.id.tvTotalWeight);
 
         ivFilter.setOnClickListener(this);
         tvApply.setOnClickListener(this);
@@ -94,6 +99,7 @@ public class CarrierPanelActivity extends AppCompatActivity implements View.OnCl
                 }
                 if(position != 0){
                     car_id = carModelList.get(position-1).getCar_id();
+                    Log.d("A111","CarrierPanelActivity / onCreate car_id="+car_id);
                     //обновить (получить) все собранные warhouse_inventory_id но не отправленные и показать их
                     startList();
                     //получить список товаров для транспорта которые добавлены в доставку t_logistic_product
@@ -188,6 +194,14 @@ public class CarrierPanelActivity extends AppCompatActivity implements View.OnCl
 
         //Toast.makeText(this, "check:\n"+deliveryList.get(position).getChecked(), Toast.LENGTH_SHORT).show();
     }
+    //сложить вес товаров и показать
+    private void  addUpTotalWeight(ArrayList<CarrierPanelModel> list){
+        double totalWeight = 0;
+        for(int i=0;i < list.size();i++){
+            totalWeight += (list.get(i).getProductWeight() * list.get(i).getQuantity()) / 1000;
+        }
+        tvTotalWeight.setText(ALL_GOODS_TEXT+" "+String.format("%.3f",totalWeight)+" "+KG);
+    }
     //удалить все исправленные на check=0; брони товаров из БД
     private void checkAndUpdateLogisticProduct(int warehouseInventory_id){
         String url = Constant.CARRIER_OFFICE;
@@ -238,17 +252,17 @@ public class CarrierPanelActivity extends AppCompatActivity implements View.OnCl
         setInitialData(url, whatQuestion);
     }
     private void setInitialData(String url_get, String whatQuestion) {
-        // ProgressDialog asyncDialog = new ProgressDialog(this);
+         ProgressDialog asyncDialog = new ProgressDialog(this);
 
         InitialData task=new InitialData(){
-          /*  @Override
+            @Override
             protected void onPreExecute() {
                 //set message of the dialog
                 asyncDialog.setMessage(LOAD_TEXT);
                 //show dialog
                 asyncDialog.show();
                 super.onPreExecute();
-            }*/
+            }
 
             @RequiresApi(api = Build.VERSION_CODES.N)
             protected void onPostExecute(String result) {
@@ -267,7 +281,7 @@ public class CarrierPanelActivity extends AppCompatActivity implements View.OnCl
                     splitProductWeightForCarResult(result);
                 }
                 //hide the dialog
-                // asyncDialog.dismiss();
+                 asyncDialog.dismiss();
             }
         };
         task.execute(url_get);
@@ -412,7 +426,12 @@ public class CarrierPanelActivity extends AppCompatActivity implements View.OnCl
                 .thenComparing(CarrierPanelModel::getInWarehouse_id));
 
         fullDeliveryList.addAll(deliveryList);
+
+        //list for filter
         makeWarehouseListForNextActivity();
+
+        //сложить вес товаров и показать
+        addUpTotalWeight(deliveryList);
 
         adapter.notifyDataSetChanged();
     }
@@ -436,6 +455,9 @@ public class CarrierPanelActivity extends AppCompatActivity implements View.OnCl
         adapter.notifyDataSetChanged();
         //посчитать вес забронированного товара и вывести в tvGeneralWeght
         calculateWeghtCheckedProduct();
+
+        //сложить вес товаров и показать
+        addUpTotalWeight(deliveryList);
     }
     //посчитать вес забронированного товара и вывести в tvGeneralWeght
     private void calculateWeghtCheckedProduct(){
