@@ -191,7 +191,9 @@ public class DeliveryToReceiveGoodsActivity extends AppCompatActivity
                             ,deliveryList.get(i).getDocument_num()
                             ,deliveryList.get(i).getDocument_closed()
                             ,deliveryList.get(i).getDocument_save()
-                            ,deliveryList.get(i).getInvoice_key_id());
+                            ,deliveryList.get(i).getInvoice_key_id()
+                            ,deliveryList.get(i).getProduct_name()
+                            ,deliveryList.get(i).getDescription());
 
                     sortProdList.add(delivery);
                 }
@@ -446,6 +448,8 @@ public class DeliveryToReceiveGoodsActivity extends AppCompatActivity
                     int document_closed=Integer.parseInt(temp[26]);
                     int document_save=Integer.parseInt(temp[27]);
                     int invoice_key_id=Integer.parseInt(temp[28]);
+                    String product_name = temp[29];
+                    String description = temp[30];
 
                     CarrierPanelModel delivery = new CarrierPanelModel(outWarehouse_id,outCity,outStreet,
                             outHouse,outBuilding,inWarehouse_id,inCity,inStreet,inHouse,inBuilding,
@@ -453,8 +457,7 @@ public class DeliveryToReceiveGoodsActivity extends AppCompatActivity
                             weight_volume,image_url,quantity,typePackaging,quantityPackage,
                             check_take_in, check_give_out,check_out_active,outWarehouse_info_id,
                             inWarehouse_info_id,document_num, document_closed, document_save
-                            ,invoice_key_id);
-                    //$outWarehouse_info_id."&nbsp".$inWarehouse_info_id.
+                            ,invoice_key_id,product_name,description);
 
                     out_active += " "+delivery.getCheck_out_active()+"\n";
 
