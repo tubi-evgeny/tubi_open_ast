@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,6 +30,7 @@ import ru.tubi.project.utilites.UserDataRecovery;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
+import static ru.tubi.project.free.AllText.DELIVERY_TEXT;
 import static ru.tubi.project.free.AllText.HAND_OVER_PRODUCT;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 
@@ -52,7 +54,8 @@ public class HandOverProductActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hand_over_product);
-        setTitle(HAND_OVER_PRODUCT);//Сдать товар
+        setTitle(DELIVERY_TEXT);//Доставка Сдать товар
+        getSupportActionBar().setSubtitle(HAND_OVER_PRODUCT);
 
         recyclerView = (RecyclerView) findViewById(R.id.rvList);
         lvCars = findViewById(R.id.lvCars);
@@ -218,6 +221,7 @@ public class HandOverProductActivity extends AppCompatActivity
     // загрузки-разгрузки(отправки) и их колличество
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void splitResult(String result){
+        Log.d("A111","HandOverProductActivity / splitResult result="+result);
         sortProdList.clear();
         try{
             String[] res = result.split("<br>");
