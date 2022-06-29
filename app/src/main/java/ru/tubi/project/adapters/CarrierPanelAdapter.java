@@ -68,7 +68,7 @@ public class CarrierPanelAdapter
 
         holder.tvOutWarehouses.setText(""+outWarehouse);
         holder.tvInWarehouses.setText(""+inWarehouse);
-        holder.tvProductMass.setText(""+productMass+" "+KG);
+        holder.tvProductMass.setText(String.format("%.3f",productMass)+" "+KG);
         if(delivery.getStorageTemperature().equals("обычное")){
             holder.ivTemperature.setImageResource(R.drawable.temperature_150ps);
         }else if(delivery.getStorageTemperature().equals("холод")){
