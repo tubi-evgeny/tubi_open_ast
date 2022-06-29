@@ -47,6 +47,7 @@ public class CarrierPanelModel implements Serializable {
     private int quantityPackage;
     private int weight_volume;
     private String image_url;
+    private String description;
 
     private int logistic_product;
     private int car_or_warehouse_id;
@@ -229,6 +230,87 @@ public class CarrierPanelModel implements Serializable {
         this.document_closed=document_closed;
         this.document_save =document_save;
         this.invoice_key_id =invoice_key_id;
+    }
+    //DeliveryToReceiveGoodsActivity//makeAcceptOrHandOverList();
+    public CarrierPanelModel(int warehouse_id, String city, String street, int house,
+                             String building, int warehouseInventory_id,
+                             String category, String brand, String characteristic,
+                             String unit_measure, int weight_volume, String typePackaging,
+                             int quantityPackage, String image_url,
+                             double quantity, int checked, int check_out_active,
+                             int warehouse_info_id, int document_num
+            ,int document_closed, int document_save,int invoice_key_id
+            ,String product_name, String description) {
+
+        this.warehouse_id = warehouse_id;
+        this.city = city;
+        this.street = street;
+        this.house = house;
+        this.building = building;
+        this.quantity = quantity;
+        this.warehouseInventory_id = warehouseInventory_id;
+        this.checked = checked;
+        this.category = category;
+        this.brand = brand;
+        this.characteristic = characteristic;
+        this.unit_measure = unit_measure;
+        this.weight_volume = weight_volume;
+        this.typePackaging=typePackaging;
+        this.quantityPackage=quantityPackage;
+        this.image_url = image_url;
+        this.check_out_active=check_out_active;
+        this.warehouse_info_id=warehouse_info_id;
+        this.document_num=document_num;
+        this.document_closed=document_closed;
+        this.document_save =document_save;
+        this.invoice_key_id =invoice_key_id;
+        this.description = description;
+        this.product_name = product_name;
+    }
+    //DeliveryToReceiveGoodsActivity//splitResult();
+    public CarrierPanelModel(int outWarehouse_id,  String outCity,
+                             String outStreet, int outHouse, String outBuilding,
+                             int inWarehouse_id,  String inCity,  String inStreet,
+                             int inHouse, String inBuilding,  int warehouseInventory_id,
+                             String category,  String brand, String characteristic,
+                             String unit_measure,  int weight_volume, String image_url,
+                             double quantity,String typePackaging, int quantityPackage,
+                             int check_take_in, int check_give_out, int check_out_active,
+                             int outWarehouse_info_id,int inWarehouse_info_id
+            ,int document_num, int document_closed, int document_save
+            ,int invoice_key_id, String product_name, String description) {
+
+        this.outWarehouse_id = outWarehouse_id;
+        this.outCity = outCity;
+        this.outStreet = outStreet;
+        this.outHouse = outHouse;
+        this.outBuilding = outBuilding;
+        this.inWarehouse_id = inWarehouse_id;
+        this.inCity = inCity;
+        this.inStreet = inStreet;
+        this.inHouse = inHouse;
+        this.inBuilding = inBuilding;
+        this.quantity = quantity;
+        this.warehouseInventory_id = warehouseInventory_id;
+        this.category = category;
+        this.brand = brand;
+        this.characteristic = characteristic;
+        this.unit_measure = unit_measure;
+        this.weight_volume = weight_volume;
+        this.image_url = image_url;
+        this.typePackaging=typePackaging;
+        this.quantityPackage=quantityPackage;
+        this.check_take_in = check_take_in;
+        this.check_give_out = check_give_out;
+        this.check_out_active=check_out_active;
+        this.inWarehouse_info_id=inWarehouse_info_id;
+        this.outWarehouse_info_id=outWarehouse_info_id;
+        this.document_num=document_num;
+        this.document_closed=document_closed;
+        this.document_save =document_save;
+        this.invoice_key_id =invoice_key_id;
+        this.description = description;
+        this.product_name = product_name;
     }
     //DeliveryToWarehouseActivity//splitResult();
     public CarrierPanelModel(int outWarehouse_id,  String outCity,
@@ -729,6 +811,15 @@ public class CarrierPanelModel implements Serializable {
 
     public void setImage_url(String image_url) {
         this.image_url = image_url;
+    }
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getCheck_give_out() {

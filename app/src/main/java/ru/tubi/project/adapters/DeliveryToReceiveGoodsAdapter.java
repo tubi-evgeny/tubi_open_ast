@@ -64,13 +64,13 @@ public class DeliveryToReceiveGoodsAdapter
             warehouse += " "+C+". "+delivery.getBuilding();
         }
 
-        String description = delivery.getCategory()+" "+delivery.getBrand()+" "+delivery.getCharacteristic()+" "
+       /* String description = delivery.getCategory()+" "+delivery.getBrand()+" "+delivery.getCharacteristic()+" "
                 +delivery.getTypePackaging()+" "+delivery.getWeight_volume()+" "+delivery.getUnit_measure()+" "
-                +IN_PACKAGE+" "+delivery.getQuantityPackage();
+                +IN_PACKAGE+" "+delivery.getQuantityPackage();*/
 
         holder.tvWarehous.setText(""+ warehouse);
         holder.tvDocument_info.setText(""+INVOICE_PRODUCT+" № "+delivery.getDocument_num());
-        holder.tvProductInfo.setText(""+description);
+        holder.tvProductInfo.setText(""+delivery.getDescription());
         holder.tvQuantity.setText(""+delivery.getQuantity());
         if(!delivery.getImage_url().equals("null")) {
             new DownloadImage(){
