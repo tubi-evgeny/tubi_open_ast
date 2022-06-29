@@ -595,7 +595,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/round_backgraund_gray_200"
-                android:layout_margin="30dp"
+                android:layout_margin="10dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -608,7 +608,7 @@
                     android:layout_margin="3dp"
                     android:gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="@string/delivery_to_warehouse" />
+                    android:text="@string/accept_product" />
 
                 <ImageView
                     android:id="@+id/imageView4"
