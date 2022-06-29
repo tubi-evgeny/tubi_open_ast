@@ -95,27 +95,34 @@ public class HandOverProductAdapter
             holder.checkBox.setChecked(true);
             holder.checkBox.setClickable(false);
         }
-        try{
-            if(delivery.getWarehouse_id() == deliveryList.get(position - 1).getWarehouse_id()){
-                holder.llWarehouse.setVisibility(GONE);
-            }else {
-                holder.llWarehouse.setVisibility(View.VISIBLE);
+        if(position != 0) {
+            try {
+                if (delivery.getWarehouse_id() == deliveryList.get(position - 1).getWarehouse_id()) {
+                    holder.llWarehouse.setVisibility(GONE);
+                } else {
+                    holder.llWarehouse.setVisibility(View.VISIBLE);
+                }
+            } catch (Exception ex) {
             }
-        }catch (Exception ex){}
-        try{
-            if(delivery.getDocument_num() == deliveryList.get(position - 1).getDocument_num()){
+            try {
+                if (delivery.getDocument_num() == deliveryList.get(position - 1).getDocument_num()) {
 
-                if(delivery.getInvoice_key_id() ==
-                        deliveryList.get(position - 1).getInvoice_key_id()){
-                    holder.llDocument_info.setVisibility(GONE);
-                }else{
+                    if (delivery.getInvoice_key_id() ==
+                            deliveryList.get(position - 1).getInvoice_key_id()) {
+                        holder.llDocument_info.setVisibility(GONE);
+                    } else {
+                        holder.llDocument_info.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
                     holder.llDocument_info.setVisibility(View.VISIBLE);
                 }
-
-            }else {
-                holder.llDocument_info.setVisibility(View.VISIBLE);
+            } catch (Exception ex) {
             }
-        }catch(Exception ex){}
+        }else{
+            holder.llWarehouse.setVisibility(View.VISIBLE);
+            holder.llDocument_info.setVisibility(View.VISIBLE);
+        }
 
         //если поставщик поставил галочку выдано out_active = 1;
         // а волитель еще не принял take_in=0; то
