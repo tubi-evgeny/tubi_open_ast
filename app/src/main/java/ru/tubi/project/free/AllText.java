@@ -83,6 +83,8 @@ public class AllText {
     public static String CREATE= "Создание";
     public static String CREATURE= "Оформление";
     public static String INVOICE= "накладной";
+    public static String DELIVERY_TEXT= "Доставка";
+    public static String ACCEPT_PRODUCT_SMOLL= "принять товар";
     public static String SUMM_SMOLL= "сумма";
     public static String ALL_GOODS_TEXT= "Все товары";
     public static String PRESS_NEW= "Нажмите на кнопку /Новая/";
