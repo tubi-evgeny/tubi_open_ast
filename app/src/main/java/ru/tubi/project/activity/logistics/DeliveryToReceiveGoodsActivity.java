@@ -35,6 +35,9 @@ import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_400;
 import static ru.tubi.project.free.AllCollor.TUBI_WHITE;
+import static ru.tubi.project.free.AllText.ACCEPT_PRODUCT;
+import static ru.tubi.project.free.AllText.ACCEPT_PRODUCT_SMOLL;
+import static ru.tubi.project.free.AllText.DELIVERY_TEXT;
 import static ru.tubi.project.free.AllText.DELIVERY_TO_WAREHOUSE;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 
@@ -60,7 +63,8 @@ public class DeliveryToReceiveGoodsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery_to_receive_goods);
-        setTitle(DELIVERY_TO_WAREHOUSE);//Доставка склад-склад
+        setTitle(DELIVERY_TEXT);//Доставка принять товар
+        getSupportActionBar().setSubtitle(ACCEPT_PRODUCT_SMOLL);
 
         recyclerView = (RecyclerView) findViewById(R.id.rvList);
         lvCars = findViewById(R.id.lvCars);
@@ -252,7 +256,7 @@ public class DeliveryToReceiveGoodsActivity extends AppCompatActivity
 
     //записать галочки товаров в deliveryList
     private void writeCheckToDeliveryList() {
-        if (accept) {
+       // if (accept) {
             for (int i = 0; i < sortProdList.size(); i++) {
                 if (sortProdList.get(i).getChecked() == 1) {
                     for (int j = 0; j < deliveryList.size(); j++) {
@@ -263,7 +267,7 @@ public class DeliveryToReceiveGoodsActivity extends AppCompatActivity
                     }
                 }
             }
-        }else if(accept == false){
+       /* }else if(accept == false){
             for (int i = 0; i < sortProdList.size(); i++) {
                 if (sortProdList.get(i).getChecked() == 1) {
                     for (int j = 0; j < deliveryList.size(); j++) {
@@ -275,7 +279,7 @@ public class DeliveryToReceiveGoodsActivity extends AppCompatActivity
                     }
                 }
             }
-        }
+        }*/
 
     }
     //получить ключи документов проверить все ли товары получены,
@@ -309,17 +313,17 @@ public class DeliveryToReceiveGoodsActivity extends AppCompatActivity
     private void writeCheckToLogisticTable(int warehouse_inventory_id, int check){
         String url = Constant.CARRIER_OFFICE;
         String whatQuestion="";
-        if (accept) {
+       // if (accept) {
             url += "write_check_to_logistic_table";
             url += "&" + "warehouse_inventory_id=" + warehouse_inventory_id;
             url += "&" + "check=" + check;
             whatQuestion = "write_check_to_logistic_table";
-        }else if(accept == false){
+       /* }else if(accept == false){
             url += "write_check_give_out_to_logistic_table";
             url += "&" + "warehouse_inventory_id=" + warehouse_inventory_id;
             url += "&" + "check=" + check;
             whatQuestion = "write_check_give_out_to_logistic_table";
-        }
+        }*/
 
         setInitialData(url, whatQuestion);
 
