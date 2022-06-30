@@ -73,6 +73,7 @@ public class ActivityProduct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
         setTitle(R.string.title_products);
+
         if (savedInstanceState != null) {
             finish();
         }
@@ -217,7 +218,8 @@ public class ActivityProduct extends AppCompatActivity {
             url_get += "&" + "city_id=" + 2;
             whatQuestion = "get_product_and_quantity";
             setInitialData(url_get, whatQuestion);
-        }else if(key == CATALOG_IS_MINE){
+        }
+        else if(key == CATALOG_IS_MINE){
             for(int i=0;i < categoryList.size();i++){
                 myCategory = categoryList.get(i);
                 url_get = Constant.GET_PRODUCT_AND_QUANTITY;
@@ -353,21 +355,25 @@ public class ActivityProduct extends AppCompatActivity {
                 int weight_volume=Integer.parseInt(temp[6]);
                 double price=Double.parseDouble(temp[7]);
                 String image_url = temp[8];
-                String abbreviation = temp[9];
-                String counterparty = temp[10];
-                double quantity =Double.parseDouble(temp[11]);
-                int count_product_provider=Integer.parseInt(temp[12]);
+                int min_sell = Integer.parseInt(temp[9]);
+                int multiple_of = Integer.parseInt(temp[10]);
+                String description = temp[11];
+                double quantity =Double.parseDouble(temp[12]);
+                int count_product_provider=Integer.parseInt(temp[13]);
 
-                int quantity_package = Integer.parseInt(temp[13]);
-                String product_name = temp[14];
-                long date_of_sale_millis = Long.parseLong(temp[15]);
-                double process_price = Double.parseDouble(temp[16]);
-                int provider_warehouse_id = Integer.parseInt(temp[17]);
+                int quantity_package = Integer.parseInt(temp[14]);
+                String product_name = temp[15];
+                long date_of_sale_millis = Long.parseLong(temp[16]);
+                double process_price = Double.parseDouble(temp[17]);
+                int provider_warehouse_id = Integer.parseInt(temp[18]);
+
+                // $min_sell . "&nbsp" . $multiple_of . "&nbsp" . $description
 
                 ProductModel product = new ProductModel(product_id,product_inventory_id
                         , category, product_name, brand, characteristic,unit_measure
-                        , weight_volume, price, process_price, image_url, abbreviation, counterparty
-                        , quantity,count_product_provider, quantity_package
+                        , weight_volume, price, process_price, image_url, min_sell
+                        , multiple_of, description
+                        , quantity, count_product_provider, quantity_package
                         , date_of_sale_millis, provider_warehouse_id);
                 products.add(product);
             }
