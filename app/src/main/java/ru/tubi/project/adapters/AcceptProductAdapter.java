@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import ru.tubi.project.R;
 import ru.tubi.project.models.CarrierPanelModel;
 import ru.tubi.project.utilites.DownloadImage;
+import ru.tubi.project.utilites.FirstSimbolMakeBig;
 import ru.tubi.project.utilites.InitialData;
 
 import java.util.List;
@@ -84,7 +85,7 @@ public class AcceptProductAdapter
             setInitialData(holder, url, whatQuestion);
         }
 
-        String description = product.getCategory() + " " + product.getProduct_name() + " "
+        String description = product.getProduct_name() + " "//product.getCategory() + " " +
                 + product.getCharacteristic() + " " + product.getBrand() + " "
                 + product.getTypePackaging() + " " + product.getWeight_volume() + " " + product.getUnit_measure() + " "
                 + IN_PACKAGE + " " + product.getQuantityPackage();
