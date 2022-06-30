@@ -105,7 +105,7 @@
                         android:gravity="center">
 
                         <TextView
-                            android:id="@+id/tvCategoriName"
+                            android:id="@+id/tvProductInfo"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_margin="3dp"
