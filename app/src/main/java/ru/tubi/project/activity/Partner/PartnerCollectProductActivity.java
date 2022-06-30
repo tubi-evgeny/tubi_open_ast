@@ -1,14 +1,17 @@
 package ru.tubi.project.activity.Partner;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,14 +19,17 @@ import ru.tubi.project.R;
 import ru.tubi.project.adapters.PartnerCollectProductAdapter;
 import ru.tubi.project.models.AcceptProductListProvidersModel;
 import ru.tubi.project.models.UserModel;
+import ru.tubi.project.utilites.DownloadImage;
 import ru.tubi.project.utilites.InitialData;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 
 import ru.tubi.project.utilites.Constant;
+import ru.tubi.project.utilites.MakeImageToSquare;
 import ru.tubi.project.utilites.UserDataRecovery;
 
+import static ru.tubi.project.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 import static ru.tubi.project.Config.MY_UID;
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
@@ -40,6 +46,8 @@ public class PartnerCollectProductActivity extends AppCompatActivity implements 
     private ArrayList<Integer> checkedList = new ArrayList<>();
     int providerWarehouse_id,order_id,x=0 ;
     private UserModel userDataModel;
+    private AlertDialog.Builder adb;
+    private AlertDialog ad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +95,14 @@ public class PartnerCollectProductActivity extends AppCompatActivity implements 
                         whatCheckClicked(flag, position);
                     }
                 };
-        adapter = new PartnerCollectProductAdapter(this,productList,checkedList,checked);
+        PartnerCollectProductAdapter.OnClickListener click =
+                new PartnerCollectProductAdapter.OnClickListener() {
+                    @Override
+                    public void isClicked(View v, int position) {
+                        adShowBigImage(position);
+                    }
+                };
+        adapter = new PartnerCollectProductAdapter(this,productList,checkedList,checked,click);
         rvList.setAdapter(adapter);
     }
     private void whatCheckClicked(boolean flag, int position){
@@ -274,6 +289,23 @@ public class PartnerCollectProductActivity extends AppCompatActivity implements 
         }
         adapter.notifyDataSetChanged();
     }
+    private void adShowBigImage(int position){
+        ImageView iv = new ImageView(this);
+        String imageUrl = productList.get(position).getImage_url();
+        if(!imageUrl.equals("null")) {
+            new DownloadImage(){
+                @Override
+                protected void onPostExecute(Bitmap result) {
+                    new MakeImageToSquare(result,iv);
+                }
+            }
+                    .execute(ADMIN_PANEL_URL_PREVIEW_IMAGES + imageUrl);
+        }else iv.setImageResource(R.drawable.tubi_logo_no_image_300ps);
 
+        adb = new AlertDialog.Builder(this);
+        adb.setView(iv);
+        ad=adb.create();
+        ad.show();
+    }
 
 }
