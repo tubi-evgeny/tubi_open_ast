@@ -24,8 +24,41 @@ public class ProductModel implements Serializable {
     private long date_of_sale_millis;
     private double process_price;
     private int provider_warehouse_id;
+    private int min_sell;
+    private int multiple_of;
 
     // ActivityProduct//splitResultProductArray
+    public ProductModel(int product_id, int product_inventory_id, String category
+            , String product_name, String brand, String characteristic
+            , String unit_measure, int weight_volume, double price, double process_price
+            , String image_url, int min_sell, int multiple_of, String description
+            , double quantity
+            , int count_product_provider, int quantity_package, long date_of_sale_millis
+            ,int provider_warehouse_id) {
+
+        this.product_id = product_id;
+        this.product_inventory_id = product_inventory_id;
+        this.category = category;
+        this.product_name=product_name;
+        this.brand = brand;
+        this.characteristic = characteristic;
+        this.unit_measure = unit_measure;
+        this.weight_volume = weight_volume;
+        this.price = price;
+        this.image_url = image_url;
+
+        this.min_sell = min_sell;
+        this.multiple_of = multiple_of;
+        this.description = description;
+
+        this.quantity = quantity;
+        this.count_product_provider = count_product_provider;
+        this.quantity_package=quantity_package;
+        this.date_of_sale_millis=date_of_sale_millis;
+        this.process_price=process_price;
+        this.provider_warehouse_id=provider_warehouse_id;
+    }
+
     public ProductModel(int product_id, int product_inventory_id, String category
             , String product_name, String brand, String characteristic
             , String unit_measure, int weight_volume, double price, double process_price
@@ -52,30 +85,6 @@ public class ProductModel implements Serializable {
         this.process_price=process_price;
         this.provider_warehouse_id=provider_warehouse_id;
     }
-    /*
-        // ActivityProduct//splitResultProductArray
-    public ProductModel(int product_id, int product_inventory_id, String category,
-                        String product_name, String brand,
-                        String characteristic, String unit_measure, int weight_volume, double price,
-                        String image_url, String abbreviation, String counterparty, double quantity,
-                        int count_product_provider, int quantity_package) {
-        this.product_id = product_id;
-        this.product_inventory_id = product_inventory_id;
-        this.category = category;
-        this.product_name=product_name;
-        this.brand = brand;
-        this.characteristic = characteristic;
-        this.unit_measure = unit_measure;
-        this.weight_volume = weight_volume;
-        this.price = price;
-        this.image_url = image_url;
-        this.counterparty = counterparty;
-        this.quantity = quantity;
-        this.count_product_provider = count_product_provider;
-        this.abbreviation = abbreviation;
-        this.quantity_package=quantity_package;
-    }
-     */
 
 
     public int getProduct_inventory_id() {
@@ -230,6 +239,22 @@ public class ProductModel implements Serializable {
 
     public void setProvider_warehouse_id(int provider_warehouse_id) {
         this.provider_warehouse_id = provider_warehouse_id;
+    }
+
+    public int getMin_sell() {
+        return min_sell;
+    }
+
+    public void setMin_sell(int min_sell) {
+        this.min_sell = min_sell;
+    }
+
+    public int getMultiple_of() {
+        return multiple_of;
+    }
+
+    public void setMultiple_of(int multiple_of) {
+        this.multiple_of = multiple_of;
     }
 
     @Override
