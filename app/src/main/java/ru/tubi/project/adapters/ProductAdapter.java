@@ -73,11 +73,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         double price = product.getPrice() + product.getProcess_price();
         double quantity = product.getQuantity();
         int quantityPackage = product.getQuantity_package();
-        String productInfo=new FirstSimbolMakeBig().firstSimbolMakeBig(product.getCategory()  + " "
+      /*  String productInfo=new FirstSimbolMakeBig().firstSimbolMakeBig(product.getCategory()  + " "
                 + product.getProduct_name() + " " +product.getCharacteristic() + " "
                 +product.getBrand())+", "+product.getWeight_volume()+" "
                 +product.getUnit_measure()+", "//GRAMM_SHORT+", "
-                +quantityPackage+" "+QUANTITY_PACKAGE_SHORT;
+                +quantityPackage+" "+QUANTITY_PACKAGE_SHORT;*/
         String provider = getTheRightIdea(product.getCount_product_provider());
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -103,10 +103,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         }else holder.ivImageProduct.setImageResource(R.drawable.tubi_logo_no_image_300ps);
 
         holder.tvCountProvider.setText(product.getCount_product_provider()+" "+provider);
-        holder.tvCategoryName.setText(""+productInfo);
+        holder.tvProductInfo.setText(""+new FirstSimbolMakeBig()
+                .firstSimbolMakeBig(product.getDescription()));
         holder.tvPrice.setText(String.format("%.2f",+price));
-        //holder.tvWeightVolume.setText(""+categoryes.get(position).getWeight_volume());
-        //holder.tvUnitMeasure.setText(""+categoryes.get(position).getUnit_measure());
         holder.tvSumm.setText(String.format("%.2f",+quantity*price));
         holder.tvQuantity.setText(""+quantity);
         holder.tvDateForSale.setText(""+myDate);
@@ -115,15 +114,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 onClickListener.onProductClick(product,position);
-            }// Listener                                                                      //
+            }                                                                    //
         });
         if(quantity == 0 ){
             LinearLayout.LayoutParams params=new LinearLayout.LayoutParams
                     (LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
             holder.tvSumm.setTextColor(TUBI_GREY_400);
-           // holder.llMinus.setVisibility(View.GONE);
-            //holder.llMinusTen.setVisibility(View.GONE);
             holder.llMinusAll.setVisibility(View.GONE);
             holder.llPlusTen.setVisibility(View.GONE);
             holder.llQuantity.setVisibility(View.GONE);
@@ -131,8 +128,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             holder.tvPlus.setText(ORDER_TEXT);
         }else{
             holder.llQuantity.setVisibility(View.VISIBLE);
-           // holder.llMinus.setVisibility(View.VISIBLE);
-           // holder.llMinusTen.setVisibility(View.VISIBLE);
             holder.llMinusAll.setVisibility(View.VISIBLE);
             holder.llPlusTen.setVisibility(View.VISIBLE);
             holder.tvPlus.setText("+");
@@ -151,10 +146,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final ImageView ivImageProduct;
         final TextView tvCountProvider;
-        final TextView tvCategoryName;
+        final TextView tvProductInfo;
         final TextView tvPrice;
-        //final TextView tvWeightVolume;
-        //final TextView tvUnitMeasure;
         final TextView tvSumm;
         final TextView tvQuantity;
         final TextView tvDateForSale;
@@ -168,10 +161,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             super(itemView);
             ivImageProduct=itemView.findViewById(R.id.ivImageProduct);
             tvCountProvider=itemView.findViewById(R.id.tvCountProvider);
-            tvCategoryName=itemView.findViewById(R.id.tvCategoriName);
+            tvProductInfo=itemView.findViewById(R.id.tvCategoriName);
             tvPrice=itemView.findViewById(R.id.tvPrice);
-            //tvWeightVolume=itemView.findViewById(R.id.tvWeightVolume);
-            //tvUnitMeasure=itemView.findViewById(R.id.tvUnitMeasure);
             tvSumm=itemView.findViewById(R.id.tvSumm);
             tvQuantity=itemView.findViewById(R.id.tvQuantity);
             tvDateForSale=itemView.findViewById(R.id.tvDateForSale);
