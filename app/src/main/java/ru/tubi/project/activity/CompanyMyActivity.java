@@ -41,8 +41,9 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
 
     private TextView tvCmpanyName,tvProductReceipt,tvProductInvoice, tvProviderProductInvoice
             ,tvOrders, tvOrdersForProvider, tvOrdersProviders,tvBuyHistory;
-    private Button btnGoMyCatalog,btnOrdersProviders, btnBuyHistory, btnOrdersBuyers, btnSaleHistory;
+    private Button  btnOrdersBuyers, btnSaleHistory;//btnGoMyCatalog,btnOrdersProviders, btnBuyHistory,
     private LinearLayout llAcceptProduct_buy,llOrdersProviders,llBuyHistory,llOrdersShipment
+            ,llGoMyCatalog
             ,llOrderForCollect, llSaleProduct,llLogistics,llPartner,llAcceptProduct_partner
             ,llCollectProductFor,llCollectProduct,llGiveAwayProduct,llCarrierPanel
             ,llIntercityDeliveryCal,llDeliveryToWarehouse,llHandOverProduct;
@@ -61,7 +62,7 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
         tvCmpanyName=findViewById(R.id.tvCmpanyName);
         btnOrdersBuyers=findViewById(R.id.btnOrdersBuyers);
         btnSaleHistory=findViewById(R.id.btnSaleHistory);
-        btnGoMyCatalog=findViewById(R.id.btnGoMyCatalog);
+       // btnGoMyCatalog=findViewById(R.id.btnGoMyCatalog);
         tvOrdersForProvider=findViewById(R.id.tvOrdersForProvider);
         tvProviderProductInvoice=findViewById(R.id.tvProviderProductInvoice);
         tvOrders=findViewById(R.id.tvOrders);
@@ -70,6 +71,7 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
         llAcceptProduct_buy=findViewById(R.id.llAcceptProduct_buy);
         llBuyHistory=findViewById(R.id.llBuyHistory);
         llOrdersShipment=findViewById(R.id.llOrdersShipment);
+        llGoMyCatalog=findViewById(R.id.llGoMyCatalog);
         llOrderForCollect=findViewById(R.id.llOrderForCollect);
         llSaleProduct=findViewById(R.id.llSaleProduct);
         llLogistics=findViewById(R.id.llLogistics);
@@ -86,6 +88,7 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
         llAcceptProduct_buy.setOnClickListener(this);
         llBuyHistory.setOnClickListener(this);
         llOrdersShipment.setOnClickListener(this);
+        llGoMyCatalog.setOnClickListener(this);
         llOrderForCollect.setOnClickListener(this);
         llCollectProductFor.setOnClickListener(this);
         llAcceptProduct_partner.setOnClickListener(this);
@@ -93,7 +96,7 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
         llGiveAwayProduct.setOnClickListener(this);
         btnOrdersBuyers.setOnClickListener(this);
         btnSaleHistory.setOnClickListener(this);
-        btnGoMyCatalog.setOnClickListener(this);
+       // btnGoMyCatalog.setOnClickListener(this);
         llCarrierPanel.setOnClickListener(this);
         llIntercityDeliveryCal.setOnClickListener(this);
         llDeliveryToWarehouse.setOnClickListener(this);
@@ -155,6 +158,10 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
             Intent intent = new Intent(this, OrderHistoryActivity.class);
             startActivity(intent);
         }
+        else if(v.equals(llGoMyCatalog)){
+            Intent intent=new Intent(this, CatalogInWarehouseActivity.class);
+            startActivity(intent);
+        }
         else if(v.equals(llOrderForCollect)){
             Intent intent=new Intent(this, OrderForCollectActivity.class);
             startActivity(intent);
@@ -164,10 +171,10 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
             startActivity(intent);
             //Toast.makeText(this, "llOrdersShipment", Toast.LENGTH_SHORT).show();
         }
-        else if(v.equals(btnGoMyCatalog)){
+       /* else if(v.equals(btnGoMyCatalog)){
             Intent intent=new Intent(this, CatalogInWarehouseActivity.class);
             startActivity(intent);
-        }
+        }*/
         else if(v.equals(btnOrdersBuyers)){
             Intent intent=new Intent(this, DistributionOrdersByWarehousesActivity.class);
             startActivity(intent);
