@@ -21,6 +21,8 @@ public class ProviderCollectProductModel {
     private int collected_check;
     private long get_order_date_millis;
     private int corrected;
+    private String description;
+    private String product_name_from_provider;
 
     //ProviderCollectProductActivity //splitProductForCollectResult();
     public ProviderCollectProductModel(int product_id, int productInventory_id
@@ -29,7 +31,8 @@ public class ProviderCollectProductModel {
             , String image_url, String storage_conditions, int warehouse_inventory_id
             , double quantity_to_deal, int logistic_product, int car_id
             , double provider_stock_quantity, int collected_check
-            , long get_order_date_millis, String product_name, int corrected) {
+            , long get_order_date_millis, String product_name, int corrected
+            ,String description, String product_name_from_provider) {
 
         this.product_id = product_id;
         this.productInventory_id = productInventory_id;
@@ -51,6 +54,8 @@ public class ProviderCollectProductModel {
         this.collected_check = collected_check;
         this.get_order_date_millis = get_order_date_millis;
         this.corrected=corrected;
+        this.description=description;
+        this.product_name_from_provider=product_name_from_provider;
     }
 
     public int getProduct_id() {
@@ -211,5 +216,21 @@ public class ProviderCollectProductModel {
 
     public void setCorrected(int corrected) {
         this.corrected = corrected;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getProduct_name_from_provider() {
+        return product_name_from_provider;
+    }
+
+    public void setProduct_name_from_provider(String product_name_from_provider) {
+        this.product_name_from_provider = product_name_from_provider;
     }
 }
