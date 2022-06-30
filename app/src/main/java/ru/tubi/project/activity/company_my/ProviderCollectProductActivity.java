@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Build;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -37,9 +39,12 @@ import ru.tubi.project.models.AcceptProductListProvidersModel;
 import ru.tubi.project.models.ProviderCollectProductModel;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.Constant;
+import ru.tubi.project.utilites.DownloadImage;
 import ru.tubi.project.utilites.InitialData;
+import ru.tubi.project.utilites.MakeImageToSquare;
 import ru.tubi.project.utilites.UserDataRecovery;
 
+import static ru.tubi.project.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllCollor.alert_dialog_button_green_pressed;
 import static ru.tubi.project.free.AllText.CANCEL_BIG;
@@ -48,7 +53,9 @@ import static ru.tubi.project.free.AllText.ERROR_BIG;
 import static ru.tubi.project.free.AllText.FOR_COLLECT;
 import static ru.tubi.project.free.AllText.LIST_PRODUCT;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
+import static ru.tubi.project.free.AllText.NO_DELIVERY;
 import static ru.tubi.project.free.AllText.PERFORM;
+import static ru.tubi.project.free.AllText.REPORT_A_BUG;
 import static ru.tubi.project.free.AllText.RESERVE;
 import static ru.tubi.project.free.AllText.RESERVE_IN_WAAREHOUSE;
 import static ru.tubi.project.free.AllText.RESERVE_TO_WAREHOUSE_WILBEE_CORRECT;
@@ -152,8 +159,9 @@ public class ProviderCollectProductActivity extends AppCompatActivity
             @Override
             public void isClicked(View v, int position) {
                 //Toast.makeText(ProviderCollectProductActivity.this
-                //        , "click = "+v+" position = "+position, Toast.LENGTH_SHORT).show();
-                adChengeDataInTheCollect(position);
+                //       , "click = "+v+" position = "+position, Toast.LENGTH_SHORT).show();
+                whatClicked(v, position);
+                //adChengeDataInTheCollect(position);
             }
         };
         adapDeal = new ProviderCollectProductDealAdapter(
@@ -174,6 +182,16 @@ public class ProviderCollectProductActivity extends AppCompatActivity
             rvList.setAdapter(adapDeal);
         }
 
+    }
+    private void whatClicked(View v, int position){
+        String string=String.valueOf(v);
+        String str[]=string.split("/");
+
+        if(str[1].equals("tvQuantityColected}")) {
+            adChengeDataInTheCollect(position);
+        }else if(str[1].equals("ivImageProduct}")){
+            adShowBigImage(position);
+        }
     }
     private void whatCheckClicked(boolean flag, int position){
         if(productDealList.get(position).getProvider_stock_quantity() <
@@ -362,6 +380,8 @@ public class ProviderCollectProductActivity extends AppCompatActivity
                     long get_order_date_millis = Long.parseLong(temp[17]);
                     String product_name = temp[18];
                     int corrected = Integer.parseInt(temp[19]);
+                    String description  = temp[20];
+                    String product_name_from_provider  = temp[21];
 
                     ProviderCollectProductModel product_info
                             = new ProviderCollectProductModel(product_id, productInventory_id
@@ -369,7 +389,8 @@ public class ProviderCollectProductActivity extends AppCompatActivity
                             , weight_volume, quantity_package, image_url, storage_conditions
                             , warehouse_inventory_id, quantity_to_deal, logistic_product
                             , car_id, provider_stock_quantity, collected_check
-                            , get_order_date_millis, product_name, corrected);
+                            , get_order_date_millis, product_name, corrected, description
+                            ,product_name_from_provider);
 
                     productDealList.add(product_info);
 
@@ -500,6 +521,24 @@ public class ProviderCollectProductActivity extends AppCompatActivity
         Button buttonbackground2 = ad.getButton(DialogInterface.BUTTON_NEUTRAL);
         buttonbackground2.setBackgroundColor(TUBI_GREY_200);
         buttonbackground2.setTextColor(Color.WHITE);
+    }
+    private void adShowBigImage(int position){
+        ImageView iv = new ImageView(this);
+        String imageUrl = productDealList.get(position).getImage_url();
+        if(!imageUrl.equals("null")) {
+            new DownloadImage(){
+                @Override
+                protected void onPostExecute(Bitmap result) {
+                    new MakeImageToSquare(result,iv);
+                }
+            }
+                    .execute(ADMIN_PANEL_URL_PREVIEW_IMAGES + imageUrl);
+        }else iv.setImageResource(R.drawable.tubi_logo_no_image_300ps);
+
+        adb = new AlertDialog.Builder(this);
+        adb.setView(iv);
+        ad=adb.create();
+        ad.show();
     }
     private void adChengeDataInTheCollect(int position){
         double stockOfGoods = productDealList.get(position).getProvider_stock_quantity();
