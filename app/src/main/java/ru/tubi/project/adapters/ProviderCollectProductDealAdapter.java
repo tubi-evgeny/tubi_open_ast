@@ -68,14 +68,16 @@ public class ProviderCollectProductDealAdapter
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ProviderCollectProductModel product=productList.get(position);
-        String stProduct = new FirstSimbolMakeBig()
+       /* String stProduct = new FirstSimbolMakeBig()
                 .firstSimbolMakeBig(product.getProduct_name())+" "
                 +product.getCharacteristic()+" "
                 +product.getBrand()+" "+product.getType_packaging()+" "
                 +product.getWeight_volume()+" "
-                +product.getUnit_measure()+" "+IN_PACKAGE+" "+product.getQuantity_package();
+                +product.getUnit_measure()+" "+IN_PACKAGE+" "+product.getQuantity_package();*/
 
-        holder.tvProductInfo.setText(""+stProduct);
+        holder.tvProductInfo.setText(""+new FirstSimbolMakeBig()
+                .firstSimbolMakeBig(product.getDescription())
+                +" ("+product.getProduct_name_from_provider()+")");
         holder.tvPartnerStockQuantity.setText(""+product.getProvider_stock_quantity());
         holder.tvQuantityToDeal.setText(""+product.getQuantity_to_deal());
         holder.tvPosition.setText(""+(position+1));
@@ -103,6 +105,12 @@ public class ProviderCollectProductDealAdapter
         }
 
         holder.tvQuantityColected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clicked.isClicked(v,position);
+            }
+        });
+        holder.ivImageProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clicked.isClicked(v,position);
@@ -174,7 +182,7 @@ public class ProviderCollectProductDealAdapter
 
             mChecked=checked;
             checkBox.setOnClickListener(this);
-            //tvQuantityColected.setOnClickListener(this);
+            //ivImageProduct.setOnClickListener(this);
         }
 
         @Override

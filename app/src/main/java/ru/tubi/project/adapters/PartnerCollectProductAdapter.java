@@ -30,8 +30,12 @@ public class PartnerCollectProductAdapter
     public interface OnCheckedChangeListener{
         void isChecked(View view, boolean flag, int position);
     }
+    public interface OnClickListener{
+        void isClicked(View v, int position);
+    }
 
     private final PartnerCollectProductAdapter.OnCheckedChangeListener checked;
+    private final PartnerCollectProductAdapter.OnClickListener clicked;
     private final LayoutInflater inflater;
     private final List<AcceptProductListProvidersModel> productList;
     private final List<Integer> checkedList;
@@ -39,12 +43,14 @@ public class PartnerCollectProductAdapter
     public PartnerCollectProductAdapter(Context context
             ,List<AcceptProductListProvidersModel> productList
             ,List<Integer> checkedList
-            ,PartnerCollectProductAdapter.OnCheckedChangeListener checked) {
+            ,PartnerCollectProductAdapter.OnCheckedChangeListener checked
+            ,PartnerCollectProductAdapter.OnClickListener clicked) {
 
         this.inflater = LayoutInflater.from(context);
         this.productList = productList;
         this.checkedList = checkedList;
         this.checked=checked;
+        this.clicked=clicked;
     }
 
     @NonNull
@@ -106,6 +112,12 @@ public class PartnerCollectProductAdapter
             holder.llItem.setBackgroundResource(R.drawable.krugliye_ugli);
             holder.tvMessege.setText("");
         }
+        holder.ivImageProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clicked.isClicked(v,position);
+            }
+        });
     }
 
     @Override
