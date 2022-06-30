@@ -30,6 +30,10 @@ import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllText.ACCEPT_PRODUCT;
 import static ru.tubi.project.free.AllText.BUILDING;
+import static ru.tubi.project.free.AllText.PARTNER_TEXT;
+import static ru.tubi.project.free.AllText.PARTNER_TUBI;
+import static ru.tubi.project.free.AllText.PARTNER_WAREHOUSE;
+import static ru.tubi.project.free.AllText.PARTNER_WAREHOUSE_TEXT;
 
 public class AcceptProductActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -52,7 +56,8 @@ public class AcceptProductActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accept_product);
-        setTitle(ACCEPT_PRODUCT);//Принять товар
+        setTitle(PARTNER_TEXT);//Партнер Принять товар
+        getSupportActionBar().setSubtitle(ACCEPT_PRODUCT);
 
         recyclerView=findViewById(R.id.rvList);
         llWarehouseInfo=findViewById(R.id.llWarehouseInfo);
