@@ -74,6 +74,7 @@ public class AllText {
     public static String IS_NO_DESCRIPTION = "нет описания";
     public static String SHOW = "Показываю";
     public static String CALENDAR = "Календарь";
+    public static String PARTNER_TEXT = "Партнер";
     public static String ENTER_CITY = "Выберите город";
     public static String WRITE_OUT_PRODUCT = "Выписать товар";
     public static String PRODUCTS_RECEIPT_TEXT = "Товарные чеки";

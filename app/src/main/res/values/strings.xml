@@ -50,6 +50,7 @@
     <string name="delivery_to_warehouse">Доставка склад-склад</string>
     <string name="data_recorder">Данные записаны</string>
     <string name="apply">Применить</string>
+    <string name="stocks">Запасы</string>
     <string name="fridge">Холодильник</string>
     <string name="freezer">Морозильник</string>
     <string name="temperature_transportation">Температура перевозки</string>
