@@ -29,67 +29,67 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/round_backgraund_white_black"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/imageView9"
-                android:layout_width="40dp"
-                android:layout_height="38dp"
-                android:layout_marginTop="2dp"
-                app:srcCompat="@drawable/gruzchik_150_ps" />
-
-            <TextView
-                android:id="@+id/textView10"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginRight="10dp"
-                android:textSize="20dp"
-                android:textColor="@color/black"
-                android:gravity="center"
-                android:text="@string/buy_products" />
+                android:layout_height="match_parent"
+                android:background="@drawable/round_backgraund_white_black"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/llAcceptProduct_buy"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/round_backgraund_gray_200"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+                    <ImageView
+                        android:id="@+id/imageView9"
+                        android:layout_width="40dp"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="2dp"
+                        app:srcCompat="@drawable/gruzchik_150_ps" />
 
-            <TextView
-                android:id="@+id/tvAcceptProduct"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:layout_marginLeft="10dp"
-                android:gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="@string/accept_product" />
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"
+                        android:text="@string/buy_products"
+                        android:textColor="@color/black"
+                        android:textSize="20dp" />
 
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="wrap_content"
-                android:layout_height="18dp"
-                app:srcCompat="@drawable/strelka_dalshe_60ps" />
-        </LinearLayout>
+                </LinearLayout>
 
-    <!--    <LinearLayout
+                <LinearLayout
+                    android:id="@+id/llAcceptProduct_buy"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/round_backgraund_gray_200"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvAcceptProduct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/accept_product"
+                        android:textColor="@color/black"
+                        android:textSize="20dp" />
+
+                    <ImageView
+                        android:id="@+id/imageView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        app:srcCompat="@drawable/strelka_dalshe_60ps" />
+                </LinearLayout>
+
+                <!--    <LinearLayout
             android:id="@+id/llOrdersProviders"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -116,34 +116,95 @@
                 app:srcCompat="@drawable/strelka_dalshe_60ps" />
         </LinearLayout>-->
 
-        <LinearLayout
-            android:id="@+id/llBuyHistory"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/round_backgraund_gray_200"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/llBuyHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/round_backgraund_gray_200"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvBuyHistory"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:layout_marginLeft="10dp"
-                android:gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="@string/buy_history_big" />
+                    <TextView
+                        android:id="@+id/tvBuyHistory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/buy_history_big"
+                        android:textColor="@color/black"
+                        android:textSize="20dp" />
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="18dp"
-                app:srcCompat="@drawable/strelka_dalshe_60ps" />
-        </LinearLayout>
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        app:srcCompat="@drawable/strelka_dalshe_60ps" />
+                </LinearLayout>
 
-    </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/round_backgraund_white_black"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                  <!--  <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="2dp"
+                        app:srcCompat="@drawable/gruzchik_150_ps" />-->
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:text="@string/stocks" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/llGoMyCatalog"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/round_backgraund_gray_200"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"
+                        android:layout_margin="3dp"
+                        android:gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/my_catalog_slash_stocks_big" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        app:srcCompat="@drawable/strelka_dalshe_60ps" />
+                </LinearLayout>
+
+
+            </LinearLayout>
 
 
 
@@ -182,14 +243,39 @@
 
         </LinearLayout>
 
-        <Button
+       <!-- <Button
             android:id="@+id/btnGoMyCatalog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            android:text="@string/my_catalog_slash_stocks_big" />
+            android:text="@string/my_catalog_slash_stocks_big" />-->
+
+       <!-- <LinearLayout
+            android:id="@+id/llGoMyCatalog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/round_backgraund_gray_200"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:layout_margin="3dp"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="@string/my_catalog_slash_stocks_big" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                app:srcCompat="@drawable/strelka_dalshe_60ps" />
+        </LinearLayout>-->
 
         <Button
             android:id="@+id/btnOrdersBuyers"
