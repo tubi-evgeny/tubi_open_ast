@@ -164,17 +164,6 @@ public class ActivityProduct extends AppCompatActivity {
 
                         products.get(position).setQuantity(myQuantity);
 
-                        //проверить запас товара
-                      /*  if(products.get(position).getFree_inventory()
-                                >= products.get(position).getMin_sell()){
-                            //добавить мин.заказ
-                            products.get(position).setQuantity(products.get(position).getMin_sell());
-                        }else{
-                            //добавить остаток а складе
-                            products.get(position).setQuantity(products
-                                    .get(position).getFree_inventory());
-                        }*/
-
                     }else{
                         //проверить запас товара + (кратно)
                         if((quantity + products.get(position).getMultiple_of())
@@ -183,8 +172,6 @@ public class ActivityProduct extends AppCompatActivity {
                             //добавить к колиичеству (кратно)
                             products.get(position).setQuantity(quantity + products
                                     .get(position).getMultiple_of());
-                           // Log.d("A111","test 1: "+(quantity + products
-                           //         .get(position).getMultiple_of()));
                         }else{
                             //добавить остаток
                             products.get(position).setQuantity
@@ -192,11 +179,8 @@ public class ActivityProduct extends AppCompatActivity {
 
                             Toast.makeText(this, ""
                                     +STOCK_OF_GOODS_REQUESTED_QUANTITY, Toast.LENGTH_LONG).show();
-                           // Log.d("A111","test 2: "
-                           //         +(quantity + (products.get(position).getFree_inventory() - quantity)));
                         }
                     }
-                    //products.get(position).setQuantity(quantity+1);
                 }
             }
             //если открытый заказ на нужную дату не найден то открыть заказ
@@ -230,12 +214,6 @@ public class ActivityProduct extends AppCompatActivity {
                             % products.get(position).getMultiple_of()));
                 }
             }
-
-          /*  if(quantity <=0){
-                quantity=0;
-            }else {
-                products.get(position).setQuantity(quantity - 1);
-            }*/
         }else if(str[1].equals("llMinusTen}")){//  btnMinus
             if(quantity <=10){
                 quantity=0;
