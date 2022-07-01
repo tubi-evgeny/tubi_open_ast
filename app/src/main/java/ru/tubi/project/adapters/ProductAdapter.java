@@ -30,6 +30,7 @@ import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_400;
 import static ru.tubi.project.free.AllCollor.TUBI_WHITE;
 import static ru.tubi.project.free.AllText.GRAMM_SHORT;
+import static ru.tubi.project.free.AllText.MORE_SMALL;
 import static ru.tubi.project.free.AllText.NO_DELIVERY;
 import static ru.tubi.project.free.AllText.ORDER_TEXT;
 import static ru.tubi.project.free.AllText.QUANTITY_PACKAGE_SHORT;
@@ -72,7 +73,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         ProductModel product=categoryes.get(position);
         double price = product.getPrice() + product.getProcess_price();
         double quantity = product.getQuantity();
-        int quantityPackage = product.getQuantity_package();
+        //int quantityPackage = product.getQuantity_package();
       /*  String productInfo=new FirstSimbolMakeBig().firstSimbolMakeBig(product.getCategory()  + " "
                 + product.getProduct_name() + " " +product.getCharacteristic() + " "
                 +product.getBrand())+", "+product.getWeight_volume()+" "
@@ -110,6 +111,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.tvQuantity.setText(""+quantity);
         holder.tvDateForSale.setText(""+myDate);
 
+        //если свободные запасы боьше 3х уп то показать только 3 уп
+        if(product.getFree_inventory() > (product.getQuantity_package() * 3)){
+            holder.tvStocksGoods.setText(""+MORE_SMALL+" "
+                    +(product.getQuantity_package() * 3));
+        }else{
+            //запас меньше 3х упаковок
+            holder.tvStocksGoods.setText(""+product.getFree_inventory());
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,20 +127,26 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             }                                                                    //
         });
         if(quantity == 0 ){
-            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams
-                    (LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+           // LinearLayout.LayoutParams params=new LinearLayout.LayoutParams
+             //       (LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
             holder.tvSumm.setTextColor(TUBI_GREY_400);
             holder.llMinusAll.setVisibility(View.GONE);
             holder.llPlusTen.setVisibility(View.GONE);
             holder.llQuantity.setVisibility(View.GONE);
             holder.tvQuantity.setVisibility(View.GONE);
-            holder.tvPlus.setText(ORDER_TEXT);
+            holder.tvPlus.setText(ORDER_TEXT+" "+product.getMin_sell());
         }else{
             holder.llQuantity.setVisibility(View.VISIBLE);
             holder.llMinusAll.setVisibility(View.VISIBLE);
             holder.llPlusTen.setVisibility(View.VISIBLE);
-            holder.tvPlus.setText("+");
+            holder.tvPlus.setText("+"+product.getMultiple_of());
+
+            if(quantity > product.getMin_sell()){
+                holder.tvMinus.setText("-"+product.getMultiple_of());
+            }else{
+                holder.tvMinus.setText("-"+product.getMin_sell());
+            }
             holder.tvQuantity.setTextColor(TUBI_BLACK);
             holder.tvSumm.setTextColor(TUBI_BLACK);
             holder.tvQuantity.setVisibility(View.VISIBLE);
@@ -149,7 +165,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         final TextView tvProductInfo;
         final TextView tvPrice;
         final TextView tvSumm;
-        final TextView tvQuantity;
+        final TextView tvQuantity, tvStocksGoods;
         final TextView tvDateForSale;
         final TextView tvMinus, tvMinusTen;
         final TextView tvPlus, tvPlusTen;
@@ -161,10 +177,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             super(itemView);
             ivImageProduct=itemView.findViewById(R.id.ivImageProduct);
             tvCountProvider=itemView.findViewById(R.id.tvCountProvider);
-            tvProductInfo=itemView.findViewById(R.id.tvCategoriName);
+            tvProductInfo=itemView.findViewById(R.id.tvProductInfo);
             tvPrice=itemView.findViewById(R.id.tvPrice);
             tvSumm=itemView.findViewById(R.id.tvSumm);
             tvQuantity=itemView.findViewById(R.id.tvQuantity);
+            tvStocksGoods=itemView.findViewById(R.id.tvStocksGoods);
             tvDateForSale=itemView.findViewById(R.id.tvDateForSale);
             tvMinus=itemView.findViewById(R.id.tvMinus);
             tvMinusTen=itemView.findViewById(R.id.tvMinusTen);
@@ -179,9 +196,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             llQuantity=itemView.findViewById(R.id.llQuantity);
             mListener=listener;
             llMinus.setOnClickListener(this);
-            llMinusTen.setOnClickListener(this);
+            //llMinusTen.setOnClickListener(this);
             llPlus.setOnClickListener(this);
-            llPlusTen.setOnClickListener(this);
+            //llPlusTen.setOnClickListener(this);
         }
 
         @Override

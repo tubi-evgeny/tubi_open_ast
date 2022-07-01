@@ -26,6 +26,7 @@ public class ProductModel implements Serializable {
     private int provider_warehouse_id;
     private int min_sell;
     private int multiple_of;
+    private double free_inventory;
 
     // ActivityProduct//splitResultProductArray
     public ProductModel(int product_id, int product_inventory_id, String category
@@ -34,7 +35,7 @@ public class ProductModel implements Serializable {
             , String image_url, int min_sell, int multiple_of, String description
             , double quantity
             , int count_product_provider, int quantity_package, long date_of_sale_millis
-            ,int provider_warehouse_id) {
+            ,int provider_warehouse_id, double free_inventory) {
 
         this.product_id = product_id;
         this.product_inventory_id = product_inventory_id;
@@ -46,17 +47,16 @@ public class ProductModel implements Serializable {
         this.weight_volume = weight_volume;
         this.price = price;
         this.image_url = image_url;
-
         this.min_sell = min_sell;
         this.multiple_of = multiple_of;
         this.description = description;
-
         this.quantity = quantity;
         this.count_product_provider = count_product_provider;
         this.quantity_package=quantity_package;
         this.date_of_sale_millis=date_of_sale_millis;
         this.process_price=process_price;
         this.provider_warehouse_id=provider_warehouse_id;
+        this.free_inventory=free_inventory;
     }
 
     public ProductModel(int product_id, int product_inventory_id, String category
@@ -255,6 +255,14 @@ public class ProductModel implements Serializable {
 
     public void setMultiple_of(int multiple_of) {
         this.multiple_of = multiple_of;
+    }
+
+    public double getFree_inventory() {
+        return free_inventory;
+    }
+
+    public void setFree_inventory(double free_inventory) {
+        this.free_inventory = free_inventory;
     }
 
     @Override

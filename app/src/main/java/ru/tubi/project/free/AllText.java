@@ -25,6 +25,7 @@ public class AllText {
     public static String UPDATING = "Обновляю";
     public static String DELETED = "удален";
     public static String ACTIVE = "активен";
+    public static String MORE_SMALL = "более";
     public static String ACTIVATE_BIG = "АКТИВИРОВАТЬ";
     public static String SEE_BIG = "СМОТРЕТЬ";
     public static String COLLECT = "собран";
@@ -54,6 +55,7 @@ public class AllText {
     public static String DOCUMENT_SAVED_BIG = "ДОКУМЕНТ СОХРАНЕН";
     public static String DOCUMENT_PROVIDER = "документ поставщика";
     public static String UPLOADING_IMAGE_TAXT = "Идет загрузка Изображения";
+    public static String STOCK_OF_GOODS_REQUESTED_QUANTITY = "Запас товара на складе меньше запрошенного колличества";
     public static String IMAGE_UPLOADING_FAILED_TAXT = "Не удалось Загрузить Изображение";
     public static String NETWORK_FAILED_TAXT = "Ошибка соединения";
     public static String SAVE_QUESTION = "Сохранить?";

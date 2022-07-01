@@ -114,6 +114,11 @@
                             android:textColor="@color/black"
                             android:textSize="16dp" />
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"></LinearLayout>
+
 
                     </TableRow>
 
@@ -128,6 +133,29 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="right">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="10dp"
+                                android:textColor="@color/black"
+                                android:text="@string/stocks" />
+
+                            <TextView
+                                android:id="@+id/tvStocksGoods"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="10dp"
+                                android:textColor="@color/black"
+                                android:text="0" />
+                        </LinearLayout>
 
                         <TextView
                             android:id="@+id/tvPrice"
@@ -248,7 +276,7 @@
                             android:gravity="center"
                             android:text="-"
                             android:textColor="@color/white"
-                            android:textSize="20dp" />
+                            android:textSize="12dp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -308,7 +336,7 @@
                             android:gravity="center"
                             android:text="+"
                             android:textColor="@color/white"
-                            android:textSize="20dp" />
+                            android:textSize="12dp" />
                     </LinearLayout>
                     <LinearLayout
                         android:id="@+id/llPlusTen"

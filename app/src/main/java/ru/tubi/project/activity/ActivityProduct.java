@@ -36,6 +36,7 @@ import static ru.tubi.project.free.AllText.MAXIMUM;
 import static ru.tubi.project.free.AllText.MES_1_PROFILE;
 import static ru.tubi.project.free.AllText.NO_DELIVERY;
 import static ru.tubi.project.free.AllText.REPORT_A_BUG;
+import static ru.tubi.project.free.AllText.STOCK_OF_GOODS_REQUESTED_QUANTITY;
 import static ru.tubi.project.utilites.Constant.API;
 import static ru.tubi.project.utilites.Constant.API_TEST;
 //import static com.example.tubi.utilites.Constant.GET_PRODUCT;
@@ -155,7 +156,47 @@ public class ActivityProduct extends AppCompatActivity {
                 boolean flag = checkEqualsDate.check(dateOfOrderMillis, dateOfSaleMillis);
                 if(flag){
                     openOrderThisDate=true;
-                    products.get(position).setQuantity(quantity+1);
+
+                    //Если колличество товара =0 то добавить мин.заказ
+                    if(quantity == 0){
+                        //получить колличество товар которое надо добавить в заказ
+                        double myQuantity = getQuantityOfProductToAdd(position);
+
+                        products.get(position).setQuantity(myQuantity);
+
+                        //проверить запас товара
+                      /*  if(products.get(position).getFree_inventory()
+                                >= products.get(position).getMin_sell()){
+                            //добавить мин.заказ
+                            products.get(position).setQuantity(products.get(position).getMin_sell());
+                        }else{
+                            //добавить остаток а складе
+                            products.get(position).setQuantity(products
+                                    .get(position).getFree_inventory());
+                        }*/
+
+                    }else{
+                        //проверить запас товара + (кратно)
+                        if((quantity + products.get(position).getMultiple_of())
+                                <= products.get(position).getFree_inventory()){
+
+                            //добавить к колиичеству (кратно)
+                            products.get(position).setQuantity(quantity + products
+                                    .get(position).getMultiple_of());
+                           // Log.d("A111","test 1: "+(quantity + products
+                           //         .get(position).getMultiple_of()));
+                        }else{
+                            //добавить остаток
+                            products.get(position).setQuantity
+                                    (quantity + (products.get(position).getFree_inventory() - quantity));
+
+                            Toast.makeText(this, ""
+                                    +STOCK_OF_GOODS_REQUESTED_QUANTITY, Toast.LENGTH_LONG).show();
+                           // Log.d("A111","test 2: "
+                           //         +(quantity + (products.get(position).getFree_inventory() - quantity)));
+                        }
+                    }
+                    //products.get(position).setQuantity(quantity+1);
                 }
             }
             //если открытый заказ на нужную дату не найден то открыть заказ
@@ -167,11 +208,34 @@ public class ActivityProduct extends AppCompatActivity {
                 products.get(position).setQuantity(quantity+10);
         }
         else if(str[1].equals("llMinus}")){//  btnMinus
-            if(quantity <=0){
+            //если заказ меньше мин.заказ
+            if(quantity < products.get(position).getMin_sell()){
+                products.get(position).setQuantity(0);
+            }
+            //если заказ равен мин.заказ
+            else if(quantity == products.get(position).getMin_sell()){
+                products.get(position).setQuantity(0);
+            }
+            //если заказ больше мин.заказ
+            else{
+                //заказ равен мин.заказ + (кратно)
+                if (((quantity - products.get(position).getMin_sell())
+                        % products.get(position).getMultiple_of()) == 0){
+                    //то отнять только (кратно)
+                    products.get(position).setQuantity(quantity - products.get(position).getMultiple_of());
+                }
+                //отнять остаток от (кратно)
+                else{
+                    products.get(position).setQuantity(quantity - ((quantity - products.get(position).getMin_sell())
+                            % products.get(position).getMultiple_of()));
+                }
+            }
+
+          /*  if(quantity <=0){
                 quantity=0;
             }else {
                 products.get(position).setQuantity(quantity - 1);
-            }
+            }*/
         }else if(str[1].equals("llMinusTen}")){//  btnMinus
             if(quantity <=10){
                 quantity=0;
@@ -182,6 +246,21 @@ public class ActivityProduct extends AppCompatActivity {
         }
         adapter.notifyItemChanged(position);
     }
+    //получить колличество товар которое надо добавить в заказ
+    private double getQuantityOfProductToAdd(int position){
+        double myQuantity = 0;
+        //проверить запас товара
+        if(products.get(position).getFree_inventory()
+                >= products.get(position).getMin_sell()){
+            //добавить мин.заказ
+            myQuantity = products.get(position).getMin_sell();
+        }else{
+            //добавить остаток а складе
+            myQuantity = products.get(position).getFree_inventory();
+        }
+        return  myQuantity;
+    }
+
     // создать новый заказ
     private void addOrder(){
         String myCategory = "все";
@@ -317,7 +396,11 @@ public class ActivityProduct extends AppCompatActivity {
                     (myOrder_id,myDateOfSaleMillis,myCategory);
             orderDataModelList.add(orderDataModel);
 
-            products.get(myPosition).setQuantity(quantity+1);
+            //получить колличество товар которое надо добавить в заказ
+            double myQuantity = getQuantityOfProductToAdd(myPosition);
+
+            products.get(myPosition).setQuantity(myQuantity);
+           // products.get(myPosition).setQuantity(quantity+1);
             addOrderProduct(products.get(myPosition).getQuantity(), myPosition);
             adapter.notifyItemChanged(myPosition);
 
@@ -366,15 +449,15 @@ public class ActivityProduct extends AppCompatActivity {
                 long date_of_sale_millis = Long.parseLong(temp[16]);
                 double process_price = Double.parseDouble(temp[17]);
                 int provider_warehouse_id = Integer.parseInt(temp[18]);
+                double free_inventory = Double.parseDouble(temp[19]);
 
-                // $min_sell . "&nbsp" . $multiple_of . "&nbsp" . $description
 
                 ProductModel product = new ProductModel(product_id,product_inventory_id
                         , category, product_name, brand, characteristic,unit_measure
                         , weight_volume, price, process_price, image_url, min_sell
                         , multiple_of, description
                         , quantity, count_product_provider, quantity_package
-                        , date_of_sale_millis, provider_warehouse_id);
+                        , date_of_sale_millis, provider_warehouse_id, free_inventory);
                 products.add(product);
             }
         }catch (Exception ex){
