@@ -254,9 +254,16 @@ public class ActivityProduct extends AppCompatActivity {
         url_get += "&" + "category=" + myCategory;//category;
         whatQuestion= "get_my_order_id";
         setInitialData(url_get, whatQuestion);
+
+        //получить заказа (заказов) номер
+        searchOrder_id.searchStartedOrder(this);
     }
     //получить список продуктов и их колличество
     private void showProd(){
+        //получить список заказав с характеристиками
+        orderDataModelList.clear();
+        orderDataModelList = orderDataRecoveryUtil.getOrderDataRecovery(this);
+
         products.clear();
         String myCategory="";
         String order_id_string = "";

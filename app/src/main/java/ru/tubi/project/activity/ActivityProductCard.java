@@ -254,6 +254,10 @@ public class ActivityProductCard extends AppCompatActivity {
         return  myQuantity;
     }
     private void showProd(){
+        //получить список заказав с характеристиками
+        orderDataModelList.clear();
+        orderDataModelList = orderDataRecoveryUtil.getOrderDataRecovery(this);
+
         String order_id_string = "";
         for(int i=0;i < orderDataModelList.size();i++){
             order_id_string += orderDataModelList.get(i).getOrder_id();
@@ -304,6 +308,9 @@ public class ActivityProductCard extends AppCompatActivity {
         url_get += "&" + "category=" + myCategory;
         whatQuestion= "get_my_order_id";
         setInitialData(url_get, whatQuestion);
+
+        //получить заказа (заказов) номер
+        searchOrder_id.searchStartedOrder(this);
     }
 
     private void setInitialData(String url_get, String whatQuestion) {

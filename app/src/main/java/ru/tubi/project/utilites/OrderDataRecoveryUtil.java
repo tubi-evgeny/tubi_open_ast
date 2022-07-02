@@ -29,17 +29,6 @@ public class OrderDataRecoveryUtil extends Fragment {
     private OrderModel orderDataModel;
     private ArrayList<OrderModel>orderDataModelList = new ArrayList<>();
 
-    /*
-     //получить список заказав с характеристиками
-        ArrayList<OrderModel> orderDataModelList;
-        //получить из sqlLite данные о заказах
-        OrderDataRecoveryUtil orderDataRecoveryUtil = new OrderDataRecoveryUtil();
-        orderDataModel = orderDataRecoveryUtil.getOrderDataRecovery(this);
-
-        orderDataModel.getOrder_id(); orderDataModel.getDate_millis();
-        orderDataModel.getCategory();
-     */
-
     public ArrayList<OrderModel> getOrderDataRecovery(Context context){
 
                 orderDataModelList = goReadUid(context);
