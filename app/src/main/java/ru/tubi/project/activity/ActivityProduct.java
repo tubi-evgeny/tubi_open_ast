@@ -20,6 +20,7 @@ import ru.tubi.project.models.OrderModel;
 import ru.tubi.project.models.ProductModel;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.CheckEqualsDateUtil;
+import ru.tubi.project.utilites.GetColorShopingBox;
 import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.OrderDataRecoveryUtil;
 import ru.tubi.project.utilites.SearchOrder_id;
@@ -499,6 +500,7 @@ public class ActivityProduct extends AppCompatActivity {
         }else if (requestCode == ADD_PRODUCT_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 showProd();
+                invalidateOptionsMenu();
             }
         }else if(requestCode == ADD_PRODUCT_TO_COMPANY_DATE_FORM_REQUEST_CODE
                 && resultCode == RESULT_OK){
@@ -529,10 +531,8 @@ public class ActivityProduct extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) { //----invalidateOptionsMenu();
-        searchOrder_id.searchStartedOrder(this);
-        if(userDataModel.getOrder_id() != 0){//ORDER_ID
-            menu.findItem(R.id.shoping_box).setIcon(R.drawable.soping_box_green_60ps);
-        }
+        GetColorShopingBox gc = new GetColorShopingBox();
+        menu = gc.color(this, menu);
         return super.onPrepareOptionsMenu(menu);
     }
 

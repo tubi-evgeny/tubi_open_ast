@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,7 @@ import ru.tubi.project.models.ProductModel;
 import ru.tubi.project.models.ProductCardModel;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.CheckEqualsDateUtil;
+import ru.tubi.project.utilites.GetColorShopingBox;
 import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.OrderDataRecoveryUtil;
 import ru.tubi.project.utilites.SearchOrder_id;
@@ -461,10 +463,8 @@ public class ActivityProductCard extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) { //----invalidateOptionsMenu();
-        searchOrder_id.searchStartedOrder(this);
-        if(userDataModel.getOrder_id() != 0){//ORDER_ID
-            menu.findItem(R.id.shoping_box).setIcon(R.drawable.soping_box_green_60ps);
-        }
+        GetColorShopingBox gc = new GetColorShopingBox();
+        menu = gc.color(this, menu);
         return super.onPrepareOptionsMenu(menu);
     }
     @Override
