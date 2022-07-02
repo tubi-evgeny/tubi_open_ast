@@ -106,7 +106,7 @@ public class SearchOrder_id {
                     sqdb.insert(my_db.TABLE_NAME_ORDER_ID, null, cv);
                 }
                 sqdb.close();
-                Log.d("A111","SearchOrder_id. список заказов "+result);
+               // Log.d("A111","SearchOrder_id. список заказов "+result);
             }else{
                 my_db = new HelperDB(this.context);
                 my_db.clearTableOrders();
@@ -121,11 +121,11 @@ public class SearchOrder_id {
                 sqdb.insert(my_db.TABLE_NAME_ORDER_ID, null, cv);
 
                 sqdb.close();
-                Log.d("A111","SearchOrder_id. Result is empty. Result create default");
+                //Log.d("A111","SearchOrder_id. Result is empty. Result create default");
             }
 
         }catch (Exception ex){
-            Log.d("A111","SearchOrder_id. ошибка при получении списка заказов "+ex.toString());
+           // Log.d("A111","SearchOrder_id. ошибка при получении списка заказов "+ex.toString());
         }
     }
     public void checkOrUpdataOrderId(String result){

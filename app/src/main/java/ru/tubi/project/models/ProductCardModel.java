@@ -20,8 +20,45 @@ public class ProductCardModel implements Serializable {
     private long date_of_sale_millis;
     private double process_price;
     private int provider_warehouse_id;
+    private int min_sell;
+    private int multiple_of;
+    private double free_inventory;
+    private String product_info;
+    private String description_prod;
 
 
+    public ProductCardModel(int product_id, int product_inventory_id, String category
+            , String product_name, String brand, String characteristic
+            , String unit_measure, int weight_volume, double price,double process_price
+            , String image_url, String description_prod, String counterparty
+            , double quantity, int quantity_package, long date_of_sale_millis
+            , int provider_warehouse_id
+            , int min_sell, int multiple_of, double free_inventory
+            , String product_info) {
+
+        this.product_id = product_id;
+        this.product_inventory_id = product_inventory_id;
+        this.category = category;
+        this.product_name=product_name;
+        this.brand = brand;
+        this.characteristic = characteristic;
+        this.unit_measure = unit_measure;
+        this.weight_volume = weight_volume;
+        this.price = price;
+        this.process_price=process_price;
+        this.image_url = image_url;
+        this.description_prod = description_prod;
+        this.counterparty=counterparty;
+        this.quantity=quantity;
+        this.quantity_package=quantity_package;
+        this.date_of_sale_millis=date_of_sale_millis;
+        this.provider_warehouse_id=provider_warehouse_id;
+        this.min_sell = min_sell;
+        this.multiple_of = multiple_of;
+        this.free_inventory = free_inventory;
+        this.product_info = product_info;
+
+    }
     public ProductCardModel(int product_id, int product_inventory_id, String category
             , String product_name, String brand, String characteristic
             , String unit_measure, int weight_volume, double price,double process_price
@@ -184,9 +221,49 @@ public class ProductCardModel implements Serializable {
         this.provider_warehouse_id = provider_warehouse_id;
     }
 
+    public int getMin_sell() {
+        return min_sell;
+    }
+
+    public void setMin_sell(int min_sell) {
+        this.min_sell = min_sell;
+    }
+
+    public int getMultiple_of() {
+        return multiple_of;
+    }
+
+    public void setMultiple_of(int multiple_of) {
+        this.multiple_of = multiple_of;
+    }
+
+    public double getFree_inventory() {
+        return free_inventory;
+    }
+
+    public void setFree_inventory(double free_inventory) {
+        this.free_inventory = free_inventory;
+    }
+
+    public String getProduct_info() {
+        return product_info;
+    }
+
+    public void setProduct_info(String product_info) {
+        this.product_info = product_info;
+    }
+
+    public String getDescription_prod() {
+        return description_prod;
+    }
+
+    public void setDescription_prod(String description_prod) {
+        this.description_prod = description_prod;
+    }
+
     @Override
     public String toString() {
-        return category  + " " + characteristic + " " +  brand;
+        return product_name  + " " + characteristic + " " +  brand;
         // +" цена: " +price+ " руб." + " поставщик "+provider
     }
 

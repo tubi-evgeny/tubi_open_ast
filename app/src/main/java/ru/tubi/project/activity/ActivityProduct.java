@@ -275,6 +275,7 @@ public class ActivityProduct extends AppCompatActivity {
             url_get += "&" + "city_id=" + 2;
             whatQuestion = "get_product_and_quantity";
             setInitialData(url_get, whatQuestion);
+            Log.d("A111","url = "+url_get);
         }
         else if(key == CATALOG_IS_MINE){
             for(int i=0;i < categoryList.size();i++){
@@ -476,7 +477,7 @@ public class ActivityProduct extends AppCompatActivity {
         ProductModel product = products.get(position);
         intent = new Intent(this,ActivityProductCard.class);
         intent.putExtra("product",product);
-        intent.putExtra("order_id",userDataModel.getOrder_id());//ORDER_ID
+        //intent.putExtra("order_id",userDataModel.getOrder_id());//ORDER_ID
         //startActivity(intent);
         startActivityForResult(intent,ADD_PRODUCT_ACTIVITY_REQUEST_CODE);
         //finish();

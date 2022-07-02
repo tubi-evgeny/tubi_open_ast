@@ -3,6 +3,7 @@ package ru.tubi.project.utilites;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -40,10 +41,18 @@ public class OrderDataRecoveryUtil extends Fragment {
      */
 
     public ArrayList<OrderModel> getOrderDataRecovery(Context context){
-        //this.context=context;
-        //ArrayList<OrderModel>
+
                 orderDataModelList = goReadUid(context);
-        //Toast.makeText(context, "id: "+orderDataModelList.get(0).getOrder_id(), Toast.LENGTH_SHORT).show();
+
+        String order_id_string = "";
+        for(int i=0;i < orderDataModelList.size();i++){
+            order_id_string += orderDataModelList.get(i).getOrder_id();
+            if(i != orderDataModelList.size()-1){
+                order_id_string += ";";
+            }
+        }
+                Log.d("A111","OrderDataRecoveryUtil " +
+                        "/ getOrderDataRecovery / order_id string = "+order_id_string);
         return orderDataModelList;
     }
     // Проверить есть ли в таблице данные о открытых заказах

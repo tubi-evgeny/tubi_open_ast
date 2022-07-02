@@ -36,6 +36,7 @@ import static ru.tubi.project.free.AllText.MAXIMUM;
 import static ru.tubi.project.free.AllText.MES_1_PROFILE;
 import static ru.tubi.project.free.AllText.NO_DELIVERY;
 import static ru.tubi.project.free.AllText.REPORT_A_BUG;
+import static ru.tubi.project.free.AllText.STOCK_OF_GOODS_REQUESTED_QUANTITY;
 import static ru.tubi.project.utilites.Constant.API_TEST;
 //import static com.example.tubi.utilites.Constant.SEARCH_OPEN_ORDER;
 
@@ -131,7 +132,7 @@ public class ActivityProductCard extends AppCompatActivity {
 
         adb = new AlertDialog.Builder(this);
         String str1 = allPrice.get(position).toString();
-        String str2 = allPrice.get(position).getDescription();
+        String str2 = allPrice.get(position).getDescription_prod();
         adb.setTitle(str1);
         adb.setMessage(str2);
         ad = adb.create();
@@ -170,7 +171,30 @@ public class ActivityProductCard extends AppCompatActivity {
                 boolean flag = checkEqualsDate.check(dateOfOrderMillis, dateOfSaleMillis);
                 if(flag){
                     openOrderThisDate=true;
-                    allPrice.get(position).setQuantity(quantity+1);
+                    //Если колличество товара =0 то добавить мин.заказ
+                    if(quantity == 0){
+                        //получить колличество товар которое надо добавить в заказ
+                        double myQuantity = getQuantityOfProductToAdd(position);
+
+                        allPrice.get(position).setQuantity(myQuantity);
+
+                    }else{
+                        //проверить запас товара + (кратно)
+                        if((quantity + allPrice.get(position).getMultiple_of())
+                                <= allPrice.get(position).getFree_inventory()){
+
+                            //добавить к колиичеству (кратно)
+                            allPrice.get(position).setQuantity(quantity + allPrice
+                                    .get(position).getMultiple_of());
+                        }else{
+                            //добавить остаток
+                            allPrice.get(position).setQuantity
+                                    (quantity + (allPrice.get(position).getFree_inventory() - quantity));
+
+                            Toast.makeText(this, ""
+                                    +STOCK_OF_GOODS_REQUESTED_QUANTITY, Toast.LENGTH_LONG).show();
+                        }
+                    }
                 }
             }
             //если открытый заказ на нужную дату не найден то открыть заказ
@@ -183,10 +207,27 @@ public class ActivityProductCard extends AppCompatActivity {
             allPrice.get(position).setQuantity(quantity+10);
         }
         else if(str[1].equals("llMinus}")){
-            if(quantity <=0){
-                quantity=0;
-            }else {
-                allPrice.get(position).setQuantity(quantity - 1);
+            //если заказ меньше мин.заказ
+            if(quantity < allPrice.get(position).getMin_sell()){
+                allPrice.get(position).setQuantity(0);
+            }
+            //если заказ равен мин.заказ
+            else if(quantity == allPrice.get(position).getMin_sell()){
+                allPrice.get(position).setQuantity(0);
+            }
+            //если заказ больше мин.заказ
+            else{
+                //заказ равен мин.заказ + (кратно)
+                if (((quantity - allPrice.get(position).getMin_sell())
+                        % allPrice.get(position).getMultiple_of()) == 0){
+                    //то отнять только (кратно)
+                    allPrice.get(position).setQuantity(quantity - allPrice.get(position).getMultiple_of());
+                }
+                //отнять остаток от (кратно)
+                else{
+                    allPrice.get(position).setQuantity(quantity - ((quantity - allPrice.get(position).getMin_sell())
+                            % allPrice.get(position).getMultiple_of()));
+                }
             }
         }else if(str[1].equals("llMinusTen}")){//  btnMinus
             if(quantity <=10){
@@ -198,7 +239,20 @@ public class ActivityProductCard extends AppCompatActivity {
         }
         adapter.notifyItemChanged(position);
     }
-
+    //получить колличество товар которое надо добавить в заказ
+    private double getQuantityOfProductToAdd(int position){
+        double myQuantity = 0;
+        //проверить запас товара
+        if(allPrice.get(position).getFree_inventory()
+                >= allPrice.get(position).getMin_sell()){
+            //добавить мин.заказ
+            myQuantity = allPrice.get(position).getMin_sell();
+        }else{
+            //добавить остаток а складе
+            myQuantity = allPrice.get(position).getFree_inventory();
+        }
+        return  myQuantity;
+    }
     private void showProd(){
         String order_id_string = "";
         for(int i=0;i < orderDataModelList.size();i++){
@@ -212,7 +266,7 @@ public class ActivityProductCard extends AppCompatActivity {
         url += "&" + "product_id=" + product_id;
         url += "&" + "order_id=" + order_id_string;//userDataModel.getOrder_id();//ORDER_ID;
         url += "&" + "city_id=" + 2;
-        whatQuestion = "get_product_and_all_provider";
+        whatQuestion = "show_product_price_all_provider";
         setInitialData(url,whatQuestion);
     }
     //добавить продукт и колличество в заказ
@@ -270,7 +324,7 @@ public class ActivityProductCard extends AppCompatActivity {
             }
 
             protected void onPostExecute(String result) {
-                if(whatQuestion.equals("get_product_and_all_provider")) {
+                if(whatQuestion.equals("show_product_price_all_provider")) {
                     splitResult(result);
                 }else if(whatQuestion.equals("get_my_order_id")){
                     addFirstProductInOrder(result);
@@ -299,7 +353,11 @@ public class ActivityProductCard extends AppCompatActivity {
                     (myOrder_id, myDateOfSaleMillis, myCategory);
             orderDataModelList.add(orderDataModel);
 
-            allPrice.get(myPosition).setQuantity(quantity + 1);
+            //получить колличество товар которое надо добавить в заказ
+            double myQuantity = getQuantityOfProductToAdd(myPosition);
+
+            allPrice.get(myPosition).setQuantity(myQuantity);
+            //allPrice.get(myPosition).setQuantity(quantity + 1);
             addOrderProduct(allPrice.get(myPosition).getQuantity(), myPosition);
             adapter.notifyItemChanged(myPosition);
 
@@ -323,7 +381,7 @@ public class ActivityProductCard extends AppCompatActivity {
                 int weight_volume=Integer.parseInt(temp[6]);
                 double price=Double.parseDouble(temp[7]);
                 String image_url=temp[8];
-                String description=temp[9];
+                String description_prod=temp[9];
                 String counterparty=temp[10];
 
                 double quantity = Double.parseDouble(temp[11]);
@@ -333,11 +391,17 @@ public class ActivityProductCard extends AppCompatActivity {
                 double process_price = Double.parseDouble(temp[15]);
                 int provider_warehouse_id = Integer.parseInt(temp[16]);
 
+                int min_sell = Integer.parseInt(temp[17]);
+                int multiple_of = Integer.parseInt(temp[18]);
+                String product_info = temp[19];
+                double free_inventory = Double.parseDouble(temp[20]);
+
                 ProductCardModel prodInfo = new ProductCardModel(product_id, product_inventory_id
                         , category, product_name, brand, characteristic, unit_measure
-                        , weight_volume, price, process_price, image_url, description
+                        , weight_volume, price, process_price, image_url, description_prod
                         , counterparty, quantity, quantity_package, date_of_sale_millis
-                        , provider_warehouse_id);
+                        , provider_warehouse_id
+                        , min_sell, multiple_of, free_inventory, product_info);
                 allPrice.add(prodInfo);
             }
         }catch (Exception ex){
