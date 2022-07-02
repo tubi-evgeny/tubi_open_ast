@@ -37,6 +37,7 @@ public class Constant {
     public static final String INPUT = BASE_URL + "input.php?";
     public static final String API = BASE_URL + "api.php?";
 
+    public static final String SHOPING_BOX = BASE_URL + "shoping_box.php?";
     public static final String SHOW_SHOPING_BOX = BASE_URL + "shoping_box.php?";
     public static final String URL_REGISTER = BASE_URL + "register.php?";
     public static final String URL_LOGIN = BASE_URL + "login.php?";

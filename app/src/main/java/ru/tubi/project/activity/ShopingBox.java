@@ -51,6 +51,8 @@ import static ru.tubi.project.free.AllText.ORDER;
 import static ru.tubi.project.free.AllText.RUB;
 import static ru.tubi.project.free.AllText.SHOPING_BOX;
 import static ru.tubi.project.free.AllText.SHOPING_BOX_EMPTY;
+import static ru.tubi.project.free.AllText.STOCK_OF_GOODS_REQUESTED_QUANTITY;
+import static ru.tubi.project.utilites.Constant.API_TEST;
 
 public class ShopingBox extends AppCompatActivity implements View.OnClickListener {
 
@@ -122,9 +124,6 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
         //сортируем лист по 1 полям (getDate_millis )
         orderDataModelList.sort(Comparator.comparing(OrderModel::getDate_millis));
 
-        //получить список заказав с характеристиками
-        //orderDataModelList = orderDataRecoveryUtil.getOrderDataRecovery(this);
-
         ShopingBoxAdapter.OnShopingBoxClickListener shopingBoxClickListener =
                 new ShopingBoxAdapter.OnShopingBoxClickListener() {
                     @Override
@@ -191,23 +190,59 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
         String string=String.valueOf(view);
         String str[]=string.split("/");
         quantity = shopinBoxArray.get(position).getQuantity();
-        if(str[1].equals("btnPlus}")) {
-            //quantity++;
-            shopinBoxArray.get(position).setQuantity(++quantity);
-            //addOrderProduct(shopinBoxArray.get(position).getQuantity(), position);
-        }
-        if(str[1].equals("btnMinus}")){
-            //отнять один товар из заказа)
-            //quantity--;
-            if(quantity > 0){
-                shopinBoxArray.get(position).setQuantity(--quantity);
-                //addOrderProduct(shopinBoxArray.get(position).getQuantity(), position);
+        if(str[1].equals("llPlus}")) {
+            //проверить запас товара + (кратно)
+            if((quantity + shopinBoxArray.get(position).getMultiple_of())
+                    <= shopinBoxArray.get(position).getFree_inventory()){
+
+                //добавить к колиичеству (кратно)
+                shopinBoxArray.get(position).setQuantity(quantity + shopinBoxArray
+                        .get(position).getMultiple_of());
+            }else{
+                //добавить остаток
+                shopinBoxArray.get(position).setQuantity
+                        (quantity + (shopinBoxArray.get(position).getFree_inventory() - quantity));
+
+                Toast.makeText(this, ""
+                        +STOCK_OF_GOODS_REQUESTED_QUANTITY, Toast.LENGTH_LONG).show();
             }
+            //shopinBoxArray.get(position).setQuantity(++quantity);
+        }
+        if(str[1].equals("llMinus}")){
+            //если заказ меньше мин.заказ
+            if(quantity < shopinBoxArray.get(position).getMin_sell()){
+                quantity = 0;
+                shopinBoxArray.get(position).setQuantity(quantity);
+            }
+            //если заказ равен мин.заказ
+            else if(quantity == shopinBoxArray.get(position).getMin_sell()){
+                quantity = 0;
+                shopinBoxArray.get(position).setQuantity(quantity);
+            }
+            //если заказ больше мин.заказ
+            else{
+                //заказ равен мин.заказ + (кратно)
+                if (((quantity - shopinBoxArray.get(position).getMin_sell())
+                        % shopinBoxArray.get(position).getMultiple_of()) == 0){
+                    //то отнять только (кратно)
+                    quantity -= shopinBoxArray.get(position).getMultiple_of();
+                    shopinBoxArray.get(position).setQuantity(quantity);
+                }
+                //отнять остаток от (кратно)
+                else{
+                    quantity = quantity - ((quantity - shopinBoxArray.get(position).getMin_sell())
+                            % shopinBoxArray.get(position).getMultiple_of());
+                    shopinBoxArray.get(position).setQuantity(quantity);
+                }
+            }
+            //отнять один товар из заказа)
+           /* if(quantity > 0){
+                shopinBoxArray.get(position).setQuantity(--quantity);
+            }*/
+
             if(quantity ==0){
                 int order_product_id = shopinBoxArray.get(position).getOrder_product_id();
                 deleteOrderProduct(order_product_id);
-                //delete order_product from t_order_product
-                //deleteOrderProduct(position);
             }
         }
         allSumm();
@@ -241,37 +276,6 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
                 }
                 // данные о компании есть пойдем оформлять заказ
                 makingOrder();
-               /*
-                //проверим в SQLlite наличие название абревиатуру компании и ИНН
-                sqdb = my_db.getWritableDatabase();
-
-                Cursor c = sqdb.query(HelperDB.TABLE_NAME, null, null,
-                        null, null, null, null);
-                int col0 = c.getColumnIndex(HelperDB.ABBREVIATION);
-                int col1 = c.getColumnIndex(HelperDB.COUNTERPARTY);
-                int col2 = c.getColumnIndex(HelperDB.TAXPAYER_ID);
-
-                c.moveToFirst();
-                String abbreviation = c.getString(col0);
-                String counterparty = c.getString(col1);
-                String taxpayer_id = c.getString(col2);
-                sqdb.close();
-
-                //если данных нет (пусто) то запросим их ввести
-                if(abbreviation.equals("") || counterparty.equals("") || taxpayer_id.equals("")){
-                    //Toast.makeText(this, "test1", Toast.LENGTH_SHORT).show();
-
-                    //получить абревиатуру, название компании и ИНН
-                    Intent intent = new Intent(this,CompanyDateFormActivity.class);
-                    intent.putExtra("message",MES_1);
-                    intent.putExtra("order_id",order_id);
-                    startActivityForResult(intent, COMPANY_DATE_FORM_REQUEST_CODE);
-                }else {
-                    //Toast.makeText(this, "test2"+abbreviation+" :", Toast.LENGTH_SHORT).show();
-
-                    // данные есть то пойдем оформлять заказ
-                    makingOrder();
-                }*/
             }
         }
     }
@@ -292,7 +296,9 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
     //добавить продукт и колличество в заказ
     private void addOrderProduct(double myQuantity, int position){
         whatQuestion = "add_order_product";
-        url_get= Constant.ADD_ORDER_PRODUCT;
+        //url_get= Constant.ADD_ORDER_PRODUCT;
+        url_get= API_TEST;
+        url_get += "add_order_product";
         url_get += "&"+"order_id="+order_id;//userDataModel.getOrder_id();
         url_get += "&"+"product_inventory_id="+shopinBoxArray.get(position).getProduct_inventory_id();
         url_get += "&"+"provider_warehouse_id=" + shopinBoxArray.get(position).getProvider_warehouse_id();
@@ -304,9 +310,10 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
     private void showShopingBox(){
         if(order_id != 0){
 
-            url_get = Constant.SHOW_SHOPING_BOX;
+            url_get = Constant.SHOPING_BOX;
             url_get += "show_products";
             url_get += "&"+"order_id="+order_id;//userDataModel.getOrder_id();
+            url_get += "&" + "city_id=" + 2;
             whatQuestion = "show_products";
             setInitialData(url_get,whatQuestion);
         }
@@ -396,7 +403,7 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
                     int weight_volume = Integer.parseInt(temp[7]);
                     double price = Double.parseDouble(temp[8]);
                     String image_url = temp[9];
-                    String description = temp[10];
+                    String description_prod = temp[10];
                     String counterparty = temp[11];
                     double quantity = Double.parseDouble(temp[12]);
                     String product_name=temp[13];
@@ -404,17 +411,22 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
                     double price_process = Double.parseDouble(temp[15]);
                     int provider_warehouse_id = Integer.parseInt(temp[16]);
 
+                    int min_sell = Integer.parseInt(temp[17]);
+                    int multiple_of = Integer.parseInt(temp[18]);
+                    String product_info = temp[19];
+                    double free_inventory = Double.parseDouble(temp[20]);
+
                     ShopingBoxModel shopingBox = new ShopingBoxModel(order_product_id, product_id
                             ,product_inventory_id, category, product_name, brand, characteristic
                             ,unit_measure, weight_volume,price,price_process, image_url
-                            ,description, counterparty, quantity,quantity_package
-                            ,provider_warehouse_id);
+                            ,description_prod, counterparty, quantity,quantity_package
+                            ,provider_warehouse_id
+                            ,min_sell, multiple_of, free_inventory, product_info);
                     if (quantity > 0) {
                         shopinBoxArray.add(shopingBox);
                     } else {
                         deleteOrderProduct(order_product_id);
                     }
-                    //shopinBoxArray.add(shopingBox);
                 }
                 allSumm();
 

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,13 +24,15 @@ import static ru.tubi.project.Config.ADMIN_PANEL_URL_IMAGES;
 import static ru.tubi.project.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_400;
+import static ru.tubi.project.free.AllText.MORE_SMALL;
+import static ru.tubi.project.free.AllText.ORDER_TEXT;
 import static ru.tubi.project.free.AllText.QUANTITY_PACKAGE_SHORT;
 
 public class ShopingBoxAdapter extends RecyclerView.Adapter<ShopingBoxAdapter.ViewHolder> {
 
-    public interface OnShopingBoxClickListener{                                     //Listener
-        void onShopingBoxClick(ShopingBoxModel shopingBox, int position);                //
-    }                                                                   //
+    public interface OnShopingBoxClickListener{
+        void onShopingBoxClick(ShopingBoxModel shopingBox, int position);
+    }
     private final ShopingBoxAdapter.OnShopingBoxClickListener onClickListener;
 
     public interface RecyclerViewClickListener{
@@ -79,19 +82,23 @@ public class ShopingBoxAdapter extends RecyclerView.Adapter<ShopingBoxAdapter.Vi
                     }
                 }
             }       .execute(ADMIN_PANEL_URL_PREVIEW_IMAGES+myPrice.getImage_url());
-          //  new DownloadImage(holder.ivImageProduct)
-                  //  .execute((ADMIN_PANEL_URL_PREVIEW_IMAGES+myPrice.getImage_url()));
         }else holder.ivImageProduct.setImageResource(R.drawable.product_bag_250_ps);
 
-        holder.tvProductDescription.setText(""+new FirstSimbolMakeBig()
-                .firstSimbolMakeBig(prod_info));
+        holder.tvProductDescription.setText(""+myPrice.getProduct_info());
         holder.tvProvider.setText("" + new FirstSimbolMakeBig()
                 .firstSimbolMakeBig(myPrice.getCounterparty()));
         holder.tvSumm.setText(String.format("%.2f", +quantity*price));
-        //holder.tvWeightVolume.setText(""+myPrice.getWeight_volume());
-        //holder.tvUnitMeasure.setText(""+myPrice.getUnit_measure());
         holder.tvPrice.setText(String.format("%.2f",+price));
         holder.tvQuantity.setText(""+quantity);
+
+        //если свободные запасы боьше 3х уп то показать только 3 уп
+        if(myPrice.getFree_inventory() > (myPrice.getQuantity_package() * 3)){
+            holder.tvStocksGoods.setText(""+MORE_SMALL+" "
+                    +(myPrice.getQuantity_package() * 3));
+        }else{
+            //запас меньше 3х упаковок
+            holder.tvStocksGoods.setText(""+myPrice.getFree_inventory());
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,9 +109,17 @@ public class ShopingBoxAdapter extends RecyclerView.Adapter<ShopingBoxAdapter.Vi
         if(quantity == 0 ){
             holder.tvQuantity.setTextColor(TUBI_GREY_400);
             holder.tvSumm.setTextColor(TUBI_GREY_400);
+            holder.tvPlus.setText(ORDER_TEXT+" "+myPrice.getMin_sell());
         }else{
             holder.tvQuantity.setTextColor(TUBI_BLACK);
             holder.tvSumm.setTextColor(TUBI_BLACK);
+            holder.tvPlus.setText("+"+myPrice.getMultiple_of());
+
+            if(quantity > myPrice.getMin_sell()){
+                holder.tvMinus.setText("-"+myPrice.getMultiple_of());
+            }else{
+                holder.tvMinus.setText("-"+myPrice.getMin_sell());
+            }
         }
     }
 
@@ -119,12 +134,14 @@ public class ShopingBoxAdapter extends RecyclerView.Adapter<ShopingBoxAdapter.Vi
         final TextView tvProvider;
         final TextView tvProductDescription;
         final TextView tvPrice;
-        final TextView tvQuantity;
+        final TextView tvQuantity, tvStocksGoods;
         final TextView tvSumm;
-        //final TextView tvWeightVolume;
-        //final TextView tvUnitMeasure;
-        final Button btnMinus;
-        final Button btnPlus;
+        final TextView tvMinus;
+        final TextView tvPlus;
+        final LinearLayout llMinus, llPlus;
+
+       // final Button btnMinus;
+        //final Button btnPlus;
 
         private final ShopingBoxAdapter.RecyclerViewClickListener mListener;
 
@@ -136,15 +153,17 @@ public class ShopingBoxAdapter extends RecyclerView.Adapter<ShopingBoxAdapter.Vi
             tvProductDescription=itemView.findViewById(R.id.tvProductDescription);
             tvPrice=itemView.findViewById(R.id.tvPrice);
             tvQuantity=itemView.findViewById(R.id.tvQuantity);
+            tvStocksGoods=itemView.findViewById(R.id.tvStocksGoods);
             tvSumm=itemView.findViewById(R.id.tvSumm);
-            //tvWeightVolume=itemView.findViewById(R.id.tvWeightVolume);
-            //tvUnitMeasure=itemView.findViewById(R.id.tvUnitMeasure);
-            btnMinus=itemView.findViewById(R.id.btnMinus);
-            btnPlus=itemView.findViewById(R.id.btnPlus);
+            tvMinus=itemView.findViewById(R.id.tvMinus);
+            tvPlus=itemView.findViewById(R.id.tvPlus);
+
+            llMinus=itemView.findViewById(R.id.llMinus);
+            llPlus=itemView.findViewById(R.id.llPlus);
 
             mListener=listener;
-            btnMinus.setOnClickListener(this);
-            btnPlus.setOnClickListener(this);
+            llMinus.setOnClickListener(this);
+            llPlus.setOnClickListener(this);
         }
 
         @Override
