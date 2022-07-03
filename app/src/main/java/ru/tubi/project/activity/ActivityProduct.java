@@ -415,40 +415,44 @@ public class ActivityProduct extends AppCompatActivity {
         try{
             String [] res=result.split("<br>");
             for(int i=0;i<res.length;i++){
-                String[]temp = res[i].split("&nbsp");
-                int product_id=Integer.parseInt(temp[0]);
-                int product_inventory_id=Integer.parseInt(temp[1]);
-                String category= temp[2];
-                String brand= temp[3];
-                String characteristic= temp[4];
-                String unit_measure = temp[5];
-                int weight_volume=Integer.parseInt(temp[6]);
-                double price=Double.parseDouble(temp[7]);
-                String image_url = temp[8];
-                int min_sell = Integer.parseInt(temp[9]);
-                int multiple_of = Integer.parseInt(temp[10]);
-                String description = temp[11];
-                double quantity =Double.parseDouble(temp[12]);
-                int count_product_provider=Integer.parseInt(temp[13]);
+                try {
+                    String[] temp = res[i].split("&nbsp");
+                    int product_id = Integer.parseInt(temp[0]);
+                    int product_inventory_id = Integer.parseInt(temp[1]);
+                    String category = temp[2];
+                    String brand = temp[3];
+                    String characteristic = temp[4];
+                    String unit_measure = temp[5];
+                    int weight_volume = Integer.parseInt(temp[6]);
+                    double price = Double.parseDouble(temp[7]);
+                    String image_url = temp[8];
+                    int min_sell = Integer.parseInt(temp[9]);
+                    int multiple_of = Integer.parseInt(temp[10]);
+                    String description = temp[11];
+                    double quantity = Double.parseDouble(temp[12]);
+                    int count_product_provider = Integer.parseInt(temp[13]);
 
-                int quantity_package = Integer.parseInt(temp[14]);
-                String product_name = temp[15];
-                long date_of_sale_millis = Long.parseLong(temp[16]);
-                double process_price = Double.parseDouble(temp[17]);
-                int provider_warehouse_id = Integer.parseInt(temp[18]);
-                double free_inventory = Double.parseDouble(temp[19]);
+                    int quantity_package = Integer.parseInt(temp[14]);
+                    String product_name = temp[15];
+                    long date_of_sale_millis = Long.parseLong(temp[16]);
+                    double process_price = Double.parseDouble(temp[17]);
+                    int provider_warehouse_id = Integer.parseInt(temp[18]);
+                    double free_inventory = Double.parseDouble(temp[19]);
 
 
-                ProductModel product = new ProductModel(product_id,product_inventory_id
-                        , category, product_name, brand, characteristic,unit_measure
-                        , weight_volume, price, process_price, image_url, min_sell
-                        , multiple_of, description
-                        , quantity, count_product_provider, quantity_package
-                        , date_of_sale_millis, provider_warehouse_id, free_inventory);
-                products.add(product);
+                    ProductModel product = new ProductModel(product_id, product_inventory_id
+                            , category, product_name, brand, characteristic, unit_measure
+                            , weight_volume, price, process_price, image_url, min_sell
+                            , multiple_of, description
+                            , quantity, count_product_provider, quantity_package
+                            , date_of_sale_millis, provider_warehouse_id, free_inventory);
+                    products.add(product);
+                }catch (Exception ex){
+                    Log.d("A111","ERROR / ActivityProduct / splitResultProductArray / temp="+i);
+                }
             }
         }catch (Exception ex){
-            Log.d("A111","ActivityProduct / splitResultProductArray " +
+            Log.d("A111","ERROR / ActivityProduct / splitResultProductArray " +
                     "/ ex: "+ex+"\nres = "+result);
             Toast.makeText(this, "ex: "+ex+"\n"+result, Toast.LENGTH_SHORT).show();
         }

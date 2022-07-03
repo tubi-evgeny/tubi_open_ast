@@ -1,11 +1,14 @@
 package ru.tubi.project.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -101,7 +104,12 @@ public class ActivityCategory extends AppCompatActivity {
     }
     private void setInitialData(String url) {
         ProgressDialog asyncDialog = new ProgressDialog(this);
-
+        //проверка соединения интернета
+        if ( !isOnline() ){
+            Toast.makeText(getApplicationContext(),
+                    "Нет соединения с интернетом!",Toast.LENGTH_LONG).show();
+            return;
+        }
         InitialData task=new InitialData(){
             @Override
             protected void onPreExecute() {
@@ -163,5 +171,16 @@ public class ActivityCategory extends AppCompatActivity {
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+    //проверка соединения интернета
+    protected boolean isOnline() {
+        String cs = Context.CONNECTIVITY_SERVICE;
+        ConnectivityManager cm = (ConnectivityManager)
+                getSystemService(cs);
+        if (cm.getActiveNetworkInfo() == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
