@@ -78,7 +78,7 @@
                     android:textColor="@color/black"
                     android:gravity="bottom"
                     android:layout_marginLeft="5dp"
-                    android:textSize="15dp" />
+                    android:textSize="12dp" />
             </LinearLayout>
 
             <TableLayout

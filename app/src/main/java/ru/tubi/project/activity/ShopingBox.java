@@ -28,6 +28,7 @@ import ru.tubi.project.adapters.ShopingBoxAdapter;
 import ru.tubi.project.models.OrderModel;
 import ru.tubi.project.models.ShopingBoxModel;
 import ru.tubi.project.models.UserModel;
+import ru.tubi.project.utilites.GetColorShopingBox;
 import ru.tubi.project.utilites.HelperDB;
 import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.OrderDataRecoveryUtil;
@@ -534,10 +535,13 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) { //----invalidateOptionsMenu();
-        searchOrder_id.searchStartedOrder(this);
+        GetColorShopingBox gc = new GetColorShopingBox();
+        menu = gc.color(this, menu);
+
+        /*  searchOrder_id.searchStartedOrder(this);
         if(userDataModel.getOrder_id() != 0){//ORDER_ID
             menu.findItem(R.id.shoping_box).setIcon(R.drawable.soping_box_green_60ps);
-        }
+        }*/
         return super.onPrepareOptionsMenu(menu);
     }
 
