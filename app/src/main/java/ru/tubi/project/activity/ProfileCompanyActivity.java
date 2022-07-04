@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -191,6 +192,7 @@ public class ProfileCompanyActivity extends AppCompatActivity implements View.On
         url += "&"+"role="+"provider_business";
         String whatQuestion ="check_partner_provider_role";
         setInitialData(url,whatQuestion);
+        Log.d("A111","ProfileCompanyActivity / checkPartnerProviderRole / url="+url);
     }
     private void checkPartnerWarehouseRole() {
         String url = Constant.ADMIN_OFFICE;
@@ -274,19 +276,25 @@ public class ProfileCompanyActivity extends AppCompatActivity implements View.On
     }
     // разобрать результат с сервера
     private void splitResult(String result, String whatContract){
-        String [] res=result.split("<br>");
-        String[]temp = res[0].split("&nbsp");
-        if(temp[0].equals("RESULT_OK")){
-            //компании роль на рассмотрении
-            int contractActive = Integer.parseInt(temp[1]);
-            makeCheckedColor(contractActive,whatContract);
-        }else if(temp[0].equals("RESULT_NO")){
+        Log.d("A111","ProfileCompanyActivity / splitResult / result ="+result);
 
-        }else if(temp[0].equals("error")){
-            Toast.makeText(this, ""+temp[1], Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(this, ""+CHECK_CONNECT_INTERNET, Toast.LENGTH_LONG).show();
-        }
+       try {
+           String[] res = result.split("<br>");
+           String[] temp = res[0].split("&nbsp");
+           if (temp[0].equals("RESULT_OK")) {
+               //компании роль на рассмотрении
+               int contractActive = Integer.parseInt(temp[1]);
+               makeCheckedColor(contractActive, whatContract);
+           } else if (temp[0].equals("RESULT_NO")) {
+
+           } else if (temp[0].equals("error")) {
+               Toast.makeText(this, "" + temp[1], Toast.LENGTH_LONG).show();
+           }/* else {
+               Toast.makeText(this, "" + CHECK_CONNECT_INTERNET, Toast.LENGTH_LONG).show();
+           }*/
+       }catch (Exception ex){
+           Log.d("A111","ERROR / ProfileCompanyActivity / splitResult / ex="+ex);
+       }
     }
     private void makeCheckedColor(int contractActive,String whatContract){
         if(whatContract.equals("check_partner_warehouse_role")){
