@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import ru.tubi.project.utilites.UserDataRecovery;
 
 import static ru.tubi.project.Config.MY_UID;
 import static ru.tubi.project.free.AllText.FOR_YOU_DONT_ORDER;
+import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.ORDER_HISTORY_BIG;
 
 public class OrderHistoryActivity extends AppCompatActivity implements View.OnClickListener {
@@ -103,16 +105,24 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void setInitialData(String url_get, String whatQuestion) {
-
+        ProgressDialog asyncDialog = new ProgressDialog(this);
         InitialData task=new InitialData(){
+            @Override
+            protected void onPreExecute() {
+                asyncDialog.setMessage(LOAD_TEXT);
+                asyncDialog.show();
+                super.onPreExecute();
+            }
             @RequiresApi(api = Build.VERSION_CODES.N)
             protected void onPostExecute(String result) {
                 //Do your thing
                 if(whatQuestion.equals("receive_my_order_history")){
                     splitOrderHistoryResult(result);
                     //Toast.makeText(OrderHistoryActivity.this, "A: "+result, Toast.LENGTH_SHORT).show();
-                }
 
+                    //скрыть диалоговое окно
+                    asyncDialog.dismiss();
+                }
             }
         };
         task.execute(url_get);
