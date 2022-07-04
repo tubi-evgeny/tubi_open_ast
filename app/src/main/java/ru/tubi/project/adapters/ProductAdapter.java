@@ -132,14 +132,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
             holder.tvSumm.setTextColor(TUBI_GREY_400);
             holder.llMinusAll.setVisibility(View.GONE);
-            holder.llPlusTen.setVisibility(View.GONE);
+            //holder.llPlusTen.setVisibility(View.GONE);
             holder.llQuantity.setVisibility(View.GONE);
             holder.tvQuantity.setVisibility(View.GONE);
             holder.tvPlus.setText(ORDER_TEXT+" "+product.getMin_sell());
         }else{
             holder.llQuantity.setVisibility(View.VISIBLE);
             holder.llMinusAll.setVisibility(View.VISIBLE);
-            holder.llPlusTen.setVisibility(View.VISIBLE);
+           // holder.llPlusTen.setVisibility(View.VISIBLE);
             holder.tvPlus.setText("+"+product.getMultiple_of());
 
             if(quantity > product.getMin_sell()){
@@ -167,9 +167,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         final TextView tvSumm;
         final TextView tvQuantity, tvStocksGoods;
         final TextView tvDateForSale;
-        final TextView tvMinus, tvMinusTen;
-        final TextView tvPlus, tvPlusTen;
-        final LinearLayout llMinus,llMinusTen, llMinusAll, llPlus, llPlusTen, llQuantity;
+        final TextView tvMinus;//, tvMinusTen;
+        final TextView tvPlus;//, tvPlusTen;
+        final LinearLayout llMinus,llMinusAll, llPlus, llQuantity;//llPlusTen,llMinusTen,  ;
 
         private final RecyclerViewClickListener mListener;
 
@@ -184,15 +184,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             tvStocksGoods=itemView.findViewById(R.id.tvStocksGoods);
             tvDateForSale=itemView.findViewById(R.id.tvDateForSale);
             tvMinus=itemView.findViewById(R.id.tvMinus);
-            tvMinusTen=itemView.findViewById(R.id.tvMinusTen);
+            //tvMinusTen=itemView.findViewById(R.id.tvMinusTen);
             tvPlus=itemView.findViewById(R.id.tvPlus);
-            tvPlusTen=itemView.findViewById(R.id.tvPlusTen);
+            //tvPlusTen=itemView.findViewById(R.id.tvPlusTen);
 
             llMinusAll=itemView.findViewById(R.id.llMinusAll);
             llMinus=itemView.findViewById(R.id.llMinus);
-            llMinusTen=itemView.findViewById(R.id.llMinusTen);
+            //llMinusTen=itemView.findViewById(R.id.llMinusTen);
             llPlus=itemView.findViewById(R.id.llPlus);
-            llPlusTen=itemView.findViewById(R.id.llPlusTen);
+            //llPlusTen=itemView.findViewById(R.id.llPlusTen);
             llQuantity=itemView.findViewById(R.id.llQuantity);
             mListener=listener;
             llMinus.setOnClickListener(this);

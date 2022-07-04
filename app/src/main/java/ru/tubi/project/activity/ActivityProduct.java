@@ -189,9 +189,10 @@ public class ActivityProduct extends AppCompatActivity {
                 Intent intent = new Intent(this,ChooseDistributionWarehouseActivity.class);
                 startActivityForResult(intent,CHOOSHE_WAREHOUSE_REQUEST_CODE);
             }
-        }else if(str[1].equals("llPlusTen}")) {
-                products.get(position).setQuantity(quantity+10);
         }
+       /* else if(str[1].equals("llPlusTen}")) {
+                products.get(position).setQuantity(quantity+10);
+        }*/
         else if(str[1].equals("llMinus}")){//  btnMinus
             //если заказ меньше мин.заказ
             if(quantity < products.get(position).getMin_sell()){
@@ -215,14 +216,15 @@ public class ActivityProduct extends AppCompatActivity {
                             % products.get(position).getMultiple_of()));
                 }
             }
-        }else if(str[1].equals("llMinusTen}")){//  btnMinus
+        }
+       /* else if(str[1].equals("llMinusTen}")){//  btnMinus
             if(quantity <=10){
                 quantity=0;
                 products.get(position).setQuantity(quantity);
             }else {
                 products.get(position).setQuantity(quantity - 10);
             }
-        }
+        }*/
         adapter.notifyItemChanged(position);
     }
     //получить колличество товар которое надо добавить в заказ

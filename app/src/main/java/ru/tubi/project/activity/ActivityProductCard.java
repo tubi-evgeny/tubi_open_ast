@@ -44,10 +44,6 @@ import static ru.tubi.project.utilites.Constant.API_TEST;
 
 public class ActivityProductCard extends AppCompatActivity {
 
-    //ImageView ivImage;
-   // private TextView tvOrderToInfo, tvOrderTo;
-   // Button btnShopingBox;
-
     private Intent intent, takeit;
     private int product_id, myPosition = -1,order_id,partner_warehouse_id,a;
     private ProductModel product;
@@ -205,9 +201,10 @@ public class ActivityProductCard extends AppCompatActivity {
                 startActivityForResult(intent,CHOOSHE_WAREHOUSE_REQUEST_CODE);
             }
 
-        }else if(str[1].equals("llPlusTen}")) {
-            allPrice.get(position).setQuantity(quantity+10);
         }
+       /* else if(str[1].equals("llPlusTen}")) {
+            allPrice.get(position).setQuantity(quantity+10);
+        }*/
         else if(str[1].equals("llMinus}")){
             //если заказ меньше мин.заказ
             if(quantity < allPrice.get(position).getMin_sell()){
@@ -231,14 +228,15 @@ public class ActivityProductCard extends AppCompatActivity {
                             % allPrice.get(position).getMultiple_of()));
                 }
             }
-        }else if(str[1].equals("llMinusTen}")){//  btnMinus
+        }
+        /*else if(str[1].equals("llMinusTen}")){//  btnMinus
             if(quantity <=10){
                 quantity=0;
                 allPrice.get(position).setQuantity(quantity);
             }else {
                 allPrice.get(position).setQuantity(quantity - 10);
             }
-        }
+        }*/
         adapter.notifyItemChanged(position);
     }
     //получить колличество товар которое надо добавить в заказ
