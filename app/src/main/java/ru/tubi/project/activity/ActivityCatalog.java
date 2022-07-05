@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -89,6 +90,7 @@ public class ActivityCatalog extends AppCompatActivity {
         url += "receive_catalog";
         url += "&" + "taxpayer_id=" + userDataModel.getCompany_tax_id();//MY_COMPANY_TAXPAYER_ID;
         setInitialData(url);
+        Log.d("A111","ActivityCatalog / startList / url="+url);
     }
 
     //получаем данные из сервера б/д.

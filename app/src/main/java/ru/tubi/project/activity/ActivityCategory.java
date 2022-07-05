@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -101,6 +102,7 @@ public class ActivityCategory extends AppCompatActivity {
         url += positionCatalogName;
        // url += "&" + "taxpayer_id=" + MY_COMPANY_TAXPAYER_ID;
         setInitialData(url);
+        Log.d("A111","ActivityCategory / startList / url="+url);
     }
     private void setInitialData(String url) {
         ProgressDialog asyncDialog = new ProgressDialog(this);
