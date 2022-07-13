@@ -19,6 +19,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,15 +47,19 @@ import ru.tubi.project.free.AllText;
 import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
 import static ru.tubi.project.Config.MY_UID;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
+import static ru.tubi.project.free.AllText.ENTER_YOUR_CITY;
 import static ru.tubi.project.free.AllText.I_UNDERSTAND_SMOL;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
-
+import static ru.tubi.project.free.VariablesHelpers.CITY_LIST;
+import static ru.tubi.project.free.VariablesHelpers.MY_CITY;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView tvName;
+    private TextView tvName, tvMyCity;
     private Button btnCatalog, btnAdminActiv, btnMyCompany, btnMenu;
+    private LinearLayout llMyCity;
+    private ListView lvMyCity;
     private Intent intent;
     private String url, url_get;
     public static boolean FLAG_ORDER = false;
@@ -65,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private OrderDataRecoveryUtil orderDataRecoveryUtil = new OrderDataRecoveryUtil();
     private AlertDialog.Builder adb;
     private AlertDialog ad;
+    private ArrayAdapter adapter;
 
     //public static String test = "test";
     @Override
@@ -74,10 +81,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setTitle(AllText.MAIN_ACTIVITY);//ГЛАВНАЯ
 
         btnCatalog=findViewById(R.id.btnCatalog);
+        btnMyCompany=findViewById(R.id.btnMyCompany);
         btnMenu=findViewById(R.id.btnMenu);
+        tvMyCity=findViewById(R.id.tvMyCity);
+        llMyCity=findViewById(R.id.llMyCity);
+        lvMyCity=findViewById(R.id.lvMyCity);
 
         btnCatalog.setOnClickListener(this);
+        btnMyCompany.setOnClickListener(this);
         btnMenu.setOnClickListener(this);
+        llMyCity.setOnClickListener(this);
         //проверить роль user, получить роли партнера
         searchUserRole();
 
@@ -117,20 +130,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 +"\ntax-id: "+ userDataModel.getCompany_tax_id()+"\nrole: "+ userDataModel.getRole()
                 +"\norder_id: "+ order_id_string+"\ncompany role:\n"+companyRole);
 
+        if(MY_CITY.isEmpty()){
+            lvMyCity.setVisibility(View.VISIBLE);
+        }else{
+            tvMyCity.setText(MY_CITY);
+            lvMyCity.setVisibility(View.GONE);
+        }
         //запуск метода обновить меню,
         // нужен для обновления цвета корзины если не пустая
         invalidateOptionsMenu();
 
+        lvMyCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MY_CITY = CITY_LIST[position];
+                tvMyCity.setText(MY_CITY);
+                lvMyCity.setVisibility(View.GONE);
+            }
+        });
+
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,CITY_LIST);
+        lvMyCity.setAdapter(adapter);
+
     }
     @Override
     public void onClick(View v) {
+        if(MY_CITY.isEmpty()){
+            Toast.makeText(this, ""+ENTER_YOUR_CITY, Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (v.equals(btnCatalog)) {
             Intent intent = new Intent(this, ActivityCatalog.class);
             startActivity(intent);
-
-        }else if(v.equals(btnMenu)){
+        }
+        if (v.equals(btnMyCompany)) {
+            Intent intent = new Intent(this, CompanyMyActivity.class);
+            startActivity(intent);
+        }
+        else if(v.equals(btnMenu)){
             Intent intent = new Intent(this, MenuActivity.class);
             startActivity(intent);
+        }
+        //показать список городов
+        else if(v.equals(llMyCity)){
+            lvMyCity.setVisibility(View.VISIBLE);
         }
     }
     //проверить роль user
@@ -194,10 +237,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         invalidateOptionsMenu();
     }
 
-    public void goMyCompany(View view) {
+    /*public void goMyCompany(View view) {
         Intent intent = new Intent(this, CompanyMyActivity.class);
         startActivity(intent);
-    }
+    }*/
 
     //visible только для роли admin
     public void goAdminActiv(View view) {
@@ -230,23 +273,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
-        //item.setIcon(R.drawable.auto_green_150ps);
-        int itemID=item.getItemId();
-        if(itemID==R.id.menu){
-            intent=new Intent(this, MenuActivity.class);
-            startActivity(intent);
+        if(MY_CITY.isEmpty()){
+            Toast.makeText(this, ""+ENTER_YOUR_CITY, Toast.LENGTH_SHORT).show();
         }
-        if(itemID==R.id.main){
-            intent=new Intent(this,MainActivity.class);
-            startActivity(intent);
-        }
-        if(itemID==R.id.category){
-            intent=new Intent(this, ActivityCatalog.class);
-            startActivity(intent);
-        }
-        if(itemID==R.id.shoping_box){
-            intent=new Intent(this, ShopingBox.class);
-            startActivity(intent);
+        else{
+            int itemID=item.getItemId();
+            if(itemID==R.id.menu){
+                intent=new Intent(this, MenuActivity.class);
+                startActivity(intent);
+            }
+            if(itemID==R.id.main){
+                intent=new Intent(this,MainActivity.class);
+                startActivity(intent);
+            }
+            if(itemID==R.id.category){
+                intent=new Intent(this, ActivityCatalog.class);
+                startActivity(intent);
+            }
+            if(itemID==R.id.shoping_box){
+                intent=new Intent(this, ShopingBox.class);
+                startActivity(intent);
+            }
         }
         return super.onOptionsItemSelected(item);
     }

@@ -61,6 +61,7 @@ public class AllText {
     public static String SAVE_QUESTION = "Сохранить?";
     public static String ORDERS_TEXT = "Заказы";
     public static String THE_ORDER_TEXT = "Заказ";
+    public static String ENTER_YOUR_CITY = "Выберите ваш город";
     public static String ORDERS_TO_PROVDER_TEXT = "Заказы поставщику";
     public static String LIST_OF_AVAILABLE_DOCUMENTS = "Список доступных документов";
     public static String DISTRIBUTION_WAREHOUSE = "распределительного склада";

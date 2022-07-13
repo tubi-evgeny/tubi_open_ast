@@ -91,6 +91,8 @@
     <string name="region_hint">Смоленская область</string>
     <string name="district_hint">Смоленский район</string>
     <string name="city_hint">Смоленск</string>
+    <string name="enter_city_hint">Выберите город</string>
+    <string name="your_region">ваш регион</string>
     <string name="signboard_hint"> Вывеска отсутствует</string>
     <string name="place_an_order">Оформить</string>
     <string name="become_an_agent">Стать Агентом #tubi</string>

@@ -38,6 +38,7 @@ import static ru.tubi.project.free.AllText.MES_1_PROFILE;
 import static ru.tubi.project.free.AllText.NO_DELIVERY;
 import static ru.tubi.project.free.AllText.REPORT_A_BUG;
 import static ru.tubi.project.free.AllText.STOCK_OF_GOODS_REQUESTED_QUANTITY;
+import static ru.tubi.project.free.VariablesHelpers.MY_CITY;
 import static ru.tubi.project.utilites.Constant.API;
 import static ru.tubi.project.utilites.Constant.API_TEST;
 //import static com.example.tubi.utilites.Constant.GET_PRODUCT;
@@ -283,6 +284,7 @@ public class ActivityProduct extends AppCompatActivity {
             url_get += "&" + "order_id=" + order_id_string;//userDataModel.getOrder_id();
             url_get += "&" + "category=" + myCategory;
             url_get += "&" + "city_id=" + 2;
+            url_get += "&" + "my_city=" + MY_CITY;
             whatQuestion = "get_product_and_quantity";
             setInitialData(url_get, whatQuestion);
             Log.d("A111","url = "+url_get);
@@ -290,10 +292,12 @@ public class ActivityProduct extends AppCompatActivity {
         else if(key == CATALOG_IS_MINE){
             for(int i=0;i < categoryList.size();i++){
                 myCategory = categoryList.get(i);
-                url_get = Constant.GET_PRODUCT_AND_QUANTITY;
+                url_get = API_TEST;//api_test.php?show_product_and_quantity
+                url_get += "show_product_and_quantity";
                 url_get += "&" + "order_id=" + order_id_string;//userDataModel.getOrder_id();
                 url_get += "&" + "category=" + myCategory;
                 url_get += "&" + "city_id=" + 2;
+                url_get += "&" + "my_city=" + MY_CITY;
                 whatQuestion = "get_product_and_quantity";
                 setInitialData(url_get, whatQuestion);
             }
