@@ -40,6 +40,7 @@ import static ru.tubi.project.free.AllText.NO_DELIVERY;
 import static ru.tubi.project.free.AllText.REPORT_A_BUG;
 import static ru.tubi.project.free.AllText.STOCK_OF_GOODS_REQUESTED_QUANTITY;
 import static ru.tubi.project.free.VariablesHelpers.MY_CITY;
+import static ru.tubi.project.free.VariablesHelpers.MY_REGION;
 import static ru.tubi.project.utilites.Constant.API_TEST;
 //import static com.example.tubi.utilites.Constant.SEARCH_OPEN_ORDER;
 
@@ -272,6 +273,7 @@ public class ActivityProductCard extends AppCompatActivity {
         url += "&" + "order_id=" + order_id_string;
         url += "&" + "city_id=" + 2;
         url += "&" + "my_city=" + MY_CITY;
+        url += "&" + "my_region=" + MY_REGION;
         whatQuestion = "show_product_price_all_provider";
         setInitialData(url,whatQuestion);
         Log.d("A111","ActivityProductCard / showProd / url="+url);

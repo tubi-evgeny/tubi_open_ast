@@ -48,7 +48,7 @@
                     android:layout_marginLeft="5dp"
                     android:textColor="@color/black"
                     android:hint="@string/enter_city_hint"
-                    android:textSize="18dp" />
+                    android:textSize="15dp" />
 
                 <ImageView
                     android:id="@+id/imageView2"

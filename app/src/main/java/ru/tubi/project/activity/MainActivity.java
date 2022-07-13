@@ -31,6 +31,7 @@ import ru.tubi.project.Config;
 import ru.tubi.project.R;
 
 import ru.tubi.project.activity.AdminPanel.AdminActivity;
+import ru.tubi.project.models.AddressModel;
 import ru.tubi.project.models.OrderModel;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.Constant;
@@ -50,8 +51,8 @@ import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllText.ENTER_YOUR_CITY;
 import static ru.tubi.project.free.AllText.I_UNDERSTAND_SMOL;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
-import static ru.tubi.project.free.VariablesHelpers.CITY_LIST;
 import static ru.tubi.project.free.VariablesHelpers.MY_CITY;
+import static ru.tubi.project.free.VariablesHelpers.MY_REGION;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private UserModel userDataModel;
     private ArrayList<OrderModel> orderDataModelList = new ArrayList<>();
     private OrderDataRecoveryUtil orderDataRecoveryUtil = new OrderDataRecoveryUtil();
+    private ArrayList<AddressModel> CITY_LIST = new ArrayList<>();
     private AlertDialog.Builder adb;
     private AlertDialog ad;
     private ArrayAdapter adapter;
@@ -130,6 +132,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 +"\ntax-id: "+ userDataModel.getCompany_tax_id()+"\nrole: "+ userDataModel.getRole()
                 +"\norder_id: "+ order_id_string+"\ncompany role:\n"+companyRole);
 
+        AddressModel am1 = new AddressModel("Московская область", "Пушкинский район","Королев");
+        AddressModel am2 = new AddressModel("Московская область", "Мытищенский район","Мытищи");
+        AddressModel am3 = new AddressModel("Смоленская область", "Смоленский район","Смоленск");
+        AddressModel am4 = new AddressModel("Московская область", "Мытищенский район","Другой город");
+        CITY_LIST.add(am1);
+        CITY_LIST.add(am2);
+        CITY_LIST.add(am3);
+        CITY_LIST.add(am4);
+
         if(MY_CITY.isEmpty()){
             lvMyCity.setVisibility(View.VISIBLE);
         }else{
@@ -143,8 +154,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lvMyCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MY_CITY = CITY_LIST[position];
-                tvMyCity.setText(MY_CITY);
+                MY_CITY = CITY_LIST.get(position).getCity();
+                MY_REGION = CITY_LIST.get(position).getRegion();
+                tvMyCity.setText(MY_REGION+" "+MY_CITY);
                 lvMyCity.setVisibility(View.GONE);
             }
         });
