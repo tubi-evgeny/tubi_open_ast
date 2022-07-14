@@ -13,7 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="30"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="17dp"
+            android:gravity="center"
             android:textColor="@color/black"
             android:text="TextView" />
 
@@ -36,7 +37,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="start|top"
-            android:inputType="textMultiLine" />
+            android:inputType="textCapSentences" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -82,10 +83,54 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:gravity="start|top"
-                    android:inputType="textMultiLine" />
+                    android:inputType="textCapSentences" />
             </LinearLayout>
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="@string/additional_information" />
+
+        <EditText
+            android:id="@+id/etAdditionalInformation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textCapSentences" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="@string/phone_for_contact" />
+
+        <EditText
+            android:id="@+id/etPhoneForContact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="89851112233"
+            android:inputType="phone" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:layout_weight="5"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnApply"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/save" />
     </LinearLayout>
 </LinearLayout>

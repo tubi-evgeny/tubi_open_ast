@@ -10,22 +10,9 @@
     android:layout_marginRight="10dp"
     tools:context=".activity.ChooseDistributionWarehouseActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="bottom"
-        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnApply"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:text="@string/OrderToGive" />
-    </LinearLayout>
 
-    <LinearLayout
+   <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginTop="5dp"
@@ -45,17 +32,18 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/pick_up_from_warehouse" />
-    </LinearLayout>
+    </LinearLayout>-->
 
     <TextView
         android:id="@+id/tvRegionDistrictCity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="17dp"
+        android:gravity="center"
         android:textColor="@color/black"
         android:text="TextView" />
 
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/llEnterAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -124,12 +112,13 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </LinearLayout>-->
 
     <LinearLayout
         android:id="@+id/llChoiceWarehouse"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="vertical">
 
         <TextView
@@ -149,16 +138,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Spinner
+           <!-- <Spinner
                 android:id="@+id/spCity"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_margin="5dp" />
+                android:layout_margin="5dp" />-->
 
             <TextView
                 android:id="@+id/textView82"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@color/tubi_grey_600"
@@ -172,6 +162,20 @@
         </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnApply"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/save" />
+    </LinearLayout>
 
 
 

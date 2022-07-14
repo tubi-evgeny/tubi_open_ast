@@ -42,14 +42,14 @@ public class ChooseDistributionWarehouseActivity extends AppCompatActivity
 implements View.OnClickListener {
 
     private TextView tvRegionDistrictCity;
-    private EditText etStreet, etHause, etBuilding;
-    private Button btnDelivery, btnPickUpFromWarehouse;
-    private LinearLayout llWarehouseList, llChoiceWarehouse, llEnterAddress;
-    private Spinner spCity;
+    //private EditText etStreet, etHause, etBuilding;
+    //private Button btnDelivery, btnPickUpFromWarehouse;
+    private LinearLayout llWarehouseList, llChoiceWarehouse;//, llEnterAddress;
+    //private Spinner spCity;
     private ListView lvWarehouseList;
     private Button btnApply;
     private String city;
-    private ArrayAdapter <String> adapter;
+    //private ArrayAdapter <String> adapter;
     private ArrayAdapter <String> adapWarehouse;
     private String [] cityList= {SMOLENSCK, "выберите город"};//,"MOSCOW"
     private ArrayList<String> adressWarehouseList = new ArrayList<>();
@@ -66,24 +66,25 @@ implements View.OnClickListener {
         getSupportActionBar().setSubtitle(DISTRIBUTION_WAREHOUSE);
 
         llWarehouseList= findViewById(R.id.llWarehouseList);
-        llEnterAddress= findViewById(R.id.llEnterAddress);
+        //llEnterAddress= findViewById(R.id.llEnterAddress);
         tvRegionDistrictCity = findViewById(R.id.tvRegionDistrictCity);
-        etStreet = findViewById(R.id.etStreet);
-        etHause = findViewById(R.id.etHause);
-        etBuilding = findViewById(R.id.etBuilding);
-        btnDelivery = findViewById(R.id.btnDelivery);
-        btnPickUpFromWarehouse = findViewById(R.id.btnPickUpFromWarehouse);
+        //etStreet = findViewById(R.id.etStreet);
+       // etHause = findViewById(R.id.etHause);
+        //etBuilding = findViewById(R.id.etBuilding);
+        //btnDelivery = findViewById(R.id.btnDelivery);
+        //btnPickUpFromWarehouse = findViewById(R.id.btnPickUpFromWarehouse);
         llChoiceWarehouse = findViewById(R.id.llChoiceWarehouse);
-        spCity = findViewById(R.id.spCity);
+       // spCity = findViewById(R.id.spCity);
         lvWarehouseList = findViewById(R.id.lvWarehouseList);
         btnApply = findViewById(R.id.btnApply);
 
         btnApply.setOnClickListener(this);
-        btnDelivery.setOnClickListener(this);
-        btnPickUpFromWarehouse.setOnClickListener(this);
+        //btnDelivery.setOnClickListener(this);
+       // btnPickUpFromWarehouse.setOnClickListener(this);
 
+        btnApply.setClickable(false);
         //llChoiceWarehouse.setVisibility(View.GONE);
-        llEnterAddress.setVisibility(View.GONE);
+        //llEnterAddress.setVisibility(View.GONE);
         //получить из sqlLite данные пользователя и компании
         UserDataRecovery userDataRecovery = new UserDataRecovery();
         userDataModel = userDataRecovery.getUserDataRecovery(this);
@@ -97,7 +98,7 @@ implements View.OnClickListener {
 
         receivePartnerWarehouseList(MY_CITY);
 
-        spCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+       /* spCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 city = cityList[position];
@@ -107,25 +108,27 @@ implements View.OnClickListener {
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {            }
-        });
+        });*/
 
         lvWarehouseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(adressWarehouseList.size() == 1){
-                    //receivePartnerWarehouseList(city);
+                    //обновить список если было несколько складо но произошла ошибка в выборе
+                    receivePartnerWarehouseList(MY_CITY);
+                    btnApply.setClickable(false);
+                    btnApply.setBackgroundColor(TUBI_GREY_200);
                     //flagCiti=false;
                 }else {
                     yourChoiceRartnerWarehouse(adressWarehouseList.get(position));
                    // flagCiti=true;
                 }
                 flagCiti=true;
-                makeButtonColor();
+               // makeButtonColor();
             }
         });
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
-                cityList);
-        spCity.setAdapter(adapter);
+        //adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,cityList);
+        //spCity.setAdapter(adapter);
         adapWarehouse = new ArrayAdapter<String>(
                 this, android.R.layout.simple_list_item_1,adressWarehouseList);
         lvWarehouseList.setAdapter(adapWarehouse);
@@ -133,20 +136,21 @@ implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v.equals(btnApply)){
-            if(flagCiti == false) {
+           /* if(flagCiti == false) {
                 Toast.makeText(this, ""+SELECT_WAREHOUSE, Toast.LENGTH_SHORT).show();
                 return;
-            }else{
+            }else{*/
                 //получить склад id из строки
                 int warehouse_id = receiveWarehouse_id();
                 // поместите warehouse_id для передачи обратно в intent и закрыть это действие
                 Intent intent = new Intent();
+                intent.putExtra("adressWarehouse", adressWarehouseList.get(0));
                 intent.putExtra("warehouse_id", warehouse_id);
                 setResult(RESULT_OK, intent);
                 finish();
-            }
+           // }
         }
-        else if(v.equals(btnPickUpFromWarehouse)){
+       /* else if(v.equals(btnPickUpFromWarehouse)){
            // llWarehouseList.setVisibility(View.VISIBLE);
             Toast.makeText(this, "Раздел находится в разработке", Toast.LENGTH_SHORT).show();
         }
@@ -158,12 +162,14 @@ implements View.OnClickListener {
             btnDelivery.setBackgroundColor(TUBI_GREEN_300);
             Intent intent = new Intent(this, EnterForDeliveryAddressActivity.class);
             startActivityForResult(intent,ENTER_FOR_DDELIVERY_ADDRESS);
-        }
+        }*/
     }
     private void yourChoiceRartnerWarehouse(String adressWarehouse){
         adressWarehouseList.clear();
         adressWarehouseList.add(adressWarehouse);
         adapWarehouse.notifyDataSetChanged();
+        btnApply.setClickable(true);
+        btnApply.setBackgroundColor(TUBI_GREEN_600);
     }
     private void makeButtonColor(){
         if(flagCiti ){//&& flagDay
@@ -184,11 +190,7 @@ implements View.OnClickListener {
 
         InitialData task=new InitialData(){
             protected void onPostExecute(String result) {
-                if(whatQuestion.equals("receive_weekend_list")){
-                   // splitWeekendList(result);
-                }else if(whatQuestion.equals("chenge_order_active")){
-                   // splitResultChengeOrder(result);
-                }else if(whatQuestion.equals("receive_partner_warehouse_list")){
+                if(whatQuestion.equals("receive_partner_warehouse_list")){
                     splitResultPartnerWarehouseList(result);
                 }
             }
@@ -212,7 +214,9 @@ implements View.OnClickListener {
                     String st = "№ "+warehouse_info_id+"/"+warehouse_id+" "+ST+" "+street+" "+house;
                     try {
                         String building = temp[3];
-                        st += " "+BUILDING+" "+building;
+                        if(!building.isEmpty()){
+                            st += " "+BUILDING+" "+building;
+                        }
                     }catch (Exception ex){};
 
                     adressWarehouseList.add(st);
@@ -223,6 +227,8 @@ implements View.OnClickListener {
         adapWarehouse.notifyDataSetChanged();
         if(adressWarehouseList.size() == 1){
             flagCiti=true;
+            btnApply.setClickable(true);
+            btnApply.setBackgroundColor(TUBI_GREEN_600);
             //makeButtonColor();
         }
     }

@@ -65,6 +65,9 @@ public class AllText {
     public static String IN_YOUR_CITY_IS_NOT_DELIVERY  = "В ваш город доставка не осуществляется";
     public static String FOR_YOUR_CITY_IS_NOT_DELIVERY  = "В вашем городе доставка не осуществляется";
     public static String ORDERS_TO_PROVDER_TEXT = "Заказы поставщику";
+    public static String ENTER_STREET_NAME_TEXT = "Введите названине улицы";
+    public static String ENTER_HAUSE_NUM_TEXT = "Введите номер дома";
+    public static String ENTER_PHONE_NUM_TEXT = "Введите номер телефона для связи";
     public static String LIST_OF_AVAILABLE_DOCUMENTS = "Список доступных документов";
     public static String DISTRIBUTION_WAREHOUSE = "распределительного склада";
     public static String COLLECT_PRODUCT_FOR = "Собрать товар для";
