@@ -62,6 +62,8 @@ public class AllText {
     public static String ORDERS_TEXT = "Заказы";
     public static String THE_ORDER_TEXT = "Заказ";
     public static String ENTER_YOUR_CITY = "Выберите ваш город";
+    public static String IN_YOUR_CITY_IS_NOT_DELIVERY  = "В ваш город доставка не осуществляется";
+    public static String FOR_YOUR_CITY_IS_NOT_DELIVERY  = "В вашем городе доставка не осуществляется";
     public static String ORDERS_TO_PROVDER_TEXT = "Заказы поставщику";
     public static String LIST_OF_AVAILABLE_DOCUMENTS = "Список доступных документов";
     public static String DISTRIBUTION_WAREHOUSE = "распределительного склада";
@@ -100,6 +102,7 @@ public class AllText {
     public static String WEEKEND_DAY_TO_COMPANY = "Выходные дни в компании";
     public static String YOUR_DID_NOT_SAVE = "Вы не сохранили";
     public static String TO_EXIT_PRESS_TWICE = "что бы выйти нажмите два раза";
+    public static String PLACE_OF_RECEIPT_OF_GOODS = "место получения товара";
     public static String ON = "на";
     public static String FOR_ISSUE = "для выдачи";
     public static String TAX_ID_SMALL = "инн";

@@ -91,6 +91,8 @@
     <string name="region_hint">Смоленская область</string>
     <string name="district_hint">Смоленский район</string>
     <string name="city_hint">Смоленск</string>
+    <string name="delivery">Доставка</string>
+    <string name="pick_up_from_warehouse">Забрать со склада</string>
     <string name="enter_city_hint">Выберите город</string>
     <string name="your_region">ваш регион</string>
     <string name="signboard_hint"> Вывеска отсутствует</string>

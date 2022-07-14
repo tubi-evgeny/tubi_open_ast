@@ -7,8 +7,8 @@ import ru.tubi.project.models.AddressModel;
 public class VariablesHelpers {
 
     public static String MESSAGE_FROM_ORDER_ACTIVITY = "";
-    public static String []CITY_LIST_1 = {"Королев", "Мытищи","Смоленск","Другой город"};
 
     public static String MY_CITY = "";
+    public static String MY_DICTRICT = "";
     public static String MY_REGION = "";
 }

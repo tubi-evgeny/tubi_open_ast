@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import ru.tubi.project.R;
+import ru.tubi.project.activity.buyer.PlaceOfReceiptOfGoodsActivity;
 import ru.tubi.project.adapters.ProductCardAdapter;
 import ru.tubi.project.models.OrderModel;
 import ru.tubi.project.models.ProductModel;
@@ -199,7 +200,8 @@ public class ActivityProductCard extends AppCompatActivity {
             }
             //если открытый заказ на нужную дату не найден то открыть заказ
             if(openOrderThisDate == false){
-                Intent intent = new Intent(this,ChooseDistributionWarehouseActivity.class);
+                //Intent intent = new Intent(this,ChooseDistributionWarehouseActivity.class);
+                Intent intent = new Intent(this, PlaceOfReceiptOfGoodsActivity.class);
                 startActivityForResult(intent,CHOOSHE_WAREHOUSE_REQUEST_CODE);
             }
 

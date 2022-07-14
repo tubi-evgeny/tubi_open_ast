@@ -52,6 +52,7 @@ import static ru.tubi.project.free.AllText.ENTER_YOUR_CITY;
 import static ru.tubi.project.free.AllText.I_UNDERSTAND_SMOL;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.VariablesHelpers.MY_CITY;
+import static ru.tubi.project.free.VariablesHelpers.MY_DICTRICT;
 import static ru.tubi.project.free.VariablesHelpers.MY_REGION;
 
 
@@ -155,8 +156,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MY_CITY = CITY_LIST.get(position).getCity();
+                MY_DICTRICT = CITY_LIST.get(position).getDistrict();
                 MY_REGION = CITY_LIST.get(position).getRegion();
-                tvMyCity.setText(MY_REGION+" "+MY_CITY);
+                tvMyCity.setText(""+MY_REGION+" "+MY_CITY);
                 lvMyCity.setVisibility(View.GONE);
             }
         });
