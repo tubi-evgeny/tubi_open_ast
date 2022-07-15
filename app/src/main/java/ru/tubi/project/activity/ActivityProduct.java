@@ -17,6 +17,7 @@ import android.widget.Toast;
 import ru.tubi.project.R;
 import ru.tubi.project.activity.buyer.PlaceOfReceiptOfGoodsActivity;
 import ru.tubi.project.adapters.ProductAdapter;
+import ru.tubi.project.models.DeliveryAddressModel;
 import ru.tubi.project.models.OrderModel;
 import ru.tubi.project.models.ProductModel;
 import ru.tubi.project.models.UserModel;
@@ -56,12 +57,13 @@ public class ActivityProduct extends AppCompatActivity {
     private String url_get;
     private String category;
     private String whatQuestion;
-    private int partner_warehouse_id, myPosition = -1;
+    private int partner_warehouse_id, myPosition = -1, addDeliveryKey;
     private double quantity, freeQuantityDB;
     private long dateOfSaleMillis;
     private static final int ADD_PRODUCT_ACTIVITY_REQUEST_CODE = 0;
     private static final int ADD_PRODUCT_TO_COMPANY_DATE_FORM_REQUEST_CODE = 12;
     private UserModel userDataModel;
+    private DeliveryAddressModel addressForDelivery;
     private SearchOrder_id searchOrder_id = new SearchOrder_id();
     private UserDataRecovery userDataRecovery = new UserDataRecovery();
     private ArrayList<OrderModel> orderDataModelList = new ArrayList<>();
@@ -258,7 +260,8 @@ public class ActivityProduct extends AppCompatActivity {
         url_get += "&" + "company_tax_id=" + userDataModel.getCompany_tax_id();//MY_COMPANY_TAXPAYER_ID;
         url_get += "&" + "warehouse_id=" + partner_warehouse_id;
         url_get += "&" + "dateOfSaleMillis=" + dateOfSaleMillis;
-        url_get += "&" + "category=" + myCategory;//category;
+        url_get += "&" + "category=" + myCategory;//delivery;
+        url_get += "&" + "delivery=" + addDeliveryKey;
         whatQuestion= "get_my_order_id";
         setInitialData(url_get, whatQuestion);
 
@@ -337,6 +340,15 @@ public class ActivityProduct extends AppCompatActivity {
         whatQuestion = "add_order_product";
         setInitialData(url_get, whatQuestion);
     }
+    //добавить доставку заказа в таблицу БД
+    private void addDeliveryToTableDB(int order_id){
+        url_get= API_TEST;//api_test.php?add_order_product
+        url_get += "&"+"add_delivery_to_table";
+        url_get += "&"+"order_id="+order_id;
+        url_get += "&"+"addressForDelivery="+addressForDelivery.toString();
+        whatQuestion = "add_delivery_to_table";
+        setInitialData(url_get, whatQuestion);
+    }
 
     private void setInitialData(String url_get, String whatQuestion) {
         ProgressDialog asyncDialog = new ProgressDialog(this);
@@ -394,6 +406,10 @@ public class ActivityProduct extends AppCompatActivity {
                     (myOrder_id,myDateOfSaleMillis,myCategory);
             orderDataModelList.add(orderDataModel);
 
+            //если есть доставка покупателю то записать (адрес, телефон) данные в БД
+            if(addDeliveryKey == 1){
+                addDeliveryToTableDB(myOrder_id);
+            }
             //получить колличество товар которое надо добавить в заказ
             double myQuantity = getQuantityOfProductToAdd(myPosition);
 
@@ -526,8 +542,15 @@ public class ActivityProduct extends AppCompatActivity {
         }
         else if(requestCode == CHOOSHE_WAREHOUSE_REQUEST_CODE
                 && resultCode == RESULT_OK){
+            //Получить ключ, это доставка=1 или самовывоз=0
+            addDeliveryKey = data.getIntExtra("addDeliveryKey",0);
             //получить id склада для создания заказа
             partner_warehouse_id = data.getIntExtra("warehouse_id",0);
+
+            if(addDeliveryKey == 1){
+                addressForDelivery=(DeliveryAddressModel)data
+                        .getSerializableExtra("addressForDelivery");
+            }
             addOrder();
             //Toast.makeText(this, "id "+warehouse_id, Toast.LENGTH_SHORT).show();
         }

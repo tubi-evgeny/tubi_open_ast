@@ -2,6 +2,7 @@ package ru.tubi.project.models;
 
 import java.io.Serializable;
 
+import static ru.tubi.project.free.AllText.C;
 import static ru.tubi.project.free.AllText.PHONE_SHORT;
 import static ru.tubi.project.free.AllText.ST;
 
@@ -95,9 +96,9 @@ public class DeliveryAddressModel implements Serializable {
 
     @Override
     public String toString() {
-            String delivery_address_info = district+" "+ city + " \n"+ST+" "+ street +" " + hause;
+            String delivery_address_info = district+" "+ city + " \n"+ST+". "+ street +" " + hause;
             if(!building.isEmpty()){
-                delivery_address_info += " " + building;
+                delivery_address_info += " "+C+". " + building;
             }
         delivery_address_info +=" \n"+ additionalInformation +" \n "+PHONE_SHORT+": "+phoneForContact;
 
