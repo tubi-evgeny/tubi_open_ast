@@ -54,14 +54,16 @@ public class OrderDataRecoveryUtil extends Fragment {
         int col0 = сursor.getColumnIndex(HelperDB.ORDER_ID);
         int col1 = сursor.getColumnIndex(HelperDB.DATE_MILLIS);
         int col2 = сursor.getColumnIndex(HelperDB.CATEGORY);
+        int col3 = сursor.getColumnIndex(HelperDB.DELIVERY);
 
         сursor.moveToFirst();
         while(!сursor.isAfterLast()){
             int order_id = Integer.parseInt(сursor.getString(col0));
             long dateMillis = Long.parseLong(сursor.getString(col1));
             String category = сursor.getString(col2);
+            int delivery = Integer.parseInt(сursor.getString(col3));
 
-            orderDataModel = new OrderModel(order_id, dateMillis, category);
+            orderDataModel = new OrderModel(order_id, dateMillis, category, delivery);
             orderDataModelList.add(orderDataModel);
 
             сursor.moveToNext();

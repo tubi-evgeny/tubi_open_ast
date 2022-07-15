@@ -46,6 +46,7 @@ public class OrderModel implements Serializable {
     private long date_millis;
     private int order_id;
     private int corrected;
+    private int delivery;
 
 
     //CollectProductActivity//ArrayList<OrderModel> checkedList
@@ -59,6 +60,13 @@ public class OrderModel implements Serializable {
         this.date_millis=date_millis;
         this.category=category;
 
+    }
+    //OrderDataRecoveryUtil//goReadUid
+    public OrderModel(int order_id, long date_millis, String category, int delivery) {
+        this.order_id = order_id;
+        this.date_millis=date_millis;
+        this.category=category;
+        this.delivery=delivery;
     }
 
     //ShowMyOrderActivity //splitResult();
@@ -667,5 +675,13 @@ public class OrderModel implements Serializable {
 
     public void setCorrected(int corrected) {
         this.corrected = corrected;
+    }
+
+    public int getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(int delivery) {
+        this.delivery = delivery;
     }
 }

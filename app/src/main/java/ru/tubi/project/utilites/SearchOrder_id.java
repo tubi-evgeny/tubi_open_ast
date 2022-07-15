@@ -91,12 +91,14 @@ public class SearchOrder_id {
                     int order_id = Integer.parseInt(temp[0]);
                     long date_millis = Long.parseLong(temp[1]);
                     String category = temp[2];
+                    String delivery = temp[3];
 
                     ContentValues cv = new ContentValues();
 
                     cv.put(my_db.ORDER_ID, order_id);
                     cv.put(my_db.DATE_MILLIS, date_millis);
                     cv.put(my_db.CATEGORY, category);
+                    cv.put(my_db.DELIVERY, delivery);
 
                     sqdb = my_db.getWritableDatabase();
                     sqdb.insert(my_db.TABLE_NAME_ORDER_ID, null, cv);
@@ -112,6 +114,7 @@ public class SearchOrder_id {
                 cv.put(my_db.ORDER_ID, 0);
                 cv.put(my_db.DATE_MILLIS, 0);
                 cv.put(my_db.CATEGORY, 0);
+                cv.put(my_db.DELIVERY, 0);
 
                 sqdb = my_db.getWritableDatabase();
                 sqdb.insert(my_db.TABLE_NAME_ORDER_ID, null, cv);

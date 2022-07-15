@@ -49,17 +49,23 @@ import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_400;
 import static ru.tubi.project.free.AllText.BUILDING;
 import static ru.tubi.project.free.AllText.CHECK_CONNECT_INTERNET;
+import static ru.tubi.project.free.AllText.DECORATED;
+import static ru.tubi.project.free.AllText.DELIVERY_TO_ADDRESS;
 import static ru.tubi.project.free.AllText.GENERAL_VEIGHT;
 import static ru.tubi.project.free.AllText.HOUR_CHAR;
 import static ru.tubi.project.free.AllText.KILOGRAM;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
+import static ru.tubi.project.free.AllText.ON;
+import static ru.tubi.project.free.AllText.POINT_OF_ISSUE;
 import static ru.tubi.project.free.AllText.POSITION;
+import static ru.tubi.project.free.AllText.RECEIVING_FROM_WAREHOUSE;
 import static ru.tubi.project.free.AllText.RUB;
 import static ru.tubi.project.free.AllText.SELECT_DAY;
 import static ru.tubi.project.free.AllText.SELECT_WAREHOUSE;
 import static ru.tubi.project.free.AllText.SMOLENSCK;
 import static ru.tubi.project.free.AllText.ST;
 import static ru.tubi.project.free.AllText.YEAR_CHAR;
+import static ru.tubi.project.free.AllText.YOUR_ORDER;
 import static ru.tubi.project.free.VariablesHelpers.MESSAGE_FROM_ORDER_ACTIVITY;
 import static ru.tubi.project.free.AllText.MAKING_ORDER;
 import static ru.tubi.project.free.AllText.SUGGESTIONS;
@@ -76,10 +82,10 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
     private ArrayAdapter <String> adapter;
     private ArrayAdapter <String> adapWarehouse;
     private Intent intent;
-    private String city, dateGiveOrder, timeReceiveOrder;
-    private int order_id, warehouse_id, count, veight, x=0;//, buttonColor = 0
-    private double priceSumm, z;
+    private String city, dateGiveOrder, timeReceiveOrder, address_for_delivery;
     private String warehouseInfo;
+    private int order_id, warehouse_id, count, veight, deliveryKey, x=0;//, buttonColor = 0
+    private double priceSumm, z;
     private AlertDialog ad;
     private AlertDialog.Builder adb;
     private Button btnGoBuy;
@@ -140,9 +146,10 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
         lvWarehouseList.setAdapter(adapWarehouse);*/
 
         intent = getIntent();
-        count=intent.getIntExtra("count",x);
-        veight=intent.getIntExtra("veight",x);
-        order_id=intent.getIntExtra("order_id",x);
+        count=intent.getIntExtra("count",0);
+        veight=intent.getIntExtra("veight",0);
+        order_id=intent.getIntExtra("order_id",0);
+        deliveryKey=intent.getIntExtra("deliveryKey",0);
         timeReceiveOrder=intent.getStringExtra("timeReceiveOrder");
         try{
             int a = veight/1000;
@@ -170,10 +177,11 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
         todayMillis = cal.getTimeInMillis();
 
         //выяснить есть доставка или нет
-        //если нет то получить id склада
-        //если есть то получит адрес доставки
-        receivePartnerWarehouse_id();
+        checkDelliveryKey();
+
+
     }
+
 
     @Override
     public void onClick(View v) {//написать пожелания textView
@@ -206,6 +214,27 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
         }
         MESSAGE_FROM_ORDER_ACTIVITY = "";
     }
+    //выяснить есть доставка или нет
+    private void checkDelliveryKey() {
+        if(deliveryKey == 1){
+            //если есть то получит адрес доставки
+            receiveDeliveryAddress();
+        }else{
+            //если нет то получить данные склада
+            receivePartnerWarehouse_id();
+            //showPlaceReceivingOrder();
+        }
+    }
+    private void showPlaceReceivingOrder(){
+        if(deliveryKey == 1){
+            tvWarehouseInfo.setText(""+YOUR_ORDER+" № "+order_id+" \n"
+                    +DELIVERY_TO_ADDRESS+" \n"+address_for_delivery);
+
+        }else{
+            tvWarehouseInfo.setText(""+YOUR_ORDER+" № "+order_id+" \n"
+                    +RECEIVING_FROM_WAREHOUSE+" \n"+warehouseInfo);
+        }
+    }
     //получить id склада партнера на который отправить товар для выдачи покупателю
     private void receivePartnerWarehouse_id(){
         String url = Constant.USER_OFFICE;
@@ -214,7 +243,14 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
         String whatQuestion = "receive_partner_warehouse";
         setInitialData(url,whatQuestion);
     }
-
+    //получить адресс доставки
+    private void receiveDeliveryAddress(){
+        String url = Constant.API_TEST;
+        url += "receive_delivery_address";
+        url += "&" + "order_id=" +order_id;
+        String whatQuestion = "receive_delivery_address";
+        setInitialData(url,whatQuestion);
+    }
     private void receiveWeekendListMillis(){
         String url = Constant.API;
         url += "receive_weekend_list";
@@ -249,12 +285,20 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
                     splitResultChengeOrder(result);
                 }else if(whatQuestion.equals("receive_partner_warehouse")){
                     splitResultPartnerWarehouse(result);
+                }else if(whatQuestion.equals("receive_delivery_address")){
+                    splitAddressDelivery(result);
                 }
                 //скрыть диалоговое окно
                 asyncDialog.dismiss();
             }
         };
         task.execute(url_get);
+    }
+    //разобрать ответ адрес доставки
+    private void splitAddressDelivery(String result){
+        address_for_delivery = result;
+
+        showPlaceReceivingOrder();
     }
     private void splitResultPartnerWarehouse(String result){
         try {
@@ -278,7 +322,9 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
 
                 warehouseInfo = st;
                 warehouse_id = Integer.parseInt(myWarehouse_id);
-                tvWarehouseInfo.setText(warehouseInfo);
+
+                showPlaceReceivingOrder();
+               // tvWarehouseInfo.setText(warehouseInfo);
             }
         }catch (Exception ex){
         }
@@ -336,7 +382,9 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
         Intent intent = new Intent(this,OrderFinishedActivity.class);
         intent.putExtra("day",dayToOrder);
         intent.putExtra("order_id",order_id);
+        intent.putExtra("deliveryKey", deliveryKey);
         intent.putExtra("warehouseInfo",warehouseInfo);
+        intent.putExtra("address_for_delivery",address_for_delivery);
         intent.putExtra("dateGiveOrder",timeReceiveOrder);//dateGiveOrder);
         startActivity(intent);
     }

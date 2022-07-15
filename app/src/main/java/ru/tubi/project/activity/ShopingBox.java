@@ -42,6 +42,7 @@ import java.util.Date;
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.UserDataRecovery;
 
+import static ru.tubi.project.free.AllText.DELIVERY_TO_ADDRESS;
 import static ru.tubi.project.free.AllText.FOR_REGISTRATION_ORDER_NEED;
 import static ru.tubi.project.free.AllText.GO_TO_DESIGN;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
@@ -49,6 +50,7 @@ import static ru.tubi.project.free.AllText.MAXIMUM;
 import static ru.tubi.project.free.AllText.ON;
 import static ru.tubi.project.free.AllText.ONE_STEP_LEFT;
 import static ru.tubi.project.free.AllText.ORDER;
+import static ru.tubi.project.free.AllText.RECEIVING_FROM_WAREHOUSE;
 import static ru.tubi.project.free.AllText.RUB;
 import static ru.tubi.project.free.AllText.SHOPING_BOX;
 import static ru.tubi.project.free.AllText.SHOPING_BOX_EMPTY;
@@ -69,7 +71,7 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
     private ArrayAdapter orderAdap;
     private String url_get;
     private String whatQuestion;
-    private int order_id = 0,myPosition = -1;
+    private int order_id = 0,myPosition = -1, deliveryKey;
     private ArrayList<ShopingBoxModel> shopinBoxArray = new ArrayList<>();
     private double quantity, summ, freeQuantityDB;
     private AlertDialog.Builder adb;
@@ -173,6 +175,7 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
 
         tvOrder.setText(""+ordersList.get(position));
         order_id  = receiveOrder_id(position);
+        deliveryKey = receiveDeliveryKey(order_id);
         timeReceiveOrder = timeReceiveOrder(position);
 
         showShopingBox();
@@ -289,6 +292,17 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
         tvBtnOrder.setText(""+SHOPING_BOX_EMPTY);
 
         recyclerView.setVisibility(View.GONE);
+    }
+    //узнать есть доставка или нет
+    private int receiveDeliveryKey(int order_id){
+        int my_deliveryKey=0;
+        for(int i=0;i < orderDataModelList.size();i++){
+            if(orderDataModelList.get(i).getOrder_id() == order_id){
+                my_deliveryKey = orderDataModelList.get(i).getDelivery();
+                break;
+            }
+        }
+        return my_deliveryKey;
     }
 
     private void deleteOrderProduct(int order_product_id){
@@ -492,6 +506,7 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
         intent.putExtra("veight",veight);
         intent.putExtra("priceSumm", priceSumm);
         intent.putExtra("order_id", order_id);
+        intent.putExtra("deliveryKey", deliveryKey);
         intent.putExtra("timeReceiveOrder", timeReceiveOrder);
         startActivity(intent);
     }
@@ -504,9 +519,16 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
         for(int i=0; i < orderDataModelList.size();i++){
             int myOrder_id = orderDataModelList.get(i).getOrder_id();
             long myMillis = orderDataModelList.get(i).getDate_millis();
+            int deliveryKey = orderDataModelList.get(i).getDelivery();
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             String myDate = dateFormat.format(new Date(myMillis));
             String st = ""+ORDER+" "+"№ "+myOrder_id+" "+ON+" "+myDate;
+            //если есть доставка
+            if(deliveryKey == 1){
+                st += "\n          "+DELIVERY_TO_ADDRESS;
+            }else{
+                st += "\n          "+RECEIVING_FROM_WAREHOUSE;
+            }
             ordersList.add(st);
            // Toast.makeText(this, "test: \n"+st, Toast.LENGTH_SHORT).show();
         }

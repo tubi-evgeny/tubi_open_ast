@@ -58,6 +58,8 @@ public class AllText {
     public static String STOCK_OF_GOODS_REQUESTED_QUANTITY = "Запас товара на складе меньше запрошенного колличества";
     public static String IMAGE_UPLOADING_FAILED_TAXT = "Не удалось Загрузить Изображение";
     public static String NETWORK_FAILED_TAXT = "Ошибка соединения";
+    public static String DELIVERY_TO_ADDRESS = "доставка по адресу";
+    public static String RECEIVING_FROM_WAREHOUSE = "получение со склада";
     public static String SAVE_QUESTION = "Сохранить?";
     public static String ORDERS_TEXT = "Заказы";
     public static String THE_ORDER_TEXT = "Заказ";
@@ -410,5 +412,5 @@ public class AllText {
                                 "\nтовары будут собраны во вновь  " +
                                 "\nоткрытый заказ ";
     public static String MES_19= "Вы закрываете накладную \nтовары которые вы не отметили  \nбудут записаны в новую накладную  \nкоторую вы создадите после закрытия этой";
-
+    public static String MES_20 = "Полную информацию о заказе \nвы можете посмотреть во вкладке \nГЛАВНАЯ -> МОЯ КОМПАНИЯ -> \nИСТОРИЯ ЗАКУПОК";
 }

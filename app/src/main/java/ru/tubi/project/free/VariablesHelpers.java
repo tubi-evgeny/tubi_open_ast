@@ -16,4 +16,6 @@ public class VariablesHelpers {
     public static DeliveryAddressModel DELIVERY_ADDRESS_LAST  =
             new DeliveryAddressModel("","","",""
                     ,0,"","", "");
+
+    public static int  ORDER_FINISHED_ACTIVITY_MESSEGE = 0;
 }

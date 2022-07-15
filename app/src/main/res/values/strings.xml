@@ -207,6 +207,7 @@
     <string name="product_invoice">Товарная накладная</string>
     <string name="menu_invoice_list">документы</string>
     <string name="warehouse_for_receiving_goods">Склад получения товара</string>
+    <string name="place_receiving_goods">Место получения товара</string>
     <string name="my_product_to_partner_warehouse">Мои товары на складах партнеров</string>
     <string name="my_catalog_slash_stocks_big">МОЙ КАТАЛОГ / ЗАПАСЫ</string>
     <string name="select_storage_warehouse">Выберите склад хранения</string>

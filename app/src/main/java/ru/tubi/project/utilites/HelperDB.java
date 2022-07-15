@@ -38,6 +38,7 @@ public class HelperDB extends SQLiteOpenHelper {
     public static final String ORDER_ID = "order_id";
     public static final String DATE_MILLIS = "date_millis";
     public static final String CATEGORY = "category";
+    public static final String DELIVERY = "delivery";
 
 
     String SQL_Create = "";
@@ -69,7 +70,8 @@ public class HelperDB extends SQLiteOpenHelper {
             SQL_Create = "CREATE TABLE " + TABLE_NAME_ORDER_ID + " (";
             SQL_Create += ORDER_ID + " TEXT, ";
             SQL_Create += DATE_MILLIS + " TEXT, ";
-            SQL_Create += CATEGORY + " TEXT);";
+            SQL_Create += CATEGORY + " TEXT, ";
+            SQL_Create += DELIVERY + " TEXT);";
             db.execSQL(SQL_Create);
 
             Log.d("A111", "While creating db: ");

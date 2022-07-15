@@ -200,7 +200,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
-            android:text="@string/warehouse_for_receiving_goods" />
+            android:text="@string/place_receiving_goods" />
 
         <TextView
             android:id="@+id/tvWarehouseInfo"
