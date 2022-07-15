@@ -19,17 +19,6 @@ public class UserDataRecovery {
     private SQLiteDatabase sqdb;
     private HelperDB my_db ;//= new HelperDB(this);
     private UserModel userDataModel;
-    /*
-    private UserModel userDataModel;
-     //получить из sqlLite данные пользователя и компании
-        UserDataRecovery userDataRecovery = new UserDataRecovery();
-        userDataModel = userDataRecovery.getUserDataRecovery(this);
-
-    userDataModel.getName(); userDataModel.getUid();
-    userDataModel.getAbbreviation(); userDataModel.getCounterparty();
-    userDataModel.getCompany_tax_id(); userDataModel.getRole();
-    userDataModel.getOrder_id(); userDataModel.getPartner_role_list();
-     */
 
     public UserModel getUserDataRecovery(Context context){
         //this.context=context;

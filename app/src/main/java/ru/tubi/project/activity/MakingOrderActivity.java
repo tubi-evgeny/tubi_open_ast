@@ -169,6 +169,9 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
         hour = cal.get(Calendar.HOUR_OF_DAY);
         todayMillis = cal.getTimeInMillis();
 
+        //выяснить есть доставка или нет
+        //если нет то получить id склада
+        //если есть то получит адрес доставки
         receivePartnerWarehouse_id();
     }
 
@@ -247,9 +250,6 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
                 }else if(whatQuestion.equals("receive_partner_warehouse")){
                     splitResultPartnerWarehouse(result);
                 }
-                /*else if(whatQuestion.equals("receive_partner_warehouse_list")){
-                    splitResultPartnerWarehouseList(result);receive_partner_warehouse
-                }*/
                 //скрыть диалоговое окно
                 asyncDialog.dismiss();
             }
@@ -302,46 +302,6 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
         }catch (Exception ex){        }
         receiveDateIssueOrder();
     }
-  /*  private void splitResultPartnerWarehouseList(String result){
-        adressWarehouseList.clear();
-        try {
-            String[] res = result.split("<br>");
-            String[] temp = res[0].split("&nbsp");
-            if (temp[0].equals("error") || temp[0].equals("messege")) {
-                Toast.makeText(this, "" + temp[1], Toast.LENGTH_LONG).show();
-            } else {
-                for (int i = 0; i < res.length; i++) {
-                    temp = res[i].split("&nbsp");
-                    String warehouse_info_id = temp[0], street = temp[1], house = temp[2],
-                            warehouse_id=temp[4];
-                    String st = "№ "+warehouse_info_id+"/"+warehouse_id+" "+ST+" "+street+" "+house;
-                    try {
-                        String building = temp[3];
-                        st += " "+BUILDING+" "+building;
-                    }catch (Exception ex){};
-
-                    adressWarehouseList.add(st);
-                }
-            }
-        }catch (Exception ex){
-        }
-        adapWarehouse.notifyDataSetChanged();
-        if(adressWarehouseList.size() == 1){
-            flagCiti=true;
-            makeButtonColor();
-        }
-    }*/
-  //проверка соединения интернета
-  protected boolean isOnline() {
-      String cs = Context.CONNECTIVITY_SERVICE;
-      ConnectivityManager cm = (ConnectivityManager)
-              getSystemService(cs);
-      if (cm.getActiveNetworkInfo() == null) {
-          return false;
-      } else {
-          return true;
-      }
-  }
     private void splitResultChengeOrder(String result){  // разобрать результат
         try {
             String[] res = result.split("<br>");
@@ -350,9 +310,9 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
                 goOrderFinished();
             } else if (temp[0].equals("error") || temp[0].equals("messege")) {
                 Toast.makeText(this, "" + temp[1], Toast.LENGTH_LONG).show();
-            } else {
+            }/* else {
                 Toast.makeText(this, "" + CHECK_CONNECT_INTERNET, Toast.LENGTH_LONG).show();
-            }
+            }*/
         }catch (Exception ex){       }
     }
     @Override
@@ -370,12 +330,6 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
             }
         }
     }
-   /* private int receiveWarehouse_id(){
-        String [] step = adressWarehouseList.get(0).split(" ");
-        String [] step_two =step[1].split("/");
-        int warehous_id = Integer.parseInt(step_two[1]);
-        return warehous_id;
-    }*/
 
     private void goOrderFinished(){
         //ЗАКАЗ ОФОРМЛЕН
@@ -387,13 +341,6 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
         startActivity(intent);
     }
 
-   /* private void makeButtonColor(){
-        if(flagCiti ){//&& flagDay
-            btnGoBuy.setBackgroundColor(TUBI_GREEN_600);
-        }else{
-            btnGoBuy.setBackgroundColor(TUBI_GREY_200);
-        }
-    }*/
     //выяснить и показать дату выдачи товара
     private void receiveDateIssueOrder(){
         int giveYear=0, giveMonth=0, giveDay=0, giveHour=0;
@@ -452,5 +399,16 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
                 new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
         dateGiveOrder = dateFormat.format(cal.getTime());
         getOrderMillis = cal.getTimeInMillis();
+    }
+    //проверка соединения интернета
+    protected boolean isOnline() {
+        String cs = Context.CONNECTIVITY_SERVICE;
+        ConnectivityManager cm = (ConnectivityManager)
+                getSystemService(cs);
+        if (cm.getActiveNetworkInfo() == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

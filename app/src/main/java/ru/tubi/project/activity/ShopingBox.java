@@ -119,7 +119,7 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
         searchOrder_id.searchStartedOrder(this);
         //получить из sqlLite данные пользователя и компании
         userDataModel = userDataRecovery.getUserDataRecovery(this);
-        order_id = userDataModel.getOrder_id();
+        //order_id = userDataModel.getOrder_id();
         //получить список заказав с характеристиками
         orderDataModelList = orderDataRecoveryUtil.getOrderDataRecovery(this);
         //сортируем лист по 1 полям (getDate_millis )
@@ -266,12 +266,15 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
             Intent intent = new Intent(this,ActivityCatalog.class);
             startActivity(intent);
             finish();
-        }else if(v.equals(tvBtnOrder)){     //ПЕРЕЙТИ К ОФОРМЛЕНИЮ кнопка
+        }
+        //ПЕРЕЙТИ К ОФОРМЛЕНИЮ кнопка
+        else if(v.equals(tvBtnOrder)){
             if(tvBtnOrder.getText().equals(SHOPING_BOX_EMPTY)){
                 Intent intent = new Intent(this,ActivityCatalog.class);
                 startActivity(intent);
                 finish();
-            }else {//ОФОРМЛЕНИЕ ЗАКАЗА
+            }else {
+                //ОФОРМЛЕНИЕ ЗАКАЗА
                 if(myPosition >= 0 ){
                     addOrderProduct(shopinBoxArray.get(myPosition).getQuantity(), myPosition);
                 }

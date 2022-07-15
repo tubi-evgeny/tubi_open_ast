@@ -48,32 +48,10 @@ public class OrderFinishedActivity extends AppCompatActivity {
         String date = takeit.getStringExtra("dateGiveOrder");
         String warehouseInfo = takeit.getStringExtra("warehouseInfo");
 
-      /*  GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
-        Date dateGiveOrder = null;
-        try {
-            dateGiveOrder = dateFormat.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        cal.setTime(dateGiveOrder);
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        int hour = cal.get(Calendar.HOUR_OF_DAY);
-        String stMonth, stDay;
-        if(day >=0 && day <10){
-            stDay = "0"+day;
-        }else stDay = ""+day;
-        if(month >= 0 && month < 10){
-            stMonth = "0"+(month+1);
-        }else stMonth = ""+(month+1);*/
 
         tvOrderNumberInfo.setText(""+YOUR_ORDER+" № "+order_id+" "
                 +DECORATED+"\n" +ON+" "+date+" \n"+POINT_OF_ISSUE+" \n"+warehouseInfo);
-  /*      tvOrderNumberInfo.setText(""+YOUR_ORDER+" №"+userDataModel.getOrder_id()+" "
-                +DECORATED+"\n" +ON+" "+stDay+"."+stMonth+"."+year+" \n"+AFTER+" "+hour+".00 "+HOURS);
-*/
+
         SearchOrder_id searchOrder_id = new SearchOrder_id();
         searchOrder_id.searchStartedOrder(this);
         ORDER_ID=0;
