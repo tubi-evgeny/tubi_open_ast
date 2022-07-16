@@ -11,21 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import ru.tubi.project.R;
-import ru.tubi.project.activity.ChooseDistributionWarehouseActivity;
-import ru.tubi.project.adapters.PartnerCollectProductAdapter;
 import ru.tubi.project.models.DeliveryAddressModel;
 
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_300;
-import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_400;
-import static ru.tubi.project.free.AllCollor.TUBI_GREY_600;
 import static ru.tubi.project.free.AllText.CHOOSE;
-import static ru.tubi.project.free.AllText.DISTRIBUTION_WAREHOUSE;
 import static ru.tubi.project.free.AllText.FOR_YOUR_CITY_IS_NOT_DELIVERY;
-import static ru.tubi.project.free.AllText.IN_YOUR_CITY_IS_NOT_DELIVERY;
-import static ru.tubi.project.free.AllText.NO_DELIVERY;
 import static ru.tubi.project.free.AllText.PLACE_OF_RECEIPT_OF_GOODS;
-import static ru.tubi.project.free.AllText.SELECT_WAREHOUSE;
 import static ru.tubi.project.free.VariablesHelpers.MY_CITY;
 import static ru.tubi.project.free.VariablesHelpers.MY_REGION;
 
