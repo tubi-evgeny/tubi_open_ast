@@ -21,10 +21,14 @@ import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.InitialData;
 
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
+import static ru.tubi.project.free.AllText.ADDRESS_TEXT;
 import static ru.tubi.project.free.AllText.BUILDING;
+import static ru.tubi.project.free.AllText.CHOOSE;
+import static ru.tubi.project.free.AllText.DISTRIBUTION_WAREHOUSE;
 import static ru.tubi.project.free.AllText.ENTER_HAUSE_NUM_TEXT;
 import static ru.tubi.project.free.AllText.ENTER_PHONE_NUM_TEXT;
 import static ru.tubi.project.free.AllText.ENTER_STREET_NAME_TEXT;
+import static ru.tubi.project.free.AllText.INPUT_TEXT;
 import static ru.tubi.project.free.AllText.IN_YOUR_CITY_IS_NOT_DELIVERY;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.ST;
@@ -47,6 +51,8 @@ public class EnterForDeliveryAddressActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_for_delivery_address);
+        setTitle(INPUT_TEXT); //Ввод адреса
+        getSupportActionBar().setSubtitle(ADDRESS_TEXT);
 
         btnApply = findViewById(R.id.btnApply);
         tvRegionDistrictCity = findViewById(R.id.tvRegionDistrictCity);
@@ -158,10 +164,13 @@ public class EnterForDeliveryAddressActivity extends AppCompatActivity
                     int warehouse_id= Integer.parseInt(temp[4]);
 
                     warehouse_idList.add(warehouse_id);
+                    Log.d("A111","EnterForDeliveryAddressActivity " +
+                            "/ splitResultPartnerWarehouseList / склад доставки найден id="+warehouse_id);
                 }
             }
         }catch (Exception ex){
         }
+        //берем первый склад из списка фиктивный или настоящий не важно
         if(warehouse_idList.size() > 0){
             partner_warehouse_id = warehouse_idList.get(0);
         }
