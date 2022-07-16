@@ -17,6 +17,7 @@ public class CounterpartyModel implements Serializable {
     private String buyer_phone;
     private int order_deleted;
     private int collect_product_for_delete;
+    private int delivery;
 
     // CollectProductForActivity//splitAllWriteOffOrders();
     public CounterpartyModel(int order_id, String abbreviation, String counterparty,
@@ -26,9 +27,10 @@ public class CounterpartyModel implements Serializable {
         this.counterparty = counterparty;
         this.taxpayer_id = taxpayer_id;
     }
-    // PartnerListBuyersForCollectActivity//splitBuyersCompanyResult();
-    public CounterpartyModel(int order_id,long taxpayer_id, String abbreviation, String counterparty,
-                             int order_deleted, int collect_product_for_delete,int completedProcessing) {
+
+    public CounterpartyModel(int order_id,long taxpayer_id, String abbreviation
+            , String counterparty, int order_deleted
+            , int collect_product_for_delete,int completedProcessing) {
         this.order_id = order_id;
         this.abbreviation = abbreviation;
         this.counterparty = counterparty;
@@ -36,6 +38,20 @@ public class CounterpartyModel implements Serializable {
         this.completedProcessing = completedProcessing;
         this.order_deleted = order_deleted;
         this.collect_product_for_delete = collect_product_for_delete;
+
+    }
+    // PartnerListBuyersForCollectActivity//splitBuyersCompanyResult();
+    public CounterpartyModel(int order_id,long taxpayer_id, String abbreviation
+            , String counterparty, int order_deleted
+            , int collect_product_for_delete,int delivery, int completedProcessing) {
+        this.order_id = order_id;
+        this.abbreviation = abbreviation;
+        this.counterparty = counterparty;
+        this.taxpayer_id = taxpayer_id;
+        this.completedProcessing = completedProcessing;
+        this.order_deleted = order_deleted;
+        this.collect_product_for_delete = collect_product_for_delete;
+        this.delivery=delivery;
 
     }
     // ListBuyersIssueGoodsActivity//splitBuyersCompanyResult();
@@ -171,5 +187,13 @@ public class CounterpartyModel implements Serializable {
 
     public void setCollect_product_for_delete(int collect_product_for_delete) {
         this.collect_product_for_delete = collect_product_for_delete;
+    }
+
+    public int getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(int delivery) {
+        this.delivery = delivery;
     }
 }

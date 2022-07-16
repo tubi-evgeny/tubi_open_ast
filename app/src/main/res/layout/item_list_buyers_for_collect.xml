@@ -37,10 +37,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/round_backgraund_gray_200"
-        android:layout_marginLeft="100dp"
+        android:layout_marginLeft="80dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="5dp"
@@ -58,8 +58,9 @@
 
         <ImageView
             android:id="@+id/imageView11"
-            android:layout_width="wrap_content"
+            android:layout_width="20dp"
             android:layout_height="18dp"
+            android:layout_marginRight="5dp"
             app:srcCompat="@drawable/strelka_dalshe_60ps" />
 
 

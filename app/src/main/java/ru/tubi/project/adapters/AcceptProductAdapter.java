@@ -131,7 +131,9 @@ public class AcceptProductAdapter
                     holder.llCar.setVisibility(GONE);
                 } else if (product.getLogistic_product() == 0) {
                     holder.llCar.setVisibility(GONE);
-                } else {
+                }else if (product.getCar_id() == 0) {
+                    holder.llCar.setVisibility(GONE);
+                }  else {
                     holder.llCar.setVisibility(View.VISIBLE);
                 }
             } catch (Exception ex) {
@@ -166,9 +168,13 @@ public class AcceptProductAdapter
                     holder.llDocumentInfo.setVisibility(View.VISIBLE);
                 }
             } catch (Exception ex) {
-        }
+            }
         }else{
-            holder.llCar.setVisibility(View.VISIBLE);
+            if (product.getCar_id() == 0) {
+                holder.llCar.setVisibility(GONE);
+            }else{
+                holder.llCar.setVisibility(View.VISIBLE);
+            }
             holder.llWarehouse.setVisibility(View.VISIBLE);
             holder.llDocumentInfo.setVisibility(View.VISIBLE);
         }

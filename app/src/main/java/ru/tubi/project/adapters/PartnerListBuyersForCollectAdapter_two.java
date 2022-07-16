@@ -19,10 +19,12 @@ import java.util.List;
 
 import static android.view.View.GONE;
 import static ru.tubi.project.free.AllText.DELETED;
+import static ru.tubi.project.free.AllText.DELIVERY_TEXT;
 import static ru.tubi.project.free.AllText.DISASSEMBLE;
 import static ru.tubi.project.free.AllText.ORDER;
 import static ru.tubi.project.free.AllText.ORDER_DELETE_DEFECTIVE;
 import static ru.tubi.project.free.AllText.TAX_ID_SMALL;
+import static ru.tubi.project.free.AllText.WAREHOUSE;
 
 public class PartnerListBuyersForCollectAdapter_two
         extends RecyclerView.Adapter<PartnerListBuyersForCollectAdapter_two.ViewHolder>{
@@ -51,11 +53,19 @@ public class PartnerListBuyersForCollectAdapter_two
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CounterpartyModel buyersCompany = buyersCompanyList.get(position);
+        String warehouseOrDeliveryInfo = "";
+        //если получение на складе
+        if(buyersCompany.getDelivery() == 0){
+            warehouseOrDeliveryInfo = ""+WAREHOUSE;
+        }//если доставка
+        else{
+            warehouseOrDeliveryInfo = ""+DELIVERY_TEXT;
+        }
         String stBuyersCompany = buyersCompany.getAbbreviation()+" "
                 +new FirstSimbolMakeBig().firstSimbolMakeBig(buyersCompany.getCounterparty());
         holder.tvInfo.setText(""+stBuyersCompany+" "+TAX_ID_SMALL+" "
                 +buyersCompany.getTaxpayer_id());
-        holder.tvOrder.setText(""+ORDER+" № "+buyersCompany.getOrder_id());
+        holder.tvOrder.setText(""+ORDER+" № "+buyersCompany.getOrder_id()+" "+warehouseOrDeliveryInfo);
         if(buyersCompany.getOrder_deleted() == 1){
             if( buyersCompany.getCollect_product_for_delete() > 0){
                 holder.llOrder.setBackgroundResource(R.drawable.round_corners_red_pink100);

@@ -125,6 +125,7 @@ public class PartnerListBuyersForCollectActivity extends AppCompatActivity imple
         int order_id = buyersCompanyList.get(position).getOrder_id();
         Intent intent = new Intent(this, PartnerCollectProductActivity.class);
         intent.putExtra("order_id",order_id);
+        intent.putExtra("deliveryKey",buyersCompanyList.get(position).getDelivery());
         intent.putExtra("myWarehousInfo",myWarehousInfo);
         intent.putExtra("stBuyersCompany",stBuyersCompany);
         intent.putExtra("warehouse_id",warehouse_id);
@@ -196,11 +197,12 @@ public class PartnerListBuyersForCollectActivity extends AppCompatActivity imple
                     long taxpayer_id = Long.parseLong(temp[3]);
                     int order_deleted = Integer.parseInt(temp[4]);
                     int collect_product_for_delete = Integer.parseInt(temp[5]);
+                    int delivery = Integer.parseInt(temp[6]);
                     int completedProcessing= 0;//Integer.parseInt(temp[4]);
 
                     CounterpartyModel buyer = new CounterpartyModel(order_id,taxpayer_id,
                             abbreviation, counterparty, order_deleted, collect_product_for_delete,
-                            completedProcessing);
+                            delivery, completedProcessing);
                     buyersCompanyList.add(buyer);
                 }
                 //сортируем лист по 2 полям (logistic_product и car_or_warehouse_id)

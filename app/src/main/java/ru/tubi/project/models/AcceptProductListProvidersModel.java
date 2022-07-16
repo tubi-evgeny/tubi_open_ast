@@ -37,7 +37,7 @@ public class AcceptProductListProvidersModel implements Serializable {
     private int out_active;
     private int redactor;
 
-    // ProviderCollectProductActivity//splitResult();
+
     public AcceptProductListProvidersModel(int product_id, int product_inventory_id,
                                            String category, String brand, String characteristic,
                                            String type_packaging, String unit_measure, int weight_volume,

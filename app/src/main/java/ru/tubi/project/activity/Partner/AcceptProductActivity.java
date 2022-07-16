@@ -4,9 +4,11 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllText.ACCEPT_PRODUCT;
 import static ru.tubi.project.free.AllText.BUILDING;
+import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.PARTNER_TEXT;
 import static ru.tubi.project.free.AllText.PARTNER_TUBI;
 import static ru.tubi.project.free.AllText.PARTNER_WAREHOUSE;
@@ -183,19 +186,20 @@ public class AcceptProductActivity extends AppCompatActivity implements View.OnC
         url += "&"+"warehouse_id="+warehouse_id;
         String whatQuestion = "receive_list_delivery_to_accept";
         setInitialData(url, whatQuestion);
+        Log.d("A111","AcceptProductActivity / startList / url="+url);
     }
     private void setInitialData(String url_get, String whatQuestion) {
-        // ProgressDialog asyncDialog = new ProgressDialog(this);
+         ProgressDialog asyncDialog = new ProgressDialog(this);
 
         InitialData task=new InitialData(){
-          /*  @Override
+            @Override
             protected void onPreExecute() {
                 //set message of the dialog
                 asyncDialog.setMessage(LOAD_TEXT);
                 //show dialog
                 asyncDialog.show();
                 super.onPreExecute();
-            }*/
+            }
 
             @RequiresApi(api = Build.VERSION_CODES.N)
             protected void onPostExecute(String result) {
@@ -207,7 +211,7 @@ public class AcceptProductActivity extends AppCompatActivity implements View.OnC
                     splitWarehouseResult(result);
                 }
                 //hide the dialog
-                // asyncDialog.dismiss();
+                 asyncDialog.dismiss();
             }
         };
         task.execute(url_get);
@@ -282,8 +286,8 @@ public class AcceptProductActivity extends AppCompatActivity implements View.OnC
     // разобрать результат с сервера, список продуктов которые собраны для отправки и их колличество
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void splitResult(String result){
+        Log.d("A111","AcceptProductActivity / splitResult / result="+result);
         acceptProductList.clear();
-        //Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
         try{
             String[] res = result.split("<br>");
             String[] one_temp = res[0].split("&nbsp");

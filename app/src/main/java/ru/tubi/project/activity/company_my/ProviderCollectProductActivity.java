@@ -276,7 +276,7 @@ public class ProviderCollectProductActivity extends AppCompatActivity
     }
     //запись в (t_warehouse_inventory_in_out and t_order_product_part) о том что товар собран(collected)
     private void addProductForMoving(int position){
-        Toast.makeText(this, "hi", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "hi", Toast.LENGTH_SHORT).show();
         int warehouse_inventory_id = productDealList.get(position).getWarehouse_inventory_id();
         int product_inventory_id = productDealList.get(position).getProductInventory_id();
         int collected = 1;//1=yes
@@ -346,6 +346,7 @@ public class ProviderCollectProductActivity extends AppCompatActivity
     private void splitProductForCollectResult(String result){
         productDealList.clear();
         checkedList.clear();
+        int logisticKey = 1;
         boolean collectedFlag = true;
         //Toast.makeText(this, "res\n"+result, Toast.LENGTH_LONG).show();
         try{
@@ -394,6 +395,10 @@ public class ProviderCollectProductActivity extends AppCompatActivity
 
                     productDealList.add(product_info);
 
+                    //если товар без доставки склад склад
+                    if(logistic_product == 0){
+                        logisticKey = 0;
+                    }
                     //все ли товары собраны
                     if(collected_check == 0){
                         collectedFlag = false;
@@ -416,7 +421,10 @@ public class ProviderCollectProductActivity extends AppCompatActivity
         for(int i=0;i < productDealList.size();i++){
             checkedList.add(productDealList.get(i).getCollected_check());
         }
-
+        //проверить доставку склад склад
+        if(logisticKey == 1){
+            switchOnOffDelivery.setChecked(true);
+        }
         //если все товары собраны запретить менять доставку
         if(collectedFlag){
             switchOnOffDelivery.setClickable(false);

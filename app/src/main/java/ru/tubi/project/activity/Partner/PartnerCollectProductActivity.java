@@ -5,13 +5,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,17 +38,20 @@ import static ru.tubi.project.Config.MY_UID;
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllText.FOR_COLLECT;
+import static ru.tubi.project.free.AllText.I_UNDERSTAND_SMOL;
 import static ru.tubi.project.free.AllText.LIST_PRODUCT;
 
 public class PartnerCollectProductActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView tvWarehouseInfo,tvBuyerInfo,tvApply,tvDeleteApply;
+    private LinearLayout llBuyerInfo;
     private RecyclerView rvList;
     private Intent takeit;
     private PartnerCollectProductAdapter adapter;
     private ArrayList<AcceptProductListProvidersModel> productList = new ArrayList<>();
     private ArrayList<Integer> checkedList = new ArrayList<>();
-    int providerWarehouse_id,order_id,x=0 ;
+    private int providerWarehouse_id,order_id, deliveryKey, x=0 ;
+    private String stBuyersCompany, address_for_delivery;
     private UserModel userDataModel;
     private AlertDialog.Builder adb;
     private AlertDialog ad;
@@ -58,19 +65,22 @@ public class PartnerCollectProductActivity extends AppCompatActivity implements 
         //Список товара для сборки партнер
 
         rvList=findViewById(R.id.rvList);
+        llBuyerInfo=findViewById(R.id.llBuyerInfo);
         tvWarehouseInfo=findViewById(R.id.tvWarehouseInfo);
         tvBuyerInfo=findViewById(R.id.tvBuyerInfo);
         tvApply=findViewById(R.id.tvApply);
         tvDeleteApply=findViewById(R.id.tvDeleteApply);
 
+        llBuyerInfo.setOnClickListener(this);
         tvApply.setOnClickListener(this);
         tvDeleteApply.setOnClickListener(this);
 
         takeit = getIntent();
-        order_id = takeit.getIntExtra("order_id",x);
-        providerWarehouse_id = takeit.getIntExtra("warehouse_id",x);
+        order_id = takeit.getIntExtra("order_id",0);
+        deliveryKey = takeit.getIntExtra("deliveryKey",0);
+        providerWarehouse_id = takeit.getIntExtra("warehouse_id",0);
         String myWarehousInfo = takeit.getStringExtra("myWarehousInfo");
-        String stBuyersCompany= takeit.getStringExtra("stBuyersCompany");
+        stBuyersCompany= takeit.getStringExtra("stBuyersCompany");
         int order_deleted=takeit.getIntExtra("order_deleted",0);
 
         //получить из sqlLite данные пользователя и компании
@@ -86,7 +96,12 @@ public class PartnerCollectProductActivity extends AppCompatActivity implements 
             tvApply.setVisibility(View.GONE);
         }
 
+        //получить список продуктов для комплектации этому покупателю
         startProductToOrderList();
+
+        if(deliveryKey == 1){
+            receiveDeliveryaddress();
+        }
 
         PartnerCollectProductAdapter.OnCheckedChangeListener checked =
                 new PartnerCollectProductAdapter.OnCheckedChangeListener() {
@@ -125,8 +140,12 @@ public class PartnerCollectProductActivity extends AppCompatActivity implements 
     public void onClick(View v) {
         if(v.equals(tvApply)){
             writeCheckToTable();
-        }else if(v.equals(tvDeleteApply)){
+        }
+        else if(v.equals(tvDeleteApply)){
             clearAllProductCollect();
+        }
+        else if(v.equals(llBuyerInfo)){
+            adShowDeliveriAddress();
         }
     }
     //записать товары в таблицу t_warehouse_inventory_in_out и в listProduct
@@ -201,9 +220,20 @@ public class PartnerCollectProductActivity extends AppCompatActivity implements 
         String url = Constant.PARTNER_OFFICE;
         url += "receive_list_order_product";
         url += "&"+"order_id="+order_id;
+        //url += "&"+"deliveryKey="+deliveryKey;
         url += "&"+"providerWarehouse_id="+providerWarehouse_id;
         String whatQuestion = "receive_list_order_product";
         setInitialData(url, whatQuestion);
+        //Log.d("A111","PartnerCollectProductActivity / startProductToOrderList / url="+url);
+    }
+    //получить адрес доставки заказа
+    private void receiveDeliveryaddress(){
+        String url = Constant.PARTNER_OFFICE;
+        url += "receive_delivery_address";
+        url += "&"+"order_id="+order_id;
+        String whatQuestion = "receive_delivery_address";
+        setInitialData(url, whatQuestion);
+        //Log.d("A111","PartnerCollectProductActivity / startProductToOrderList / url="+url);
     }
     private void setInitialData(String url_get, String whatQuestion) {
         InitialData task=new InitialData(){
@@ -212,14 +242,22 @@ public class PartnerCollectProductActivity extends AppCompatActivity implements 
             protected void onPostExecute(String result) {
                 if(whatQuestion.equals("receive_list_order_product")){
                     splitResult(result);
-                    // Toast.makeText(PartnerCollectProductActivity.this,
-                     //    "res: "+result, Toast.LENGTH_SHORT).show();
+
+                }else if(whatQuestion.equals("receive_delivery_address")){
+                    splitDeliveryaddressResult(result);
+
                 }
                 //hide the dialog
                 // asyncDialog.dismiss();
             }
         };
         task.execute(url_get);
+    }
+    private void splitDeliveryaddressResult(String result){
+        address_for_delivery = result;
+
+        tvBuyerInfo.setText(stBuyersCompany+"\n"+address_for_delivery);
+        //Toast.makeText(this, "res = "+result, Toast.LENGTH_SHORT).show();
     }
     // разобрать результат с сервера, список продуктов которые собраны для отправки и их колличество
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -267,7 +305,7 @@ public class PartnerCollectProductActivity extends AppCompatActivity implements 
                             type_packaging, unit_measure,weight_volume,quantity_package,
                             image_url,order_product_id,quantity_to_order,partner_stock_quantity,
                             counterparty_id, abbreviation, counterparty, storage_conditions,
-                            checked, quantity_of_colected, invoice_key_id, out_active, description,0);
+                            checked, quantity_of_colected, invoice_key_id, out_active, description, 0);
 
                     productList.add(delivery);
 
@@ -304,6 +342,14 @@ public class PartnerCollectProductActivity extends AppCompatActivity implements 
 
         adb = new AlertDialog.Builder(this);
         adb.setView(iv);
+        ad=adb.create();
+        ad.show();
+    }
+    private void adShowDeliveriAddress(){
+        adb = new AlertDialog.Builder(this);
+        adb.setTitle("");
+        adb.setMessage(stBuyersCompany+"\n"+ address_for_delivery);
+
         ad=adb.create();
         ad.show();
     }
