@@ -1,8 +1,11 @@
-package ru.tubi.project.activity;
+package ru.tubi.project.activity.buyer;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,13 +31,20 @@ import ru.tubi.project.utilites.UserDataRecovery;
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_300;
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
+import static ru.tubi.project.free.AllCollor.alert_dialog_button_green_pressed;
 import static ru.tubi.project.free.AllText.BUILDING;
 import static ru.tubi.project.free.AllText.CHOOSE;
+import static ru.tubi.project.free.AllText.COPY_TEXT;
 import static ru.tubi.project.free.AllText.DISTRIBUTION_WAREHOUSE;
 import static ru.tubi.project.free.AllText.IN_YOUR_CITY_IS_NOT_DELIVERY;
+import static ru.tubi.project.free.AllText.MAKE_COPY_PRODUCT_CARD_TEXT;
+import static ru.tubi.project.free.AllText.RETURN_BIG;
 import static ru.tubi.project.free.AllText.SELECT_WAREHOUSE;
 import static ru.tubi.project.free.AllText.SMOLENSCK;
 import static ru.tubi.project.free.AllText.ST;
+import static ru.tubi.project.free.AllText.TRY_TO_SELECT_DELIVERY_SMALL;
+import static ru.tubi.project.free.AllText.YOUR_CEN_REDACT_PRODUCT_CARD_TEXT;
+import static ru.tubi.project.free.AllText.YOUR_REGION_IS_NOT_WAREHOUSES;
 import static ru.tubi.project.free.VariablesHelpers.MY_CITY;
 import static ru.tubi.project.free.VariablesHelpers.MY_REGION;
 
@@ -42,19 +52,15 @@ public class ChooseDistributionWarehouseActivity extends AppCompatActivity
 implements View.OnClickListener {
 
     private TextView tvRegionDistrictCity;
-    //private EditText etStreet, etHause, etBuilding;
-    //private Button btnDelivery, btnPickUpFromWarehouse;
-    private LinearLayout llWarehouseList, llChoiceWarehouse;//, llEnterAddress;
-    //private Spinner spCity;
+    private LinearLayout llWarehouseList, llChoiceWarehouse;
     private ListView lvWarehouseList;
     private Button btnApply;
-    private String city;
-    //private ArrayAdapter <String> adapter;
+    private int help_warehouse;
     private ArrayAdapter <String> adapWarehouse;
-    private String [] cityList= {SMOLENSCK, "выберите город"};//,"MOSCOW"
     private ArrayList<String> adressWarehouseList = new ArrayList<>();
-    private boolean flagCiti=false;
-    public static int ENTER_FOR_DDELIVERY_ADDRESS = 7;
+    //private boolean flagCiti=false;
+    private AlertDialog.Builder adb;
+    private AlertDialog ad;
 
     private UserModel userDataModel;
 
@@ -66,25 +72,14 @@ implements View.OnClickListener {
         getSupportActionBar().setSubtitle(DISTRIBUTION_WAREHOUSE);
 
         llWarehouseList= findViewById(R.id.llWarehouseList);
-        //llEnterAddress= findViewById(R.id.llEnterAddress);
         tvRegionDistrictCity = findViewById(R.id.tvRegionDistrictCity);
-        //etStreet = findViewById(R.id.etStreet);
-       // etHause = findViewById(R.id.etHause);
-        //etBuilding = findViewById(R.id.etBuilding);
-        //btnDelivery = findViewById(R.id.btnDelivery);
-        //btnPickUpFromWarehouse = findViewById(R.id.btnPickUpFromWarehouse);
         llChoiceWarehouse = findViewById(R.id.llChoiceWarehouse);
-       // spCity = findViewById(R.id.spCity);
         lvWarehouseList = findViewById(R.id.lvWarehouseList);
         btnApply = findViewById(R.id.btnApply);
 
         btnApply.setOnClickListener(this);
-        //btnDelivery.setOnClickListener(this);
-       // btnPickUpFromWarehouse.setOnClickListener(this);
 
         btnApply.setClickable(false);
-        //llChoiceWarehouse.setVisibility(View.GONE);
-        //llEnterAddress.setVisibility(View.GONE);
         //получить из sqlLite данные пользователя и компании
         UserDataRecovery userDataRecovery = new UserDataRecovery();
         userDataModel = userDataRecovery.getUserDataRecovery(this);
@@ -98,18 +93,6 @@ implements View.OnClickListener {
 
         receivePartnerWarehouseList(MY_CITY);
 
-       /* spCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                city = cityList[position];
-                //receivePartnerWarehouseList(city);
-                flagCiti=false;
-                makeButtonColor();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {            }
-        });*/
-
         lvWarehouseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -118,17 +101,12 @@ implements View.OnClickListener {
                     receivePartnerWarehouseList(MY_CITY);
                     btnApply.setClickable(false);
                     btnApply.setBackgroundColor(TUBI_GREY_200);
-                    //flagCiti=false;
                 }else {
                     yourChoiceRartnerWarehouse(adressWarehouseList.get(position));
-                   // flagCiti=true;
                 }
-                flagCiti=true;
-               // makeButtonColor();
+                //flagCiti=true;
             }
         });
-        //adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,cityList);
-        //spCity.setAdapter(adapter);
         adapWarehouse = new ArrayAdapter<String>(
                 this, android.R.layout.simple_list_item_1,adressWarehouseList);
         lvWarehouseList.setAdapter(adapWarehouse);
@@ -136,10 +114,6 @@ implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v.equals(btnApply)){
-           /* if(flagCiti == false) {
-                Toast.makeText(this, ""+SELECT_WAREHOUSE, Toast.LENGTH_SHORT).show();
-                return;
-            }else{*/
                 //получить склад id из строки
                 int warehouse_id = receiveWarehouse_id();
                 // поместите warehouse_id для передачи обратно в intent и закрыть это действие
@@ -148,21 +122,8 @@ implements View.OnClickListener {
                 intent.putExtra("warehouse_id", warehouse_id);
                 setResult(RESULT_OK, intent);
                 finish();
-           // }
         }
-       /* else if(v.equals(btnPickUpFromWarehouse)){
-           // llWarehouseList.setVisibility(View.VISIBLE);
-            Toast.makeText(this, "Раздел находится в разработке", Toast.LENGTH_SHORT).show();
-        }
-        else if(v.equals(btnDelivery)){
-            if(MY_CITY.equals("Другой город")){
-                return;
-            }
-            //llEnterAddress.setVisibility(View.VISIBLE);
-            btnDelivery.setBackgroundColor(TUBI_GREEN_300);
-            Intent intent = new Intent(this, EnterForDeliveryAddressActivity.class);
-            startActivityForResult(intent,ENTER_FOR_DDELIVERY_ADDRESS);
-        }*/
+
     }
     private void yourChoiceRartnerWarehouse(String adressWarehouse){
         adressWarehouseList.clear();
@@ -171,13 +132,7 @@ implements View.OnClickListener {
         btnApply.setClickable(true);
         btnApply.setBackgroundColor(TUBI_GREEN_600);
     }
-    private void makeButtonColor(){
-        if(flagCiti ){//&& flagDay
-            btnApply.setBackgroundColor(TUBI_GREEN_600);
-        }else{
-            btnApply.setBackgroundColor(TUBI_GREY_200);
-        }
-    }
+
     private void receivePartnerWarehouseList(String city){
         String url = Constant.API;
         url += "receive_partner_warehouse_list";
@@ -209,27 +164,40 @@ implements View.OnClickListener {
             } else {
                 for (int i = 0; i < res.length; i++) {
                     temp = res[i].split("&nbsp");
-                    String warehouse_info_id = temp[0], street = temp[1], house = temp[2],
-                            warehouse_id=temp[4];
-                    String st = "№ "+warehouse_info_id+"/"+warehouse_id+" "+ST+" "+street+" "+house;
-                    try {
-                        String building = temp[3];
-                        if(!building.isEmpty()){
-                            st += " "+BUILDING+" "+building;
-                        }
-                    }catch (Exception ex){};
 
-                    adressWarehouseList.add(st);
+                    int warehouse_info_id = Integer.parseInt(temp[0]);
+                    String street = temp[1];
+                    String house = temp[2];
+                    int warehouse_id=Integer.parseInt(temp[4]);
+                    help_warehouse=Integer.parseInt(temp[5]);
+
+                    //если склад не фиктивный то пишем его
+                    if(help_warehouse != 1){
+                        String st = "№ "+warehouse_info_id+"/"+warehouse_id+" "+ST+" "+street+" "+house;
+                        try {
+                            String building = temp[3];
+                            if(!building.isEmpty()){
+                                st += " "+BUILDING+" "+building;
+                            }
+                        }catch (Exception ex){};
+
+                        adressWarehouseList.add(st);
+                    }else{
+                        Log.d("A111","ChooseDistributionWarehouseActivity " +
+                                "/ splitResultPartnerWarehouseList " +
+                                "/ получен фиктивный склад и в список не записан");
+                    }
                 }
             }
         }catch (Exception ex){
         }
         adapWarehouse.notifyDataSetChanged();
         if(adressWarehouseList.size() == 1){
-            flagCiti=true;
+            //flagCiti=true;
             btnApply.setClickable(true);
             btnApply.setBackgroundColor(TUBI_GREEN_600);
-            //makeButtonColor();
+        }else if(adressWarehouseList.size() == 0){
+            alertDialogMessege();
         }
     }
     //получить склад id из строки
@@ -239,5 +207,14 @@ implements View.OnClickListener {
         int warehous_id = Integer.parseInt(step_two[1]);
         return warehous_id;
     }
+    private void alertDialogMessege(){
+        adb = new AlertDialog.Builder(this);
+        String st1 = YOUR_REGION_IS_NOT_WAREHOUSES;
+        String st2 = TRY_TO_SELECT_DELIVERY_SMALL;
+        adb.setTitle(st1);
+        adb.setMessage(st2);
 
+        ad=adb.create();
+        ad.show();
+    }
 }

@@ -16,8 +16,11 @@ import ru.tubi.project.models.OrderHistoryFinishModel;
 
 import java.util.List;
 
+import static ru.tubi.project.free.AllText.DELIVERY_TEXT;
+import static ru.tubi.project.free.AllText.ORDERS_BY_WAREHOUSE;
 import static ru.tubi.project.free.AllText.ORDER_BIG;
 import static ru.tubi.project.free.AllText.POSITIONS;
+import static ru.tubi.project.free.AllText.WAREHOUSE;
 
 public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.ViewHolder> {
 
@@ -46,8 +49,14 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     @Override
     public void onBindViewHolder( ViewHolder holder, int position) {
         OrderHistoryFinishModel order = orders.get(position);
+        String order_info = ORDER_BIG+": "+order.getOrder_id();
+        if(order.getDelivery() == 1){
+            order_info += " "+DELIVERY_TEXT;
+        }else{
+            order_info += " "+WAREHOUSE;
+        }
 
-        holder.tvOrderNum.setText(""+ORDER_BIG+": "+order.getOrder_id());
+        holder.tvOrderNum.setText(""+order_info);
         holder.tvPositionCount.setText(""+POSITIONS+": "+order.getPositionCount());
         holder.tvDescriptionFirst.setText(""+order.getDescriptionFirst());
         holder.tvDescriptionSecond.setText(""+order.getDescriptionSecond());

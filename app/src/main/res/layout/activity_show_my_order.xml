@@ -18,6 +18,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/llOrderInfo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -28,12 +29,19 @@
                 android:id="@+id/tvOrderInfo"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_weight="5"
                 android:background="@color/white"
                 android:gravity="center"
+                android:layout_weight="1"
                 android:text=""
                 android:textColor="@color/black"
-                android:textSize="17dp" />
+                android:textSize="14dp" />
+
+            <ImageView
+                android:id="@+id/imageView17"
+                android:layout_width="25dp"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                app:srcCompat="@android:drawable/ic_menu_search" />
 
 
         </LinearLayout>
@@ -58,7 +66,6 @@
             android:id="@+id/rvList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
         </androidx.recyclerview.widget.RecyclerView>
 

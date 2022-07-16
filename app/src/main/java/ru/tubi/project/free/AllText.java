@@ -60,8 +60,12 @@ public class AllText {
     public static String NETWORK_FAILED_TAXT = "Ошибка соединения";
     public static String DELIVERY_TO_ADDRESS = "доставка по адресу";
     public static String RECEIVING_FROM_WAREHOUSE = "получение со склада";
+    public static String YOUR_REGION_IS_NOT_WAREHOUSES = "В вашем регионе нет складов";
+    public static String TRY_TO_SELECT_DELIVERY_SMALL = "попробуйте выбрать доставку";
     public static String SAVE_QUESTION = "Сохранить?";
     public static String ORDERS_TEXT = "Заказы";
+    public static String INPUT_TEXT = "Ввод";
+    public static String ADDRESS_TEXT = "адреса ";
     public static String THE_ORDER_TEXT = "Заказ";
     public static String ENTER_YOUR_CITY = "Выберите ваш город";
     public static String IN_YOUR_CITY_IS_NOT_DELIVERY  = "В ваш город доставка не осуществляется";

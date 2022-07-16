@@ -45,7 +45,7 @@
         <activity android:name=".activity.company_my.ProviderCollectProductActivity" />
         <activity android:name=".activity.company_my.OrderForCollectActivity" />
         <activity android:name=".activity.invoice.ProductInvoicePDFActivity" />
-        <activity android:name=".activity.ChooseDistributionWarehouseActivity" />
+        <activity android:name=".activity.buyer.ChooseDistributionWarehouseActivity" />
         <activity android:name=".activity.logistics.IntercityDeliveryCalendarActivity" />
         <activity android:name=".activity.invoice.PdfActivity" />
         <activity android:name=".activity.company_my.MyProductInPartnerWarehouseActivity" />

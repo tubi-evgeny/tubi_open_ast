@@ -13,7 +13,24 @@ public class OrderHistoryFinishModel implements Serializable {
     private int executed;
     private double summ;
     private int order_deleted;
+    private int delivery;
 
+
+    //OrderHistoryActivity / makeOrderHistoryList()
+    public OrderHistoryFinishModel(int order_id, int positionCount, String descriptionFirst,
+                                   String descriptionSecond, String date, String get_date,
+                                   int executed, double summ, int order_deleted, int delivery) {
+        this.order_id = order_id;
+        this.positionCount = positionCount;
+        this.descriptionFirst = descriptionFirst;
+        this.descriptionSecond = descriptionSecond;
+        this.date = date;
+        this.get_date=get_date;
+        this.executed=executed;
+        this.summ = summ;
+        this.order_deleted=order_deleted;
+        this.delivery=delivery;
+    }
     public OrderHistoryFinishModel(int order_id, int positionCount, String descriptionFirst,
                                    String descriptionSecond, String date, String get_date,
                                    int executed, double summ, int order_deleted) {
@@ -99,6 +116,14 @@ public class OrderHistoryFinishModel implements Serializable {
 
     public void setOrder_deleted(int order_deleted) {
         this.order_deleted = order_deleted;
+    }
+
+    public int getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(int delivery) {
+        this.delivery = delivery;
     }
 }
 

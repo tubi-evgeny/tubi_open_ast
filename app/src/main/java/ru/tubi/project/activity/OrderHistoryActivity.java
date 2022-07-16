@@ -82,6 +82,7 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
         Intent intent = new Intent(this, ShowMyOrderActivity.class);
         intent.putExtra("order_id",listFinishOrderHistory.get(position).getOrder_id());
         intent.putExtra("executed",listFinishOrderHistory.get(position).getExecuted());
+        intent.putExtra("delivery",listFinishOrderHistory.get(position).getDelivery());
         intent.putExtra("order_deleted",listFinishOrderHistory.get(position).getOrder_deleted());
         startActivity(intent);
     }
@@ -154,10 +155,11 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
                 String get_date=temp[9];
                 int order_deleted=Integer.parseInt(temp[10]);
                 double price_process=Double.parseDouble(temp[11]);
+                int delivery=Integer.parseInt(temp[12]);
 
                 OrderHistoryModel orderHistory = new OrderHistoryModel(order_id,category,
                         brand, characteristic, weight_volume, price, quantity,
-                        executed, date, get_date, order_deleted, price_process);
+                        executed, date, get_date, order_deleted, price_process, delivery);
 
                 listOrders.add(orderHistory);
             }
@@ -177,10 +179,13 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
          double summ = 0;
          int listSize = listOrders.size();
         int order_deleted;
+        int delivery;
 
          if(listOrders.size() > 0) {
              order_id = listOrders.get(0).getOrder_id();
              order_deleted=listOrders.get(0).getOrder_deleted();
+             delivery = listOrders.get(0).getDelivery();
+
              for(int i=0;i<listOrders.size();i++){
                  int a = i+1;
                  //номер заказов совпадает начинаем формировать отчет
@@ -220,11 +225,12 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
                                 //записываем в лист собранные данные
                              OrderHistoryFinishModel finishOrder = new OrderHistoryFinishModel(
                                      order_id,positionCount,descriptionFirst,descriptionSecond,
-                                     date,get_date,executed,summ, order_deleted);
+                                     date,get_date,executed,summ, order_deleted, delivery);
                              listFinishOrderHistory.add(finishOrder);
 
                              order_id = listOrders.get(a).getOrder_id();
                              order_deleted=listOrders.get(a).getOrder_deleted();
+                             delivery=listOrders.get(a).getDelivery();
                              positionCount = 0;
                              descriptionFirst = null;
                              descriptionSecond = "....";
@@ -238,7 +244,7 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
              //записываем последние собранные данные в лист
              OrderHistoryFinishModel finishOrder = new OrderHistoryFinishModel(
                      order_id,positionCount,descriptionFirst,descriptionSecond,
-                     date,get_date,executed,summ, order_deleted);
+                     date,get_date,executed,summ, order_deleted, delivery);
              listFinishOrderHistory.add(finishOrder);
          }
         adapter.notifyDataSetChanged();

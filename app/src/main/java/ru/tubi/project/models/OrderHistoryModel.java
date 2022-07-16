@@ -18,13 +18,14 @@ public class OrderHistoryModel implements Serializable {
     private String date;
     private String get_date;
     private int order_deleted;
+    private int delivery;
 
     //OrderHistoryActivity //splitOrderHistoryResult();
     public OrderHistoryModel(int order_id, String category, String brand,
                              String characteristic, int weight_volume,
                              double price, double quantity, int executed,
                              String date, String get_date,int order_deleted
-            ,double price_process) {
+            ,double price_process, int delivery) {
 
         this.category = category;
         this.brand = brand;
@@ -38,6 +39,7 @@ public class OrderHistoryModel implements Serializable {
         this.get_date=get_date;
         this.order_deleted=order_deleted;
         this.price_process = price_process;
+        this.delivery=delivery;
     }
 
     public int getWeight_volume() {
@@ -143,6 +145,14 @@ public class OrderHistoryModel implements Serializable {
 
     public void setOrder_deleted(int order_deleted) {
         this.order_deleted = order_deleted;
+    }
+
+    public int getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(int delivery) {
+        this.delivery = delivery;
     }
 }
 

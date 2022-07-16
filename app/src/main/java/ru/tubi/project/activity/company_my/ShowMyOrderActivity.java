@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -35,9 +36,15 @@ import ru.tubi.project.utilites.UserDataRecovery;
 
 import static ru.tubi.project.Config.ADMIN_PANEL_URL_IMAGES;
 import static ru.tubi.project.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
+import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
+import static ru.tubi.project.free.AllCollor.TUBI_GREY_400;
 import static ru.tubi.project.free.AllCollor.alert_dialog_button_green_pressed;
+import static ru.tubi.project.free.AllText.ALL_RIGHT_TEXT;
+import static ru.tubi.project.free.AllText.ALL_RIGHT_TEXT_BIG;
 import static ru.tubi.project.free.AllText.BUILDING;
+import static ru.tubi.project.free.AllText.DELIVERY_TEXT;
+import static ru.tubi.project.free.AllText.DELIVERY_TO_ADDRESS;
 import static ru.tubi.project.free.AllText.MES_16;
 import static ru.tubi.project.free.AllText.MES_17;
 import static ru.tubi.project.free.AllText.MES_6;
@@ -45,6 +52,7 @@ import static ru.tubi.project.free.AllText.NO_BACK;
 import static ru.tubi.project.free.AllText.ORDER;
 import static ru.tubi.project.free.AllText.PERFORM;
 import static ru.tubi.project.free.AllText.PROVIDER_WAREHOUSE_TEXT;
+import static ru.tubi.project.free.AllText.RECEIVING_FROM_WAREHOUSE;
 import static ru.tubi.project.free.AllText.RETURN_BIG;
 import static ru.tubi.project.free.AllText.SHOW;
 import static ru.tubi.project.free.AllText.ST;
@@ -57,12 +65,13 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
 
     private TextView tvOrderInfo,tvTotalSumm;
     private ImageView ivDeleteOrder, ivEditOrder;
-    private LinearLayout llEditDelete;
+    private LinearLayout llEditDelete, llOrderInfo;
     private RecyclerView rvList;
     private Intent takeit;
     private ArrayList<OrderModel> productList = new ArrayList<>();
     private ShowMyOrderAdapter adapter;
-    private int order_id, executed, order_deleted, x=0 ;
+    private int order_id, executed, order_deleted, deliveryKey, x=0 ;
+    private String address_for_delivery, placeDeliveryOrderInfo;
     private AlertDialog.Builder adb;
     private AlertDialog ad;
     private UserModel userDataModel;
@@ -72,10 +81,11 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_my_order);
         setTitle(SHOW);//Показываю Ваш заказ
-        getSupportActionBar().setSubtitle(YOUR_ORDER);//Ваш заказ
+        getSupportActionBar().setSubtitle(YOUR_ORDER);
 
         rvList=findViewById(R.id.rvList);
         llEditDelete=findViewById(R.id.llEditDelete);
+        llOrderInfo=findViewById(R.id.llOrderInfo);
         tvOrderInfo=findViewById(R.id.tvOrderInfo);
         tvTotalSumm=findViewById(R.id.tvTotalSumm);
         ivDeleteOrder=findViewById(R.id.ivDeleteOrder);
@@ -87,10 +97,12 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
 
         ivDeleteOrder.setOnClickListener(this);
         ivEditOrder.setOnClickListener(this);
+        llOrderInfo.setOnClickListener(this);
 
         takeit = getIntent();
         order_id = takeit.getIntExtra("order_id",0);
         executed = takeit.getIntExtra("executed",0);
+        deliveryKey = takeit.getIntExtra("delivery",0);
         order_deleted = takeit.getIntExtra("order_deleted",0);
 
         tvOrderInfo.setText(""+ORDER+" № "+order_id);
@@ -98,8 +110,12 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
         if(executed == 1 || order_deleted == 1){
             llEditDelete.setVisibility(View.GONE);
         }
+        if(deliveryKey == 1){
+            receiveDeliveryAddress();
+        }else{
+            receiveParetnerWarehouseInfo();
+        }
 
-        receiveParetnerWarehouseInfo();
         startShowProductToOrderList();
 
         ShowMyOrderAdapter.RecyclerViewClickListener clickListener =
@@ -120,8 +136,12 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
             Toast.makeText(this,
                     "Опция редактирования заказа находится в разработке", Toast.LENGTH_LONG).show();
 
-        }else if (v.equals(ivDeleteOrder)) {
+        }
+        else if (v.equals(ivDeleteOrder)) {
             adDeleteOrder();
+        }
+        else if(v.equals(llOrderInfo)){
+            adPlaceDeliveryInfo();
         }
     }
     private void WhatButtonClicked(View view, int position){
@@ -132,6 +152,18 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
         }
 
     }
+    private void showPlaceReceivingOrder(String placeDeliveryOrderInfo){
+
+        tvOrderInfo.setText(""+ORDER+" № "+order_id+"  "+placeDeliveryOrderInfo);
+    }
+    //получить адресс доставки
+    private void receiveDeliveryAddress(){
+        String url = Constant.API_TEST;
+        url += "receive_delivery_address";
+        url += "&" + "order_id=" +order_id;
+        String whatQuestion = "receive_delivery_address";
+        setInitialData(url,whatQuestion);
+    }
     //получить данные о складе выдачи товара
     private void receiveParetnerWarehouseInfo(){
         String url = Constant.API;
@@ -139,6 +171,7 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
         url += "&"+"order_id="+order_id;
         String whatQuestion = "receive_paretner_warehouse_info";
         setInitialData(url, whatQuestion);
+        Log.d("A111","ShowMyOrderActivity / receiveParetnerWarehouseInfo / url="+url);
     }
     //удалить заказ из БД
     private void deleteOrderFromDataBase(){
@@ -170,6 +203,8 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
                       //  "res: "+result, Toast.LENGTH_SHORT).show();
                 }else if(whatQuestion.equals("receive_paretner_warehouse_info")){
                     splitWarehouseResult(result);
+                }else if(whatQuestion.equals("receive_delivery_address")){
+                    splitAddressDelivery(result);
                 }
                 //hide the dialog
                 // asyncDialog.dismiss();
@@ -177,8 +212,15 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
         };
         task.execute(url_get);
     }
+    //разобрать ответ адрес доставки
+    private void splitAddressDelivery(String result){
+        address_for_delivery = result;
+        placeDeliveryOrderInfo = DELIVERY_TEXT+" "+address_for_delivery;
+        showPlaceReceivingOrder(placeDeliveryOrderInfo);
+    }
     //разобрать данные о складе выдачи товара
     private void splitWarehouseResult(String result){
+        Log.d("A111","ShowMyOrderActivity / splitWarehouseResult / result="+result);
         try{
             String[] res = result.split("<br>");
             String[] temp = res[0].split("&nbsp");
@@ -199,10 +241,12 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
                     st2 += " "+BUILDING+" "+building;
                 }catch (Exception ex){};
 
-
-                tvOrderInfo.setText(""+ORDER+" № "+order_id+"  "+WAREHOUSE+" "+st1+"\n"+st2);
+                placeDeliveryOrderInfo = WAREHOUSE+" "+st1+"\n"+st2;
+                showPlaceReceivingOrder(placeDeliveryOrderInfo);
+                //tvOrderInfo.setText(""+ORDER+" № "+order_id+"  "+WAREHOUSE+" "+st1+"\n"+st2);
             }
         }catch(Exception ex){
+            Log.d("A111","ShowMyOrderActivity / splitWarehouseResult / Exception="+ex);
             Toast.makeText(this, "Exception: "+ex, Toast.LENGTH_SHORT).show();
         }
     }
@@ -317,6 +361,13 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
         ad=adb.create();
         ad.show();
     }
-
+    private void adPlaceDeliveryInfo(){
+        AlertDialog.Builder adb= new AlertDialog.Builder(this);
+        String st1 = placeDeliveryOrderInfo;
+        adb.setTitle("");
+        adb.setMessage(st1);
+        ad=adb.create();
+        ad.show();
+    }
 
 }

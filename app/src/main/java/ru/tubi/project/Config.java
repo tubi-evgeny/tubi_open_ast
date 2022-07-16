@@ -7,7 +7,8 @@ public class Config {
     //your admin panel url
     //public static final String ADMIN_PANEL_URL = "https://h102582557.nichost.ru/api_tubi/";
      public static final String ADMIN_PANEL_URL = "http://h102582557.nichost.ru/test_tubi/";
-        //your admin images file
+
+           //your admin images file
     public static final String ADMIN_PANEL_URL_IMAGES = ADMIN_PANEL_URL+"image/";
     //public static final String ADMIN_PANEL_URL_IMAGES = "https://h102582557.nichost.ru/api/image/";
     //your admin preview images file
