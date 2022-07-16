@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(MY_CITY.isEmpty()){
             lvMyCity.setVisibility(View.VISIBLE);
         }else{
-            tvMyCity.setText(MY_CITY);
+            tvMyCity.setText(""+MY_REGION+" "+MY_CITY);
             lvMyCity.setVisibility(View.GONE);
         }
         //запуск метода обновить меню,
