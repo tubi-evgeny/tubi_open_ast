@@ -41,7 +41,7 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
 
     private TextView tvCmpanyName,tvProductReceipt,tvProductInvoice, tvProviderProductInvoice
             ,tvOrders, tvOrdersForProvider, tvOrdersProviders,tvBuyHistory;
-    private Button  btnOrdersBuyers, btnSaleHistory;//btnGoMyCatalog,btnOrdersProviders, btnBuyHistory,
+    private Button  btnOrdersBuyers, btnSaleHistory;
     private LinearLayout llAcceptProduct_buy,llOrdersProviders,llBuyHistory,llOrdersShipment
             ,llGoMyCatalog
             ,llOrderForCollect, llSaleProduct,llLogistics,llPartner,llAcceptProduct_partner

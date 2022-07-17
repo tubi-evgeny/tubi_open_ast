@@ -88,8 +88,12 @@
     <string name="city">Город</string>
     <string name="street">Улица</string>
     <string name="house">Дом</string>
+    <string name="agent">Агент</string>
     <string name="building">Корпус</string>
     <string name="signboard">Вывеска</string>
+    <string name="create_an_order">Создать заказ</string>
+    <string name="my_partners">Мои партнеры</string>
+    <string name="invite_a_partner">Пригласить партнера</string>
     <string name="region_hint">Московская область</string>
     <string name="district_hint">Мытищенский район</string>
     <string name="city_hint">Мытищи</string>
