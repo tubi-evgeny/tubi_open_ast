@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -219,10 +220,11 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
         if(deliveryKey == 1){
             //если есть то получит адрес доставки
             receiveDeliveryAddress();
+            //и данные склада
+            receivePartnerWarehouse_id();
         }else{
             //если нет то получить данные склада
             receivePartnerWarehouse_id();
-            //showPlaceReceivingOrder();
         }
     }
     private void showPlaceReceivingOrder(){
@@ -322,6 +324,7 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
 
                 warehouseInfo = st;
                 warehouse_id = Integer.parseInt(myWarehouse_id);
+                Log.d("A111","MakingOrderActivity / splitResultPartnerWarehouse / warehouse_id ="+warehouse_id);
 
                 showPlaceReceivingOrder();
                // tvWarehouseInfo.setText(warehouseInfo);
