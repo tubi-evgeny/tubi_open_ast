@@ -70,10 +70,12 @@ public class CompanyDateFormActivity extends AppCompatActivity implements View.O
     private HelperDB my_db;
     private AlertDialog.Builder adb;
     private AlertDialog ad;
-    private boolean rb_ip=false, rb_ooo=false;
-    private String abbreviation, counterparty, taxpayer_id ;
     private Intent takeit;
     private UserModel userDataModel;
+
+    private boolean rb_ip=false, rb_ooo=false;
+    private String abbreviation, counterparty, taxpayer_id ;
+    private int agentKey;
     //private  FirstSimbolMakeBig simbolMakeBig;
 
     @Override
@@ -93,11 +95,15 @@ public class CompanyDateFormActivity extends AppCompatActivity implements View.O
         etCompanyName=findViewById(R.id.etCompanyName);
         etTaxpayerID=findViewById(R.id.etTaxpayerID);
 
+        takeit = getIntent();
+        //данные вводит агент о компании партнере, не сохранять в память приложения
+        agentKey = takeit.getIntExtra("agentKey",0);
+
         //получить из sqlLite данные пользователя и компании
         UserDataRecovery userDataRecovery = new UserDataRecovery();
         userDataModel = userDataRecovery.getUserDataRecovery(this);
 
-       // String name = new FirstSimbolMakeBig().firstSimbolMakeBig(userDataModel.getName());
+
         tvHello.setText(""+HELLO);
         tvUserName.setText(""+new FirstSimbolMakeBig().firstSimbolMakeBig(userDataModel.getName()));//MY_NAME);
         tvMessage.setText(MES_2);
@@ -113,7 +119,7 @@ public class CompanyDateFormActivity extends AppCompatActivity implements View.O
         etCompanyName.setOnClickListener(this);
         etTaxpayerID.setOnClickListener(this);
 
-        takeit = getIntent();
+
 
         my_db = new HelperDB(this);
 

@@ -54,6 +54,7 @@ public class Constant {
     public static final String CARRIER_OFFICE = BASE_URL + "carrier_office.php?";
     public static final String PARTNER_OFFICE = BASE_URL + "partner_office.php?";
     public static final String WAREHOUSE_OFFICE = BASE_URL + "warehouse_office.php?";
+    public static final String AGENT_OFFICE = BASE_URL + "agent_office.php?";
 
 
     //insert_category.php

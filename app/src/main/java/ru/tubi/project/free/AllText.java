@@ -198,6 +198,7 @@ public class AllText {
     public static String UNIT_MEASURE = "МЕРА ИЗМЕРЕНИЯ";
     public static String COUNTERPARTY = "ПОСТАВЩИК";
     public static String PROVIDER = "ПОСТАВЩИК";
+    public static String CHOOSE_A_PARTNER = "Выбрать партнера";
     public static String SHOW_MORE = "ПОКАЗАТЬ ЕЩЕ";
     public static String DOWNLOAD_DATA = "ЗАГРУЗИТЬ В БАЗУ";
     public static String UPLOADING_DATABASE = "ДАННЫЕ ЗАГРУЖАЮТСЯ";

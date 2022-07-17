@@ -22,7 +22,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tubi"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.buyer.PlaceOfReceiptOfGoodsActivity"></activity>
+        <activity android:name=".activity.agent.ChoosePartnerActivity"></activity>
+        <activity android:name=".activity.buyer.PlaceOfReceiptOfGoodsActivity" />
         <activity android:name=".activity.buyer.EnterForDeliveryAddressActivity" />
         <activity android:name=".activity.invoice.InvoiceProviderPDFActivity" />
         <activity android:name=".activity.company_my.OrderToProviderListActivity" />

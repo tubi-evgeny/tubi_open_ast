@@ -19,6 +19,7 @@ import ru.tubi.project.activity.Partner.ListBuyersIssueGoodsActivity;
 import ru.tubi.project.activity.Partner.PartnerListBuyersForCollectActivity;
 import ru.tubi.project.activity.Partner.AcceptProductActivity;
 import ru.tubi.project.activity.Partner.OrderBuyerListActivity;
+import ru.tubi.project.activity.agent.ChoosePartnerActivity;
 import ru.tubi.project.activity.company_my.CatalogInWarehouseActivity;
 import ru.tubi.project.activity.company_my.CollectProductForActivity;
 import ru.tubi.project.activity.company_my.DistributionOrdersByWarehousesActivity;
@@ -42,11 +43,12 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
     private TextView tvCmpanyName,tvProductReceipt,tvProductInvoice, tvProviderProductInvoice
             ,tvOrders, tvOrdersForProvider, tvOrdersProviders,tvBuyHistory;
     private Button  btnOrdersBuyers, btnSaleHistory;
-    private LinearLayout llAcceptProduct_buy,llOrdersProviders,llBuyHistory,llOrdersShipment
-            ,llGoMyCatalog
+    private LinearLayout llReceiptOfGoods, llAcceptProduct_buy,llOrdersProviders,llBuyHistory,llOrdersShipment
+            ,llInventoryOfGoods, llGoMyCatalog
             ,llOrderForCollect, llSaleProduct,llLogistics,llPartner,llAcceptProduct_partner
             ,llCollectProductFor,llCollectProduct,llGiveAwayProduct,llCarrierPanel
-            ,llIntercityDeliveryCal,llDeliveryToWarehouse,llHandOverProduct;
+            ,llIntercityDeliveryCal,llDeliveryToWarehouse,llHandOverProduct
+            ,llAgent, llCreateOrder, llInvitePartner, llMyPartners;
     private Intent intent;
     private SearchOrder_id searchOrder_id = new SearchOrder_id();
 
@@ -68,6 +70,9 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
         tvOrders=findViewById(R.id.tvOrders);
         tvProductReceipt=findViewById(R.id.tvProductReceipt);
         tvProductInvoice=findViewById(R.id.tvProductInvoice);
+
+        llReceiptOfGoods=findViewById(R.id.llReceiptOfGoods);
+        llInventoryOfGoods=findViewById(R.id.llInventoryOfGoods);
         llAcceptProduct_buy=findViewById(R.id.llAcceptProduct_buy);
         llBuyHistory=findViewById(R.id.llBuyHistory);
         llOrdersShipment=findViewById(R.id.llOrdersShipment);
@@ -84,6 +89,8 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
         llIntercityDeliveryCal=findViewById(R.id.llIntercityDeliveryCal);
         llDeliveryToWarehouse=findViewById(R.id.llDeliveryToWarehouse);
         llHandOverProduct=findViewById(R.id.llHandOverProduct);
+        llAgent=findViewById(R.id.llAgent);
+        llCreateOrder=findViewById(R.id.llCreateOrder);
 
         llAcceptProduct_buy.setOnClickListener(this);
         llBuyHistory.setOnClickListener(this);
@@ -106,6 +113,7 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
         tvOrders.setOnClickListener(this);
         tvProductReceipt.setOnClickListener(this);
         tvProductInvoice.setOnClickListener(this);
+        llCreateOrder.setOnClickListener(this);
 
         llSaleProduct.setVisibility(GONE);
         llPartner.setVisibility(GONE);
@@ -113,6 +121,7 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
         llCarrierPanel.setVisibility(GONE);
         llDeliveryToWarehouse.setVisibility(GONE);
         llHandOverProduct.setVisibility(GONE);
+        llAgent.setVisibility(GONE);
 
         //получить из sqlLite данные пользователя и компании
         UserDataRecovery userDataRecovery = new UserDataRecovery();
@@ -142,13 +151,15 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
         if(userDataModel.getRole().equals("admin")){
             llLogistics.setVisibility(View.VISIBLE);
             llCarrierPanel.setVisibility(View.VISIBLE);
+            llAgent.setVisibility(View.VISIBLE);
            // llDeliveryToWarehouse.setVisibility(View.VISIBLE);
         }
-       /* for(int i=0;i < PARTNER_ROLE_LIST.size();i++){partner_warehouse
-            if(PARTNER_ROLE_LIST.get(i).equals("provider_business")){
-                llSaleProduct.setVisibility(View.VISIBLE);
-            }
-        }     */
+        else if(userDataModel.getRole().equals("sales_agent")){
+            llAgent.setVisibility(View.VISIBLE);
+            llReceiptOfGoods.setVisibility(GONE);
+            llInventoryOfGoods.setVisibility(GONE);
+        }
+
     }
 
     @Override
@@ -234,7 +245,11 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
         }else if(v.equals(llHandOverProduct)){
             Intent intent=new Intent(this, HandOverProductActivity.class);
             startActivity(intent);
+        }else if(v.equals(llCreateOrder)){
+            Intent intent=new Intent(this, ChoosePartnerActivity.class);
+            startActivity(intent);
         }
+
 
     }
     //слушатель возврата по методу Back(); из предыдущей активности

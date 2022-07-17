@@ -30,6 +30,7 @@
             android:orientation="vertical" >
 
             <LinearLayout
+                android:id="@+id/llReceiptOfGoods"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/round_backgraund_white_black"
@@ -146,6 +147,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llInventoryOfGoods"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

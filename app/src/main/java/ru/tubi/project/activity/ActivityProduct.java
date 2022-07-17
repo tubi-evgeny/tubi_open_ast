@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -352,7 +353,12 @@ public class ActivityProduct extends AppCompatActivity {
 
     private void setInitialData(String url_get, String whatQuestion) {
         ProgressDialog asyncDialog = new ProgressDialog(this);
-
+        //проверка соединения интернета
+        if ( !isOnline() ){
+            Toast.makeText(getApplicationContext(),
+                    "Нет соединения с интернетом!",Toast.LENGTH_LONG).show();
+            return;
+        }
         InitialData task=new InitialData(){
             @Override
             protected void onPreExecute() {
@@ -602,6 +608,17 @@ public class ActivityProduct extends AppCompatActivity {
             startActivityForResult(intent,SHOP_BOX_REQUEST_CODE );
         }
         return super.onOptionsItemSelected(item);
+    }
+    //проверка соединения интернета
+    protected boolean isOnline() {
+        String cs = Context.CONNECTIVITY_SERVICE;
+        ConnectivityManager cm = (ConnectivityManager)
+                getSystemService(cs);
+        if (cm.getActiveNetworkInfo() == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override

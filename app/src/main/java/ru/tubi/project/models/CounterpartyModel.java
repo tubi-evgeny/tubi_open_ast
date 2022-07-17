@@ -18,6 +18,7 @@ public class CounterpartyModel implements Serializable {
     private int order_deleted;
     private int collect_product_for_delete;
     private int delivery;
+    private String companyInfoString;
 
     // CollectProductForActivity//splitAllWriteOffOrders();
     public CounterpartyModel(int order_id, String abbreviation, String counterparty,
@@ -26,6 +27,16 @@ public class CounterpartyModel implements Serializable {
         this.abbreviation = abbreviation;
         this.counterparty = counterparty;
         this.taxpayer_id = taxpayer_id;
+    }
+    //ChoosePartnerActivity / splitResultCounterpartyArray();
+    public CounterpartyModel(int order_id, String abbreviation
+            , String counterparty, long taxpayer_id
+            ,String companyInfoString) {
+        this.order_id = order_id;
+        this.abbreviation = abbreviation;
+        this.counterparty = counterparty;
+        this.taxpayer_id = taxpayer_id;
+        this.companyInfoString=companyInfoString;
     }
 
     public CounterpartyModel(int order_id,long taxpayer_id, String abbreviation
@@ -195,5 +206,13 @@ public class CounterpartyModel implements Serializable {
 
     public void setDelivery(int delivery) {
         this.delivery = delivery;
+    }
+
+    public String getCompanyInfoString() {
+        return companyInfoString;
+    }
+
+    public void setCompanyInfoString(String companyInfoString) {
+        this.companyInfoString = companyInfoString;
     }
 }
