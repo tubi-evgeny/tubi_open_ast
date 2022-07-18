@@ -442,7 +442,7 @@ public class ProfileCompanyActivity extends AppCompatActivity implements View.On
     //введите данные компании
     private void enterCompanyDate(){
         Intent intent = new Intent(this,CompanyDateFormActivity.class);
-        intent.putExtra("message",MES_1_PROFILE);
+        //intent.putExtra("message",MES_1_PROFILE);
         startActivityForResult(intent, RETURN_COMPANY_DATE);
     }
 

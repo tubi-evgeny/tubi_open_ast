@@ -32,6 +32,10 @@ public class Config {
     public static String MY_COMPANY_TAXPAYER_ID = null;
     //public static ArrayList<String> PARTNER_ROLE_LIST = new ArrayList<>();
 
+    //инн компании для использования агентом при заказах
+    public static long PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT = 0;
+    public static String PARTNER_COMPANY_INFO_FOR_AGENT = "";
+
          //search open order condition for soping box(condition) for start activity
     public static boolean OPEN_ORDER_CONDITION = false;
 

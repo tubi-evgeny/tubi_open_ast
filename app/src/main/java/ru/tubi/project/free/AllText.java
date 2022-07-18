@@ -198,6 +198,7 @@ public class AllText {
     public static String UNIT_MEASURE = "МЕРА ИЗМЕРЕНИЯ";
     public static String COUNTERPARTY = "ПОСТАВЩИК";
     public static String PROVIDER = "ПОСТАВЩИК";
+    public static String AGENT_BIG = "АГЕНТ";
     public static String CHOOSE_A_PARTNER = "Выбрать партнера";
     public static String SHOW_MORE = "ПОКАЗАТЬ ЕЩЕ";
     public static String DOWNLOAD_DATA = "ЗАГРУЗИТЬ В БАЗУ";
@@ -418,4 +419,10 @@ public class AllText {
                                 "\nоткрытый заказ ";
     public static String MES_19= "Вы закрываете накладную \nтовары которые вы не отметили  \nбудут записаны в новую накладную  \nкоторую вы создадите после закрытия этой";
     public static String MES_20 = "Полную информацию о заказе \nвы можете посмотреть во вкладке \nГЛАВНАЯ -> МОЯ КОМПАНИЯ -> \nИСТОРИЯ ЗАКУПОК";
+    public static String MES_21 = "необходимо ввести сведения о " +
+            "\nКОМПАНИИ ПАРТНЕРА" +
+            "\nдля оформления документов";
+
+
+
 }

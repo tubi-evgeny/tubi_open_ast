@@ -37,6 +37,7 @@ import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllCollor.TUBI_WHITE;
 import static ru.tubi.project.free.AllCollor.TUBI_YELLOW_200;
+import static ru.tubi.project.free.AllText.AGENT_BIG;
 import static ru.tubi.project.free.AllText.CHECK_TAX_ID;
 import static ru.tubi.project.free.AllText.CHOOSE_ABBREVIATION;
 import static ru.tubi.project.free.AllText.DATE_OR_COMPANY;
@@ -47,7 +48,9 @@ import static ru.tubi.project.free.AllText.HELLO;
 import static ru.tubi.project.free.AllText.IMPORTANT;
 import static ru.tubi.project.free.AllText.IP;
 import static ru.tubi.project.free.AllText.IP_SMOL;
+import static ru.tubi.project.free.AllText.MES_1_PROFILE;
 import static ru.tubi.project.free.AllText.MES_2;
+import static ru.tubi.project.free.AllText.MES_21;
 import static ru.tubi.project.free.AllText.MY_COMPANY_NAME;
 import static ru.tubi.project.free.AllText.NAME_COMPANY;
 import static ru.tubi.project.free.AllText.OOO;
@@ -103,10 +106,18 @@ public class CompanyDateFormActivity extends AppCompatActivity implements View.O
         UserDataRecovery userDataRecovery = new UserDataRecovery();
         userDataModel = userDataRecovery.getUserDataRecovery(this);
 
+        if(agentKey == 1){
+            tvHello.setText(""+HELLO+"\n"+AGENT_BIG);
+        }else{
+            tvHello.setText(""+HELLO);
+        }
 
-        tvHello.setText(""+HELLO);
         tvUserName.setText(""+new FirstSimbolMakeBig().firstSimbolMakeBig(userDataModel.getName()));//MY_NAME);
-        tvMessage.setText(MES_2);
+        if(agentKey == 1) {
+            tvMessage.setText(MES_21);
+        }else{
+            tvMessage.setText(MES_2);
+        }
         rbIP.setText(IP);
         rbOOO.setText(OOO);
         tvInfo.setText(new FirstSimbolMakeBig().firstSimbolMakeBig(userDataModel.getCounterparty()));//NAME_COMPANY);
@@ -226,7 +237,19 @@ public class CompanyDateFormActivity extends AppCompatActivity implements View.O
             //Toast.makeText(this, "id: "+taxpayer_id, Toast.LENGTH_LONG).show();
         }
 
+        createMyCompany();
+        //записываем(изменяем) полученные данные в DB
+       /* String url_get = Constant.INPUT;
+        url_get += "&" + "new_counterparty";
+        url_get += "&" + "unique_id=" + userDataModel.getUid();//MY_UID;
+        url_get += "&" + "abbreviation=" + abbreviation;
+        url_get += "&" + "counterparty=" + counterparty;
+        url_get += "&" + "taxpayer_id=" + taxpayer_id;
+        String whatQuestion = "new_counterparty";
+        setInitialData(url_get,whatQuestion);*/
 
+    }
+    private void createMyCompany(){
         //записываем(изменяем) полученные данные в DB
         String url_get = Constant.INPUT;
         url_get += "&" + "new_counterparty";
@@ -234,9 +257,9 @@ public class CompanyDateFormActivity extends AppCompatActivity implements View.O
         url_get += "&" + "abbreviation=" + abbreviation;
         url_get += "&" + "counterparty=" + counterparty;
         url_get += "&" + "taxpayer_id=" + taxpayer_id;
+        url_get += "&" + "agentKey=" + agentKey;//agentKey
         String whatQuestion = "new_counterparty";
         setInitialData(url_get,whatQuestion);
-
     }
     private void setInitialData(String url_get, String whatQuestion) {
         Log.d("A111","CompanyDateFormActivity / setInitialData / url="+url_get);
@@ -262,7 +285,17 @@ public class CompanyDateFormActivity extends AppCompatActivity implements View.O
                 Toast.makeText(this, " " +temp[1], Toast.LENGTH_LONG).show();
             }else if(temp[0].equals("RESULT_OK")){
 
-                   createCompanyDate();// Теперь сохраните данные компании в sqlite
+                if(agentKey == 1){
+                    //если данные вводил агент то записывать их в память приложения не надо
+                    Intent intent = new Intent();
+                    long partner_taxpayer_id = Long.parseLong(taxpayer_id);
+                    intent.putExtra("partner_taxpayer_id", partner_taxpayer_id);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }else{
+                    createCompanyDate();// Теперь сохраните данные компании в sqlite
+                }
+
             }
         }
     }
@@ -294,7 +327,7 @@ public class CompanyDateFormActivity extends AppCompatActivity implements View.O
         adb = new AlertDialog.Builder(this);
         String st1 = IMPORTANT;//важно
         //String st2 = receiveMessage();
-        String st2 = takeit.getStringExtra("message");
+        String st2 = MES_1_PROFILE;//takeit.getStringExtra("message");
 
         adb.setTitle(st1);
         adb.setMessage(st2);
@@ -312,8 +345,6 @@ public class CompanyDateFormActivity extends AppCompatActivity implements View.O
         });
         ad=adb.create();
         ad.show();
-
-
     }
 
     @Override

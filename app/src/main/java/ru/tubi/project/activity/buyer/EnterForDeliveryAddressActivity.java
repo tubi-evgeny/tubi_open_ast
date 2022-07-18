@@ -82,7 +82,7 @@ public class EnterForDeliveryAddressActivity extends AppCompatActivity
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v) {//btnApply
         String street = etStreet.getText().toString().trim();
         int hause = 0;
         String building = etBuilding.getText().toString().trim();

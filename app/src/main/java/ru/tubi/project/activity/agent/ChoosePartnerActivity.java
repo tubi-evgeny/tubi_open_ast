@@ -1,8 +1,8 @@
 package ru.tubi.project.activity.agent;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -27,31 +27,33 @@ import java.util.stream.Collectors;
 
 import ru.tubi.project.R;
 import ru.tubi.project.activity.CompanyDateFormActivity;
-import ru.tubi.project.adapters.ChoosePartnerAdapter;
-import ru.tubi.project.adapters.ProductAdapter;
-import ru.tubi.project.models.CatalogProductProviderModel;
+import ru.tubi.project.activity.buyer.PlaceOfReceiptOfGoodsActivity;
 import ru.tubi.project.models.CounterpartyModel;
-import ru.tubi.project.models.ProductModel;
 import ru.tubi.project.utilites.InitialData;
+import ru.tubi.project.utilites.SearchOrder_id;
 
+import static ru.tubi.project.Config.PARTNER_COMPANY_INFO_FOR_AGENT;
+import static ru.tubi.project.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
 import static ru.tubi.project.free.AllText.CHOOSE_A_PARTNER;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.utilites.Constant.AGENT_OFFICE;
-import static ru.tubi.project.utilites.Constant.API;
 
 public class ChoosePartnerActivity extends AppCompatActivity implements View.OnClickListener {
 
     //private RecyclerView recyclerView;
     private ListView lvList;
     private ImageView ivAddPartner;
-    private ChoosePartnerAdapter adapter;
     private ArrayAdapter adap;
     private EditText etSearchTextInList;
     private ArrayList<CounterpartyModel> startPartnerList = new ArrayList<>();
     private ArrayList<CounterpartyModel> partnerList = new ArrayList<>();
     private ArrayList<CounterpartyModel> parsePartnerList = new ArrayList<>();
     private ArrayList <String> partnerStringList = new ArrayList<>();
+    private SearchOrder_id searchOrder_id = new SearchOrder_id();
     private static final int COMPANY_DATE_FORM_REQUEST_CODE = 23;
+
+    private long partner_taxpayer_id=0;
+    private String searchSimbol;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,7 @@ public class ChoosePartnerActivity extends AppCompatActivity implements View.OnC
         lvList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //go
+                goCreateOrder(position);
                 Toast.makeText(ChoosePartnerActivity.this, "position="+position, Toast.LENGTH_SHORT).show();
             }
         });
@@ -80,6 +82,7 @@ public class ChoosePartnerActivity extends AppCompatActivity implements View.OnC
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                searchSimbol = etSearchTextInList.getText().toString().trim();
                 getNeedProduct();
             }
             @Override
@@ -97,6 +100,21 @@ public class ChoosePartnerActivity extends AppCompatActivity implements View.OnC
             startActivityForResult(intent, COMPANY_DATE_FORM_REQUEST_CODE);
         }
     }
+    private void goCreateOrder(int position){
+        PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT = partnerList.get(position).getTaxpayer_id();
+        PARTNER_COMPANY_INFO_FOR_AGENT = partnerList.get(position).getCompanyInfoString();
+
+        //для агента, если есть открытый заказ то получить его номер или получить 0 если заказа открытого нет
+        searchOrder_id.searchStartedOrder(this, PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT);
+
+        Intent intent = new Intent(this, PlaceOfReceiptOfGoodsActivity.class);
+        //intent.putExtra("from_activity","ChoosePartnerActivity");
+        startActivity(intent);
+        Log.d("A111","ChoosePartnerActivity / goCreateOrder " +
+                "/ PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT = "+PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT);
+        Log.d("A111","ChoosePartnerActivity / goCreateOrder " +
+                "/ PARTNER_COMPANY_INFO_FOR_AGENT = "+PARTNER_COMPANY_INFO_FOR_AGENT);
+    }
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void getNeedProduct() {
         //Toast.makeText(this, "click edit: ", Toast.LENGTH_SHORT).show();
@@ -104,8 +122,10 @@ public class ChoosePartnerActivity extends AppCompatActivity implements View.OnC
         parsePartnerList.clear();
         parsePartnerList.addAll(startPartnerList);
 
+        partner_taxpayer_id = 0;
+
         //меняем регистр букв на нижний
-        String searchSimbol = etSearchTextInList.getText().toString();
+        //searchSimbol = etSearchTextInList.getText().toString().trim();
         //Toast.makeText(this, "searchSimbol: " + searchSimbol, Toast.LENGTH_SHORT).show();
         for (int i = 0; i < parsePartnerList.size(); i++) {
 
@@ -136,6 +156,12 @@ public class ChoosePartnerActivity extends AppCompatActivity implements View.OnC
             partnerStringList.add(partnerList.get(i).getCompanyInfoString());
         }
         adap.notifyDataSetChanged();
+
+        //вставляем инн получен из (создать компанию) для поиска компании в списке
+        if(partner_taxpayer_id != 0){
+            searchSimbol = String.valueOf(partner_taxpayer_id);
+            getNeedProduct();
+        }
     }
 
     private void startPartnerList() {
@@ -176,6 +202,8 @@ public class ChoosePartnerActivity extends AppCompatActivity implements View.OnC
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void splitResultCounterpartyArray(String result){
+        startPartnerList.clear();
+        partnerList.clear();
         try {
 
             String [] res=result.split("<br>");
@@ -196,19 +224,35 @@ public class ChoosePartnerActivity extends AppCompatActivity implements View.OnC
                         CounterpartyModel my_counterparty = new CounterpartyModel(order_id
                                 , abbreviation, counterparty, taxpayer_id, companyInfoString);
                         startPartnerList.add(my_counterparty);
-                        partnerList.clear();
-                        partnerList.addAll(startPartnerList);
+
                        // Log.d("A111","ChoosePartnerActivity / splitResultCounterpartyArray / companyInfoString="+companyInfoString);
                     }catch (Exception ex){
                         Log.d("A111","ERROR / ChoosePartnerActivity / splitResultCounterpartyArray / Exception="+ex);
                     }
                 }
             }
+            partnerList.addAll(startPartnerList);
             createPartnerStringList();
         }catch (Exception ex){
             Toast.makeText(this, "Exception: "+ex, Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == COMPANY_DATE_FORM_REQUEST_CODE && resultCode == RESULT_OK){
+            partner_taxpayer_id = data.getLongExtra("partner_taxpayer_id", 0);
+
+            //обновляем список и затем вставляем инн для поиска
+            if(partner_taxpayer_id != 0){
+                startPartnerList();
+            }
+            Log.d("A111","ChoosePartnerActivity / onActivityResult " +
+                    "/ partner_taxpayer_id="+partner_taxpayer_id);
+        }
+    }
+
     //проверка соединения интернета
     protected boolean isOnline() {
         String cs = Context.CONNECTIVITY_SERVICE;

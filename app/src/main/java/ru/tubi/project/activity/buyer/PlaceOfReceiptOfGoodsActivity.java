@@ -12,7 +12,10 @@ import android.widget.Toast;
 
 import ru.tubi.project.R;
 import ru.tubi.project.models.DeliveryAddressModel;
+import ru.tubi.project.models.UserModel;
+import ru.tubi.project.utilites.UserDataRecovery;
 
+import static ru.tubi.project.Config.PARTNER_COMPANY_INFO_FOR_AGENT;
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_300;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_400;
 import static ru.tubi.project.free.AllText.CHOOSE;
@@ -20,16 +23,20 @@ import static ru.tubi.project.free.AllText.FOR_YOUR_CITY_IS_NOT_DELIVERY;
 import static ru.tubi.project.free.AllText.PLACE_OF_RECEIPT_OF_GOODS;
 import static ru.tubi.project.free.VariablesHelpers.MY_CITY;
 import static ru.tubi.project.free.VariablesHelpers.MY_REGION;
+import static ru.tubi.project.utilites.Constant.API_TEST;
 
 public class PlaceOfReceiptOfGoodsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView tvRegionDistrictCity, tvMessege, tvPlaceForReceiveOrder;
+    private TextView tvCompanyInfoForAgent, tvRegionDistrictCity, tvMessege, tvPlaceForReceiveOrder;
     private Button btnApply, btnDelivery, btnPickUpFromWarehouse;
-    private String addressPartnerWarehouse;
+    private String addressPartnerWarehouse, from_activity;
     private int partner_warehouse_id, addDeliveryKey;
     private DeliveryAddressModel addressForDelivery;
     public static int ENTER_FOR_DDELIVERY_ADDRESS_REQUEST = 7;
     public static int CHOOSE_DISTRIBUTION_WAREHOUSE_REQUEST = 8;
+    private UserModel userDataModel;
+    private UserDataRecovery userDataRecovery = new UserDataRecovery();
+    private Intent takeit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +45,7 @@ public class PlaceOfReceiptOfGoodsActivity extends AppCompatActivity implements 
         setTitle(CHOOSE); //Выбор место получения товара
         getSupportActionBar().setSubtitle(""+PLACE_OF_RECEIPT_OF_GOODS);
 
+        tvCompanyInfoForAgent = findViewById(R.id.tvCompanyInfoForAgent);
         tvRegionDistrictCity = findViewById(R.id.tvRegionDistrictCity);
         tvMessege = findViewById(R.id.tvMessege);
         tvPlaceForReceiveOrder = findViewById(R.id.tvPlaceForReceiveOrder);
@@ -51,6 +59,16 @@ public class PlaceOfReceiptOfGoodsActivity extends AppCompatActivity implements 
 
         btnApply.setClickable(false);
 
+        takeit = getIntent();
+
+        //from_activity = takeit.getStringExtra("from_activity");
+
+        //получить из sqlLite данные пользователя
+        userDataModel = userDataRecovery.getUserDataRecovery(this);
+        if(userDataModel.getRole().equals("sales_agent")){
+            tvCompanyInfoForAgent.setText(""+PARTNER_COMPANY_INFO_FOR_AGENT);
+        }
+
         if(!MY_REGION.equals("Московская область") || MY_CITY.equals("Другой город")){
             tvRegionDistrictCity.setText(""+MY_REGION+" "+MY_CITY);
             tvMessege.setText(""+FOR_YOUR_CITY_IS_NOT_DELIVERY);
@@ -58,25 +76,25 @@ public class PlaceOfReceiptOfGoodsActivity extends AppCompatActivity implements 
         else{
             tvRegionDistrictCity.setText(""+MY_REGION+" "+MY_CITY);
         }
-
-
     }
-
-
-
     @Override
     public void onClick(View v) {
         if(v.equals(btnApply)){
-            // поместите warehouse_id для передачи обратно в intent и закрыть это действие
-            Intent intent = new Intent();
+            //если агент и пришел не из продуктАктивность то создать заказ и отправить в каталог
+           // if(from_activity.equals("ChoosePartnerActivity")){
+           //     addOrder();
+           // }else{
+                // поместите warehouse_id для передачи обратно в intent и закрыть это действие
+                Intent intent = new Intent();
 
-            intent.putExtra("addDeliveryKey", addDeliveryKey);
-            intent.putExtra("warehouse_id", partner_warehouse_id);
-            if(addDeliveryKey == 1){
-                intent.putExtra("addressForDelivery", addressForDelivery);
-            }
+                intent.putExtra("addDeliveryKey", addDeliveryKey);
+                intent.putExtra("warehouse_id", partner_warehouse_id);
+                if(addDeliveryKey == 1){
+                    intent.putExtra("addressForDelivery", addressForDelivery);
+                }
                 setResult(RESULT_OK, intent);
                 finish();
+            //}
         }
         else if(v.equals(btnPickUpFromWarehouse)){
             btnPickUpFromWarehouse.setBackgroundColor(TUBI_GREEN_300);
@@ -100,6 +118,7 @@ public class PlaceOfReceiptOfGoodsActivity extends AppCompatActivity implements 
             startActivityForResult(intent,ENTER_FOR_DDELIVERY_ADDRESS_REQUEST);
         }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

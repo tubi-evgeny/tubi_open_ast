@@ -29,10 +29,13 @@ public class SearchOrder_id {
         this.context=context;
 
         //получить из sqlLite данные пользователя и компании
-       // UserDataRecovery userDataRecovery = new UserDataRecovery();
         userDataModel = userDataRecovery.getUserDataRecovery(this.context);
 
-        url_get = SEARCH_MY_ACTIVE_ORDER;
+        String user_uid = userDataModel.getUid();
+        long company_tax_id = userDataModel.getCompany_tax_id();
+
+
+       /* url_get = SEARCH_MY_ACTIVE_ORDER;
         url_get += "&" + "user_uid=" + userDataModel.getUid();
         url_get += "&" + "company_tax_id=" + userDataModel.getCompany_tax_id();
         String st="my_started_order";
@@ -43,8 +46,37 @@ public class SearchOrder_id {
         url_get += "&" + "user_uid=" + userDataModel.getUid();
         url_get += "&" + "company_tax_id=" + userDataModel.getCompany_tax_id();
         String whatQuestions="search_my_active_orders_list";
-        setInitialData(url_get,whatQuestions);
+        setInitialData(url_get,whatQuestions);*/
 
+        go(user_uid, company_tax_id);
+
+    }
+    //для агента, если есть открытый заказ то получить его номер или 0 если заказа открытого нет
+    public void searchStartedOrder(Context context, long partner_company_tax_id){
+        this.context=context;
+
+        //получить из sqlLite данные пользователя
+        userDataModel = userDataRecovery.getUserDataRecovery(this.context);
+
+        //указать uid агента в создателе заказа
+        String agent_uid = userDataModel.getUid();
+
+        go(agent_uid, partner_company_tax_id);
+    }
+    private void go(String user_uid, long company_tax_id){
+
+        url_get = SEARCH_MY_ACTIVE_ORDER;
+        url_get += "&" + "user_uid=" + user_uid;//userDataModel.getUid();
+        url_get += "&" + "company_tax_id=" + company_tax_id;
+        String st="my_started_order";
+        setInitialData(url_get,st);
+
+        url_get = API;
+        url_get += "search_my_active_orders_list";
+        url_get += "&" + "user_uid=" + user_uid; //userDataModel.getUid();
+        url_get += "&" + "company_tax_id=" + company_tax_id;
+        String whatQuestions="search_my_active_orders_list";
+        setInitialData(url_get,whatQuestions);
     }
 
     private void setInitialData(String url_get, String whatQuestion) {
