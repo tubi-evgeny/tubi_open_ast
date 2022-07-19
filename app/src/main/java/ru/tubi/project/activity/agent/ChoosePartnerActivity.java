@@ -106,7 +106,8 @@ public class ChoosePartnerActivity extends AppCompatActivity implements View.OnC
         PARTNER_COMPANY_INFO_FOR_AGENT = partnerList.get(position).getCompanyInfoString();
 
         //для агента, если есть открытый заказ то получить его номер или получить 0 если заказа открытого нет
-        searchOrder_id.searchStartedOrder(this, PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT);
+        searchOrder_id.searchStartedOrder(this);
+        //searchOrder_id.searchStartedOrder(this, PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT);
 
         Intent intent = new Intent(this, ActivityCatalog.class);
         //Intent intent = new Intent(this, PlaceOfReceiptOfGoodsActivity.class);

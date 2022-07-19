@@ -76,7 +76,7 @@ public class ActivityProduct extends AppCompatActivity {
 
     private int key;
     private static final int SHOP_BOX_REQUEST_CODE = 2;
-    private static final int CHOOSHE_WAREHOUSE_REQUEST_CODE = 5;
+   // private static final int CHOOSHE_WAREHOUSE_REQUEST_CODE = 5;
     private static final int PLACE_OF_RECEIPT_OF_GOODS_REQUEST_CODE = 5;
 
     @Override
@@ -163,7 +163,8 @@ public class ActivityProduct extends AppCompatActivity {
                     && userDataModel.getCompany_tax_id() == 0){
                 Intent intent= new Intent(this,CompanyDateFormActivity.class);
                 intent.putExtra("message",MES_1_PROFILE);
-                startActivityForResult(intent,ADD_PRODUCT_TO_COMPANY_DATE_FORM_REQUEST_CODE);
+                startActivityForResult(intent
+                        ,ADD_PRODUCT_TO_COMPANY_DATE_FORM_REQUEST_CODE);
                 return;
             }
             //проверить есть ли открытый заказ для данного товара (на нужную дату)

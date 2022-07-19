@@ -58,7 +58,7 @@ public class SearchOrder_id {
 
     }
     //для агента, если есть открытый заказ то получить его номер или 0 если заказа открытого нет
-    public void searchStartedOrder(Context context, long partner_company_tax_id){
+   /* public void searchStartedOrder(Context context, long partner_company_tax_id){
         this.context=context;
 
         //получить из sqlLite данные пользователя
@@ -68,7 +68,7 @@ public class SearchOrder_id {
         String agent_uid = userDataModel.getUid();
 
         go(agent_uid, partner_company_tax_id);
-    }
+    }*/
     private void go(String user_uid, long company_tax_id){
 
         url_get = SEARCH_MY_ACTIVE_ORDER;
