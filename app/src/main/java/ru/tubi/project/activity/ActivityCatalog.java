@@ -16,6 +16,7 @@ import ru.tubi.project.R;
 import ru.tubi.project.adapters.CatalogAdapter;
 import ru.tubi.project.models.Catalog;
 import ru.tubi.project.models.UserModel;
+import ru.tubi.project.utilites.GetColorShopingBox;
 import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.SearchOrder_id;
 
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 
 import ru.tubi.project.utilites.UserDataRecovery;
 
+import static ru.tubi.project.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
 import static ru.tubi.project.free.AllText.CHECK_CONNECT_INTERNET;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.utilites.Constant.GET_CATALOG;
@@ -86,9 +88,15 @@ public class ActivityCatalog extends AppCompatActivity {
     }
     //стартовый лист для запуска.
     private void startList(){
+        long tax_id = userDataModel.getCompany_tax_id();
+        //проверить это агент продаж?
+        if(userDataModel.getRole().equals("sales_agent")){
+            tax_id = PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
+            Log.d("A111","ActivityCatalog / startList / agent");
+        }
         String url = GET_CATALOG;
         url += "receive_catalog";
-        url += "&" + "taxpayer_id=" + userDataModel.getCompany_tax_id();//MY_COMPANY_TAXPAYER_ID;
+        url += "&" + "taxpayer_id=" + tax_id;//userDataModel.getCompany_tax_id();
         setInitialData(url);
         Log.d("A111","ActivityCatalog / startList / url="+url);
     }
@@ -151,10 +159,12 @@ public class ActivityCatalog extends AppCompatActivity {
     }
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) { //----invalidateOptionsMenu();
-        searchOrder_id.searchStartedOrder(this);
+        GetColorShopingBox gc = new GetColorShopingBox();
+        menu = gc.color(this, menu);
+        /*searchOrder_id.searchStartedOrder(this);
         if(userDataModel.getOrder_id() != 0){
             menu.findItem(R.id.shoping_box).setIcon(R.drawable.soping_box_green_60ps);
-        }
+        }*/
         return super.onPrepareOptionsMenu(menu);
     }
     @Override

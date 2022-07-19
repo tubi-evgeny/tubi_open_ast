@@ -10,6 +10,7 @@ import ru.tubi.project.models.UserModel;
 import static ru.tubi.project.Config.CONFIG_TEST;
 import static ru.tubi.project.Config.MY_UID;
 import static ru.tubi.project.Config.ORDER_ID;
+import static ru.tubi.project.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
 import static ru.tubi.project.utilites.Constant.API;
 import static ru.tubi.project.utilites.Constant.SEARCH_MY_ACTIVE_ORDER;
 //import static com.example.tubi.utilites.Constant.SEARCH_OPEN_ORDER;
@@ -33,6 +34,11 @@ public class SearchOrder_id {
 
         String user_uid = userDataModel.getUid();
         long company_tax_id = userDataModel.getCompany_tax_id();
+
+        //проверить заказ создает агент продаж
+        if(userDataModel.getRole().equals("sales_agent")){
+            company_tax_id = PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
+        }
 
 
        /* url_get = SEARCH_MY_ACTIVE_ORDER;

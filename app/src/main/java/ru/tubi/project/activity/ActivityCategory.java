@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import ru.tubi.project.adapters.CategoryAdapter;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.Constant;
+import ru.tubi.project.utilites.GetColorShopingBox;
 import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.SearchOrder_id;
 import ru.tubi.project.utilites.UserDataRecovery;
@@ -142,10 +143,12 @@ public class ActivityCategory extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) { //----invalidateOptionsMenu();
+        GetColorShopingBox gc = new GetColorShopingBox();
+        menu = gc.color(this, menu);
         //searchOrder_id.searchStartedOrder(this);
-        if(userDataModel.getOrder_id() != 0){//ORDER_ID
+       /* if(userDataModel.getOrder_id() != 0){//ORDER_ID
             menu.findItem(R.id.shoping_box).setIcon(R.drawable.soping_box_green_60ps);
-        }
+        }*/
         return super.onPrepareOptionsMenu(menu);
     }
     @Override

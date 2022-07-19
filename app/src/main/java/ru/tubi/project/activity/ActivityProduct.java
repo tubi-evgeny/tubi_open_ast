@@ -33,11 +33,13 @@ import java.util.ArrayList;
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.UserDataRecovery;
 
+import static ru.tubi.project.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
 import static ru.tubi.project.activity.ActivityCatalog.CATALOG_IS_MINE;
 import static ru.tubi.project.activity.ActivityCategory.CATEGORY_ACTIVITY;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.MAXIMUM;
 import static ru.tubi.project.free.AllText.MES_1_PROFILE;
+import static ru.tubi.project.free.AllText.MES_22;
 import static ru.tubi.project.free.AllText.NO_DELIVERY;
 import static ru.tubi.project.free.AllText.REPORT_A_BUG;
 import static ru.tubi.project.free.AllText.STOCK_OF_GOODS_REQUESTED_QUANTITY;
@@ -75,6 +77,7 @@ public class ActivityProduct extends AppCompatActivity {
     private int key;
     private static final int SHOP_BOX_REQUEST_CODE = 2;
     private static final int CHOOSHE_WAREHOUSE_REQUEST_CODE = 5;
+    private static final int PLACE_OF_RECEIPT_OF_GOODS_REQUEST_CODE = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,8 +151,16 @@ public class ActivityProduct extends AppCompatActivity {
             return;
         }
         if(str[1].equals("llPlus}")) {
-            //нет данных о компании
-            if(userDataModel.getCompany_tax_id() == 0){
+            //если это агент и нет company_tax_id партнера
+            if(userDataModel.getRole().equals("sales_agent")
+                    && PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT == 0){
+                Log.d("A111","ActivityProduct / WhatButtonClicked / if (sales_agent)");
+                Toast.makeText(this, ""+MES_22, Toast.LENGTH_LONG).show();
+                return;
+            }
+            //если это не агент и нет данных о компании
+            else if(!userDataModel.getRole().equals("sales_agent")
+                    && userDataModel.getCompany_tax_id() == 0){
                 Intent intent= new Intent(this,CompanyDateFormActivity.class);
                 intent.putExtra("message",MES_1_PROFILE);
                 startActivityForResult(intent,ADD_PRODUCT_TO_COMPANY_DATE_FORM_REQUEST_CODE);
@@ -194,7 +205,7 @@ public class ActivityProduct extends AppCompatActivity {
             if(openOrderThisDate == false){
                 //Intent intent = new Intent(this,ChooseDistributionWarehouseActivity.class);
                 Intent intent = new Intent(this, PlaceOfReceiptOfGoodsActivity.class);
-                startActivityForResult(intent,CHOOSHE_WAREHOUSE_REQUEST_CODE);
+                startActivityForResult(intent,PLACE_OF_RECEIPT_OF_GOODS_REQUEST_CODE);
             }
         }
        /* else if(str[1].equals("llPlusTen}")) {
@@ -251,6 +262,11 @@ public class ActivityProduct extends AppCompatActivity {
 
     // создать новый заказ
     private void addOrder(){
+        long company_tax_id = userDataModel.getCompany_tax_id();
+        //проверить заказ создает агент продаж
+        if(userDataModel.getRole().equals("sales_agent")){
+            company_tax_id = PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
+        }
         String myCategory = "все";
         if(category.equals("сигареты")){
             myCategory = category;
@@ -258,7 +274,7 @@ public class ActivityProduct extends AppCompatActivity {
         url_get = API_TEST;
         url_get += "add_my_order";
         url_get += "&" + "user_uid=" + userDataModel.getUid();//MY_UID;
-        url_get += "&" + "company_tax_id=" + userDataModel.getCompany_tax_id();//MY_COMPANY_TAXPAYER_ID;
+        url_get += "&" + "company_tax_id=" + company_tax_id;//userDataModel.getCompany_tax_id();
         url_get += "&" + "warehouse_id=" + partner_warehouse_id;
         url_get += "&" + "dateOfSaleMillis=" + dateOfSaleMillis;
         url_get += "&" + "category=" + myCategory;//delivery;
@@ -546,7 +562,7 @@ public class ActivityProduct extends AppCompatActivity {
             //обновить/получить список заказав с характеристиками
             orderDataModelList = orderDataRecoveryUtil.getOrderDataRecovery(this);
         }
-        else if(requestCode == CHOOSHE_WAREHOUSE_REQUEST_CODE
+        else if(requestCode == PLACE_OF_RECEIPT_OF_GOODS_REQUEST_CODE
                 && resultCode == RESULT_OK){
             //Получить ключ, это доставка=1 или самовывоз=0
             addDeliveryKey = data.getIntExtra("addDeliveryKey",0);

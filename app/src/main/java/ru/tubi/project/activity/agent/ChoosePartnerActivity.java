@@ -26,6 +26,7 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import ru.tubi.project.R;
+import ru.tubi.project.activity.ActivityCatalog;
 import ru.tubi.project.activity.CompanyDateFormActivity;
 import ru.tubi.project.activity.buyer.PlaceOfReceiptOfGoodsActivity;
 import ru.tubi.project.models.CounterpartyModel;
@@ -107,7 +108,8 @@ public class ChoosePartnerActivity extends AppCompatActivity implements View.OnC
         //для агента, если есть открытый заказ то получить его номер или получить 0 если заказа открытого нет
         searchOrder_id.searchStartedOrder(this, PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT);
 
-        Intent intent = new Intent(this, PlaceOfReceiptOfGoodsActivity.class);
+        Intent intent = new Intent(this, ActivityCatalog.class);
+        //Intent intent = new Intent(this, PlaceOfReceiptOfGoodsActivity.class);
         //intent.putExtra("from_activity","ChoosePartnerActivity");
         startActivity(intent);
         Log.d("A111","ChoosePartnerActivity / goCreateOrder " +
