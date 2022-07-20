@@ -24,6 +24,7 @@ import ru.tubi.project.R;
 import ru.tubi.project.activity.company_my.WarehouseEditActivity;
 import ru.tubi.project.activity.company_my.WarehouseCreateActivity;
 import ru.tubi.project.adapters.ProfileCompanyWorehouseAdapter;
+import ru.tubi.project.models.UserModel;
 import ru.tubi.project.models.WarehouseModel;
 import ru.tubi.project.utilites.HelperDB;
 import ru.tubi.project.utilites.InitialData;
@@ -31,6 +32,7 @@ import ru.tubi.project.utilites.InitialData;
 import java.util.ArrayList;
 
 import ru.tubi.project.utilites.Constant;
+import ru.tubi.project.utilites.UserDataRecovery;
 
 import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
 //import static com.example.tubi.Config.MY_TAXPAYER_ID;
@@ -38,6 +40,7 @@ import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllCollor.alert_dialog_button_green_pressed;
 import static ru.tubi.project.free.AllText.BECOME_AN_ARTNER_TEMPO;
 import static ru.tubi.project.free.AllText.CHECK_CONNECT_INTERNET;
+import static ru.tubi.project.free.AllText.DATE_ABOUT_COMPANY_MISSING;
 import static ru.tubi.project.free.AllText.IMPORTANT_TEXT;
 import static ru.tubi.project.free.AllText.I_UNDERSTAND_SMOL;
 import static ru.tubi.project.free.AllText.MES_13;
@@ -83,6 +86,8 @@ public class ProfileCompanyActivity extends AppCompatActivity implements View.On
     private ProfileCompanyWorehouseAdapter adapter;
     private Intent intent;
     private String warehouseTipe = "", warehouseActive = "";
+    private UserModel userDataModel;
+    private UserDataRecovery userDataRecovery = new UserDataRecovery();
     private static final int RETURN_COMPANY_DATE = 3;
     private static final int RETURN_COMPANY_WAREHOUSE = 4;
     private static final int RETURN_EDIT_WAREHOUSE = 5;
@@ -134,6 +139,8 @@ public class ProfileCompanyActivity extends AppCompatActivity implements View.On
         //получить список складов компании
         receiveAllWarehose();
 
+        //получить из sqlLite данные пользователя и компании
+        userDataModel = userDataRecovery.getUserDataRecovery(this);
        // checkRole();
 
         ProfileCompanyWorehouseAdapter.RecyclerViewClickListener clickListener =
@@ -406,14 +413,14 @@ public class ProfileCompanyActivity extends AppCompatActivity implements View.On
             allertDialogQuestion();
         }
         else if(v.equals(llCreateWarehouse)){
-            Intent intent = new Intent(this, WarehouseCreateActivity.class);
-            intent.putExtra("providerFlag",providerFlag);
-            intent.putExtra("partnerFlag",partnerFlag);
-            startActivityForResult(intent, RETURN_COMPANY_WAREHOUSE);
-            //startActivity(intent);
-            /*Intent intent = new Intent(this,CompanyDateFormActivity.class);
-        intent.putExtra("message",MES_1_PROFILE);
-        startActivityForResult(intent, RETURN_COMPANY_WAREHOUSE);*/
+            if(userDataModel.getCompany_tax_id() != 0) {
+                Intent intent = new Intent(this, WarehouseCreateActivity.class);
+                intent.putExtra("providerFlag", providerFlag);
+                intent.putExtra("partnerFlag", partnerFlag);
+                startActivityForResult(intent, RETURN_COMPANY_WAREHOUSE);
+            }else{
+                Toast.makeText(this, ""+DATE_ABOUT_COMPANY_MISSING, Toast.LENGTH_LONG).show();
+            }
         }
     }
 

@@ -101,6 +101,7 @@ public class AllText {
     public static String DELIVERY_TEXT= "Доставка";
     public static String ACCEPT_PRODUCT_SMOLL= "принять товар";
     public static String SUMM_SMOLL= "сумма";
+    public static String TRANSFERED= "Выдан";
     public static String ALL_GOODS_TEXT= "Все товары";
     public static String PRESS_NEW= "Нажмите на кнопку /Новая/";
     public static String LOGISTIC_TO_PRODUCT_FALSE= "Есть товары для которых не определен транспорт";
@@ -166,6 +167,10 @@ public class AllText {
     public static String RESERVE_IN_WAAREHOUSE = "Запас на складе";
     public static String TO_SUPPLIERS_PRODUCT = "в поставщики товаров";
     public static String TO_PARTNER_WAREHOUSE = "в партнеры склада";
+    public static String CODE_GENERATOR = "Генератор кода";
+    public static String FREE_TEXT = "Свободен";
+    public static String USED_TEXT = "Использован";
+    public static String THIS_ACTION_IS_NOT_AVALABLE_TO_AGENT = "Агенту не доступно это действие";
     public static String PARTNER_WAREHOUSE_ROLE_WILL_BE_VERIFIED_TEXT = "Ваш запрос на получения " +
             "статуса Агент ответственного хранения " +
             "получен, и менеджеры заняты подготовкой документов для вашей компании.";

@@ -20,6 +20,7 @@ import ru.tubi.project.activity.Partner.PartnerListBuyersForCollectActivity;
 import ru.tubi.project.activity.Partner.AcceptProductActivity;
 import ru.tubi.project.activity.Partner.OrderBuyerListActivity;
 import ru.tubi.project.activity.agent.ChoosePartnerActivity;
+import ru.tubi.project.activity.agent.CodeGeneratorActivity;
 import ru.tubi.project.activity.company_my.CatalogInWarehouseActivity;
 import ru.tubi.project.activity.company_my.CollectProductForActivity;
 import ru.tubi.project.activity.company_my.DistributionOrdersByWarehousesActivity;
@@ -91,6 +92,8 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
         llHandOverProduct=findViewById(R.id.llHandOverProduct);
         llAgent=findViewById(R.id.llAgent);
         llCreateOrder=findViewById(R.id.llCreateOrder);
+        llInvitePartner=findViewById(R.id.llInvitePartner);
+        llMyPartners=findViewById(R.id.llMyPartners);
 
         llAcceptProduct_buy.setOnClickListener(this);
         llBuyHistory.setOnClickListener(this);
@@ -114,6 +117,8 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
         tvProductReceipt.setOnClickListener(this);
         tvProductInvoice.setOnClickListener(this);
         llCreateOrder.setOnClickListener(this);
+        llInvitePartner.setOnClickListener(this);
+        llMyPartners.setOnClickListener(this);
 
         llSaleProduct.setVisibility(GONE);
         llPartner.setVisibility(GONE);
@@ -248,8 +253,13 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
         }else if(v.equals(llCreateOrder)){
             Intent intent=new Intent(this, ChoosePartnerActivity.class);
             startActivity(intent);
+        }else if(v.equals(llInvitePartner)){
+            Intent intent=new Intent(this, CodeGeneratorActivity.class);
+            startActivity(intent);
         }
-
+        else if(v.equals(llMyPartners)){
+            Toast.makeText(this, "Раздел в разработке", Toast.LENGTH_SHORT).show();
+        }
 
     }
     //слушатель возврата по методу Back(); из предыдущей активности

@@ -8,12 +8,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -21,6 +28,9 @@ import android.widget.Toast;
 
 import ru.tubi.project.R;
 
+import ru.tubi.project.activity.company_my.CatalogStocksActivity;
+import ru.tubi.project.models.CatalogProductProviderModel;
+import ru.tubi.project.models.DecimalDigitsInputFilter;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.FirstSimbolMakeBig;
 import ru.tubi.project.utilites.HelperDB;
@@ -37,13 +47,17 @@ import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllCollor.TUBI_WHITE;
 import static ru.tubi.project.free.AllCollor.TUBI_YELLOW_200;
+import static ru.tubi.project.free.AllCollor.alert_dialog_button_green_pressed;
 import static ru.tubi.project.free.AllText.AGENT_BIG;
 import static ru.tubi.project.free.AllText.CHECK_TAX_ID;
 import static ru.tubi.project.free.AllText.CHOOSE_ABBREVIATION;
 import static ru.tubi.project.free.AllText.DATE_OR_COMPANY;
+import static ru.tubi.project.free.AllText.DONE_BIG;
 import static ru.tubi.project.free.AllText.DO_IT_LATHER;
+import static ru.tubi.project.free.AllText.EDIT_BIG;
 import static ru.tubi.project.free.AllText.ENTER_COMPANY_NAME;
 import static ru.tubi.project.free.AllText.ENTER_TAXPAYER_ID;
+import static ru.tubi.project.free.AllText.ERROR_BIG;
 import static ru.tubi.project.free.AllText.HELLO;
 import static ru.tubi.project.free.AllText.IMPORTANT;
 import static ru.tubi.project.free.AllText.IP;
@@ -55,6 +69,10 @@ import static ru.tubi.project.free.AllText.MY_COMPANY_NAME;
 import static ru.tubi.project.free.AllText.NAME_COMPANY;
 import static ru.tubi.project.free.AllText.OOO;
 import static ru.tubi.project.free.AllText.OOO_SMOL;
+import static ru.tubi.project.free.AllText.PRICE_NEW;
+import static ru.tubi.project.free.AllText.PRICE_NEW_IS_NOT;
+import static ru.tubi.project.free.AllText.PRICE_OLD;
+import static ru.tubi.project.free.AllText.RETURN_BIG;
 import static ru.tubi.project.free.AllText.TAX_ID;
 import static ru.tubi.project.free.AllText.TAX_ID_NUM;
 import static ru.tubi.project.free.AllText.WRITE_NOW;
@@ -78,7 +96,7 @@ public class CompanyDateFormActivity extends AppCompatActivity implements View.O
 
     private boolean rb_ip=false, rb_ooo=false;
     private String abbreviation, counterparty, taxpayer_id ;
-    private int agentKey;
+    private int agentKey, registrationCode = 0;
     //private  FirstSimbolMakeBig simbolMakeBig;
 
     @Override
@@ -117,6 +135,12 @@ public class CompanyDateFormActivity extends AppCompatActivity implements View.O
             tvMessage.setText(MES_21);
         }else{
             tvMessage.setText(MES_2);
+        }
+        //проверить есть код для создания компании
+        //это не агент и сомпания не создана то без кода не пускать
+        if(!userDataModel.getRole().equals("sales_agent")
+                && userDataModel.getCompany_tax_id() == 0) {
+            adInputRegistrationCode();
         }
         rbIP.setText(IP);
         rbOOO.setText(OOO);
@@ -249,6 +273,19 @@ public class CompanyDateFormActivity extends AppCompatActivity implements View.O
         setInitialData(url_get,whatQuestion);*/
 
     }
+    @Override
+    public void onClick(View v) {
+        if(rbIP.isChecked() || rbOOO.isChecked()){
+            rbGroup.setBackgroundColor(TUBI_GREY_200);
+            rbOOO.setTextColor(TUBI_BLACK);
+            rbIP.setTextColor(TUBI_BLACK);
+            //Toast.makeText(this, "IP or OOO", Toast.LENGTH_SHORT).show();
+        }else if(etCompanyName.isClickable()){
+            Toast.makeText(this, "click Company name", Toast.LENGTH_SHORT).show();
+        }else if(etTaxpayerID.isClickable()){
+            Toast.makeText(this, "click Taxpayer", Toast.LENGTH_SHORT).show();
+        }
+    }
     private void createMyCompany(){
         //записываем(изменяем) полученные данные в DB
         String url_get = Constant.INPUT;
@@ -261,19 +298,48 @@ public class CompanyDateFormActivity extends AppCompatActivity implements View.O
         String whatQuestion = "new_counterparty";
         setInitialData(url_get,whatQuestion);
     }
+    //закрыть код регистрации (использован)
+    private void closeRegistrationCode(){
+        String url_get = Constant.AGENT_OFFICE;
+        url_get += "&" + "close_code";
+        url_get += "&" + "code=" + registrationCode;
+        url_get += "&" + "user_uid=" + userDataModel.getUid();
+        String whatQuestion = "close_code";
+        setInitialData(url_get,whatQuestion);
+    }
+    //проверить введенный код существует, свободен
+    private void checkCodeToDB(int code){
+        String url_get = Constant.AGENT_OFFICE;
+        url_get += "&" + "check_code";
+        url_get += "&" + "code=" + code;
+        String whatQuestion = "check_code";
+        setInitialData(url_get,whatQuestion);
+    }
     private void setInitialData(String url_get, String whatQuestion) {
         Log.d("A111","CompanyDateFormActivity / setInitialData / url="+url_get);
         InitialData task=new InitialData(){
             protected void onPostExecute(String result) {
-                //Do your thing
                 if(whatQuestion.equals("new_counterparty")){
                     //ответ о записи в sql
                     splitCreateNewConterparty(result);
+                }
+                else if(whatQuestion.equals("check_code")){
+                    //ответ о записи в sql
+                    splitCheckCodeAnsver(result);
                 }
 
             }
         };
         task.execute(url_get);
+    }
+    private void splitCheckCodeAnsver(String result){
+        Log.d("A111","CompanyDateFormActivity / splitCheckCodeAnsver / result="+result);
+        if(result.equals("RESULT_OK")){
+            ad.cancel();
+        }
+        else{
+            Toast.makeText(this, ""+ERROR_BIG, Toast.LENGTH_LONG).show();
+        }
     }
     private void splitCreateNewConterparty(String result){  // разобрать результат с сервера
         String[]temp;
@@ -293,7 +359,10 @@ public class CompanyDateFormActivity extends AppCompatActivity implements View.O
                     setResult(RESULT_OK, intent);
                     finish();
                 }else{
-                    createCompanyDate();// Теперь сохраните данные компании в sqlite
+                    //закрыть код регистрации (использован)
+                    closeRegistrationCode();
+                    // Теперь сохраните данные компании в sqlite
+                    createCompanyDate();
                 }
 
             }
@@ -347,17 +416,60 @@ public class CompanyDateFormActivity extends AppCompatActivity implements View.O
         ad.show();
     }
 
-    @Override
-    public void onClick(View v) {
-        if(rbIP.isChecked() || rbOOO.isChecked()){
-            rbGroup.setBackgroundColor(TUBI_GREY_200);
-            rbOOO.setTextColor(TUBI_BLACK);
-            rbIP.setTextColor(TUBI_BLACK);
-            //Toast.makeText(this, "IP or OOO", Toast.LENGTH_SHORT).show();
-        }else if(etCompanyName.isClickable()){
-            Toast.makeText(this, "click Company name", Toast.LENGTH_SHORT).show();
-        }else if(etTaxpayerID.isClickable()){
-            Toast.makeText(this, "click Taxpayer", Toast.LENGTH_SHORT).show();
-        }
+    private void adInputRegistrationCode() {
+        int maxLength = 4;
+        EditText editText = new EditText(this);
+        editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
+       /* LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT
+                        , LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.CENTER_VERTICAL;*/
+
+        editText.setGravity(Gravity.CENTER);
+
+
+        adb = new AlertDialog.Builder(this);
+        String st1 = EDIT_BIG;
+        adb.setTitle("Input your code");
+        adb.setView(editText);
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {   }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Log.d("A111","CompanyDateFormActivity / adInputRegistrationCode / start="+start);
+                //Log.d("A111","CompanyDateFormActivity / adInputRegistrationCode / s="+s);
+                if(start == 3){
+                    int code = Integer.parseInt(editText.getText().toString().trim());
+                    registrationCode = code;
+                    checkCodeToDB(code);
+                    //Toast.makeText(CompanyDateFormActivity.this, "go check", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {  }
+        });
+
+
+        adb.setNeutralButton(RETURN_BIG, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ad.cancel();
+                onBackPressed();
+            }
+        });
+
+        ad=adb.create();
+        ad.setCanceledOnTouchOutside(false);
+        ad.setCancelable(false);
+        ad.show();
+
+        Button buttonbackground1 = ad.getButton(DialogInterface.BUTTON_POSITIVE);
+        buttonbackground1.setBackgroundColor(alert_dialog_button_green_pressed);
+        buttonbackground1.setTextColor(Color.WHITE);
+        Button buttonbackground2 = ad.getButton(DialogInterface.BUTTON_NEUTRAL);
+        buttonbackground2.setBackgroundColor(TUBI_GREY_200);
+        buttonbackground2.setTextColor(Color.WHITE);
     }
 }

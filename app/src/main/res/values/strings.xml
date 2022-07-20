@@ -91,6 +91,12 @@
     <string name="agent">Агент</string>
     <string name="building">Корпус</string>
     <string name="signboard">Вывеска</string>
+    <string name="new_code">Новый код</string>
+    <string name="generated">Создан</string>
+    <string name="activate_code">Активировать код</string>
+    <string name="activated">Активирован</string>
+    <string name="code">Код</string>
+    <string name="code_status">Статус кода</string>
     <string name="create_an_order">Создать заказ</string>
     <string name="my_partners">Мои партнеры</string>
     <string name="invite_a_partner">Пригласить партнера</string>

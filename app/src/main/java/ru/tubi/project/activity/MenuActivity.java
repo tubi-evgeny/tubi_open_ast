@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ru.tubi.project.Config;
 import ru.tubi.project.R;
@@ -37,6 +38,7 @@ import static ru.tubi.project.free.AllCollor.alert_dialog_button_green_pressed;
 import static ru.tubi.project.free.AllText.LAST_ORDERS_TEXT;
 import static ru.tubi.project.free.AllText.MES_5;
 import static ru.tubi.project.free.AllText.MY_PERSONALY_OFFICE_TEXT;
+import static ru.tubi.project.free.AllText.THIS_ACTION_IS_NOT_AVALABLE_TO_AGENT;
 import static ru.tubi.project.free.AllText.TO_BE_PROVIDER_SIMPLE_TEXT;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
@@ -49,6 +51,9 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     private AlertDialog ad;
     private SQLiteDatabase sqdb;
     private HelperDB my_db = new HelperDB(this);
+    private UserModel userDataModel;
+    private UserDataRecovery userDataRecovery = new UserDataRecovery();
+
     private int myOrder_id = 0;
 
     @Override
@@ -72,6 +77,9 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         llQuestionAnsver.setOnClickListener(this);
         llWantToBeProvider.setOnClickListener(this);
         llPrivacyPolicy.setOnClickListener(this);
+
+        //получить из sqlLite данные пользователя и компании
+        userDataModel = userDataRecovery.getUserDataRecovery(this);
 
         tvMyPersonalyOffice.setText(""+MY_PERSONALY_OFFICE_TEXT);
         tvOrderHistory.setText(""+LAST_ORDERS_TEXT);
@@ -99,6 +107,16 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     }
     @Override
     public void onClick(View v) {
+        //если роль агент продаж то запретить иметь компанию,
+        // у него нет своих заказов, и поставщиком он не может стать
+        if(userDataModel.getRole().equals("sales_agent")){
+            if(v.equals(llMyCompany) || v.equals(llMyOrderHistory)
+                    || v.equals(llWantToBeProvider)){
+                Toast.makeText(this, ""+THIS_ACTION_IS_NOT_AVALABLE_TO_AGENT, Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+
         if(v.equals(llMyProfile)){
             Intent intent = new Intent(this, ProfileUserActivity.class);
             startActivity(intent);
