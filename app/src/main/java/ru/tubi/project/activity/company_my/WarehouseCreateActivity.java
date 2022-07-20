@@ -51,6 +51,7 @@ public class WarehouseCreateActivity extends AppCompatActivity implements View.O
         etHouse=findViewById(R.id.etHouse);
         etBuilding=findViewById(R.id.etBuilding);
         etSignboard=findViewById(R.id.etSignboard);
+
         //список с view сделать
         View[]viewList = {etRegion,etDistrict,etCity,etStreet,etHouse,
                 etBuilding,etSignboard};
