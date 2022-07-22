@@ -27,6 +27,8 @@ import ru.tubi.project.utilites.UserDataRecovery;
 import static ru.tubi.project.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
 import static ru.tubi.project.free.AllText.CHECK_CONNECT_INTERNET;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
+import static ru.tubi.project.free.VariablesHelpers.MY_CITY;
+import static ru.tubi.project.free.VariablesHelpers.MY_REGION;
 import static ru.tubi.project.utilites.Constant.GET_CATALOG;
 
 public class ActivityCatalog extends AppCompatActivity {
@@ -96,6 +98,8 @@ public class ActivityCatalog extends AppCompatActivity {
         }
         String url = GET_CATALOG;
         url += "receive_catalog";
+        url += "&" + "my_city=" + MY_CITY;
+        url += "&" + "my_region=" + MY_REGION;
         url += "&" + "taxpayer_id=" + tax_id;//userDataModel.getCompany_tax_id();
         setInitialData(url);
         Log.d("A111","ActivityCatalog / startList / url="+url);

@@ -27,6 +27,8 @@ import ru.tubi.project.utilites.SearchOrder_id;
 import ru.tubi.project.utilites.UserDataRecovery;
 
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
+import static ru.tubi.project.free.VariablesHelpers.MY_CITY;
+import static ru.tubi.project.free.VariablesHelpers.MY_REGION;
 
 public class ActivityCategory extends AppCompatActivity {
 
@@ -101,6 +103,8 @@ public class ActivityCategory extends AppCompatActivity {
     private void startList(){
         url= Constant.GET_CATEGORY;
         url += positionCatalogName;
+        url += "&" + "my_city=" + MY_CITY;
+        url += "&" + "my_region=" + MY_REGION;
        // url += "&" + "taxpayer_id=" + MY_COMPANY_TAXPAYER_ID;
         setInitialData(url);
         Log.d("A111","ActivityCategory / startList / url="+url);
