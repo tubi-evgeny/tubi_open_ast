@@ -18,4 +18,6 @@ public class VariablesHelpers {
                     ,0,"","", "");
 
     public static int  ORDER_FINISHED_ACTIVITY_MESSEGE = 0;
+
+    public static int MESSAGE_NUMBER = 0;
 }

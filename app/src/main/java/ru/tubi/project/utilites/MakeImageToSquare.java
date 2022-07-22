@@ -13,22 +13,6 @@ public class MakeImageToSquare {
         this.context=context;
         this.imageView=imageView;
 
-      /*  int width=(int)(bitmap.getWidth());
-        int height=bitmap.getHeight();
-        int finish_size;
-        int x = 0 , y = 0;
-        if(width > height){
-            finish_size=height;
-            x = (width - finish_size)/2;
-        }else {
-            finish_size = width;
-            y= (height - finish_size)/2;
-
-        }
-        //новый bitmap обрезаем в квадрат
-        Bitmap resizedbitmap=Bitmap.createBitmap(
-                bitmap,x,y, finish_size, finish_size);*/
-
         Bitmap resizedbitmap = makeBitmap(bitmap);
 
         this.imageView.setImageBitmap(resizedbitmap);

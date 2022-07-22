@@ -102,6 +102,7 @@ public class AllText {
     public static String ACCEPT_PRODUCT_SMOLL= "принять товар";
     public static String SUMM_SMOLL= "сумма";
     public static String TRANSFERED= "Выдан";
+    public static String MESSAGE_FEED= "Лента сообщений";
     public static String ALL_GOODS_TEXT= "Все товары";
     public static String PRESS_NEW= "Нажмите на кнопку /Новая/";
     public static String LOGISTIC_TO_PRODUCT_FALSE= "Есть товары для которых не определен транспорт";

@@ -1,5 +1,6 @@
 package ru.tubi.project.activity;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -31,6 +33,7 @@ import ru.tubi.project.Config;
 import ru.tubi.project.R;
 
 import ru.tubi.project.activity.AdminPanel.AdminActivity;
+import ru.tubi.project.free.CheckNewMessege;
 import ru.tubi.project.models.AddressModel;
 import ru.tubi.project.models.OrderModel;
 import ru.tubi.project.models.UserModel;
@@ -60,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private TextView tvName, tvMyCity;
     private Button btnCatalog, btnAdminActiv, btnMyCompany, btnMenu;
-    private LinearLayout llMyCity;
+    private LinearLayout llMyCity, llMessege;
+    private ImageView ivCheckmark;
     private ListView lvMyCity;
     private Intent intent;
     private String url, url_get;
@@ -76,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AlertDialog ad;
     private ArrayAdapter adapter;
 
+    public static int   MESSAGE_FEED_REQUEST_CODE = 17;
+
     //public static String test = "test";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,14 +92,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnCatalog=findViewById(R.id.btnCatalog);
         btnMyCompany=findViewById(R.id.btnMyCompany);
         btnMenu=findViewById(R.id.btnMenu);
+        llMessege=findViewById(R.id.llMessege);
         tvMyCity=findViewById(R.id.tvMyCity);
         llMyCity=findViewById(R.id.llMyCity);
         lvMyCity=findViewById(R.id.lvMyCity);
+        ivCheckmark=findViewById(R.id.ivCheckmark);
+        tvName = findViewById(R.id.tvName);
+        btnAdminActiv = findViewById(R.id.btnAdminActiv);
+        btnMyCompany = findViewById(R.id.btnMyCompany);
 
         btnCatalog.setOnClickListener(this);
         btnMyCompany.setOnClickListener(this);
         btnMenu.setOnClickListener(this);
         llMyCity.setOnClickListener(this);
+        llMessege.setOnClickListener(this);
+
+        lvMyCity.setVisibility(View.VISIBLE);
         //проверить роль user, получить роли партнера
         searchUserRole();
 
@@ -114,9 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        tvName = findViewById(R.id.tvName);
-        btnAdminActiv = findViewById(R.id.btnAdminActiv);
-        btnMyCompany = findViewById(R.id.btnMyCompany);
+        new CheckNewMessege(ivCheckmark);
 
         if(!userDataModel.getRole().equals("admin")){
             btnAdminActiv.setVisibility(View.GONE);
@@ -177,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this, ActivityCatalog.class);
             startActivity(intent);
         }
-        if (v.equals(btnMyCompany)) {
+        else if (v.equals(btnMyCompany)) {
             Intent intent = new Intent(this, CompanyMyActivity.class);
             startActivity(intent);
         }
@@ -188,6 +200,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //показать список городов
         else if(v.equals(llMyCity)){
             lvMyCity.setVisibility(View.VISIBLE);
+        }
+        else if(v.equals(llMessege)){
+            Intent intent = new Intent(this, MessageFeedActivity.class);
+            startActivityForResult(intent, MESSAGE_FEED_REQUEST_CODE);
         }
     }
     //проверить роль user
@@ -229,6 +245,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userRoleReceive.RoleReceive(this);
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == MESSAGE_FEED_REQUEST_CODE && resultCode == RESULT_OK){
+            new CheckNewMessege(ivCheckmark);
+        }
+    }
+
     //обновить корзину
     //этот метод запускает invalidateOptionsMenu();
     @Override
