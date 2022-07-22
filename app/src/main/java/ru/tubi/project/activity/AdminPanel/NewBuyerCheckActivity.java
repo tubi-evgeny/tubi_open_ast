@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -55,6 +56,7 @@ public class NewBuyerCheckActivity extends AppCompatActivity {
         url_get += "show_new_buyer";
         String whatQuestion ="show_new_buyer";
         setInitialData(url_get, whatQuestion);
+        Log.d("A111","NewBuyerCheckActivity / makeStartList / url="+url_get);
     }
     private void setInitialData(String url_get, String whatQuestion) {
 
@@ -69,6 +71,7 @@ public class NewBuyerCheckActivity extends AppCompatActivity {
         task.execute(url_get);
     }
     private void splitResult(String result){  // разобрать результат с сервера список продуктов и колличество
+        Log.d("A111","NewBuyerCheckActivity / splitResult / result="+result);
         list.clear();
         try {
 
@@ -81,8 +84,16 @@ public class NewBuyerCheckActivity extends AppCompatActivity {
             }else{
                 for(int i=0;i<res.length;i++){
                     String[]temp = res[i].split("&nbsp");
-                    NewBuyerCheckModel buyer = new NewBuyerCheckModel(temp[0],temp[1],temp[2],temp[3],
-                            temp[4],Integer.parseInt(temp[5]),Integer.parseInt(temp[6]));
+                    String name = temp[0];
+                    String abbreviation = temp[1];
+                    String counterparty = temp[2];
+                    String createdDate = temp[3];
+                    String orderSumm = temp[4];
+                    int order_id = Integer.parseInt(temp[5]);
+                    String phone = temp[6];
+
+                    NewBuyerCheckModel buyer = new NewBuyerCheckModel(name, abbreviation
+                            , counterparty, createdDate,orderSumm, order_id, phone);
                     list.add(buyer);
                 }
                 adapter.notifyDataSetChanged();
@@ -90,6 +101,7 @@ public class NewBuyerCheckActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
+            Log.d("A111","ERROR NewBuyerCheckActivity / splitResult e="+e);
         }
     }
     private void goUserToInfoForOrder(int position){

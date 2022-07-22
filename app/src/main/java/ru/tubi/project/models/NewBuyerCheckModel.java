@@ -9,10 +9,10 @@ public class NewBuyerCheckModel implements Serializable {
     private String createdDate;
     private String orderSumm;
     private int order_id;
-    private int phone;
+    private String phone;
 
     public NewBuyerCheckModel(String name, String abbreviation, String counterparty,
-                    String createdDate,String orderSumm,int order_id,int phone) {
+                    String createdDate,String orderSumm,int order_id,String phone) {
         this.name = name;
         this.abbreviation = abbreviation;
         this.counterparty = counterparty;
@@ -70,11 +70,11 @@ public class NewBuyerCheckModel implements Serializable {
         this.order_id = order_id;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 }
