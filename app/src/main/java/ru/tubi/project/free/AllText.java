@@ -277,6 +277,7 @@ public class AllText {
     public static String  HAVE_FINICH = "ХОЧУ ЗАКОНЧИТЬ";
     public static String  WRITE_NOW = "ПРОДОЛЖИТЬ ВВОД";
     public static String  CHECK_CONNECT_INTERNET = "Проверьте Интеренет соединение";
+    public static String  CHECK_PASSWORD_TO_COPY = "Пароли не совпадают, проверьте пароли";
     public static String DATE_OR_COMPANY = "ДАННЫЕ КОМПАНИИ";
     public static String PHONE = "телефон";
     public static String CANCELLATION = "ОТМЕНА";

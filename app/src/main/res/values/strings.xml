@@ -251,6 +251,7 @@
     <!--<string name="hint_email">Email</string>-->
     <string name="hint_phone">Телефон</string>
     <string name="hint_password">Пароль</string>
+    <string name="hint_password_check">Повторите Пароль</string>
     <string name="hint_name">Ваше имя</string>
     <string name="btn_login">АВТОРИЗОВАТЬСЯ</string>
     <string name="btn_register">ЗАРЕГИСТРИРОВАТЬСЯ</string><!-- REGISTER -->
