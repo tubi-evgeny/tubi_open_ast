@@ -87,7 +87,7 @@ public class ListProvidersProcessingActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void splitResult(String result){
         Log.d("A111","ListProvidersProcessingActivity / splitResult / result="+result);
-        Toast.makeText(this, "res\nпаределать скрипт \nтаблица не существует"+result, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "res\nпаределать скрипт \nтаблица не существует"+result, Toast.LENGTH_SHORT).show();
         list.clear();
         try {
             String[] res = result.split("<br>");
