@@ -58,9 +58,9 @@ public class ListProvidersProcessingActivity extends AppCompatActivity {
     private void startList() {
         String url = Constant.ADMIN_OFFICE;
         url += "list_providers_processing_make_orders";
-
         String whatQuestion = "list_providers_processing_make_orders";
         setInitialData(url, whatQuestion);
+        Log.d("A111","ListProvidersProcessingActivity / startList / url="+url);
     }
     private void setInitialData(String url_get, String whatQuestion) {
         InitialData task=new InitialData(){
@@ -86,6 +86,7 @@ public class ListProvidersProcessingActivity extends AppCompatActivity {
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void splitResult(String result){
+        Log.d("A111","ListProvidersProcessingActivity / splitResult / result="+result);
         Toast.makeText(this, "res\nпаределать скрипт \nтаблица не существует"+result, Toast.LENGTH_SHORT).show();
         list.clear();
         try {
@@ -119,7 +120,7 @@ public class ListProvidersProcessingActivity extends AppCompatActivity {
                     "ошибка полученных данных"+e.toString());
         }
     }
-    //щбъединить данные заказа по весу в одну строку по поставщику
+    //бъединить данные заказа по весу в одну строку по поставщику
     private void uniteProcessingList() {
         int id = list.get(0).getCounterparty_id();
         int  countPosition=0, completedProcessing=0;
