@@ -160,6 +160,7 @@ public class AcceptProductActivity extends AppCompatActivity implements View.OnC
         int in_active = 1;//товар получен складом
         int logistic_product=acceptProductList.get(position).getLogistic_product();
         int give_out=acceptProductList.get(position).getColorDelivery();
+
         String url = Constant.PROVIDER_OFFICE;
         url += "update_in_active_to_table";
         url += "&"+"warehouseInventory_id="+warehouseInventory_id;

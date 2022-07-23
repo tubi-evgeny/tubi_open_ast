@@ -23,7 +23,7 @@ import ru.tubi.project.activity.agent.ChoosePartnerActivity;
 import ru.tubi.project.activity.agent.CodeGeneratorActivity;
 import ru.tubi.project.activity.company_my.CatalogInWarehouseActivity;
 import ru.tubi.project.activity.company_my.CollectProductForActivity;
-import ru.tubi.project.activity.company_my.DistributionOrdersByWarehousesActivity;
+import ru.tubi.project.activity.ForDelete.DistributionOrdersByWarehousesActivity;
 import ru.tubi.project.activity.company_my.OrderForCollectActivity;
 import ru.tubi.project.activity.company_my.OrderToProviderListActivity;
 import ru.tubi.project.activity.company_my.ShipmentProductActivity;
@@ -63,7 +63,7 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
         setTitle(MY_COMPANY);//МОЯ КОМПАНИЯ
 
         tvCmpanyName=findViewById(R.id.tvCmpanyName);
-        btnOrdersBuyers=findViewById(R.id.btnOrdersBuyers);
+        //btnOrdersBuyers=findViewById(R.id.btnOrdersBuyers);
         btnSaleHistory=findViewById(R.id.btnSaleHistory);
        // btnGoMyCatalog=findViewById(R.id.btnGoMyCatalog);
         tvOrdersForProvider=findViewById(R.id.tvOrdersForProvider);
@@ -104,7 +104,7 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
         llAcceptProduct_partner.setOnClickListener(this);
         llCollectProduct.setOnClickListener(this);
         llGiveAwayProduct.setOnClickListener(this);
-        btnOrdersBuyers.setOnClickListener(this);
+        //btnOrdersBuyers.setOnClickListener(this);
         btnSaleHistory.setOnClickListener(this);
        // btnGoMyCatalog.setOnClickListener(this);
         llCarrierPanel.setOnClickListener(this);
@@ -191,10 +191,11 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
             Intent intent=new Intent(this, CatalogInWarehouseActivity.class);
             startActivity(intent);
         }*/
-        else if(v.equals(btnOrdersBuyers)){
+       /* else if(v.equals(btnOrdersBuyers)){
             Intent intent=new Intent(this, DistributionOrdersByWarehousesActivity.class);
             startActivity(intent);
-        }else if(v.equals(llAcceptProduct_buy)){//
+        }*/
+        else if(v.equals(llAcceptProduct_buy)){//
             Intent intent=new Intent(this, AcceptProductActivity.class);
             intent.putExtra("which_warehouse","storage_provider_warehouse");
             startActivity(intent);

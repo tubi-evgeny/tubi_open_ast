@@ -1,4 +1,4 @@
-package ru.tubi.project.activity.company_my;
+package ru.tubi.project.activity.ForDelete;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import ru.tubi.project.R;
+import ru.tubi.project.activity.company_my.DistributionOrdersProviderPartnersActivity;
+import ru.tubi.project.activity.company_my.TransferProductActivity;
 import ru.tubi.project.adapters.DistributionOrdersByWarehousesAdapter;
 import ru.tubi.project.models.OrderModel;
 import ru.tubi.project.utilites.InitialData;

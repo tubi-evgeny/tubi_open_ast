@@ -74,7 +74,7 @@
         <activity android:name=".activity.company_my.CollectProductActivity" />
         <activity android:name=".activity.company_my.CatalogInWarehouseActivity" /> <!-- <activity android:name=".activity.company_my.CatalogForWarehouseActivity" /> -->
         <activity android:name=".activity.company_my.DistributionOrdersProviderPartnersActivity" />
-        <activity android:name=".activity.company_my.DistributionOrdersByWarehousesActivity" />
+        <activity android:name=".activity.ForDelete.DistributionOrdersByWarehousesActivity" />
         <activity android:name=".activity.company_my.WarehouseEditActivity" />
         <activity android:name=".activity.company_my.WarehouseCreateActivity" />
         <!--

@@ -279,14 +279,14 @@
                 app:srcCompat="@drawable/strelka_dalshe_60ps" />
         </LinearLayout>-->
 
-        <Button
+       <!-- <Button
             android:id="@+id/btnOrdersBuyers"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
-            android:text="@string/orders_buyers_big" />
+            android:text="@string/orders_buyers_big" />-->
 
         <LinearLayout
             android:id="@+id/llOrderForCollect"
