@@ -26,6 +26,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.NumberFormat;
+
 import ru.tubi.project.R;
 
 import ru.tubi.project.activity.company_my.CatalogStocksActivity;
@@ -60,6 +62,7 @@ import static ru.tubi.project.free.AllText.ENTER_TAXPAYER_ID;
 import static ru.tubi.project.free.AllText.ERROR_BIG;
 import static ru.tubi.project.free.AllText.HELLO;
 import static ru.tubi.project.free.AllText.IMPORTANT;
+import static ru.tubi.project.free.AllText.INPUT_TOUR_CODE_REGISTRATION;
 import static ru.tubi.project.free.AllText.IP;
 import static ru.tubi.project.free.AllText.IP_SMOL;
 import static ru.tubi.project.free.AllText.MES_1_PROFILE;
@@ -418,20 +421,28 @@ public class CompanyDateFormActivity extends AppCompatActivity implements View.O
 
     private void adInputRegistrationCode() {
         int maxLength = 4;
+        String st1 = INPUT_TOUR_CODE_REGISTRATION;
+        String st2 = "Код можно получить у агента";
+        String st3 = "получить?";
         EditText editText = new EditText(this);
         editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
-       /* LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT
-                        , LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.gravity = Gravity.CENTER_VERTICAL;*/
 
         editText.setGravity(Gravity.CENTER);
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
+       // LinearLayout ll = new LinearLayout(this);
+       // ll.setOrientation(LinearLayout.VERTICAL);
+        //TextView textView = new TextView(this);
+
+        //ll.addView(textView);
+        //ll.addView(editText);
+        //textView.setText(""+st3);
 
         adb = new AlertDialog.Builder(this);
-        String st1 = EDIT_BIG;
-        adb.setTitle("Input your code");
+        adb.setTitle(""+st1);
+        adb.setMessage(""+st2);
         adb.setView(editText);
+        //adb.setView(ll);
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -441,9 +452,14 @@ public class CompanyDateFormActivity extends AppCompatActivity implements View.O
                 //Log.d("A111","CompanyDateFormActivity / adInputRegistrationCode / start="+start);
                 //Log.d("A111","CompanyDateFormActivity / adInputRegistrationCode / s="+s);
                 if(start == 3){
-                    int code = Integer.parseInt(editText.getText().toString().trim());
-                    registrationCode = code;
-                    checkCodeToDB(code);
+                    try {
+                        //если введены буквы
+                        int code = Integer.parseInt(editText.getText().toString().trim());
+                        registrationCode = code;
+                        checkCodeToDB(code);
+                    }catch (Exception ex){
+                        Toast.makeText(CompanyDateFormActivity.this, ""+ERROR_BIG, Toast.LENGTH_SHORT).show();
+                    }
                     //Toast.makeText(CompanyDateFormActivity.this, "go check", Toast.LENGTH_SHORT).show();
                 }
             }
