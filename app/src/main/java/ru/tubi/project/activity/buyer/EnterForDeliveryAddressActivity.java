@@ -2,9 +2,12 @@ package ru.tubi.project.activity.buyer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 import ru.tubi.project.R;
 import ru.tubi.project.adapters.PartnerCollectProductAdapter;
 import ru.tubi.project.models.DeliveryAddressModel;
+import ru.tubi.project.utilites.CheckPhoneNumberInput;
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.InitialData;
 
@@ -26,6 +30,7 @@ import static ru.tubi.project.free.AllText.BUILDING;
 import static ru.tubi.project.free.AllText.CHOOSE;
 import static ru.tubi.project.free.AllText.DISTRIBUTION_WAREHOUSE;
 import static ru.tubi.project.free.AllText.ENTER_HAUSE_NUM_TEXT;
+import static ru.tubi.project.free.AllText.ENTER_PHONE_NUM_ALL_TEXT;
 import static ru.tubi.project.free.AllText.ENTER_PHONE_NUM_TEXT;
 import static ru.tubi.project.free.AllText.ENTER_STREET_NAME_TEXT;
 import static ru.tubi.project.free.AllText.INPUT_TEXT;
@@ -46,6 +51,7 @@ public class EnterForDeliveryAddressActivity extends AppCompatActivity
     private Button btnApply;
     private int partner_warehouse_id = 0;
     ArrayList<Integer> warehouse_idList = new ArrayList<>();
+    private Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,8 @@ public class EnterForDeliveryAddressActivity extends AppCompatActivity
         setContentView(R.layout.activity_enter_for_delivery_address);
         setTitle(INPUT_TEXT); //Ввод адреса
         getSupportActionBar().setSubtitle(ADDRESS_TEXT);
+
+        activity = (Activity) this;
 
         btnApply = findViewById(R.id.btnApply);
         tvRegionDistrictCity = findViewById(R.id.tvRegionDistrictCity);
@@ -78,6 +86,19 @@ public class EnterForDeliveryAddressActivity extends AppCompatActivity
             }
         }
 
+        etPhoneForContact.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //заполнить номер телефона скобками и тире
+                new CheckPhoneNumberInput(activity, etPhoneForContact
+                                        , s, start, before, count);
+            }
+            @Override
+            public void afterTextChanged(Editable s) {  }
+        });
+
         receivePartnerWarehouseList(MY_CITY);
     }
 
@@ -101,6 +122,13 @@ public class EnterForDeliveryAddressActivity extends AppCompatActivity
         }
         if(phoneForContact.isEmpty()){
             Toast.makeText(this, ""+ENTER_PHONE_NUM_TEXT, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //очистить номер от скобок и тире
+        CheckPhoneNumberInput num = new CheckPhoneNumberInput();
+        String phoneNumStr = num.clearPhoneNumber(etPhoneForContact);
+        if(phoneNumStr.length() != 11 ){
+            Toast.makeText(this, ""+ENTER_PHONE_NUM_ALL_TEXT, Toast.LENGTH_SHORT).show();
             return;
         }
 

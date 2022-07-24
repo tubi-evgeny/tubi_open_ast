@@ -40,6 +40,7 @@ public class AllText {
     public static String NUMBER_SMALL = "номер";
     public static String NUMBER_TEXT = "Номер";
     public static String POINT_OF_ISSUE = "пункт выдачи";
+    public static String NUM_EXCEED = "Колличество знаков превышено";
     public static String NO_DELIVERY = "Нет доставки";
     public static String PRODUCT_RECEIPT_DOC = "товарный чек";
     public static String PRODUCT_INVOICE_DOC = "товарная накладная";
@@ -74,6 +75,7 @@ public class AllText {
     public static String ENTER_STREET_NAME_TEXT = "Введите названине улицы";
     public static String ENTER_HAUSE_NUM_TEXT = "Введите номер дома";
     public static String ENTER_PHONE_NUM_TEXT = "Введите номер телефона для связи";
+    public static String ENTER_PHONE_NUM_ALL_TEXT = "Введите номер телефона  полностью";
     public static String LIST_OF_AVAILABLE_DOCUMENTS = "Список доступных документов";
     public static String DISTRIBUTION_WAREHOUSE = "распределительного склада";
     public static String COLLECT_PRODUCT_FOR = "Собрать товар для";
@@ -284,6 +286,7 @@ public class AllText {
     public static String ORDER_HISTORY_BIG = "ИСТОРИЯ ЗАКАЗОВ";
     public static String ORDER_BIG = "ЗАКАЗ";
     public static String FOR_YOU_DONT_ORDER = "У вас еще нет заказов";
+    public static String INPUT_TOUR_CODE_REGISTRATION = "Введите ваш код регистрации";
     public static String POSITIONS = "Позиций";
     public static String ADMIN_PANEL = "ПАНЕЛЬ АДМИНИСТРАТОРА";
     public static String COMPANY_PROFILE = "ПРОФИЛЬ КОМПАНИИ";
