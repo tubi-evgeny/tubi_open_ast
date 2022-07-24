@@ -38,6 +38,7 @@ import ru.tubi.project.models.AddressModel;
 import ru.tubi.project.models.OrderModel;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.Constant;
+import ru.tubi.project.utilites.GetColorShopingBox;
 import ru.tubi.project.utilites.HelperDB;
 import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.OrderDataRecoveryUtil;
@@ -258,12 +259,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //этот метод запускает invalidateOptionsMenu();
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        GetColorShopingBox gc = new GetColorShopingBox();
+        menu = gc.color(this, menu);
         //если есть открытый заказ то получить его номер или получить 0 если заказа открытого нет
-        searchOrder_id.searchStartedOrder(this);
+       /* searchOrder_id.searchStartedOrder(this);
 
         if(userDataModel.getOrder_id() != 0){//Config.ORDER_ID
             menu.findItem(R.id.shoping_box).setIcon(R.drawable.soping_box_green_60ps);
-        }
+        }*/
         return super.onPrepareOptionsMenu(menu);
     }
     //слушатель возврата по методу Back(); из предыдущей активности
@@ -347,6 +350,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onBackPressed();
         //return;
     }
-
 
 }

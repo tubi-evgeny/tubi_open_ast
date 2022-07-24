@@ -32,6 +32,7 @@ import ru.tubi.project.activity.logistics.DeliveryToReceiveGoodsActivity;
 import ru.tubi.project.activity.logistics.HandOverProductActivity;
 import ru.tubi.project.activity.logistics.IntercityDeliveryCalendarActivity;
 import ru.tubi.project.models.UserModel;
+import ru.tubi.project.utilites.GetColorShopingBox;
 import ru.tubi.project.utilites.SearchOrder_id;
 import ru.tubi.project.utilites.UserDataRecovery;
 
@@ -276,12 +277,12 @@ public class CompanyMyActivity extends AppCompatActivity implements View.OnClick
     //этот метод запускает invalidateOptionsMenu();
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        searchOrder_id.searchStartedOrder(this);
+        GetColorShopingBox gc = new GetColorShopingBox();
+        menu = gc.color(this, menu);
+       /* searchOrder_id.searchStartedOrder(this);
         if(ORDER_ID != 0){
             menu.findItem(R.id.shoping_box).setIcon(R.drawable.soping_box_green_60ps);
-        }
-           // menu.findItem(R.id.shoping_box).setShowAsAction(GONE);
-          //  menu.findItem(R.id.shoping_box).setVisible(false);
+        }*/
         return super.onPrepareOptionsMenu(menu);
     }
     public boolean onOptionsItemSelected(MenuItem item){

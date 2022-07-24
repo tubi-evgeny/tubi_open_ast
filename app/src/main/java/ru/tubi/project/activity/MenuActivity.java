@@ -20,6 +20,7 @@ import android.widget.Toast;
 import ru.tubi.project.Config;
 import ru.tubi.project.R;
 import ru.tubi.project.models.UserModel;
+import ru.tubi.project.utilites.GetColorShopingBox;
 import ru.tubi.project.utilites.HelperDB;
 
 import ru.tubi.project.utilites.Constant;
@@ -213,9 +214,11 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) { //----invalidateOptionsMenu();
-        if(OPEN_ORDER_CONDITION == true){
+        GetColorShopingBox gc = new GetColorShopingBox();
+        menu = gc.color(this, menu);
+       /* if(OPEN_ORDER_CONDITION == true){
             menu.findItem(R.id.shoping_box).setIcon(R.drawable.soping_box_green_60ps);
-        }
+        }*/
         return super.onPrepareOptionsMenu(menu);
     }
 
