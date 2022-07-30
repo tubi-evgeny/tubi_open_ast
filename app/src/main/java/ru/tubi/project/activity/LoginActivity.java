@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -12,6 +13,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 
 import ru.tubi.project.R;
 import ru.tubi.project.models.UserModel;
+import ru.tubi.project.utilites.CheckPhoneNumberInput;
 import ru.tubi.project.utilites.HelperDB;
 import ru.tubi.project.utilites.InitialData;
 
@@ -55,6 +59,7 @@ public class LoginActivity extends AppCompatActivity{
     private String whatQuestion;
     private String url_get;
     private boolean isHidePwd = true;
+    private Activity activity = (Activity) this;
 
 
     @Override
@@ -70,15 +75,47 @@ public class LoginActivity extends AppCompatActivity{
         etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
         btnLinkToRegisterScreen.setText(REGISTRATION);
-        // Progress dialog
-       // pDialog = new ProgressDialog(this);
-        //pDialog.setCancelable(false);
-
         // Проверьте, вошел ли пользователь уже в систему или нет
         my_db = new HelperDB(this);
         String uid;
         goReadUid();
+
+        etPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //заполнить номер телефона скобками и тире
+                new CheckPhoneNumberInput(activity, etPhone
+                                        , s, start, before, count);
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
     }
+    // вход в систему по логин парроль
+    public void goLogin(View view) {
+
+
+        String password = etPassword.getText().toString().trim();
+
+        //очистить номер от скобок и тире
+        CheckPhoneNumberInput num = new CheckPhoneNumberInput();
+        String phone = num.clearPhoneNumber(etPhone);
+       // String phone = etPhone.getText().toString().trim();
+
+        // Проверьте наличие пустых данных в форме
+        if (!phone.isEmpty() && !password.isEmpty()) {
+            // пользователь для входа в систему
+            checkLogin(phone, password);
+        } else {
+            // Попросите пользователя ввести учетные данные
+            Toast.makeText(getApplicationContext(),
+                    "Пожалуйста, введите учетные данные!", Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -135,23 +172,6 @@ public class LoginActivity extends AppCompatActivity{
         }
     }
 
-            // вход в систему по логин парроль
-    public void goLogin(View view) {
-
-        String phone = etPhone.getText().toString().trim();
-        String password = etPassword.getText().toString().trim();
-
-        // Проверьте наличие пустых данных в форме
-        if (!phone.isEmpty() && !password.isEmpty()) {
-            // пользователь для входа в систему
-            checkLogin(phone, password);
-        } else {
-            // Попросите пользователя ввести учетные данные
-            Toast.makeText(getApplicationContext(),
-                    "Пожалуйста, введите учетные данные!", Toast.LENGTH_LONG)
-                    .show();
-        }
-    }
 
                 // переход на активность регистрации
     public void goRegisterActivity(View view) {

@@ -37,6 +37,7 @@ import ru.tubi.project.free.CheckNewMessege;
 import ru.tubi.project.models.AddressModel;
 import ru.tubi.project.models.OrderModel;
 import ru.tubi.project.models.UserModel;
+import ru.tubi.project.utilites.CheckPhoneNumberInput;
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.GetColorShopingBox;
 import ru.tubi.project.utilites.HelperDB;
@@ -139,8 +140,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for(int i = 0; i < Config.PARTNER_ROLE_LIST.size(); i++){
             companyRole += Config.PARTNER_ROLE_LIST.get(i)+"\n";
         }
-
-        String activityName ="tubi_relise_2\n"+"phone: "+userDataModel.getPhone();
+        //показать номер для пользователя, вернуть со скобками
+        String activityName ="tubi_relise_2\n"+"phone: "
+                + new CheckPhoneNumberInput().PhoneNumWhithBrackets(userDataModel.getPhone());
         tvName.setText("activity: "+activityName+"\n\nMY_NAME: "+ userDataModel.getName()//+"\nUID: "+ userDataModel.getUid()
                 +"\nc_name: "+ userDataModel.getAbbreviation()+" "+ userDataModel.getCounterparty()
                 +"\ntax-id: "+ userDataModel.getCompany_tax_id()+"\nrole: "+ userDataModel.getRole()

@@ -28,12 +28,15 @@ public class CheckPhoneNumberInput {
     public  CheckPhoneNumberInput() {
         //полученный очищенный номер проверить на колличество цифр
     }
+    //показать номер для пользователя, вернуть со скобками
+    //String numberStr =  num.PhoneNumWhithBrackets(phoneNumStr);
 
     //заполнить номер телефона скобками и тире
     //new CheckPhoneNumberInput(activity, etPhone
     //                        , charSequence, i, i1, i2);
     public CheckPhoneNumberInput(Context context, EditText etPhone
             , CharSequence charSequence, int i, int i1, int i2) {
+        //(CharSequence s, int start, int before, int count)
         this.context = context;
         this.etPhone = etPhone;
         this.charSequence = charSequence;
@@ -118,6 +121,31 @@ public class CheckPhoneNumberInput {
         }
         //tvClearPhoneNum.setText(phoneStr);
         return phoneStr;
+    }
+
+    //показать номер для пользователя, вернуть со скобками
+    public String PhoneNumWhithBrackets(String phoneNumStr){
+        char [] phoneChar = phoneNumStr.toCharArray();
+
+        String number = "";
+
+        for(int i=0;i < phoneChar.length;i++){
+            if(i==0)      number += phoneChar[0]+"(";
+            else if(i==1) number += phoneChar[1];
+            else if(i==2) number += phoneChar[2];
+            else if(i==3) number += phoneChar[3]+")";
+            else if(i==4) number += phoneChar[4];
+            else if(i==5) number += phoneChar[5];
+            else if(i==6) number += phoneChar[6]+"-";
+            else if(i==7) number += phoneChar[7];
+            else if(i==8) number += phoneChar[8]+"-";
+            else if(i==9) number += phoneChar[9];
+            else if(i==10) number += phoneChar[10];
+            else if(i > 10){
+                number += ":"+phoneChar[i];
+            }
+        }
+        return number;
     }
 
 }

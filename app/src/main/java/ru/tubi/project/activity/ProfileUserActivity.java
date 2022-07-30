@@ -3,13 +3,16 @@ package ru.tubi.project.activity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import ru.tubi.project.R;
 import ru.tubi.project.models.UserModel;
+import ru.tubi.project.utilites.CheckPhoneNumberInput;
 import ru.tubi.project.utilites.FirstSimbolMakeBig;
 import ru.tubi.project.utilites.HelperDB;
 import ru.tubi.project.utilites.InitialData;
@@ -33,6 +37,7 @@ import static ru.tubi.project.free.AllText.CANCELLATION;
 import static ru.tubi.project.free.AllText.CHECK_CONNECT_INTERNET;
 import static ru.tubi.project.free.AllText.ENTER_NEW_NAME_TEXT;
 //import static com.example.tubi.free.AllText.NEW_NAME_TEXT;
+import static ru.tubi.project.free.AllText.ENTER_PHONE_NUM_ALL_TEXT;
 import static ru.tubi.project.free.AllText.PHONE;
 import static ru.tubi.project.free.AllText.PROFILE_USER;
 import static ru.tubi.project.free.AllText.RECORD;
@@ -79,7 +84,9 @@ public class ProfileUserActivity extends AppCompatActivity implements View.OnCli
     //заполнить activity
     private void fillActivity() {
         tvUserName.setText(""+user_name);
-        tvUserGeneralInfo.setText(""+user_phone);
+        //показать номер для пользователя, вернуть со скобками
+        String numberStr =  new CheckPhoneNumberInput().PhoneNumWhithBrackets(user_phone);
+        tvUserGeneralInfo.setText(""+numberStr);
     }
     //получить информацию о пользователе
     private void receiveUserGeneralInfo() {
@@ -146,12 +153,27 @@ public class ProfileUserActivity extends AppCompatActivity implements View.OnCli
 
     private void editUserPhone() {
         adb = new AlertDialog.Builder(this);
+        Activity activity = (Activity) this;
         EditText etPhone = new EditText(this);
         etPhone.setHint(user_phone);
         etPhone.setHintTextColor(TUBI_BLACK);
-        etPhone.append(user_phone);
+        //показать номер для пользователя, вернуть со скобками
+        String numberStr =  new CheckPhoneNumberInput().PhoneNumWhithBrackets(user_phone);
+        etPhone.append(numberStr);//user_phone);
         etPhone.setRawInputType(InputType.TYPE_CLASS_NUMBER);
 
+        etPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //заполнить номер телефона скобками и тире
+                new CheckPhoneNumberInput(activity, etPhone
+                                        , s, start, before, count);
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
 
         String st1 = PHONE;
         adb.setView(etPhone);
@@ -167,6 +189,15 @@ public class ProfileUserActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 newPhone = etPhone.getText().toString();
+
+                //очистить номер от скобок и тире
+                CheckPhoneNumberInput num = new CheckPhoneNumberInput();
+                String phoneNumStr = num.clearPhoneNumber(etPhone);
+                if(phoneNumStr.length() != 11 ){
+                    Toast.makeText(activity, ""+newPhone+"\n"+ENTER_PHONE_NUM_ALL_TEXT, Toast.LENGTH_LONG).show();
+                    return;
+                }
+                newPhone=phoneNumStr;
                 updateUserPhone();
             }
         });
@@ -252,7 +283,9 @@ public class ProfileUserActivity extends AppCompatActivity implements View.OnCli
             values.put(HelperDB.USER_NAME, newName);
         }else if(st.equals("phone")){
             user_phone=newPhone;
-            tvUserGeneralInfo.setText(""+newPhone);
+            //показать номер для пользователя, вернуть со скобками
+            String numberStr =  new CheckPhoneNumberInput().PhoneNumWhithBrackets(newPhone);
+            tvUserGeneralInfo.setText(""+numberStr);
             values.put(HelperDB.USER_PHONE, newPhone);
         }
 

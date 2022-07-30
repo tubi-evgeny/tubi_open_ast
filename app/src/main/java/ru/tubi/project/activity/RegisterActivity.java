@@ -2,11 +2,14 @@ package ru.tubi.project.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -16,6 +19,7 @@ import android.widget.Toast;
 
 import ru.tubi.project.R;
 import ru.tubi.project.models.UserModel;
+import ru.tubi.project.utilites.CheckPhoneNumberInput;
 import ru.tubi.project.utilites.HelperDB;
 import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.UserRoleReceive;
@@ -26,6 +30,7 @@ import static ru.tubi.project.Config.MY_NAME;
 import static ru.tubi.project.Config.MY_UID;
 import static ru.tubi.project.Config.ROLE;
 import static ru.tubi.project.free.AllText.CHECK_PASSWORD_TO_COPY;
+import static ru.tubi.project.free.AllText.ENTER_PHONE_NUM_ALL_TEXT;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.PLEASE_ENTER_YOUR_DETAILS;
 
@@ -40,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private UserModel user;
     Intent intent;
     private boolean isHidePwd = true, isHidePwdCheck = true;
+    private Activity activity = (Activity) this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +65,19 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         my_db = new HelperDB(this);
         sqdb = my_db.getWritableDatabase();
         sqdb.close();
+
+        etPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //заполнить номер телефона скобками и тире
+                new CheckPhoneNumberInput(activity, etPhone
+                                        , s, start, before, count);
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
 
     }
 
@@ -96,9 +115,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
     public void goRegister(View view) {
         String name = etName.getText().toString().trim();
-        String phone = etPhone.getText().toString().trim();
+        //String phone = etPhone.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
         String passwordCheck = etPasswordChek.getText().toString().trim();
+
+        //очистить номер от скобок и тире
+        CheckPhoneNumberInput num = new CheckPhoneNumberInput();
+        String phone = num.clearPhoneNumber(etPhone);
+        if(phone.length() != 11 ){
+            Toast.makeText(this, ""+ENTER_PHONE_NUM_ALL_TEXT, Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         if (!name.isEmpty() && !phone.isEmpty()
                 && !password.isEmpty() && !passwordCheck.isEmpty()) {

@@ -52,7 +52,7 @@
                         android:layout_marginBottom="10dp"
                         android:background="@color/white"
                         android:hint="@string/hint_phone"
-                        android:inputType="textEmailAddress"
+                        android:inputType="phone"
                         android:padding="10dp"
                         android:singleLine="true"
                         android:textColor="@color/input_register"
@@ -134,6 +134,7 @@
                         android:background="#ea4c88"
                         android:onClick="goRegister"
                         android:text="@string/btn_register"
+                        android:inputType="phone"
                         android:textColor="@color/white" />
 
                     <!-- Link to Login Screen -->
