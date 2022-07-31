@@ -89,6 +89,7 @@ public class AllText {
     public static String SELECT_DAY = "Выберите день";
     public static String IS_NO_DESCRIPTION = "нет описания";
     public static String SHOW = "Показываю";
+    public static String VIEW_PRICES_TEXT = "Посмотреть цены";
     public static String CALENDAR = "Календарь";
     public static String PARTNER_TEXT = "Партнер";
     public static String ENTER_CITY = "Выберите город";
@@ -102,6 +103,7 @@ public class AllText {
     public static String INVOICE= "накладной";
     public static String DELIVERY_TEXT= "Доставка";
     public static String ACCEPT_PRODUCT_SMOLL= "принять товар";
+    public static String PRICES_WILL_BE_CHANGED= "Цены будут изменены";
     public static String SUMM_SMOLL= "сумма";
     public static String TRANSFERED= "Выдан";
     public static String MESSAGE_FEED= "Лента сообщений";
@@ -278,6 +280,7 @@ public class AllText {
                                             "\nили ИНН вашего ИП";
     public static String  HAVE_FINICH = "ХОЧУ ЗАКОНЧИТЬ";
     public static String  WRITE_NOW = "ПРОДОЛЖИТЬ ВВОД";
+    public static String  CONTINUE_TEXT = "Продолжить";
     public static String  CHECK_CONNECT_INTERNET = "Проверьте Интеренет соединение";
     public static String  CHECK_PASSWORD_TO_COPY = "Пароли не совпадают, проверьте пароли";
     public static String DATE_OR_COMPANY = "ДАННЫЕ КОМПАНИИ";
@@ -434,6 +437,7 @@ public class AllText {
             "\nдля оформления документов";
     public static String MES_22 = "Для заказа товара необходимо выбрать или создать партнера " +
             "\nМОЯ КОМПАНИЯ -> \nСОЗДАТЬ ЗАКАЗ -> \nВЫБРАТЬ / ДОБАВИТЬ ПАРТНЕРА";
-
+    public static String MES_23 = "Цены будут пересчитаны, \n\nполучение и самовывоз со склада";
+    public static String MES_24 = "Цены будут пересчитаны, \n\nцена товара плюс доставка";
 
 }

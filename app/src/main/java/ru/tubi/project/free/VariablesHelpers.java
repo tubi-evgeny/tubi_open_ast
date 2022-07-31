@@ -13,6 +13,8 @@ public class VariablesHelpers {
     public static String MY_DICTRICT = "";
     public static String MY_REGION = "";
 
+    public static int DELIVERY_TO_BUYER_STATUS = 0;
+
     public static DeliveryAddressModel DELIVERY_ADDRESS_LAST  =
             new DeliveryAddressModel("","","",""
                     ,0,"","", "");

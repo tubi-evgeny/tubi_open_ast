@@ -11,6 +11,7 @@ import static ru.tubi.project.Config.CONFIG_TEST;
 import static ru.tubi.project.Config.MY_UID;
 import static ru.tubi.project.Config.ORDER_ID;
 import static ru.tubi.project.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
+import static ru.tubi.project.free.VariablesHelpers.DELIVERY_TO_BUYER_STATUS;
 import static ru.tubi.project.utilites.Constant.API;
 import static ru.tubi.project.utilites.Constant.SEARCH_MY_ACTIVE_ORDER;
 //import static com.example.tubi.utilites.Constant.SEARCH_OPEN_ORDER;
@@ -140,6 +141,9 @@ public class SearchOrder_id {
 
                     sqdb = my_db.getWritableDatabase();
                     sqdb.insert(my_db.TABLE_NAME_ORDER_ID, null, cv);
+                    if(order_id != 0 ){
+                        DELIVERY_TO_BUYER_STATUS = Integer.parseInt(delivery);
+                    }
                 }
                 sqdb.close();
                 Log.d("A111","SearchOrder_id. список заказов "+result);
