@@ -53,12 +53,20 @@
                     android:layout_weight="10"
                     android:gravity="right"
                     android:orientation="horizontal">
-
+                    <TextView
+                        android:id="@+id/tvDeliveryStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="9dp"
+                        android:layout_gravity="left"
+                        android:layout_marginRight="3dp"
+                        android:text="" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textSize="10dp"
+                        android:textSize="9dp"
                         android:layout_marginRight="3dp"
+                        android:layout_gravity="right"
                         android:text="@string/order_for" />
 
                     <TextView
@@ -68,6 +76,7 @@
                         android:textSize="10dp"
                         android:textColor="@color/black"
                         android:layout_marginRight="3dp"
+                        android:layout_gravity="right"
                         android:text="TextView" />
 
 

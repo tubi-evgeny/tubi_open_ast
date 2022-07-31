@@ -29,11 +29,12 @@ import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_400;
 import static ru.tubi.project.free.AllCollor.TUBI_WHITE;
+import static ru.tubi.project.free.AllText.DELIVERY_TEXT;
 import static ru.tubi.project.free.AllText.GRAMM_SHORT;
 import static ru.tubi.project.free.AllText.MORE_SMALL;
 import static ru.tubi.project.free.AllText.NO_DELIVERY;
 import static ru.tubi.project.free.AllText.ORDER_TEXT;
-import static ru.tubi.project.free.AllText.QUANTITY_PACKAGE_SHORT;
+import static ru.tubi.project.free.VariablesHelpers.DELIVERY_TO_BUYER_STATUS;
 import static ru.tubi.project.free.AllText.SUPPLIER_ONE;
 import static ru.tubi.project.free.AllText.SUPPLIER_THREE;
 import static ru.tubi.project.free.AllText.SUPPLIER_TWO;
@@ -110,7 +111,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.tvSumm.setText(String.format("%.2f",+quantity*price));
         holder.tvQuantity.setText(""+quantity);
         holder.tvDateForSale.setText(""+myDate);
-
+        if(DELIVERY_TO_BUYER_STATUS == 1)holder.tvDeliveryStatus.setText(""+DELIVERY_TEXT);
+        else holder.tvDeliveryStatus.setText("");
         //если свободные запасы боьше 3х уп то показать только 3 уп
         if(product.getFree_inventory() > (product.getQuantity_package() * 3)){
             holder.tvStocksGoods.setText(""+MORE_SMALL+" "
@@ -169,6 +171,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         final TextView tvDateForSale;
         final TextView tvMinus;//, tvMinusTen;
         final TextView tvPlus;//, tvPlusTen;
+        final TextView tvDeliveryStatus;
         final LinearLayout llMinus,llMinusAll, llPlus, llQuantity;//llPlusTen,llMinusTen,  ;
 
         private final RecyclerViewClickListener mListener;
@@ -186,7 +189,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             tvMinus=itemView.findViewById(R.id.tvMinus);
             //tvMinusTen=itemView.findViewById(R.id.tvMinusTen);
             tvPlus=itemView.findViewById(R.id.tvPlus);
-            //tvPlusTen=itemView.findViewById(R.id.tvPlusTen);
+            tvDeliveryStatus=itemView.findViewById(R.id.tvDeliveryStatus);
 
             llMinusAll=itemView.findViewById(R.id.llMinusAll);
             llMinus=itemView.findViewById(R.id.llMinus);

@@ -67,6 +67,7 @@ import static ru.tubi.project.free.AllText.SMOLENSCK;
 import static ru.tubi.project.free.AllText.ST;
 import static ru.tubi.project.free.AllText.YEAR_CHAR;
 import static ru.tubi.project.free.AllText.YOUR_ORDER;
+import static ru.tubi.project.free.VariablesHelpers.DELIVERY_TO_BUYER_STATUS;
 import static ru.tubi.project.free.VariablesHelpers.MESSAGE_FROM_ORDER_ACTIVITY;
 import static ru.tubi.project.free.AllText.MAKING_ORDER;
 import static ru.tubi.project.free.AllText.SUGGESTIONS;
@@ -76,7 +77,7 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
     private TextView tvSuggestions, tvYourSuggestions, tvProductGeneralInfo,
             tvSumm, tvScore, tvWarehouseInfo, tvGiveDate;
     private LinearLayout llSuggestions;//,llWarehouseList;
-   // private Spinner spCity;
+    private Button btnGoBuy;
     //private ListView lvWarehouseList;
     private String [] cityList= {SMOLENSCK, "выберите город"};//,"MOSCOW"
     private ArrayList <String> adressWarehouseList = new ArrayList<>();
@@ -89,7 +90,6 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
     private double priceSumm, z;
     private AlertDialog ad;
     private AlertDialog.Builder adb;
-    private Button btnGoBuy;
     private boolean flagCiti=false, flagDay=false;
     private ArrayList<Integer> dayNumsList ;
     ArrayList<Long> weekendListMillis;
@@ -356,6 +356,7 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
             String[] res = result.split("<br>");
             String[] temp = res[0].split("&nbsp");
             if (temp[0].equals("RESULT_OK")) {
+                DELIVERY_TO_BUYER_STATUS = 0;
                 goOrderFinished();
             } else if (temp[0].equals("error") || temp[0].equals("messege")) {
                 Toast.makeText(this, "" + temp[1], Toast.LENGTH_LONG).show();

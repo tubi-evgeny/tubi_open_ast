@@ -24,11 +24,13 @@ import java.util.List;
 import static ru.tubi.project.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_400;
+import static ru.tubi.project.free.AllText.DELIVERY_TEXT;
 import static ru.tubi.project.free.AllText.GRAMM_SHORT;
 import static ru.tubi.project.free.AllText.MORE_SMALL;
 import static ru.tubi.project.free.AllText.NO_DELIVERY;
 import static ru.tubi.project.free.AllText.ORDER_TEXT;
 import static ru.tubi.project.free.AllText.QUANTITY_PACKAGE_SHORT;
+import static ru.tubi.project.free.VariablesHelpers.DELIVERY_TO_BUYER_STATUS;
 
 public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.ViewHolder> {
 
@@ -103,6 +105,8 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
         holder.tvQuantity.setText(""+quantity);
 
         holder.tvDateForSale.setText(""+myDate);
+        if(DELIVERY_TO_BUYER_STATUS == 1)holder.tvDeliveryStatus.setText(""+DELIVERY_TEXT);
+        else holder.tvDeliveryStatus.setText("");
 
         //если свободные запасы боьше 3х уп то показать только 3 уп
         if(myPrice.getFree_inventory() > (myPrice.getQuantity_package() * 3)){
@@ -163,6 +167,7 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
         final TextView tvSumm;
         final TextView tvMinus;//, tvMinusTen;
         final TextView tvPlus;//, tvPlusTen;
+        final TextView tvDeliveryStatus;
         final LinearLayout llMinus,llMinusAll, llPlus,llQuantity;// llPlusTen,llMinusTen,  ;
 
         private final ProductCardAdapter.RecyclerViewClickListener mListener;
@@ -181,6 +186,7 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
             tvMinus=itemView.findViewById(R.id.tvMinus);
             //tvMinusTen=itemView.findViewById(R.id.tvMinusTen);
             tvPlus=itemView.findViewById(R.id.tvPlus);
+            tvDeliveryStatus=itemView.findViewById(R.id.tvDeliveryStatus);
             //tvPlusTen=itemView.findViewById(R.id.tvPlusTen);
 
             llMinusAll=itemView.findViewById(R.id.llMinusAll);

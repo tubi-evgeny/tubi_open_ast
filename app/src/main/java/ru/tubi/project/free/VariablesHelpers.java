@@ -13,6 +13,7 @@ public class VariablesHelpers {
     public static String MY_DICTRICT = "";
     public static String MY_REGION = "";
 
+    //статус доставки, доставвка есть=1; нет=0;
     public static int DELIVERY_TO_BUYER_STATUS = 0;
 
     public static DeliveryAddressModel DELIVERY_ADDRESS_LAST  =

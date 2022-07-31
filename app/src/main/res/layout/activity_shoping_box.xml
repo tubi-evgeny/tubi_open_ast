@@ -15,16 +15,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/round_backgraund_white_black"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/imageView19"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            app:srcCompat="?android:attr/actionModeWebSearchDrawable" />
 
         <TextView
             android:id="@+id/tvOrder"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:layout_margin="3dp"
             android:textSize="17dp"
             android:text="TextView" />
+
     </LinearLayout>
 
     <LinearLayout
