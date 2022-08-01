@@ -1,10 +1,12 @@
 package ru.tubi.project.activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,9 +20,12 @@ import ru.tubi.project.models.Catalog;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.GetColorShopingBox;
 import ru.tubi.project.utilites.InitialData;
+import ru.tubi.project.utilites.InitialDataPOST;
 import ru.tubi.project.utilites.SearchOrder_id;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import ru.tubi.project.utilites.UserDataRecovery;
 
@@ -30,6 +35,7 @@ import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.VariablesHelpers.MY_CITY;
 import static ru.tubi.project.free.VariablesHelpers.MY_REGION;
 import static ru.tubi.project.utilites.Constant.GET_CATALOG;
+import static ru.tubi.project.utilites.InitialDataPOST.getParamsString;
 
 public class ActivityCatalog extends AppCompatActivity {
 
@@ -44,6 +50,7 @@ public class ActivityCatalog extends AppCompatActivity {
 
     public static final int CATALOG_IS_MINE = 3;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +96,7 @@ public class ActivityCatalog extends AppCompatActivity {
         }
     }
     //стартовый лист для запуска.
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void startList(){
         long tax_id = userDataModel.getCompany_tax_id();
         //проверить это агент продаж?
@@ -96,17 +104,46 @@ public class ActivityCatalog extends AppCompatActivity {
             tax_id = PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
             Log.d("A111","ActivityCatalog / startList / agent");
         }
-        String url = GET_CATALOG;
+       /* String url = GET_CATALOG;
         url += "receive_catalog";
         url += "&" + "my_city=" + MY_CITY;
         url += "&" + "my_region=" + MY_REGION;
-        url += "&" + "taxpayer_id=" + tax_id;//userDataModel.getCompany_tax_id();
-        setInitialData(url);
-        Log.d("A111","ActivityCatalog / startList / url="+url);
-    }
+        url += "&" + "taxpayer_id=" + tax_id;//userDataModel.getCompany_tax_id();*/
+        //setInitialData(url);
+        //Log.d("A111","ActivityCatalog / startList / url="+url);
 
+        final Map<String, String> parameters = new HashMap<>();
+        parameters.put("receive_catalog","");
+        parameters.put("my_city", MY_CITY);
+        parameters.put("my_region", MY_REGION);
+        parameters.put("taxpayer_id", String.valueOf(tax_id));
+        setInitialDataPOST(GET_CATALOG, parameters);
+        Log.d("A111","ActivityCatalog / startList / url="+GET_CATALOG+parameters);
+    }
+    //получаем данные из сервера б/д
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void setInitialDataPOST(String url, Map<String, String> param){
+        ProgressDialog asyncDialog = new ProgressDialog(this);
+
+        InitialDataPOST task = new InitialDataPOST(){
+            @Override
+            protected void onPreExecute() {
+                asyncDialog.setMessage(LOAD_TEXT);
+                asyncDialog.show();
+                super.onPreExecute();
+            }
+            @Override
+            protected void onPostExecute(String s) {
+                splitResult(s);
+
+                //скрыть диалоговое окно
+                asyncDialog.dismiss();
+            }
+        };
+        task.execute(url, getParamsString(param));
+    }
     //получаем данные из сервера б/д.
-    private void setInitialData(String url) {
+  /*  private void setInitialData(String url) {
         ProgressDialog asyncDialog = new ProgressDialog(this);
 
         InitialData task=new InitialData(){
@@ -126,7 +163,7 @@ public class ActivityCatalog extends AppCompatActivity {
             }
         };
         task.execute(url);
-    }
+    }*/
     //новый лист с данными из сервера б/д
     private void splitResult(String result){
         //Toast.makeText(this, "res\n"+result, Toast.LENGTH_SHORT).show();
