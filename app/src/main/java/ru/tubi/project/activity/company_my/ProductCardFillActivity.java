@@ -18,6 +18,7 @@ import android.provider.MediaStore;
 import android.text.Html;
 import android.text.InputFilter;
 import android.util.Base64;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -38,6 +39,7 @@ import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.ConvertCyrilic;
 import ru.tubi.project.utilites.GenerateImageName;
 import ru.tubi.project.utilites.InitialData;
+import ru.tubi.project.utilites.InitialDataPOST;
 import ru.tubi.project.utilites.MakeImageOrientation;
 import ru.tubi.project.utilites.MakeImageToSquare;
 import ru.tubi.project.utilites.ResponsePOJO;
@@ -46,6 +48,8 @@ import ru.tubi.project.utilites.RetroClient;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -86,6 +90,9 @@ import static ru.tubi.project.free.AllText.TIPE_PACAGING_TEXT;
 import static ru.tubi.project.free.AllText.UNIT_MEASURE_TEXT;
 import static ru.tubi.project.free.AllText.WAREHOUSE;
 import static ru.tubi.project.free.AllText.WEIHT_VOLUME_TEXT;
+import static ru.tubi.project.utilites.Constant.GET_CATALOG;
+import static ru.tubi.project.utilites.Constant.PRODUCT_CARD_ADD;
+import static ru.tubi.project.utilites.InitialDataPOST.getParamsString;
 
 public class ProductCardFillActivity extends AppCompatActivity implements AdapterView.OnItemClickListener,  View.OnClickListener,
         View.OnFocusChangeListener , TextView.OnEditorActionListener {
@@ -103,7 +110,7 @@ public class ProductCardFillActivity extends AppCompatActivity implements Adapte
     price,productQuantity,pacagingQuantity,description;
     private String product,whatQuestion;
     private String url_get,storageWarehouse,storageConditions;
-    private String url = Constant.PRODUCT_CARD_ADD;
+    private String url = PRODUCT_CARD_ADD;
     static final int IMG_REQUEST = 21;
     static final int REQUEST_CATEGORY = 11;
     static final int REQUEST_PRODUCT_NAME = 18;
@@ -124,6 +131,7 @@ public class ProductCardFillActivity extends AppCompatActivity implements Adapte
     private ArrayAdapter<String>adapStorageConditions;
     private UserModel userDataModel;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -252,6 +260,7 @@ public class ProductCardFillActivity extends AppCompatActivity implements Adapte
         productStringBuider();
     }
     //записывааем в БД
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void goWriteData(View view) {
         //проверить наличие всех данных в textView
         boolean result = checkEveryDataDontEmpty();
@@ -273,14 +282,7 @@ public class ProductCardFillActivity extends AppCompatActivity implements Adapte
             uploadProductCardData(imageName);
         }
     }
-    //получить список складов в которые можно складировать товар
-    private void receiveMyWarehouse(){
-        String url = Constant.API;
-        url += "receive_my_warehouse_list";
-        url += "&" + "counterparty_tax_id=" +MY_COMPANY_TAXPAYER_ID;
-        String whatQuestion = "receive_my_warehouse_list";
-        setInitialData(url,whatQuestion);
-    }
+
     //слушатель нажатия на ОК клавиатуры
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -330,44 +332,7 @@ public class ProductCardFillActivity extends AppCompatActivity implements Adapte
         tvProductData.setText(Html.fromHtml(productLong));
 
     }
-    //загружаем данные товара в БД
-    private void uploadProductCardData(String imageName) {
-        //String st = "№ "+warehouse_info_id+"/"+warehouse_id+" "+city+" "+ST+". "+street+" "+house;
-        String tempo[] = storageWarehouse.split(" ");
-        String twoStep[] = tempo[1].split("/");
-        String warehouse_id = twoStep[1];
-        if (description.isEmpty())description = IS_NO_DESCRIPTION;
-        String in_product_name= category+" "+productName+" "+characteristic+" "+brand+" "
-                +weightVolume+" "+unitMeasure+" "+tipePacaging;
-        //Toast.makeText(this, "warehouse_id: "+warehouse_id, Toast.LENGTH_SHORT).show();
-        url_get="";
-        url_get=url;
-        url_get += "upload_product_card";
-        url_get += "&"+"in_product_name="+in_product_name;
-        url_get += "&"+"category="+category;
-        url_get += "&"+"productName="+productName;//productName
-        url_get += "&"+"brand="+brand;
-        url_get += "&"+"characteristic="+characteristic;
-        url_get += "&"+"weightVolume="+weightVolume;
-        url_get += "&"+"unitMeasure="+unitMeasure;
-        url_get += "&"+"tipePacaging="+tipePacaging;
-        url_get += "&"+"price="+price;
-        url_get += "&"+"productQuantity="+productQuantity;
-        url_get += "&"+"pacagingQuantity="+pacagingQuantity;
-        url_get += "&"+"imageName="+imageName+".jpg";
-        url_get += "&"+"abbreviation="+userDataModel.getAbbreviation();//MY_ABBREVIATION;
-        url_get += "&"+"company_name="+userDataModel.getCounterparty();//MY_NAME_COMPANY;
-        url_get += "&"+"companyTaxId="+userDataModel.getCompany_tax_id();//MY_COMPANY_TAXPAYER_ID;
-        url_get += "&"+"description="+description;
-        url_get += "&"+"warehouse_id="+warehouse_id;
-        url_get += "&"+"user_uid="+userDataModel.getUid();//MY_UID;
-        url_get += "&"+"storageConditions="+storageConditions;
-        whatQuestion = "upload_product_card";
 
-        setInitialData(url_get,whatQuestion);
-
-        clearEditText();
-    }
 
 
 
@@ -516,8 +481,117 @@ public class ProductCardFillActivity extends AppCompatActivity implements Adapte
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
     }
+    //загружаем данные товара в БД
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void uploadProductCardData(String imageName) {
+        //String st = "№ "+warehouse_info_id+"/"+warehouse_id+" "+city+" "+ST+". "+street+" "+house;
+        String tempo[] = storageWarehouse.split(" ");
+        String twoStep[] = tempo[1].split("/");
+        String warehouse_id = twoStep[1];
+        if (description.isEmpty())description = IS_NO_DESCRIPTION;
+        String in_product_name= category+" "+productName+" "+characteristic+" "+brand+" "
+                +weightVolume+" "+unitMeasure+" "+tipePacaging;
+        //Toast.makeText(this, "warehouse_id: "+warehouse_id, Toast.LENGTH_SHORT).show();
+       /* url_get="";
+        url_get=url;
+        url_get += "upload_product_card";
+        url_get += "&"+"in_product_name="+in_product_name;
+        url_get += "&"+"category="+category;
+        url_get += "&"+"productName="+productName;//productName
+        url_get += "&"+"brand="+brand;
+        url_get += "&"+"characteristic="+characteristic;
+        url_get += "&"+"weightVolume="+weightVolume;
+        url_get += "&"+"unitMeasure="+unitMeasure;
+        url_get += "&"+"tipePacaging="+tipePacaging;
+        url_get += "&"+"price="+price;
+        url_get += "&"+"productQuantity="+productQuantity;
+        url_get += "&"+"pacagingQuantity="+pacagingQuantity;
+        url_get += "&"+"imageName="+imageName+".jpg";
+        url_get += "&"+"abbreviation="+userDataModel.getAbbreviation();//MY_ABBREVIATION;
+        url_get += "&"+"company_name="+userDataModel.getCounterparty();//MY_NAME_COMPANY;
+        url_get += "&"+"companyTaxId="+userDataModel.getCompany_tax_id();//MY_COMPANY_TAXPAYER_ID;
+        url_get += "&"+"description="+description;
+        url_get += "&"+"warehouse_id="+warehouse_id;
+        url_get += "&"+"user_uid="+userDataModel.getUid();//MY_UID;
+        url_get += "&"+"storageConditions="+storageConditions;
+        whatQuestion = "upload_product_card";*/
+        //setInitialData(url_get,whatQuestion);
 
-    private void setInitialData(String url_get, String whatQuestion) {
+        final Map<String, String> parameters = new HashMap<>();
+        parameters.put("upload_product_card","");
+        parameters.put("in_product_name", in_product_name);
+        parameters.put("category", category);
+        parameters.put("productName", productName);
+        parameters.put("brand", brand);
+        parameters.put("characteristic", characteristic);
+        parameters.put("weightVolume", weightVolume);
+        parameters.put("unitMeasure", unitMeasure);
+        parameters.put("tipePacaging", tipePacaging);
+        parameters.put("price", price);
+        parameters.put("productQuantity", productQuantity);
+        parameters.put("pacagingQuantity", pacagingQuantity);
+        parameters.put("imageName", imageName+".jpg");
+        parameters.put("abbreviation", userDataModel.getAbbreviation());
+        parameters.put("company_name", userDataModel.getCounterparty());
+        parameters.put("companyTaxId", String.valueOf(userDataModel.getCompany_tax_id()));
+        parameters.put("description", description);
+        parameters.put("warehouse_id", warehouse_id);
+        parameters.put("user_uid", userDataModel.getUid());
+        parameters.put("storageConditions", storageConditions);
+        whatQuestion = "upload_product_card";
+
+        setInitialDataPOST(PRODUCT_CARD_ADD, parameters, whatQuestion);
+        Log.d("A111","ProductCardFillActivity / uploadProductCardData / url="+PRODUCT_CARD_ADD+parameters);
+
+        clearEditText();
+    }
+    //получить список складов в которые можно складировать товар
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void receiveMyWarehouse(){
+        String whatQuestion = "";
+       /* String url = Constant.API;
+        url += "receive_my_warehouse_list";
+        url += "&" + "counterparty_tax_id=" +MY_COMPANY_TAXPAYER_ID;
+        whatQuestion = "receive_my_warehouse_list";*/
+       // setInitialData(url,whatQuestion);
+
+        final Map<String, String> parameters = new HashMap<>();
+        parameters.put("receive_my_warehouse_list","");
+        parameters.put("counterparty_tax_id", String.valueOf(userDataModel.getCompany_tax_id()));
+        whatQuestion = "receive_my_warehouse_list";
+        setInitialDataPOST(Constant.API, parameters, whatQuestion);
+        Log.d("A111","ProductCardFillActivity / receiveMyWarehouse / url="+Constant.API+parameters);
+    }
+
+    //получаем данные из сервера б/д
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void setInitialDataPOST(String url, Map<String, String> param, String whatQuestion){
+        ProgressDialog asyncDialog = new ProgressDialog(this);
+
+        InitialDataPOST task = new InitialDataPOST(){
+            @Override
+            protected void onPreExecute() {
+                asyncDialog.setMessage(LOAD_TEXT);
+                asyncDialog.show();
+                super.onPreExecute();
+            }
+            @Override
+            protected void onPostExecute(String s) {
+                if(whatQuestion.equals("upload_product_card")){
+                    splitResult(s);
+                }
+                else if(whatQuestion.equals("receive_my_warehouse_list")){
+                    splitResultMyWarehouse(s);
+                }
+
+                //скрыть диалоговое окно
+                asyncDialog.dismiss();
+            }
+        };
+        task.execute(url, getParamsString(param));
+    }
+
+  /*  private void setInitialData(String url_get, String whatQuestion) {
         ProgressDialog asyncDialog = new ProgressDialog(this);
 
         InitialData task=new InitialData(){
@@ -542,7 +616,7 @@ public class ProductCardFillActivity extends AppCompatActivity implements Adapte
             }
         };
         task.execute(url_get);
-    }
+    }*/
     private void splitResultMyWarehouse(String result){
         //Toast.makeText(this, "result: "+result, Toast.LENGTH_SHORT).show();
         storageWarehouseList.clear();

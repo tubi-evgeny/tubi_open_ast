@@ -2,12 +2,14 @@ package ru.tubi.project.activity.company_my;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.RECEIVE_PRODUCT_INFO;
 
 public class InfoForProductCardFillActivity extends AppCompatActivity
@@ -168,6 +171,7 @@ public class InfoForProductCardFillActivity extends AppCompatActivity
 
     private void startData(String url) {
         setInitialData(url);
+        Log.d("A111","InfoForProductCardFillActivity / startData / url= "+url);
     }
 
     @Override
@@ -177,14 +181,21 @@ public class InfoForProductCardFillActivity extends AppCompatActivity
     }
 
     private void setInitialData(String url_get) {
+        ProgressDialog asyncDialog = new ProgressDialog(this);
 
         InitialData task=new InitialData(){
+            @Override
+            protected void onPreExecute() {
+                asyncDialog.setMessage(LOAD_TEXT);
+                asyncDialog.show();
+                super.onPreExecute();
+            }
+            @Override
             protected void onPostExecute(String result) {
-                //Do your thing
-
                     splitResult(result);
-                    //Toast.makeText(ActivityProduct.this, "my_started_order "+ORDER_ID, Toast.LENGTH_LONG).show();
 
+                //скрыть диалоговое окно
+                asyncDialog.dismiss();
             }
         };
         task.execute(url_get);

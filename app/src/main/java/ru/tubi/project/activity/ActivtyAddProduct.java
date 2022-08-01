@@ -1,10 +1,13 @@
 package ru.tubi.project.activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,17 +23,25 @@ import ru.tubi.project.models.CounterpartyModel;
 import ru.tubi.project.utilites.InitialData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import ru.tubi.project.utilites.Constant;
+import ru.tubi.project.utilites.InitialDataPOST;
 
 import static ru.tubi.project.free.AllText.BRAND;
 import static ru.tubi.project.free.AllText.CATALOG;
 import static ru.tubi.project.free.AllText.CATEGORY;
 import static ru.tubi.project.free.AllText.CHARACTERISTIC;
+import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.PRODUCT_NAME;
 import static ru.tubi.project.free.AllText.PROVIDER;
 import static ru.tubi.project.free.AllText.TIPE_PACAGING;
 import static ru.tubi.project.free.AllText.UNIT_MEASURE;
+import static ru.tubi.project.free.VariablesHelpers.MY_REGION;
+import static ru.tubi.project.utilites.Constant.GET_CATALOG;
+import static ru.tubi.project.utilites.Constant.INPUT;
+import static ru.tubi.project.utilites.InitialDataPOST.getParamsString;
 
 public class ActivtyAddProduct extends AppCompatActivity
                         implements AdapterView.OnItemClickListener {
@@ -64,6 +75,8 @@ public class ActivtyAddProduct extends AppCompatActivity
     private String url;
     private int input_product_id ,textPosition ,x;
     AllText text;
+    final Map<String, String> parameters = new HashMap<>();
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,9 +108,10 @@ public class ActivtyAddProduct extends AppCompatActivity
             btnAdd.setVisibility(View.GONE);
         }
 
-        url= Constant.INPUT;
-        url_get = urlBuilder(url);
-        setInitialData(url_get, whatQuestion);
+        url= INPUT;
+        //url_get = urlBuilder(url);
+        urlBuilder();
+        //setInitialData(url_get, whatQuestion);
 
         lvList.setAdapter(adapter);
         lvList.setOnItemClickListener(this);
@@ -106,7 +120,7 @@ public class ActivtyAddProduct extends AppCompatActivity
         setResult(000,new Intent());
 
     }
-    private String urlBuilder(String url){
+   /* private String urlBuilder(String url){
         String url_get = url;
         if(activityName.equals(CATALOG)){
             whatQuestion = "catalog_array";
@@ -138,13 +152,86 @@ public class ActivtyAddProduct extends AppCompatActivity
             url_get += "provider_array";
             url_get += "&"+"taxpayer_id="+takeit.getLongExtra("taxpayer_id",x);
         }
-       /* else if(activityName.equals(PROVIDER)){
-            whatQuestion = "provider_array";
-            url_get += "provider_array";
-        }*/
         return url_get;
+    }*/
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void urlBuilder(){
+        //String url_get = url;
+        String whatQuestion = "";
+        final Map<String, String> parameters = new HashMap<>();
+        if(activityName.equals(CATALOG)){
+            whatQuestion = "catalog_array";
+            //url_get += "catalog_array";
+            parameters.put("catalog_array","");
+        }else if(activityName.equals(CATEGORY)){
+            whatQuestion = "array";
+            //url_get += "category_array";
+            parameters.put("category_array","");
+        }
+        //----------------------
+        else if(activityName.equals(PRODUCT_NAME)){
+            whatQuestion = "product_name_array";
+            //url_get += "product_name_array";
+            parameters.put("product_name_array","");
+        }
+        //------------------------
+        else if(activityName.equals(BRAND)){
+            whatQuestion = "brand_array";
+            //url_get += "brand_array";
+            parameters.put("brand_array","");
+        }else if(activityName.equals(CHARACTERISTIC)){
+            whatQuestion = "characteristic_array";
+           // url_get += "characteristic_array";
+            parameters.put("characteristic_array","");
+        }else if(activityName.equals(TIPE_PACAGING)){
+            whatQuestion = "tipe_pacaging_array";
+            //url_get += "tipe_pacaging_array";
+            parameters.put("tipe_pacaging_array","");
+        }else if(activityName.equals(UNIT_MEASURE)){
+            whatQuestion = "unit_measure_array";
+            //url_get += "unit_measure_array";
+            parameters.put("unit_measure_array","");
+        }else if(activityName.equals(PROVIDER)){
+            whatQuestion = "provider_array";
+            //url_get += "provider_array";
+            //url_get += "&"+"taxpayer_id="+takeit.getLongExtra("taxpayer_id",x);
+            parameters.put("provider_array","");
+            parameters.put("taxpayer_id",String.valueOf(takeit.getLongExtra("taxpayer_id",x)));
+        }
+        setInitialDataPOST(INPUT, parameters,whatQuestion);
+        //return url_get;
     }
-    private void setInitialData(String url_get, String whatQuestion) {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void setInitialDataPOST(String url, Map<String, String> param, String whatQuestion){
+        ProgressDialog asyncDialog = new ProgressDialog(this);
+
+        InitialDataPOST task = new InitialDataPOST(){
+            @Override
+            protected void onPreExecute() {
+                asyncDialog.setMessage(LOAD_TEXT);
+                asyncDialog.show();
+                super.onPreExecute();
+            }
+            @Override
+            protected void onPostExecute(String result) {
+                if(whatQuestion.equals("catalog_array") || whatQuestion.equals("array") ||
+                        whatQuestion.equals("product_name_array") || whatQuestion.equals("brand_array") ||
+                        whatQuestion.equals("characteristic_array") || whatQuestion.equals("tipe_pacaging_array") ||
+                        whatQuestion.equals("unit_measure_array") ) {
+                    splitResultAddProduct(result);
+                }
+                else if(whatQuestion.equals("provider_array")) {
+                    splitResultCounterparty(result);
+                }
+                else Toast.makeText(ActivtyAddProduct.this,"" + result, Toast.LENGTH_SHORT).show();
+
+                //скрыть диалоговое окно
+                asyncDialog.dismiss();
+            }
+        };
+        task.execute(url, getParamsString(param));
+    }
+  /*  private void setInitialData(String url_get, String whatQuestion) {
 
         InitialData task=new InitialData(){
             protected void onPostExecute(String result) {
@@ -161,7 +248,7 @@ public class ActivtyAddProduct extends AppCompatActivity
             }
         };
         task.execute(url_get);
-    }
+    }*/
     private void splitResultAddProduct(String result){  // разобрать результат с сервера список продуктов и колличество
         alBrands.clear();
         String [] res=result.split("<br>");
@@ -193,6 +280,7 @@ public class ActivtyAddProduct extends AppCompatActivity
         adapter.notifyDataSetChanged();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void addDada(View view) {  //button CATEGORY
         if(activityName.equals(CATEGORY)) {
             addDataCategory();
@@ -243,68 +331,93 @@ public class ActivtyAddProduct extends AppCompatActivity
         textPosition = position;
         //Toast.makeText(this, "lvPosition: "+position, Toast.LENGTH_SHORT).show();
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void addDataUnitMeasure(){
-        whatQuestion = "add_unit_measure";
-        url_get = url;
+        String whatQuestion = "add_unit_measure";
+        /*url_get = url;
         url_get += "add_unit_measure";
         url_get += "&" + "unit_measure=" + tvBrandName.getText().toString().trim();
-        setInitialData(url_get, whatQuestion);
+        setInitialData(url_get, whatQuestion);*/
+        parameters.put("add_unit_measure","");
+        parameters.put("unit_measure",tvBrandName.getText().toString().trim());
+        setInitialDataPOST(INPUT, parameters, whatQuestion);
         intent = new Intent();
         intent.putExtra("position_return", takeit.getIntExtra("position", x));
         setResult(ADD_UNIT_MEASURE, intent);
         finish();
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void addDataTypePackaging(){
-        whatQuestion = "add_type_packaging";
-        url_get = url;
+        String whatQuestion = "add_type_packaging";
+        /*url_get = url;
         url_get += "add_type_packaging";
         url_get += "&" + "type_packaging=" + tvBrandName.getText().toString().trim();
-        setInitialData(url_get, whatQuestion);
+        setInitialData(url_get, whatQuestion);*/
+        parameters.put("add_type_packaging","");
+        parameters.put("type_packaging", tvBrandName.getText().toString().trim());
+        setInitialDataPOST(INPUT, parameters, whatQuestion);
         intent = new Intent();
         intent.putExtra("position_return", takeit.getIntExtra("position", x));
         setResult(ADD_TIPE_PACAGING, intent);
         finish();
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void addDataCharacteristic(){
-        whatQuestion = "add_characteristic";
-        url_get = url;
+        String whatQuestion = "add_characteristic";
+        /*url_get = url;
         url_get += "add_characteristic";
         url_get += "&" + "characteristic=" + tvBrandName.getText().toString().trim();
-        setInitialData(url_get, whatQuestion);
+        setInitialData(url_get, whatQuestion);*/
+        parameters.put("add_characteristic","");
+        parameters.put("characteristic", tvBrandName.getText().toString().trim());
+        setInitialDataPOST(INPUT, parameters, whatQuestion);
         intent = new Intent();
         intent.putExtra("position_return", takeit.getIntExtra("position", x));
         setResult(ADD_CHARACTERISTIC, intent);
         finish();
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void addDataProductName(){
-        whatQuestion = "add_product_name";
-        url_get = url;
+        String whatQuestion = "add_product_name";
+        /*url_get = url;
         url_get += "add_product_name";
         url_get += "&" + "product_name=" + tvBrandName.getText().toString().trim();
-        setInitialData(url_get, whatQuestion);
+        setInitialData(url_get, whatQuestion);*/
+        parameters.put("add_product_name","");
+        parameters.put("product_name", tvBrandName.getText().toString().trim());
+        setInitialDataPOST(INPUT, parameters, whatQuestion);
         intent = new Intent();
         intent.putExtra("position_return", takeit.getIntExtra("position", x));
         setResult(ADD_PRODUCT_NAME, intent);
         finish();
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void addDataBrand(){
-        whatQuestion = "add_brand";
-        url_get = url;
+        String whatQuestion = "add_brand";
+        /*url_get = url;
         url_get += "add_brand";
         url_get += "&" + "brand=" + tvBrandName.getText().toString().trim();
-        setInitialData(url_get, whatQuestion);
+        setInitialData(url_get, whatQuestion);*/
+        parameters.put("add_brand","");
+        parameters.put("brand", tvBrandName.getText().toString().trim());
+        setInitialDataPOST(INPUT, parameters, whatQuestion);
         intent = new Intent();
         intent.putExtra("position_return", takeit.getIntExtra("position", x));
         setResult(ADD_BRAND, intent);
         finish();
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void addDataCategory(){
-        whatQuestion = "add_category";
-        url_get = url;
+        String whatQuestion = "add_category";
+        /*url_get = url;
         url_get += "add_category";
         url_get += "&" + "category=" + tvBrandName.getText().toString().trim();
         url_get += "&" + "catalog=" + takeit.getStringExtra("catalog_name");
-        setInitialData(url_get, whatQuestion);
+        setInitialData(url_get, whatQuestion);*/
+        parameters.put("add_category","");
+        parameters.put("category", tvBrandName.getText().toString().trim());
+        parameters.put("catalog", takeit.getStringExtra("catalog_name"));
+        setInitialDataPOST(INPUT, parameters, whatQuestion);
         intent = new Intent();
         intent.putExtra("position_return", takeit.getIntExtra("position", x));
         setResult(ADD_CATEGORY, intent);
@@ -323,28 +436,27 @@ public class ActivtyAddProduct extends AppCompatActivity
             adb.setMessage(str2);
             adb.setPositiveButton(text.YES_CHENGE,
                     new DialogInterface.OnClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.N)
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String stNameForChenge = tvNameForChenge.getText().toString().trim();
-                            whatQuestion = "update_provider";
-                            url_get = url;
+                            String whatQuestion = "update_provider";
+                           /* url_get = url;
                             url_get += "chenge_provider";
                             url_get += "&" + "input_product_id=" + input_product_id;
                             url_get += "&" + "taxpayer_id=" + alBrandsModel.get(textPosition).getTaxpayer_id();
-                            //url_get += "&" + "taxpayer_id=" + takeit.getIntExtra("taxpayer_id",x);
-                            //url_get += "&" + "provider=" + stNameForChenge;
-                            //takeit.getIntExtra("taxpayer_id",x);
-                            setInitialData(url_get, whatQuestion);
+                            setInitialData(url_get, whatQuestion);*/
+                            parameters.put("chenge_provider","");
+                            parameters.put("input_product_id", String.valueOf(input_product_id));
+                            parameters.put("taxpayer_id", String.valueOf(alBrandsModel.get(textPosition).getTaxpayer_id()));
+                            setInitialDataPOST(INPUT, parameters, whatQuestion);
                             intent = new Intent();
                             intent.putExtra("position_return", takeit.getIntExtra("position", x));
                             intent.putExtra("abbreviation_for_chenge", alBrandsModel.get(textPosition).getAbbreviation());
                             intent.putExtra("name_for_chenge", alBrandsModel.get(textPosition).getCounterparty());
                             intent.putExtra("tax_id", alBrandsModel.get(textPosition).getTaxpayer_id());
-                            //intent.putExtra("name_for_chenge", stNameForChenge);
                             setResult(CHENGE_PROVIDER, intent);
                             finish();
-                            //Toast.makeText(ActivtyAddProduct.this,
-                            //       "url_get: "+url_get, Toast.LENGTH_SHORT).show();
                         }
                     });
             adb.setNegativeButton(text.NO_BACK,
@@ -373,15 +485,20 @@ public class ActivtyAddProduct extends AppCompatActivity
             adb.setMessage(str2);
             adb.setPositiveButton(text.YES_CHENGE,
                     new DialogInterface.OnClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.N)
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String stNameForChenge = tvNameForChenge.getText().toString();
-                            whatQuestion = "update_unit_measure";
-                            url_get = url;
+                            String whatQuestion = "update_unit_measure";
+                          /*  url_get = url;
                             url_get += "chenge_unit_measure";
                             url_get += "&" + "input_product_id=" + input_product_id;
                             url_get += "&" + "unit_measure=" + stNameForChenge;
-                            setInitialData(url_get, whatQuestion);
+                            setInitialData(url_get, whatQuestion);*/
+                            parameters.put("chenge_unit_measure","");
+                            parameters.put("input_product_id", String.valueOf(input_product_id));
+                            parameters.put("unit_measure", stNameForChenge);
+                            setInitialDataPOST(INPUT, parameters, whatQuestion);
                             intent = new Intent();
                             intent.putExtra("position_return", takeit.getIntExtra("position", x));
                             intent.putExtra("name_for_chenge", stNameForChenge);
@@ -417,15 +534,20 @@ public class ActivtyAddProduct extends AppCompatActivity
             adb.setMessage(str2);
             adb.setPositiveButton(text.YES_CHENGE,
                     new DialogInterface.OnClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.N)
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String stNameForChenge = tvNameForChenge.getText().toString();
-                            whatQuestion = "update_type_packaging";
-                            url_get = url;
+                            String whatQuestion = "update_type_packaging";
+                           /* url_get = url;
                             url_get += "chenge_type_packaging";
                             url_get += "&" + "input_product_id=" + input_product_id;
                             url_get += "&" + "type_packaging=" + stNameForChenge;
-                            setInitialData(url_get, whatQuestion);
+                            setInitialData(url_get, whatQuestion);*/
+                            parameters.put("chenge_type_packaging","");
+                            parameters.put("input_product_id", String.valueOf(input_product_id));
+                            parameters.put("type_packaging", stNameForChenge);
+                            setInitialDataPOST(INPUT, parameters, whatQuestion);
                             intent = new Intent();
                             intent.putExtra("position_return", takeit.getIntExtra("position", x));
                             intent.putExtra("name_for_chenge", stNameForChenge);
@@ -461,15 +583,20 @@ public class ActivtyAddProduct extends AppCompatActivity
             adb.setMessage(str2);
             adb.setPositiveButton(text.YES_CHENGE,
                     new DialogInterface.OnClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.N)
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String stNameForChenge = tvNameForChenge.getText().toString();
-                            whatQuestion = "update_characteristic";
-                            url_get = url;
+                            String whatQuestion = "update_characteristic";
+                           /* url_get = url;
                             url_get += "chenge_characteristic";
                             url_get += "&" + "input_product_id=" + input_product_id;
                             url_get += "&" + "characteristic=" + stNameForChenge;
-                            setInitialData(url_get, whatQuestion);
+                            setInitialData(url_get, whatQuestion);*/
+                            parameters.put("chenge_characteristic","");
+                            parameters.put("input_product_id", String.valueOf(input_product_id));
+                            parameters.put("characteristic", stNameForChenge);
+                            setInitialDataPOST(INPUT, parameters, whatQuestion);
                             intent = new Intent();
                             intent.putExtra("position_return", takeit.getIntExtra("position", x));
                             intent.putExtra("name_for_chenge", stNameForChenge);
@@ -504,15 +631,20 @@ public class ActivtyAddProduct extends AppCompatActivity
             adb.setMessage(str2);
             adb.setPositiveButton(text.YES_CHENGE,
                     new DialogInterface.OnClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.N)
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String stNameForChenge = tvNameForChenge.getText().toString();
-                            whatQuestion = "chenge_product_name";
-                            url_get = url;
+                            String whatQuestion = "chenge_product_name";
+                           /* url_get = url;
                             url_get += "chenge_product_name";
                             url_get += "&" + "input_product_id=" + input_product_id;
                             url_get += "&" + "product_name=" + stNameForChenge;
-                            setInitialData(url_get, whatQuestion);
+                            setInitialData(url_get, whatQuestion);*/
+                            parameters.put("chenge_product_name","");
+                            parameters.put("input_product_id", String.valueOf(input_product_id));
+                            parameters.put("product_name", stNameForChenge);
+                            setInitialDataPOST(INPUT, parameters, whatQuestion);
                             intent = new Intent();
                             intent.putExtra("position_return", takeit.getIntExtra("position", x));
                             intent.putExtra("name_for_chenge", stNameForChenge);
@@ -547,15 +679,20 @@ public class ActivtyAddProduct extends AppCompatActivity
             adb.setMessage(str2);
             adb.setPositiveButton(text.YES_CHENGE,
                     new DialogInterface.OnClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.N)
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String stNameForChenge = tvNameForChenge.getText().toString();
-                            whatQuestion = "update_brand";
-                            url_get = url;
+                            String whatQuestion = "update_brand";
+                           /* url_get = url;
                             url_get += "chenge_brand";
                             url_get += "&" + "input_product_id=" + input_product_id;
                             url_get += "&" + "brand=" + stNameForChenge;
-                            setInitialData(url_get, whatQuestion);
+                            setInitialData(url_get, whatQuestion);*/
+                            parameters.put("chenge_brand","");
+                            parameters.put("input_product_id", String.valueOf(input_product_id));
+                            parameters.put("brand", stNameForChenge);
+                            setInitialDataPOST(INPUT, parameters, whatQuestion);
                             intent = new Intent();
                             intent.putExtra("position_return", takeit.getIntExtra("position", x));
                             intent.putExtra("name_for_chenge", stNameForChenge);
@@ -591,15 +728,20 @@ public class ActivtyAddProduct extends AppCompatActivity
             adb.setMessage(str2);
             adb.setPositiveButton(text.YES_CHENGE,
                     new DialogInterface.OnClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.N)
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String stNameForChenge = tvNameForChenge.getText().toString();
-                            whatQuestion = "update_category";
-                            url_get = url;
+                            String whatQuestion = "update_category";
+                            /*url_get = url;
                             url_get += "chenge_category";
                             url_get += "&" + "input_product_id=" + input_product_id;
                             url_get += "&" + "category=" + stNameForChenge;
-                            setInitialData(url_get, whatQuestion);
+                            setInitialData(url_get, whatQuestion);*/
+                            parameters.put("chenge_category","");
+                            parameters.put("input_product_id", String.valueOf(input_product_id));
+                            parameters.put("category", stNameForChenge);
+                            setInitialDataPOST(INPUT, parameters, whatQuestion);
                             intent = new Intent();
                             intent.putExtra("position_return", takeit.getIntExtra("position", x));
                             intent.putExtra("name_for_chenge", stNameForChenge);
@@ -633,15 +775,20 @@ public class ActivtyAddProduct extends AppCompatActivity
             adb.setMessage(str2);
             adb.setPositiveButton(text.YES_CHENGE,
                     new DialogInterface.OnClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.N)
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String stNameForChenge = tvNameForChenge.getText().toString();
-                            whatQuestion = "update_catalog";
-                            url_get = url;
+                            String whatQuestion = "update_catalog";
+                            /*url_get = url;
                             url_get += "chenge_catalog";
                             url_get += "&" + "input_product_id=" + input_product_id;
                             url_get += "&" + "catalog=" + stNameForChenge;
-                            setInitialData(url_get, whatQuestion);
+                            setInitialData(url_get, whatQuestion);*/
+                            parameters.put("chenge_catalog","");
+                            parameters.put("input_product_id", String.valueOf(input_product_id));
+                            parameters.put("catalog", stNameForChenge);
+                            setInitialDataPOST(INPUT, parameters, whatQuestion);
                             intent = new Intent();
                             intent.putExtra("position_return", takeit.getIntExtra("position", x));
                             intent.putExtra("name_for_chenge", stNameForChenge);

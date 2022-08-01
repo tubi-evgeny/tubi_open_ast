@@ -1,5 +1,6 @@
 package ru.tubi.project.activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -7,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,11 +19,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ru.tubi.project.R;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.CheckPhoneNumberInput;
 import ru.tubi.project.utilites.HelperDB;
 import ru.tubi.project.utilites.InitialData;
+import ru.tubi.project.utilites.InitialDataPOST;
 import ru.tubi.project.utilites.UserRoleReceive;
 
 import ru.tubi.project.utilites.Constant;
@@ -33,6 +39,9 @@ import static ru.tubi.project.free.AllText.CHECK_PASSWORD_TO_COPY;
 import static ru.tubi.project.free.AllText.ENTER_PHONE_NUM_ALL_TEXT;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.PLEASE_ENTER_YOUR_DETAILS;
+import static ru.tubi.project.utilites.Constant.GET_CATALOG;
+import static ru.tubi.project.utilites.Constant.URL_REGISTER;
+import static ru.tubi.project.utilites.InitialDataPOST.getParamsString;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -113,6 +122,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
 
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void goRegister(View view) {
         String name = etName.getText().toString().trim();
         //String phone = etPhone.getText().toString().trim();
@@ -166,30 +176,45 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         finish();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void registerUser(final String name, final String phone,
                               final String password){
-
-                              //Тег, используемый для отмены запроса
-
                                 //запрос на регистрацию в БД
-        url_get = Constant.URL_REGISTER;
+       /* url_get = URL_REGISTER;
         url_get += "&" + "name="+name;
         url_get += "&" + "phone=" + phone;
         url_get += "&" + "password=" + password;
         whatQuestion = "registration";
-        setInitialData(url_get,whatQuestion);
-
-
-                                //Вставка строки в таблицу пользователей
-
-
-                                //Запуск действия входа в систему
-
-                           //Произошла ошибка при регистрации. Получить ошибку
-                            // сообщение
-
+        setInitialData(url_get,whatQuestion);*/
+        final Map<String, String> parameters = new HashMap<>();
+        parameters.put("name",name);
+        parameters.put("phone",phone);
+        parameters.put("password",password);
+        setInitialDataPOST(URL_REGISTER, parameters);
     }
-    private void setInitialData(String url_get, String whatQuestion) {
+    //получаем данные из сервера б/д
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void setInitialDataPOST(String url, Map<String, String> param){
+        ProgressDialog asyncDialog = new ProgressDialog(this);
+
+        InitialDataPOST task = new InitialDataPOST(){
+            @Override
+            protected void onPreExecute() {
+                asyncDialog.setMessage(LOAD_TEXT);
+                asyncDialog.show();
+                super.onPreExecute();
+            }
+            @Override
+            protected void onPostExecute(String s) {
+                splitUserRegResult(s);
+
+                //скрыть диалоговое окно
+                asyncDialog.dismiss();
+            }
+        };
+        task.execute(url, getParamsString(param));
+    }
+  /*  private void setInitialData(String url_get, String whatQuestion) {
         ProgressDialog asyncDialog = new ProgressDialog(this);
 
         InitialData task=new InitialData(){
@@ -211,7 +236,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
         };
         task.execute(url_get);
-    }
+    }*/
     private void splitUserRegResult(String result){  // разобрать результат с сервера
         String[]temp;
         String [] res=result.split("<br>");
@@ -222,8 +247,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(this, " " +temp[1], Toast.LENGTH_LONG).show();
             }else{
                 user = new UserModel(temp[0],temp[1],temp[2],temp[3],temp[4]);
-               // UserModel user = new UserModel(temp[0],temp[1],temp[2],temp[3],temp[4],
-                //        temp[5],temp[6],temp[7]);
                 saveInfoTableDB(this.user);   // Теперь сохраните пользователя в sqlite
             }
 

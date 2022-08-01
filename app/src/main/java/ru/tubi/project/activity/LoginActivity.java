@@ -1,5 +1,6 @@
 package ru.tubi.project.activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -12,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.nfc.Tag;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,6 +26,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ru.tubi.project.R;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.CheckPhoneNumberInput;
@@ -31,6 +36,7 @@ import ru.tubi.project.utilites.HelperDB;
 import ru.tubi.project.utilites.InitialData;
 
 import ru.tubi.project.utilites.Constant;
+import ru.tubi.project.utilites.InitialDataPOST;
 
 import static android.content.ContentValues.TAG;
 
@@ -44,7 +50,10 @@ import static ru.tubi.project.Config.ROLE;
 import static ru.tubi.project.free.AllText.ENTER_YOUR_LOGIN_AND_PASSWORD_AND_PRESS_LOGINBUTTON;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.REGISTRATION;
+import static ru.tubi.project.utilites.Constant.URL_LOGIN;
+import static ru.tubi.project.utilites.Constant.URL_REGISTER;
 import static ru.tubi.project.utilites.HelperDB.TABLE_NAME_MY_USER;
+import static ru.tubi.project.utilites.InitialDataPOST.getParamsString;
 
 public class LoginActivity extends AppCompatActivity{
 
@@ -86,14 +95,14 @@ public class LoginActivity extends AppCompatActivity{
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //заполнить номер телефона скобками и тире
-                new CheckPhoneNumberInput(activity, etPhone
-                                        , s, start, before, count);
+                //new CheckPhoneNumberInput(activity,etPhone,s,start,before,count);
             }
             @Override
             public void afterTextChanged(Editable s) { }
         });
     }
     // вход в систему по логин парроль
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void goLogin(View view) {
 
 
@@ -181,6 +190,7 @@ public class LoginActivity extends AppCompatActivity{
     }
 
                  // функция проверки учетных данных в базе данных mysql
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void checkLogin(final String phone, final String password){
 
                         // Тег, используемый для отмены запроса
@@ -190,14 +200,40 @@ public class LoginActivity extends AppCompatActivity{
         //showDialog();
 
         // запрос на получение данных пользователя
-        url_get = Constant.URL_LOGIN;
+       /* url_get = URL_LOGIN;
         url_get += "&" + "phone=" + phone;
         url_get += "&" + "password=" + password;
         whatQuestion = "login";
-        setInitialData(url_get,whatQuestion);
+        setInitialData(url_get,whatQuestion);*/
+        final Map<String, String> parameters = new HashMap<>();
+        parameters.put("phone",phone);
+        parameters.put("password",password);
+        setInitialDataPOST(URL_LOGIN, parameters);
 
     }
-    private void setInitialData(String url_get, String whatQuestion) {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void setInitialDataPOST(String url, Map<String, String> param){
+        ProgressDialog asyncDialog = new ProgressDialog(this);
+
+        InitialDataPOST task = new InitialDataPOST(){
+            @Override
+            protected void onPreExecute() {
+                asyncDialog.setMessage(LOAD_TEXT);
+                asyncDialog.show();
+                super.onPreExecute();
+            }
+            @Override
+            protected void onPostExecute(String s) {
+                //  Пользователь успешно найден в MySQL
+                splitUserLogResult(s);
+
+                //скрыть диалоговое окно
+                asyncDialog.dismiss();
+            }
+        };
+        task.execute(url, getParamsString(param));
+    }
+  /*  private void setInitialData(String url_get, String whatQuestion) {
         ProgressDialog asyncDialog = new ProgressDialog(this);
 
         InitialData task=new InitialData(){
@@ -219,7 +255,7 @@ public class LoginActivity extends AppCompatActivity{
             }
         };
         task.execute(url_get);
-    }
+    }*/
     private void splitUserLogResult(String result){  // разобрать результат с сервера
         String[]temp;
         String [] res=result.split("<br>");
