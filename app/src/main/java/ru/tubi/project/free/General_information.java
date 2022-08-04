@@ -11,5 +11,6 @@ public class General_information {
 
             Так же в это же время приложение тоже обнуляет order_id
 
+
      */
 }
