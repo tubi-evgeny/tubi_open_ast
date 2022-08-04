@@ -31,7 +31,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="9"
                 android:text=""
-                android:textColor="@color/black"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="20dp" />
 
             <ImageView
@@ -57,7 +57,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="9"
                 android:text="@string/my_company"
-                android:textColor="@color/black"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="20dp" />
 
             <ImageView
@@ -80,7 +80,7 @@
                 android:id="@+id/tvOrderHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="20dp"
                 android:layout_weight="9"
                 android:layout_gravity="center_vertical"
@@ -106,7 +106,7 @@
                 android:id="@+id/tvWantToBeProvider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="20dp"
                 android:layout_weight="9"
                 android:layout_gravity="center_vertical"
@@ -131,7 +131,7 @@
                 android:id="@+id/tvQuestionAnsver"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="20dp"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
@@ -156,7 +156,7 @@
                 android:id="@+id/tvPrivacyPolicy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="20dp"
                 android:layout_weight="9"
                 android:layout_gravity="center_vertical"

@@ -22,7 +22,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:text="TextView"
-                android:textColor="@color/black"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="18dp" />
 
             <ImageView
@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:textSize="17dp"
-                android:textColor="@color/black"
+                android:textColor="?android:textColorPrimary"
                 android:text="" />
 
             <TextView
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:textSize="17dp"
-                android:textColor="@color/black"
+                android:textColor="?android:textColorPrimary"
                 android:text="" />
 
             <TextView
@@ -58,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:textSize="17dp"
-                android:textColor="@color/black"
+                android:textColor="?android:textColorPrimary"
                 android:text="" />
         </LinearLayout>
 
@@ -86,7 +86,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="@string/buyer_is"
-                    android:textColor="@color/black"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="17dp" />
             </LinearLayout>
 
@@ -107,7 +107,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="@string/provider_is"
-                    android:textColor="@color/black"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="17dp" />
             </LinearLayout>
 
@@ -128,7 +128,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="@string/partner_is"
-                    android:textColor="@color/black"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="17dp" />
             </LinearLayout>
 

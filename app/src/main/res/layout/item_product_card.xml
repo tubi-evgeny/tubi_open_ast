@@ -46,7 +46,7 @@
                     android:layout_height="match_parent"
                     android:textSize="10dp"
                     android:layout_marginRight="3dp"
-                    android:textColor="@color/black"
+                    android:textColor="?android:textColorPrimary"
                     android:text="@string/order_for" />
                 <TextView
                     android:id="@+id/tvDateForSale"
@@ -54,7 +54,7 @@
                     android:layout_height="match_parent"
                     android:textSize="10dp"
                     android:layout_marginRight="6dp"
-                    android:textColor="@color/black"
+                    android:textColor="?android:textColorPrimary"
                     android:text="" />
             </LinearLayout>
 
@@ -84,7 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="TextView"
-                    android:textColor="@color/black"
+                    android:textColor="?android:textColorPrimary"
                     android:gravity="bottom"
                     android:layout_marginLeft="5dp"
                     android:textSize="15dp" />
@@ -148,7 +148,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="10dp"
-                        android:textColor="@color/black"
+                        android:textColor="?android:textColorPrimary"
                         android:text="@string/stocks" />
 
                     <TextView
@@ -156,7 +156,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="10dp"
-                        android:textColor="@color/black"
+                        android:textColor="?android:textColorPrimary"
                         android:text="0" />
                 </LinearLayout>
 
@@ -165,7 +165,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textColor="@color/black"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
                 <TextView
@@ -214,7 +214,7 @@
                 android:layout_height="match_parent"
                 android:text="TextView"
                 android:layout_weight="1"
-                android:textColor="@color/black"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="18dp" />
 
         </LinearLayout>
