@@ -13,7 +13,6 @@ public class General_information {
     залить релиз в Google play
 
     сверить БД таблицы столбцы все в наличии
-
     в PHP сменить имя БД на h102582557_tubi
     на сервере в api_tubi удалить все файлы php, а папки с фото не трогать(image, preview_image)
     залить обновление в api_tubi
