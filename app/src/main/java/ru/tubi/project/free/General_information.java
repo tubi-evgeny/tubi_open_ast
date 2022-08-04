@@ -6,6 +6,7 @@ public class General_information {
     /*
     main_activity поменять релиз
     в build.gradle app поменять versionCode и при необходимости versionName
+
     сменить URL для запроса в рабочем PHP
     установить проверку номера телефона
     сделать релиз
