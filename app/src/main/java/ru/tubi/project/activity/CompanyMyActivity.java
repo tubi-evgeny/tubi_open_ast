@@ -23,7 +23,6 @@ import ru.tubi.project.activity.agent.ChoosePartnerActivity;
 import ru.tubi.project.activity.agent.CodeGeneratorActivity;
 import ru.tubi.project.activity.company_my.CatalogInWarehouseActivity;
 import ru.tubi.project.activity.company_my.CollectProductForActivity;
-import ru.tubi.project.activity.ForDelete.DistributionOrdersByWarehousesActivity;
 import ru.tubi.project.activity.company_my.OrderForCollectActivity;
 import ru.tubi.project.activity.company_my.OrderToProviderListActivity;
 import ru.tubi.project.activity.company_my.ShipmentProductActivity;
@@ -37,7 +36,6 @@ import ru.tubi.project.utilites.SearchOrder_id;
 import ru.tubi.project.utilites.UserDataRecovery;
 
 import static android.view.View.GONE;
-import static ru.tubi.project.Config.ORDER_ID;
 import static ru.tubi.project.free.AllText.MY_COMPANY;
 
 public class CompanyMyActivity extends AppCompatActivity implements View.OnClickListener {

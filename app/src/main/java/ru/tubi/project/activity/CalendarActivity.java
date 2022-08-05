@@ -2,7 +2,6 @@ package ru.tubi.project.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -19,31 +18,22 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 import ru.tubi.project.R;
-import ru.tubi.project.activity.logistics.IntercityDeliveryCalendarActivity;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.UserDataRecovery;
 
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
-import static ru.tubi.project.Config.MY_UID;
 import static ru.tubi.project.free.AllCollor.RED_600;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
-import static ru.tubi.project.free.AllCollor.TUBI_GREEN_300;
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_400;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_600;
-import static ru.tubi.project.free.AllText.BUILDING;
 import static ru.tubi.project.free.AllText.CALENDAR;
 import static ru.tubi.project.free.AllText.MONTH_NAMES_LIST;
 import static ru.tubi.project.free.AllText.PASS_CANNOD_BE_CHENGED;
-import static ru.tubi.project.free.AllText.ST;
 import static ru.tubi.project.free.AllText.TO_EXIT_PRESS_TWICE;
 import static ru.tubi.project.free.AllText.WEEKEND_DAY_TO_COMPANY;
 import static ru.tubi.project.free.AllText.WEEK_NAMES_CHAR_LIST;

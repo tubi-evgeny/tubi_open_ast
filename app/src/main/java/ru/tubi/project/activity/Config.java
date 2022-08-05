@@ -1,4 +1,4 @@
-package ru.tubi.project;
+package ru.tubi.project.activity;
 
 import java.util.ArrayList;
 

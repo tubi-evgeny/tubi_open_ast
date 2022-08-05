@@ -7,10 +7,8 @@ import android.util.Log;
 
 import ru.tubi.project.models.UserModel;
 
-import static ru.tubi.project.Config.CONFIG_TEST;
-import static ru.tubi.project.Config.MY_UID;
-import static ru.tubi.project.Config.ORDER_ID;
-import static ru.tubi.project.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
+import static ru.tubi.project.activity.Config.ORDER_ID;
+import static ru.tubi.project.activity.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
 import static ru.tubi.project.free.VariablesHelpers.DELIVERY_TO_BUYER_STATUS;
 import static ru.tubi.project.utilites.Constant.API;
 import static ru.tubi.project.utilites.Constant.SEARCH_MY_ACTIVE_ORDER;

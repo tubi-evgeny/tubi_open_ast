@@ -28,9 +28,8 @@ import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.UserDataRecovery;
 
-import static ru.tubi.project.Config.MY_NAME;
+import static ru.tubi.project.activity.Config.MY_NAME;
 //import static com.example.tubi.Config.MY_TAXPAYER_ID;
-import static ru.tubi.project.Config.MY_UID;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllText.CANCELLATION;

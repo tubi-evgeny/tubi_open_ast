@@ -6,9 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import ru.tubi.project.models.UserModel;
 
-import static ru.tubi.project.Config.ROLE;
+import static ru.tubi.project.activity.Config.ROLE;
 import static ru.tubi.project.utilites.Constant.USER_ROLE_RECEIVE;
-import static ru.tubi.project.Config.MY_UID;
 //import static com.example.tubi.MainActivity.test;
 
 public class UserRoleReceive {

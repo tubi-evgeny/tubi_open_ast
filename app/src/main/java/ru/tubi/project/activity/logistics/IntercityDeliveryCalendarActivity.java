@@ -25,8 +25,6 @@ import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.UserDataRecovery;
 
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
-import static ru.tubi.project.Config.MY_UID;
 import static ru.tubi.project.free.AllCollor.RED_600;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
@@ -39,7 +37,6 @@ import static ru.tubi.project.free.AllText.INTERCITY_DELIVERY_TEXT;
 import static ru.tubi.project.free.AllText.MONTH_NAMES_LIST;
 import static ru.tubi.project.free.AllText.PASS_CANNOD_BE_CHENGED;
 import static ru.tubi.project.free.AllText.TO_EXIT_PRESS_TWICE;
-import static ru.tubi.project.free.AllText.WEEKEND_DAY_TO_COMPANY;
 import static ru.tubi.project.free.AllText.WEEK_NAMES_CHAR_LIST;
 import static ru.tubi.project.free.AllText.YEAR_CHAR;
 import static ru.tubi.project.free.AllText.YOUR_DID_NOT_SAVE;

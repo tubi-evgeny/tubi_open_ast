@@ -19,20 +19,13 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.NumberFormat;
-
 import ru.tubi.project.R;
 
-import ru.tubi.project.activity.company_my.CatalogStocksActivity;
-import ru.tubi.project.models.CatalogProductProviderModel;
-import ru.tubi.project.models.DecimalDigitsInputFilter;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.FirstSimbolMakeBig;
 import ru.tubi.project.utilites.HelperDB;
@@ -41,9 +34,8 @@ import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.UserDataRecovery;
 
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
-import static ru.tubi.project.Config.MY_NAME;
-import static ru.tubi.project.Config.MY_UID;
+import static ru.tubi.project.activity.Config.MY_COMPANY_TAXPAYER_ID;
+import static ru.tubi.project.activity.Config.MY_UID;
 import static ru.tubi.project.free.AllCollor.RED;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
@@ -54,9 +46,7 @@ import static ru.tubi.project.free.AllText.AGENT_BIG;
 import static ru.tubi.project.free.AllText.CHECK_TAX_ID;
 import static ru.tubi.project.free.AllText.CHOOSE_ABBREVIATION;
 import static ru.tubi.project.free.AllText.DATE_OR_COMPANY;
-import static ru.tubi.project.free.AllText.DONE_BIG;
 import static ru.tubi.project.free.AllText.DO_IT_LATHER;
-import static ru.tubi.project.free.AllText.EDIT_BIG;
 import static ru.tubi.project.free.AllText.ENTER_COMPANY_NAME;
 import static ru.tubi.project.free.AllText.ENTER_TAXPAYER_ID;
 import static ru.tubi.project.free.AllText.ERROR_BIG;
@@ -69,18 +59,14 @@ import static ru.tubi.project.free.AllText.MES_1_PROFILE;
 import static ru.tubi.project.free.AllText.MES_2;
 import static ru.tubi.project.free.AllText.MES_21;
 import static ru.tubi.project.free.AllText.MY_COMPANY_NAME;
-import static ru.tubi.project.free.AllText.NAME_COMPANY;
 import static ru.tubi.project.free.AllText.OOO;
 import static ru.tubi.project.free.AllText.OOO_SMOL;
-import static ru.tubi.project.free.AllText.PRICE_NEW;
-import static ru.tubi.project.free.AllText.PRICE_NEW_IS_NOT;
-import static ru.tubi.project.free.AllText.PRICE_OLD;
 import static ru.tubi.project.free.AllText.RETURN_BIG;
 import static ru.tubi.project.free.AllText.TAX_ID;
 import static ru.tubi.project.free.AllText.TAX_ID_NUM;
 import static ru.tubi.project.free.AllText.WRITE_NOW;
-import static ru.tubi.project.Config.MY_ABBREVIATION;
-import static ru.tubi.project.Config.MY_NAME_COMPANY;
+import static ru.tubi.project.activity.Config.MY_ABBREVIATION;
+import static ru.tubi.project.activity.Config.MY_NAME_COMPANY;
 //import static com.example.tubi.Config.MY_TAXPAYER_ID;
 
 

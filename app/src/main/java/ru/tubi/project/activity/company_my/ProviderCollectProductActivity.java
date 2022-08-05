@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 import ru.tubi.project.R;
-import ru.tubi.project.adapters.PartnerCollectProductAdapter;
 import ru.tubi.project.adapters.ProviderCollectProductAdapter;
 import ru.tubi.project.adapters.ProviderCollectProductDealAdapter;
 import ru.tubi.project.models.AcceptProductListProvidersModel;
@@ -44,7 +43,7 @@ import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.MakeImageToSquare;
 import ru.tubi.project.utilites.UserDataRecovery;
 
-import static ru.tubi.project.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
+import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllCollor.alert_dialog_button_green_pressed;
 import static ru.tubi.project.free.AllText.CANCEL_BIG;
@@ -53,9 +52,7 @@ import static ru.tubi.project.free.AllText.ERROR_BIG;
 import static ru.tubi.project.free.AllText.FOR_COLLECT;
 import static ru.tubi.project.free.AllText.LIST_PRODUCT;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
-import static ru.tubi.project.free.AllText.NO_DELIVERY;
 import static ru.tubi.project.free.AllText.PERFORM;
-import static ru.tubi.project.free.AllText.REPORT_A_BUG;
 import static ru.tubi.project.free.AllText.RESERVE;
 import static ru.tubi.project.free.AllText.RESERVE_IN_WAAREHOUSE;
 import static ru.tubi.project.free.AllText.RESERVE_TO_WAREHOUSE_WILBEE_CORRECT;

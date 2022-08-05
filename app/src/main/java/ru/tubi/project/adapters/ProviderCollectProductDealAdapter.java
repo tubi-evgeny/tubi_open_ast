@@ -13,19 +13,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ru.tubi.project.R;
-import ru.tubi.project.models.AcceptProductListProvidersModel;
 import ru.tubi.project.models.ProviderCollectProductModel;
 import ru.tubi.project.utilites.DownloadImage;
 import ru.tubi.project.utilites.FirstSimbolMakeBig;
 import ru.tubi.project.utilites.MakeImageToSquare;
 
-import static ru.tubi.project.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
+import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 import static ru.tubi.project.free.AllText.CHANGED_TEXT;
-import static ru.tubi.project.free.AllText.IN_PACKAGE;
 
 public class ProviderCollectProductDealAdapter
         extends RecyclerView.Adapter<ProviderCollectProductDealAdapter.ViewHolder>{

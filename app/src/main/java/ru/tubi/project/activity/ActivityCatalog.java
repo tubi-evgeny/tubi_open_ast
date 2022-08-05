@@ -19,7 +19,6 @@ import ru.tubi.project.adapters.CatalogAdapter;
 import ru.tubi.project.models.Catalog;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.GetColorShopingBox;
-import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.InitialDataPOST;
 import ru.tubi.project.utilites.SearchOrder_id;
 
@@ -29,7 +28,7 @@ import java.util.Map;
 
 import ru.tubi.project.utilites.UserDataRecovery;
 
-import static ru.tubi.project.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
+import static ru.tubi.project.activity.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
 import static ru.tubi.project.free.AllText.CHECK_CONNECT_INTERNET;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.VariablesHelpers.MY_CITY;

@@ -25,12 +25,11 @@ import java.util.ArrayList;
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.UserDataRecovery;
 
-import static ru.tubi.project.Config.MY_UID;
+import static ru.tubi.project.activity.Config.MY_UID;
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllText.BUILDING;
 import static ru.tubi.project.free.AllText.COLLECT_PRODUCT;
-import static ru.tubi.project.free.AllText.FOR_COLLECT;
 import static ru.tubi.project.free.AllText.FOR_SMALL;
 import static ru.tubi.project.free.AllText.ST;
 import static ru.tubi.project.free.AllText.WAREHOUSE;

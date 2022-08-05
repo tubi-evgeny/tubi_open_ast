@@ -25,8 +25,6 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,11 +48,8 @@ import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.MakeImageToSquare;
 import ru.tubi.project.utilites.UserDataRecovery;
 
-import static ru.tubi.project.Config.ADMIN_PANEL_URL_IMAGES;
-import static ru.tubi.project.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
+import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 //import static com.example.tubi.Config.MY_TAXPAYER_ID;
-import static ru.tubi.project.Config.MY_UID;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllCollor.alert_dialog_button_green_pressed;
@@ -78,7 +73,6 @@ import static ru.tubi.project.free.AllText.WAREHOUSE;
 import static ru.tubi.project.free.AllText.WAREHOUSE_PARTNER;
 import static ru.tubi.project.free.AllText.WAREHOUSE_PROVIDER;
 import static ru.tubi.project.free.AllText.WAREHOUSE_STORAGE;
-import static ru.tubi.project.free.AllText.YES_CHENGE;
 import static ru.tubi.project.free.AllText.YOUR_CEN_REDACT_PRODUCT_CARD_TEXT;
 
 public class CatalogStocksActivity extends AppCompatActivity implements View.OnClickListener {

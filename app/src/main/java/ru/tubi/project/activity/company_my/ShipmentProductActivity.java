@@ -23,14 +23,13 @@ import ru.tubi.project.R;
 import ru.tubi.project.adapters.ShipmentProduct_partners_Adapter;
 import ru.tubi.project.adapters.ShipmentProduct_warehouse_Adapter;
 import ru.tubi.project.models.CarrierPanelModel;
-import ru.tubi.project.models.OrderForCollectModel;
 import ru.tubi.project.models.ShipmentProductModel;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.UserDataRecovery;
 
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
+import static ru.tubi.project.activity.Config.MY_COMPANY_TAXPAYER_ID;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllText.BUILDING;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;

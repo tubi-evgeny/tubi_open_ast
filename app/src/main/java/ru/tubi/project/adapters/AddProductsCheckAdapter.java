@@ -1,7 +1,6 @@
 package ru.tubi.project.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import ru.tubi.project.R;
 import ru.tubi.project.models.AddProduct;
 import ru.tubi.project.utilites.DownloadImage;
-import ru.tubi.project.utilites.MakeImageToSquare;
 
 import java.util.List;
 
-import static ru.tubi.project.Config.ADMIN_PANEL_URL_IMAGES;
-import static ru.tubi.project.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
+import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 import static ru.tubi.project.free.AllText.DONT_EXISTS;
 import static ru.tubi.project.free.AllText.DOWNLOAD_DATA;
 import static ru.tubi.project.free.AllText.SHOW_MORE;

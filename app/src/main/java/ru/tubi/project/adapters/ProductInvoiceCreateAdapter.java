@@ -17,7 +17,7 @@ import ru.tubi.project.R;
 import ru.tubi.project.models.ShopingBoxModel;
 import ru.tubi.project.utilites.DownloadImage;
 
-import static ru.tubi.project.Config.ADMIN_PANEL_URL_IMAGES;
+import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_IMAGES;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_400;
 

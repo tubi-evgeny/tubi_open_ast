@@ -7,11 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,28 +17,21 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import ru.tubi.project.R;
-import ru.tubi.project.activity.ActivityCatalog;
-import ru.tubi.project.activity.CompanyDateFormActivity;
-import ru.tubi.project.activity.MakingOrderActivity;
 import ru.tubi.project.adapters.ProductInvoiceCreateAdapter;
-import ru.tubi.project.adapters.ShopingBoxAdapter;
 import ru.tubi.project.models.ShopingBoxModel;
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.HelperDB;
 import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.SearchOrder_id;
 
-import static ru.tubi.project.Config.ORDER_ID;
 import static ru.tubi.project.free.AllText.CREATE;
 import static ru.tubi.project.free.AllText.FOR_REGISTRATION_ORDER_NEED;
 import static ru.tubi.project.free.AllText.GO_TO_DESIGN;
 import static ru.tubi.project.free.AllText.INVOICE_PRODUCT;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.MAXIMUM;
-import static ru.tubi.project.free.AllText.MES_1;
 import static ru.tubi.project.free.AllText.ONE_STEP_LEFT;
 import static ru.tubi.project.free.AllText.RUB;
-import static ru.tubi.project.free.AllText.SHOPING_BOX;
 import static ru.tubi.project.free.AllText.SHOPING_BOX_EMPTY;
 
 public class ProductInvoiceCreateActivity extends AppCompatActivity

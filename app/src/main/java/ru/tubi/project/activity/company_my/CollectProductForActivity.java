@@ -1,27 +1,16 @@
 package ru.tubi.project.activity.company_my;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputFilter;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,38 +18,13 @@ import java.util.ArrayList;
 
 import ru.tubi.project.R;
 import ru.tubi.project.adapters.CollectProductForAdapter;
-import ru.tubi.project.models.CatalogProductProviderModel;
 import ru.tubi.project.models.CollectProductModel;
-import ru.tubi.project.models.CounterpartyModel;
-import ru.tubi.project.models.DecimalDigitsInputFilter;
-import ru.tubi.project.models.OrderModel;
-import ru.tubi.project.models.WarehouseModel;
-import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.InitialData;
 
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
-import static ru.tubi.project.Config.MY_UID;
-import static ru.tubi.project.Config.ORDER_ID;
-import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
-import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
-import static ru.tubi.project.free.AllCollor.alert_dialog_button_green_pressed;
-import static ru.tubi.project.free.AllText.C;
+import static ru.tubi.project.activity.Config.MY_COMPANY_TAXPAYER_ID;
 import static ru.tubi.project.free.AllText.COLLECT_PRODUCT_FOR;
-import static ru.tubi.project.free.AllText.DATE_ABOUT_COMPANY_MISSING;
-import static ru.tubi.project.free.AllText.DONE_BIG;
-import static ru.tubi.project.free.AllText.EDIT_BIG;
-import static ru.tubi.project.free.AllText.ENTER_CITY;
-import static ru.tubi.project.free.AllText.PHONE_SHORT;
-import static ru.tubi.project.free.AllText.PRICE_NEW;
-import static ru.tubi.project.free.AllText.PRICE_NEW_IS_NOT;
-import static ru.tubi.project.free.AllText.PRICE_OLD;
-import static ru.tubi.project.free.AllText.RETURN_BIG;
-import static ru.tubi.project.free.AllText.ST;
 import static ru.tubi.project.free.AllText.TAX_ID;
-import static ru.tubi.project.free.AllText.TAX_ID_NUM;
-import static ru.tubi.project.free.AllText.TAX_ID_SMALL;
 import static ru.tubi.project.free.AllText.TO_FIND;
-import static ru.tubi.project.free.AllText.WAREHOUSE;
 import static ru.tubi.project.utilites.Constant.API;
 
 public class CollectProductForActivity extends AppCompatActivity

@@ -24,7 +24,7 @@ import java.util.Comparator;
 
 import ru.tubi.project.utilites.Constant;
 
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
+import static ru.tubi.project.activity.Config.MY_COMPANY_TAXPAYER_ID;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllText.BUILDING;
 import static ru.tubi.project.free.AllText.ISSUE_GOODS;

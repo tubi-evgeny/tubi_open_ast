@@ -30,10 +30,9 @@ import ru.tubi.project.utilites.SearchOrder_id;
 
 import java.util.ArrayList;
 
-import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.UserDataRecovery;
 
-import static ru.tubi.project.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
+import static ru.tubi.project.activity.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
 import static ru.tubi.project.activity.ActivityCatalog.CATALOG_IS_MINE;
 import static ru.tubi.project.activity.ActivityCategory.CATEGORY_ACTIVITY;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;

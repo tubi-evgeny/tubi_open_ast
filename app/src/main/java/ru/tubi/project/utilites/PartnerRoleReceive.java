@@ -7,9 +7,8 @@ import android.widget.Toast;
 
 import ru.tubi.project.models.UserModel;
 
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
-import static ru.tubi.project.Config.PARTNER_ROLE_LIST;
-import static ru.tubi.project.Config.ROLE_PARTNER_TEST;
+import static ru.tubi.project.activity.Config.PARTNER_ROLE_LIST;
+import static ru.tubi.project.activity.Config.ROLE_PARTNER_TEST;
 import static ru.tubi.project.utilites.Constant.API;
 
 public class PartnerRoleReceive {

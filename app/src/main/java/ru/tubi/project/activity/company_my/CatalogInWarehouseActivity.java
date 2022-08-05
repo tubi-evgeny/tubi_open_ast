@@ -25,7 +25,6 @@ import java.util.Comparator;
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.UserDataRecovery;
 
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
 import static ru.tubi.project.free.AllText.IN_WAREHOUSES;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.MY_CATALOG_BIG;

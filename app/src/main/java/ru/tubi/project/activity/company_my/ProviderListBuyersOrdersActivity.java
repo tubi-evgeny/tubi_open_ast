@@ -23,8 +23,8 @@ import java.util.Comparator;
 //import static com.example.tubi.Config.MY_TAXPAYER_ID;
 import ru.tubi.project.utilites.Constant;
 
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
-import static ru.tubi.project.Config.MY_UID;
+import static ru.tubi.project.activity.Config.MY_COMPANY_TAXPAYER_ID;
+import static ru.tubi.project.activity.Config.MY_UID;
 import static ru.tubi.project.free.AllText.BUILDING;
 import static ru.tubi.project.free.AllText.BUYERS_ORDERS;
 import static ru.tubi.project.free.AllText.ST;

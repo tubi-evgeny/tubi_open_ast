@@ -15,13 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import ru.tubi.project.R;
 import ru.tubi.project.models.CatalogProductProviderModel;
 import ru.tubi.project.utilites.DownloadImage;
-import ru.tubi.project.utilites.FirstSimbolMakeBig;
 import ru.tubi.project.utilites.MakeImageToSquare;
 
 import java.util.List;
 
-import static ru.tubi.project.Config.ADMIN_PANEL_URL_IMAGES;
-import static ru.tubi.project.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
+import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_100;
 import static ru.tubi.project.free.AllCollor.TUBI_WHITE;
 import static ru.tubi.project.free.AllText.IN_PACKAGE;

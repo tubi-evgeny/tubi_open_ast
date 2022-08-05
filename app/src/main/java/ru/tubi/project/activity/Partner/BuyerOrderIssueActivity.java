@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import ru.tubi.project.R;
-import ru.tubi.project.activity.invoice.PdfActivity;
 import ru.tubi.project.adapters.BuyerOrderIssueAdapter;
 import ru.tubi.project.models.CarrierPanelModel;
 import ru.tubi.project.models.CounterpartyModel;
@@ -26,7 +25,7 @@ import java.util.Comparator;
 
 import ru.tubi.project.utilites.Constant;
 
-import static ru.tubi.project.Config.MY_UID;
+import static ru.tubi.project.activity.Config.MY_UID;
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllText.FOR_ISSUE;

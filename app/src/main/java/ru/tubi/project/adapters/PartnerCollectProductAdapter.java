@@ -20,8 +20,7 @@ import ru.tubi.project.utilites.MakeImageToSquare;
 
 import java.util.List;
 
-import static ru.tubi.project.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
-import static ru.tubi.project.free.AllText.IN_PACKAGE;
+import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 import static ru.tubi.project.free.AllText.ISSUED_SMALL;
 
 public class PartnerCollectProductAdapter

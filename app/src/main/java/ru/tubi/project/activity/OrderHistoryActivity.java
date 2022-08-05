@@ -17,17 +17,14 @@ import ru.tubi.project.activity.company_my.ShowMyOrderActivity;
 import ru.tubi.project.adapters.OrderHistoryAdapter;
 import ru.tubi.project.models.OrderHistoryFinishModel;
 import ru.tubi.project.models.OrderHistoryModel;
-import ru.tubi.project.models.OrderModel;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.InitialData;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.UserDataRecovery;
 
-import static ru.tubi.project.Config.MY_UID;
 import static ru.tubi.project.free.AllText.FOR_YOU_DONT_ORDER;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.ORDER_HISTORY_BIG;

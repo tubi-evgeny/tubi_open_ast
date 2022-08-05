@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static ru.tubi.project.Config.ADMIN_PANEL_URL;
+import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL;
 
 public class RetroClient {
 
