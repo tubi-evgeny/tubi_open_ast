@@ -17,10 +17,10 @@ import java.util.ArrayList;
 
 import ru.tubi.project.utilites.Constant;
 
-import static ru.tubi.project.Config.MY_ABBREVIATION;
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
-import static ru.tubi.project.Config.MY_NAME_COMPANY;
-import static ru.tubi.project.Config.MY_UID;
+import static ru.tubi.project.activity.Config.MY_ABBREVIATION;
+import static ru.tubi.project.activity.Config.MY_COMPANY_TAXPAYER_ID;
+import static ru.tubi.project.activity.Config.MY_NAME_COMPANY;
+import static ru.tubi.project.activity.Config.MY_UID;
 import static ru.tubi.project.free.AllCollor.RED;
 import static ru.tubi.project.free.AllText.EDIT_WAREHOUSE;
 import static ru.tubi.project.free.AllText.ENTER_DETAILS;

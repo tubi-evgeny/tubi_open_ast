@@ -4,23 +4,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import ru.tubi.project.models.OrderModel;
-import ru.tubi.project.models.UserModel;
-
-import static ru.tubi.project.Config.MY_ABBREVIATION;
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
-import static ru.tubi.project.Config.MY_NAME;
-import static ru.tubi.project.Config.MY_NAME_COMPANY;
-import static ru.tubi.project.Config.MY_UID;
-import static ru.tubi.project.Config.ROLE;
-import static ru.tubi.project.utilites.HelperDB.TABLE_NAME_ORDER_ID;
 
 public class OrderDataRecoveryUtil extends Fragment {
     private Context context;

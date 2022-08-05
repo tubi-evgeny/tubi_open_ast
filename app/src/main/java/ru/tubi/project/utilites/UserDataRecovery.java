@@ -1,18 +1,16 @@
 package ru.tubi.project.utilites;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
 
 import ru.tubi.project.models.UserModel;
-import static ru.tubi.project.Config.MY_UID;
-import static ru.tubi.project.Config.MY_NAME;
-import static ru.tubi.project.Config.MY_ABBREVIATION;
-import static ru.tubi.project.Config.MY_NAME_COMPANY;
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
-import static ru.tubi.project.Config.ROLE;
+import static ru.tubi.project.activity.Config.MY_UID;
+import static ru.tubi.project.activity.Config.MY_NAME;
+import static ru.tubi.project.activity.Config.MY_ABBREVIATION;
+import static ru.tubi.project.activity.Config.MY_NAME_COMPANY;
+import static ru.tubi.project.activity.Config.MY_COMPANY_TAXPAYER_ID;
+import static ru.tubi.project.activity.Config.ROLE;
 
 public class UserDataRecovery {
     private Context context;

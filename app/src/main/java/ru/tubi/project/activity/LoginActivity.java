@@ -2,17 +2,13 @@ package ru.tubi.project.activity;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -33,26 +29,20 @@ import ru.tubi.project.R;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.CheckPhoneNumberInput;
 import ru.tubi.project.utilites.HelperDB;
-import ru.tubi.project.utilites.InitialData;
 
-import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.InitialDataPOST;
 
-import static android.content.ContentValues.TAG;
-
-import static ru.tubi.project.Config.MY_ABBREVIATION;
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
-import static ru.tubi.project.Config.MY_NAME;
-import static ru.tubi.project.Config.MY_NAME_COMPANY;
+import static ru.tubi.project.activity.Config.MY_ABBREVIATION;
+import static ru.tubi.project.activity.Config.MY_COMPANY_TAXPAYER_ID;
+import static ru.tubi.project.activity.Config.MY_NAME;
+import static ru.tubi.project.activity.Config.MY_NAME_COMPANY;
 //import static com.example.tubi.Config.MY_TAXPAYER_ID;
-import static ru.tubi.project.Config.MY_UID;
-import static ru.tubi.project.Config.ROLE;
+import static ru.tubi.project.activity.Config.MY_UID;
+import static ru.tubi.project.activity.Config.ROLE;
 import static ru.tubi.project.free.AllText.ENTER_YOUR_LOGIN_AND_PASSWORD_AND_PRESS_LOGINBUTTON;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.REGISTRATION;
 import static ru.tubi.project.utilites.Constant.URL_LOGIN;
-import static ru.tubi.project.utilites.Constant.URL_REGISTER;
-import static ru.tubi.project.utilites.HelperDB.TABLE_NAME_MY_USER;
 import static ru.tubi.project.utilites.InitialDataPOST.getParamsString;
 
 public class LoginActivity extends AppCompatActivity{
@@ -95,7 +85,7 @@ public class LoginActivity extends AppCompatActivity{
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //заполнить номер телефона скобками и тире
-                new CheckPhoneNumberInput(activity,etPhone,s,start,before,count);
+                //new CheckPhoneNumberInput(activity,etPhone,s,start,before,count);
             }
             @Override
             public void afterTextChanged(Editable s) { }

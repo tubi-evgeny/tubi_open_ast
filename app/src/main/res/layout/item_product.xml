@@ -74,7 +74,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:textSize="10dp"
-                        android:textColor="@color/black"
+                        android:textColor="?android:textColorPrimary"
                         android:layout_marginRight="3dp"
                         android:layout_gravity="right"
                         android:text="TextView" />
@@ -96,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:text="TextView"
-                    android:textColor="@color/black"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="17dp" />
 
                 <TableLayout
@@ -153,7 +153,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="10dp"
-                                android:textColor="@color/black"
+                                android:textColor="?android:textColorPrimary"
                                 android:text="@string/stocks" />
 
                             <TextView
@@ -161,7 +161,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="10dp"
-                                android:textColor="@color/black"
+                                android:textColor="?android:textColorPrimary"
                                 android:text="0" />
                         </LinearLayout>
 
@@ -170,7 +170,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="TextView"
-                            android:textColor="@color/black"
+                            android:textColor="?android:textColorPrimary"
                             android:textSize="20dp" />
 
                         <TextView
@@ -222,7 +222,7 @@
                     android:layout_height="match_parent"
                     android:text="TextView"
                     android:layout_weight="1"
-                    android:textColor="@color/black"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="18dp" />
 
             </LinearLayout>
@@ -343,7 +343,7 @@
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:text="+"
-                            android:textColor="@color/white"
+                            android:textColor="?android:textColorPrimary"
                             android:textSize="12dp" />
                     </LinearLayout>
                    <!-- <LinearLayout

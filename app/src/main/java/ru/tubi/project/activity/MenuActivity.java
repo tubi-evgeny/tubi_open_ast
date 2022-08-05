@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import ru.tubi.project.Config;
 import ru.tubi.project.R;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.GetColorShopingBox;
@@ -27,14 +26,13 @@ import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.SearchOrder_id;
 import ru.tubi.project.utilites.UserDataRecovery;
 
-import static ru.tubi.project.Config.MY_ABBREVIATION;
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
-import static ru.tubi.project.Config.MY_NAME;
-import static ru.tubi.project.Config.MY_NAME_COMPANY;
+import static ru.tubi.project.activity.Config.MY_ABBREVIATION;
+import static ru.tubi.project.activity.Config.MY_COMPANY_TAXPAYER_ID;
+import static ru.tubi.project.activity.Config.MY_NAME;
+import static ru.tubi.project.activity.Config.MY_NAME_COMPANY;
 //import static com.example.tubi.Config.MY_TAXPAYER_ID;
-import static ru.tubi.project.Config.MY_UID;
-import static ru.tubi.project.Config.OPEN_ORDER_CONDITION;
-import static ru.tubi.project.Config.ORDER_ID;
+import static ru.tubi.project.activity.Config.MY_UID;
+import static ru.tubi.project.activity.Config.ORDER_ID;
 import static ru.tubi.project.free.AllCollor.alert_dialog_button_green_pressed;
 import static ru.tubi.project.free.AllText.LAST_ORDERS_TEXT;
 import static ru.tubi.project.free.AllText.MES_5;

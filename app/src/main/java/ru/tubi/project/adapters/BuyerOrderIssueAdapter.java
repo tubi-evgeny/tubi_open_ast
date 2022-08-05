@@ -21,10 +21,9 @@ import ru.tubi.project.utilites.MakeImageToSquare;
 
 import java.util.List;
 
-import static ru.tubi.project.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
+import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_600;
-import static ru.tubi.project.free.AllText.IN_PACKAGE;
 
 public class BuyerOrderIssueAdapter
         extends RecyclerView.Adapter<BuyerOrderIssueAdapter.ViewHolder>{

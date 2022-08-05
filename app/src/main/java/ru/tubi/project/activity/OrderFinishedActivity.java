@@ -2,7 +2,6 @@ package ru.tubi.project.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -12,23 +11,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import ru.tubi.project.R;
 import ru.tubi.project.models.UserModel;
-import ru.tubi.project.utilites.Constant;
-import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.SearchOrder_id;
 import ru.tubi.project.utilites.UserDataRecovery;
 
-import static ru.tubi.project.Config.ORDER_ID;
+import static ru.tubi.project.activity.Config.ORDER_ID;
 import static ru.tubi.project.free.AllText.DECORATED;
 import static ru.tubi.project.free.AllText.DELIVERY_TO_ADDRESS;
 import static ru.tubi.project.free.AllText.FINISHED_ORDER;
-import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.MES_20;
 import static ru.tubi.project.free.AllText.ON;
-import static ru.tubi.project.free.AllText.POINT_OF_ISSUE;
 import static ru.tubi.project.free.AllText.RECEIVING_FROM_WAREHOUSE;
 import static ru.tubi.project.free.AllText.YOUR_ORDER;
 import static ru.tubi.project.free.VariablesHelpers.ORDER_FINISHED_ACTIVITY_MESSEGE;

@@ -1,8 +1,8 @@
 package ru.tubi.project.utilites;
 
-import ru.tubi.project.Config;
+import ru.tubi.project.activity.Config;
 
-import static ru.tubi.project.Config.COUNTERPARTY_ID;
+import static ru.tubi.project.activity.Config.COUNTERPARTY_ID;
 
 public class Constant {
 

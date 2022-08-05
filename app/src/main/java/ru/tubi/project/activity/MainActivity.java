@@ -1,17 +1,14 @@
 package ru.tubi.project.activity;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,14 +19,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import ru.tubi.project.Config;
 import ru.tubi.project.R;
 
 import ru.tubi.project.activity.AdminPanel.AdminActivity;
@@ -38,10 +33,9 @@ import ru.tubi.project.models.AddressModel;
 import ru.tubi.project.models.OrderModel;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.CheckPhoneNumberInput;
-import ru.tubi.project.utilites.Constant;
+import ru.tubi.project.utilites.FirstSimbolMakeBig;
 import ru.tubi.project.utilites.GetColorShopingBox;
 import ru.tubi.project.utilites.HelperDB;
-import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.OrderDataRecoveryUtil;
 import ru.tubi.project.utilites.PartnerRoleReceive;
 import ru.tubi.project.utilites.SearchOrder_id;
@@ -50,12 +44,11 @@ import ru.tubi.project.utilites.UserRoleReceive;
 
 import ru.tubi.project.free.AllText;
 
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
-import static ru.tubi.project.Config.MY_UID;
+import static ru.tubi.project.activity.Config.MY_COMPANY_TAXPAYER_ID;
+import static ru.tubi.project.activity.Config.MY_UID;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllText.ENTER_YOUR_CITY;
 import static ru.tubi.project.free.AllText.I_UNDERSTAND_SMOL;
-import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.VariablesHelpers.MY_CITY;
 import static ru.tubi.project.free.VariablesHelpers.MY_DICTRICT;
 import static ru.tubi.project.free.VariablesHelpers.MY_REGION;
@@ -141,21 +134,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             companyRole += Config.PARTNER_ROLE_LIST.get(i)+"\n";
         }
         //показать номер для пользователя, вернуть со скобками
-        String activityName ="tubi_relise_2\n"+"phone: "
+        String infoAboutMe = "tubi_relise_3\n"+new FirstSimbolMakeBig()
+                .firstSimbolMakeBig(userDataModel.getName())+" "
+                + new CheckPhoneNumberInput()
+                .PhoneNumWhithBrackets(userDataModel.getPhone());
+        tvName.setText(""+infoAboutMe);
+
+        //показать номер для пользователя, вернуть со скобками
+        String activityName ="tubi_relise_3\n"+"phone: "
                 + new CheckPhoneNumberInput().PhoneNumWhithBrackets(userDataModel.getPhone());
-        tvName.setText("activity: "+activityName+"\n\nMY_NAME: "+ userDataModel.getName()//+"\nUID: "+ userDataModel.getUid()
+        Log.d("A111","activity: "+infoAboutMe+"\n\nMY_NAME: "+ userDataModel.getName()
                 +"\nc_name: "+ userDataModel.getAbbreviation()+" "+ userDataModel.getCounterparty()
                 +"\ntax-id: "+ userDataModel.getCompany_tax_id()+"\nrole: "+ userDataModel.getRole()
                 +"\norder_id: "+ order_id_string+"\ncompany role:\n"+companyRole);
 
-        AddressModel am1 = new AddressModel("Московская область", "Пушкинский район","Королев");
+
+        AddressModel am1 = new AddressModel("Московская область", "Мытищенский район","Мытищи");
+        AddressModel am2 = new AddressModel("Московская область", "Мытищенский район","Другой город");
+        CITY_LIST.add(am1);
+        CITY_LIST.add(am2);
+       /* AddressModel am1 = new AddressModel("Московская область", "Пушкинский район","Королев");
         AddressModel am2 = new AddressModel("Московская область", "Мытищенский район","Мытищи");
         AddressModel am3 = new AddressModel("Смоленская область", "Смоленский район","Смоленск");
         AddressModel am4 = new AddressModel("Московская область", "Мытищенский район","Другой город");
         CITY_LIST.add(am1);
         CITY_LIST.add(am2);
         CITY_LIST.add(am3);
-        CITY_LIST.add(am4);
+        CITY_LIST.add(am4);*/
 
         if(MY_CITY.isEmpty()){
             lvMyCity.setVisibility(View.VISIBLE);

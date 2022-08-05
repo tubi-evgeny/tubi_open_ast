@@ -9,12 +9,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,40 +21,28 @@ import java.util.GregorianCalendar;
 
 import ru.tubi.project.R;
 import ru.tubi.project.activity.MessageOrderActivity;
-import ru.tubi.project.activity.OrderFinishedActivity;
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.InitialData;
 
-import static ru.tubi.project.Config.MY_UID;
-import static ru.tubi.project.Config.ORDER_ID;
-import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
+import static ru.tubi.project.activity.Config.MY_UID;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
-import static ru.tubi.project.free.AllText.AFTER;
-import static ru.tubi.project.free.AllText.BUILDING;
 import static ru.tubi.project.free.AllText.C;
 import static ru.tubi.project.free.AllText.CHECK_CONNECT_INTERNET;
 import static ru.tubi.project.free.AllText.CREATURE;
-import static ru.tubi.project.free.AllText.DATE_ABOUT_COMPANY_MISSING;
 import static ru.tubi.project.free.AllText.DECORATED;
 import static ru.tubi.project.free.AllText.GENERAL_VEIGHT;
-import static ru.tubi.project.free.AllText.HOURS;
 import static ru.tubi.project.free.AllText.HOUR_CHAR;
 import static ru.tubi.project.free.AllText.INVOICE;
 import static ru.tubi.project.free.AllText.KILOGRAM;
-import static ru.tubi.project.free.AllText.MAKING_ORDER;
 import static ru.tubi.project.free.AllText.ON;
 import static ru.tubi.project.free.AllText.ORDER;
-import static ru.tubi.project.free.AllText.ORDER_APPROVED;
 import static ru.tubi.project.free.AllText.ORDER_IS_RECORDER;
 import static ru.tubi.project.free.AllText.POSITION;
 import static ru.tubi.project.free.AllText.RETURN_BIG;
 import static ru.tubi.project.free.AllText.RUB;
-import static ru.tubi.project.free.AllText.SELECT_WAREHOUSE;
-import static ru.tubi.project.free.AllText.SMOLENSCK;
 import static ru.tubi.project.free.AllText.ST;
 import static ru.tubi.project.free.AllText.SUGGESTIONS;
 import static ru.tubi.project.free.AllText.YEAR_CHAR;
-import static ru.tubi.project.free.AllText.YOUR_ORDER;
 import static ru.tubi.project.free.VariablesHelpers.MESSAGE_FROM_ORDER_ACTIVITY;
 
 public class InvoiceCreateActivity extends AppCompatActivity

@@ -25,8 +25,8 @@ import java.util.Comparator;
 
 import ru.tubi.project.utilites.Constant;
 
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
-import static ru.tubi.project.Config.MY_UID;
+import static ru.tubi.project.activity.Config.MY_COMPANY_TAXPAYER_ID;
+import static ru.tubi.project.activity.Config.MY_UID;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
@@ -34,9 +34,6 @@ import static ru.tubi.project.free.AllText.ACCEPT_PRODUCT;
 import static ru.tubi.project.free.AllText.BUILDING;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.PARTNER_TEXT;
-import static ru.tubi.project.free.AllText.PARTNER_TUBI;
-import static ru.tubi.project.free.AllText.PARTNER_WAREHOUSE;
-import static ru.tubi.project.free.AllText.PARTNER_WAREHOUSE_TEXT;
 
 public class AcceptProductActivity extends AppCompatActivity implements View.OnClickListener {
 

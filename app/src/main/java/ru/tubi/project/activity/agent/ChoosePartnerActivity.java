@@ -28,13 +28,12 @@ import java.util.stream.Collectors;
 import ru.tubi.project.R;
 import ru.tubi.project.activity.ActivityCatalog;
 import ru.tubi.project.activity.CompanyDateFormActivity;
-import ru.tubi.project.activity.buyer.PlaceOfReceiptOfGoodsActivity;
 import ru.tubi.project.models.CounterpartyModel;
 import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.SearchOrder_id;
 
-import static ru.tubi.project.Config.PARTNER_COMPANY_INFO_FOR_AGENT;
-import static ru.tubi.project.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
+import static ru.tubi.project.activity.Config.PARTNER_COMPANY_INFO_FOR_AGENT;
+import static ru.tubi.project.activity.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
 import static ru.tubi.project.free.AllText.CHOOSE_A_PARTNER;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.utilites.Constant.AGENT_OFFICE;

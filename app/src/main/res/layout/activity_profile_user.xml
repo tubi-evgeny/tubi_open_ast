@@ -44,7 +44,7 @@
 
                     android:layout_weight="4"
                     android:text="TextView"
-                    android:textColor="@color/black"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="22dp" />
 
                 <ImageView
@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:text="TextView"
-                    android:textColor="@color/black"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="18dp" />
 
                 <ImageView

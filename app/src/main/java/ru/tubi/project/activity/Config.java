@@ -1,11 +1,11 @@
-package ru.tubi.project;
+package ru.tubi.project.activity;
 
 import java.util.ArrayList;
 
 public class Config {
 
     //your admin panel url
-    //public static final String ADMIN_PANEL_URL = "https://h102582557.nichost.ru/api_tubi/";
+   // public static final String ADMIN_PANEL_URL = "https://h102582557.nichost.ru/api_tubi/";
      public static final String ADMIN_PANEL_URL = "https://h102582557.nichost.ru/test_tubi/";
 
            //your admin images file

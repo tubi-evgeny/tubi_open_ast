@@ -21,7 +21,7 @@ import ru.tubi.project.models.AcceptProductListProvidersModel;
 import ru.tubi.project.utilites.DownloadImage;
 import ru.tubi.project.utilites.MakeImageToSquare;
 
-import static ru.tubi.project.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
+import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 import static ru.tubi.project.free.AllText.IN_PACKAGE;
 
 public class ProviderCollectProductAdapter

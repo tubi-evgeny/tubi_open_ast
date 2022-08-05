@@ -26,20 +26,16 @@ import ru.tubi.project.R;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.CheckPhoneNumberInput;
 import ru.tubi.project.utilites.HelperDB;
-import ru.tubi.project.utilites.InitialData;
 import ru.tubi.project.utilites.InitialDataPOST;
 import ru.tubi.project.utilites.UserRoleReceive;
 
-import ru.tubi.project.utilites.Constant;
-
-import static ru.tubi.project.Config.MY_NAME;
-import static ru.tubi.project.Config.MY_UID;
-import static ru.tubi.project.Config.ROLE;
+import static ru.tubi.project.activity.Config.MY_NAME;
+import static ru.tubi.project.activity.Config.MY_UID;
+import static ru.tubi.project.activity.Config.ROLE;
 import static ru.tubi.project.free.AllText.CHECK_PASSWORD_TO_COPY;
 import static ru.tubi.project.free.AllText.ENTER_PHONE_NUM_ALL_TEXT;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.PLEASE_ENTER_YOUR_DETAILS;
-import static ru.tubi.project.utilites.Constant.GET_CATALOG;
 import static ru.tubi.project.utilites.Constant.URL_REGISTER;
 import static ru.tubi.project.utilites.InitialDataPOST.getParamsString;
 

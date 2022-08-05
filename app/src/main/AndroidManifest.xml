@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -169,6 +170,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.LoginActivity"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

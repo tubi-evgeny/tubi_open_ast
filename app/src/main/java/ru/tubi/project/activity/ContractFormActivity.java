@@ -21,8 +21,8 @@ import ru.tubi.project.utilites.InitialData;
 
 import ru.tubi.project.utilites.Constant;
 
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
-import static ru.tubi.project.Config.MY_UID;
+import static ru.tubi.project.activity.Config.MY_COMPANY_TAXPAYER_ID;
+import static ru.tubi.project.activity.Config.MY_UID;
 import static ru.tubi.project.free.AllText.CHECK_CONNECT_INTERNET;
 import static ru.tubi.project.free.AllText.CONTRACT_BIG;
 import static ru.tubi.project.free.AllText.CONTRACT_SENT;

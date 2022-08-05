@@ -23,7 +23,7 @@ import ru.tubi.project.utilites.InitialData;
 
 import ru.tubi.project.utilites.Constant;
 
-import static ru.tubi.project.Config.MY_UID;
+import static ru.tubi.project.activity.Config.MY_UID;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;

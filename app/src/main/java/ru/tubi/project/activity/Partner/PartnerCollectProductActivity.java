@@ -5,15 +5,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,12 +30,10 @@ import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.MakeImageToSquare;
 import ru.tubi.project.utilites.UserDataRecovery;
 
-import static ru.tubi.project.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
-import static ru.tubi.project.Config.MY_UID;
+import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllText.FOR_COLLECT;
-import static ru.tubi.project.free.AllText.I_UNDERSTAND_SMOL;
 import static ru.tubi.project.free.AllText.LIST_PRODUCT;
 
 public class PartnerCollectProductActivity extends AppCompatActivity implements View.OnClickListener {

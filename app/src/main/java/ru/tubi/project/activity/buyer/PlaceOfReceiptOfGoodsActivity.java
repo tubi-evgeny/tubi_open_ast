@@ -1,44 +1,55 @@
 package ru.tubi.project.activity.buyer;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ru.tubi.project.R;
 import ru.tubi.project.activity.ActivityCatalog;
+import ru.tubi.project.models.Catalog;
 import ru.tubi.project.models.DeliveryAddressModel;
 import ru.tubi.project.models.UserModel;
+import ru.tubi.project.utilites.InitialDataPOST;
 import ru.tubi.project.utilites.UserDataRecovery;
 
-import static ru.tubi.project.Config.PARTNER_COMPANY_INFO_FOR_AGENT;
+import static ru.tubi.project.activity.Config.PARTNER_COMPANY_INFO_FOR_AGENT;
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_300;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_400;
 import static ru.tubi.project.free.AllCollor.alert_dialog_button_green_pressed;
+import static ru.tubi.project.free.AllText.CHECK_CONNECT_INTERNET;
 import static ru.tubi.project.free.AllText.CHOOSE;
-import static ru.tubi.project.free.AllText.CLOSE_INVOICE;
 import static ru.tubi.project.free.AllText.CONTINUE_TEXT;
 import static ru.tubi.project.free.AllText.FOR_YOUR_CITY_IS_NOT_DELIVERY;
-import static ru.tubi.project.free.AllText.MES_19;
+import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.MES_23;
 import static ru.tubi.project.free.AllText.MES_24;
 import static ru.tubi.project.free.AllText.PLACE_OF_RECEIPT_OF_GOODS;
 import static ru.tubi.project.free.AllText.PRICES_WILL_BE_CHANGED;
-import static ru.tubi.project.free.AllText.RETURN_BIG;
 import static ru.tubi.project.free.AllText.VIEW_PRICES_TEXT;
+import static ru.tubi.project.free.VariablesHelpers.DELIVERY_OPEN;
 import static ru.tubi.project.free.VariablesHelpers.DELIVERY_TO_BUYER_STATUS;
 import static ru.tubi.project.free.VariablesHelpers.MY_CITY;
 import static ru.tubi.project.free.VariablesHelpers.MY_REGION;
-import static ru.tubi.project.utilites.Constant.API_TEST;
+import static ru.tubi.project.utilites.Constant.API;
+import static ru.tubi.project.utilites.Constant.GET_CATALOG;
+import static ru.tubi.project.utilites.InitialDataPOST.getParamsString;
 
 public class PlaceOfReceiptOfGoodsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,6 +66,7 @@ public class PlaceOfReceiptOfGoodsActivity extends AppCompatActivity implements 
     private AlertDialog.Builder adb;
     private AlertDialog ad;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +97,13 @@ public class PlaceOfReceiptOfGoodsActivity extends AppCompatActivity implements 
         if(userDataModel.getRole().equals("sales_agent")){
             tvCompanyInfoForAgent.setText(""+PARTNER_COMPANY_INFO_FOR_AGENT);
         }
-
+        //услуга доставка открыта
+        if (DELIVERY_OPEN == 1){
+            btnDelivery.setVisibility(View.VISIBLE);
+        }else{
+            btnDelivery.setVisibility(View.GONE);
+        }
+        checkDeliveryOpen();
         if(!MY_REGION.equals("Московская область") || MY_CITY.equals("Другой город")){
             tvRegionDistrictCity.setText(""+MY_REGION+" "+MY_CITY);
             tvMessege.setText(""+FOR_YOUR_CITY_IS_NOT_DELIVERY);
@@ -172,6 +190,49 @@ public class PlaceOfReceiptOfGoodsActivity extends AppCompatActivity implements 
         Intent intent = new Intent(this, ChooseDistributionWarehouseActivity.class);
         startActivityForResult(intent, CHOOSE_DISTRIBUTION_WAREHOUSE_REQUEST);
     }
+    //проверить доставка для клиентов открыта
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void checkDeliveryOpen(){
+        final Map<String, String> parameters = new HashMap<>();
+        parameters.put("check_delivery_open","");
+        setInitialDataPOST(API, parameters);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void setInitialDataPOST(String url, Map<String, String> param){
+        ProgressDialog asyncDialog = new ProgressDialog(this);
+
+        InitialDataPOST task = new InitialDataPOST(){
+            @Override
+            protected void onPreExecute() {
+                asyncDialog.setMessage(LOAD_TEXT);
+                asyncDialog.show();
+                super.onPreExecute();
+            }
+            @Override
+            protected void onPostExecute(String s) {
+                splitResult(s);
+
+                //скрыть диалоговое окно
+                asyncDialog.dismiss();
+            }
+        };
+        task.execute(url, getParamsString(param));
+    }
+    private void splitResult(String result){
+        try{
+            int x = Integer.parseInt(result);
+            DELIVERY_OPEN = x;
+        }catch(Exception ex){
+
+        }
+        //услуга доставка открыта
+        if (DELIVERY_OPEN == 1){
+            btnDelivery.setVisibility(View.VISIBLE);
+        }else{
+            btnDelivery.setVisibility(View.GONE);
+        }
+        Log.d("A111","PlaceOfReceiptOfGoodsActivity / splitResult / result = "+result);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -231,8 +292,8 @@ public class PlaceOfReceiptOfGoodsActivity extends AppCompatActivity implements 
         adb.setMessage(st2);
 
         ad=adb.create();
-        ad.setCanceledOnTouchOutside(false);
-        ad.setCancelable(false);
+        //ad.setCanceledOnTouchOutside(false);
+        //ad.setCancelable(false);
         ad.show();
 
         Button buttonbackground1 = ad.getButton(DialogInterface.BUTTON_POSITIVE);
@@ -267,8 +328,8 @@ public class PlaceOfReceiptOfGoodsActivity extends AppCompatActivity implements 
         adb.setMessage(st2);
 
         ad=adb.create();
-        ad.setCanceledOnTouchOutside(false);
-        ad.setCancelable(false);
+        //ad.setCanceledOnTouchOutside(false);
+        //ad.setCancelable(false);
         ad.show();
 
         Button buttonbackground1 = ad.getButton(DialogInterface.BUTTON_POSITIVE);

@@ -29,7 +29,7 @@ import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.MakeImageToSquare;
 
 import static android.view.View.GONE;
-import static ru.tubi.project.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
+import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 import static ru.tubi.project.free.AllText.C;
 import static ru.tubi.project.free.AllText.IN_PACKAGE;
 import static ru.tubi.project.free.AllText.ST;

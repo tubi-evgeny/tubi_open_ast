@@ -21,15 +21,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import static ru.tubi.project.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
+import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_400;
 import static ru.tubi.project.free.AllText.DELIVERY_TEXT;
-import static ru.tubi.project.free.AllText.GRAMM_SHORT;
 import static ru.tubi.project.free.AllText.MORE_SMALL;
 import static ru.tubi.project.free.AllText.NO_DELIVERY;
 import static ru.tubi.project.free.AllText.ORDER_TEXT;
-import static ru.tubi.project.free.AllText.QUANTITY_PACKAGE_SHORT;
 import static ru.tubi.project.free.VariablesHelpers.DELIVERY_TO_BUYER_STATUS;
 
 public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.ViewHolder> {

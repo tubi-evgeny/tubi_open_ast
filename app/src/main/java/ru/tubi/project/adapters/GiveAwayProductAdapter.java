@@ -17,13 +17,11 @@ import java.util.List;
 
 import ru.tubi.project.R;
 import ru.tubi.project.models.TransferModel;
-import ru.tubi.project.models.WarehouseModel;
 import ru.tubi.project.utilites.DownloadImage;
 import ru.tubi.project.utilites.MakeImageToSquare;
 
-import static ru.tubi.project.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
+import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 import static ru.tubi.project.activity.company_my.GiveAwayProductActivity.invoiceKeyForAdapter;
-import static ru.tubi.project.activity.company_my.GiveAwayProductActivity.saveDocInfotwo;
 
 public class GiveAwayProductAdapter
         extends RecyclerView.Adapter<GiveAwayProductAdapter.ViewHolder>{

@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.UserDataRecovery;
 
-import static ru.tubi.project.Config.MY_UID;
+import static ru.tubi.project.activity.Config.MY_UID;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllCollor.alert_dialog_button_green_pressed;
 import static ru.tubi.project.free.AllText.DONE_BIG;

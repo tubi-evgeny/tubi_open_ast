@@ -1,27 +1,5 @@
 package ru.tubi.project.activity.ForDelete;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import ru.tubi.project.R;
-import ru.tubi.project.models.AcceptProductListProvidersModel;
-import ru.tubi.project.utilites.DownloadImage;
-
-import java.util.List;
-
-import static ru.tubi.project.Config.ADMIN_PANEL_URL_IMAGES;
-import static ru.tubi.project.free.AllCollor.TUBI_YELLOW_200;
-import static ru.tubi.project.free.AllText.IN_PACKAGE;
-import static ru.tubi.project.free.AllText.QUANTITY_SPLIT_1;
-import static ru.tubi.project.free.AllText.QUANTITY_SPLIT_2;
-
 /*public class AcceptProductAgentAdapter
         extends RecyclerView.Adapter<AcceptProductAgentAdapter.ViewHolder> {
 

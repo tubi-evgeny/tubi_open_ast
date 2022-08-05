@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import ru.tubi.project.utilites.Constant;
 
-import static ru.tubi.project.Config.MY_COMPANY_TAXPAYER_ID;
+import static ru.tubi.project.activity.Config.MY_COMPANY_TAXPAYER_ID;
 import static ru.tubi.project.free.AllCollor.TUBI_GREEN_600;
 import static ru.tubi.project.free.AllCollor.TUBI_WHITE;
 import static ru.tubi.project.free.AllText.DISTRIBUTION;

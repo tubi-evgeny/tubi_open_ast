@@ -15,7 +15,7 @@ import ru.tubi.project.utilites.DownloadImage;
 
 import java.util.List;
 
-import static ru.tubi.project.Config.ADMIN_PANEL_URL_IMAGES;
+import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_IMAGES;
 
 public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHolder> {
 
