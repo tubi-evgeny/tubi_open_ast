@@ -4,6 +4,10 @@ public class General_information {
 
     //сделать обновление master из версии разработчика
     /*
+    БД
+    сверить БД, таблицы, столбцы все в наличии
+
+    ANDROID STUDIO
     main_activity поменять релиз
     в build.gradle app поменять versionCode и при необходимости versionName
 
@@ -12,7 +16,7 @@ public class General_information {
     сделать релиз
     залить релиз в Google play
 
-    сверить БД таблицы столбцы все в наличии
+    PHP
     в PHP сменить имя БД на h102582557_tubi
     на сервере в api_tubi удалить все файлы php, а папки с фото не трогать(image, preview_image)
     залить обновление в api_tubi

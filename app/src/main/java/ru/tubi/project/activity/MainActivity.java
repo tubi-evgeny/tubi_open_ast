@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             companyRole += Config.PARTNER_ROLE_LIST.get(i)+"\n";
         }
         //показать номер для пользователя, вернуть со скобками
-        String infoAboutMe = "tubi_1.12\n"+new FirstSimbolMakeBig()
+        String infoAboutMe = "tubi_1.12 test\n"+new FirstSimbolMakeBig()
                 .firstSimbolMakeBig(userDataModel.getName())+" "
                 + new CheckPhoneNumberInput()
                 .PhoneNumWhithBrackets(userDataModel.getPhone());
@@ -149,18 +149,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 +"\norder_id: "+ order_id_string+"\ncompany role:\n"+companyRole);
 
 
-        AddressModel am1 = new AddressModel("Московская область", "Мытищенский район","Мытищи");
-        AddressModel am2 = new AddressModel("Московская область", "Мытищенский район","Другой город");
-        CITY_LIST.add(am1);
-        CITY_LIST.add(am2);
-       /* AddressModel am1 = new AddressModel("Московская область", "Пушкинский район","Королев");
-        AddressModel am2 = new AddressModel("Московская область", "Мытищенский район","Мытищи");
-        AddressModel am3 = new AddressModel("Смоленская область", "Смоленский район","Смоленск");
-        AddressModel am4 = new AddressModel("Московская область", "Мытищенский район","Другой город");
+        AddressModel am1 = new AddressModel("Московская область", "Мытищенский район","Мытищи", "Мытищи", true);
+        AddressModel am2 = new AddressModel("Московская область", "Мытищенский район","Другой город","Другой город",true);
+        AddressModel am3 = new AddressModel("Московская область", "Мытищенский район", "Другой город","Если вашего города \nнет в списке выберите \n(-Другой город-)", false);
         CITY_LIST.add(am1);
         CITY_LIST.add(am2);
         CITY_LIST.add(am3);
-        CITY_LIST.add(am4);*/
 
         if(MY_CITY.isEmpty()){
             lvMyCity.setVisibility(View.VISIBLE);
@@ -175,11 +169,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lvMyCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MY_CITY = CITY_LIST.get(position).getCity();
-                MY_DICTRICT = CITY_LIST.get(position).getDistrict();
-                MY_REGION = CITY_LIST.get(position).getRegion();
-                tvMyCity.setText(""+MY_REGION+" "+MY_CITY);
-                lvMyCity.setVisibility(View.GONE);
+                if(CITY_LIST.get(position).isUsedKey()){
+                    MY_CITY = CITY_LIST.get(position).getCity();
+                    MY_DICTRICT = CITY_LIST.get(position).getDistrict();
+                    MY_REGION = CITY_LIST.get(position).getRegion();
+                    tvMyCity.setText(""+MY_REGION+" "+MY_CITY);
+                    lvMyCity.setVisibility(View.GONE);
+                }else{
+                    MY_CITY = CITY_LIST.get(CITY_LIST.size()-1).getCity();
+                    MY_DICTRICT = CITY_LIST.get(CITY_LIST.size()-1).getDistrict();
+                    MY_REGION = CITY_LIST.get(CITY_LIST.size()-1).getRegion();
+                    tvMyCity.setText(""+MY_REGION+" "+MY_CITY);
+                    lvMyCity.setVisibility(View.GONE);
+                }
+
             }
         });
 

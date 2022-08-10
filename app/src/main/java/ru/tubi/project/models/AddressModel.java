@@ -4,10 +4,12 @@ public class AddressModel {
     private String region;
     private String district;
     private String city;
+    private String hintCity;
     private String street;
     private int house;
     private String building;
     private String signboard;
+    private boolean usedKey;
 
     public AddressModel(String region, String district, String city) {
         this.region = region;
@@ -17,6 +19,15 @@ public class AddressModel {
         this.house = house;
         this.building = building;
         this.signboard = signboard;
+    }
+    //MainActivity //onCreate()
+    public AddressModel(String region, String district, String city
+            , String hintCity, boolean usedKey) {
+        this.region = region;
+        this.district = district;
+        this.city = city;
+        this.hintCity = hintCity;
+        this.usedKey=usedKey;
     }
 
     public String getRegion() {
@@ -41,6 +52,14 @@ public class AddressModel {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getHintCity() {
+        return hintCity;
+    }
+
+    public void setHintCity(String hintCity) {
+        this.hintCity = hintCity;
     }
 
     public String getStreet() {
@@ -75,8 +94,17 @@ public class AddressModel {
         this.signboard = signboard;
     }
 
+    public boolean isUsedKey() {
+        return usedKey;
+    }
+
+    public void setUsedKey(boolean usedKey) {
+        this.usedKey = usedKey;
+    }
+
     @Override
     public String toString() {
-        return city;
+        return hintCity;
     }
+
 }

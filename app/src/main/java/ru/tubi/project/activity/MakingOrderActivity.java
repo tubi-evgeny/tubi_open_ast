@@ -37,6 +37,7 @@ import static ru.tubi.project.free.AllText.GENERAL_VEIGHT;
 import static ru.tubi.project.free.AllText.HOUR_CHAR;
 import static ru.tubi.project.free.AllText.KILOGRAM;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
+import static ru.tubi.project.free.AllText.MES_25;
 import static ru.tubi.project.free.AllText.POSITION;
 import static ru.tubi.project.free.AllText.RECEIVING_FROM_WAREHOUSE;
 import static ru.tubi.project.free.AllText.RUB;
@@ -173,6 +174,10 @@ public class MakingOrderActivity extends AppCompatActivity implements View.OnCli
     //ЗАКАЗАТЬ
     //создать всем товарам в заказе invoice_info_id
     public void goBuy(View view) {
+        if(userDataModel.getRole().equals("GoogleTester")){
+            Toast.makeText(this, ""+MES_25, Toast.LENGTH_LONG).show();
+            return;
+        }
         String url_get = Constant.API;
         url_get += "&" + "chenge_order_active";//api.php?chenge_order_active
         url_get += "&" + "order_id=" +order_id;

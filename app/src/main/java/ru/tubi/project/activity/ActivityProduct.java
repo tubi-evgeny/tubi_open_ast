@@ -421,6 +421,10 @@ public class ActivityProduct extends AppCompatActivity {
         try{
             String [] res=result.split("<br>");
             String[] temp = res[0].split("&nbsp");
+            if(temp[0].equals("message")){
+                Toast.makeText(context, ""+temp[1], Toast.LENGTH_SHORT).show();
+                return;
+            }
             int myOrder_id = Integer.parseInt(temp[0]);
             long myDateOfSaleMillis  = Long.parseLong(temp[1]);
             String myCategory = temp[2];
@@ -439,7 +443,6 @@ public class ActivityProduct extends AppCompatActivity {
             double myQuantity = getQuantityOfProductToAdd(myPosition);
 
             products.get(myPosition).setQuantity(myQuantity);
-           // products.get(myPosition).setQuantity(quantity+1);
             addOrderProduct(products.get(myPosition).getQuantity(), myPosition);
             adapter.notifyItemChanged(myPosition);
 
