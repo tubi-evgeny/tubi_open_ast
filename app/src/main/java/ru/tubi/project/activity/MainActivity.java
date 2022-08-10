@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             companyRole += Config.PARTNER_ROLE_LIST.get(i)+"\n";
         }
         //показать номер для пользователя, вернуть со скобками
-        String infoAboutMe = "tubi_relise_3\n"+new FirstSimbolMakeBig()
+        String infoAboutMe = "tubi_1.12\n"+new FirstSimbolMakeBig()
                 .firstSimbolMakeBig(userDataModel.getName())+" "
                 + new CheckPhoneNumberInput()
                 .PhoneNumWhithBrackets(userDataModel.getPhone());

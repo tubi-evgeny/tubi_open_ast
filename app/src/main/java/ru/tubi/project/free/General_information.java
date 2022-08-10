@@ -2,7 +2,7 @@ package ru.tubi.project.free;
 
 public class General_information {
 
-    //сделать обновление из версии разработчика
+    //сделать обновление master из версии разработчика
     /*
     main_activity поменять релиз
     в build.gradle app поменять versionCode и при необходимости versionName
