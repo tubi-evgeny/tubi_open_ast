@@ -321,10 +321,13 @@ public class ChengeImageActivity extends AppCompatActivity implements View.OnCli
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == IMG_REQUEST && resultCode == RESULT_OK && data != null ){
-            Uri patch = data.getData();
             try {
+                Uri patch = data.getData();
+
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),patch);
 
+                Log.d("a111","ChengeImageActivity / onActivityResult " +
+                        "/ bmt height="+bitmap.getHeight()+" bmt width="+bitmap.getWidth());
                 //повернуть картинку
                 newBitmap = new MakeImageOrientation()
                         .makeImageOrientation(this,bitmap,patch);
@@ -368,7 +371,7 @@ public class ChengeImageActivity extends AppCompatActivity implements View.OnCli
         tvApply.setBackgroundResource(R.drawable.round_corners_green_600_and_black);
     }
     //получаем ориентацию картинки портрет или альбом
-    @RequiresApi(api = Build.VERSION_CODES.N)
+  /*  @RequiresApi(api = Build.VERSION_CODES.N)
     private int getExifOrientation(Intent data) {
 
         ExifInterface exif;
@@ -388,14 +391,14 @@ public class ChengeImageActivity extends AppCompatActivity implements View.OnCli
        // Log.d(TAG, "got orientation " + orientation);
         //Toast.makeText(this, "rrr "+orientation, Toast.LENGTH_SHORT).show();
         return orientation;
-    }
+    }*/
     //переворачивает картинку
-    private static int exifToDegrees(int exifOrientation) {
+  /*  private static int exifToDegrees(int exifOrientation) {
         if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) { return 90; }
         else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {  return 180; }
         else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {  return 270; }
         return 0;
-    }
+    }*/
 
     private void alertDialogImageDownload(String imageName){
         adb = new AlertDialog.Builder(this);

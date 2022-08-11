@@ -247,19 +247,23 @@ public class LoginActivity extends AppCompatActivity{
         task.execute(url_get);
     }*/
     private void splitUserLogResult(String result){  // разобрать результат с сервера
-        String[]temp;
-        String [] res=result.split("<br>");
-        for(int i=0;i<res.length;i++){
-            temp = res[i].split("&nbsp");
+        try {
+            String[] temp;
+            String[] res = result.split("<br>");
+            for (int i = 0; i < res.length; i++) {
+                temp = res[i].split("&nbsp");
 
-            if(temp[0].equals("error") || temp[0].equals("message")){
-                Toast.makeText(this, " " +temp[1], Toast.LENGTH_LONG).show();
-            }else{
-                UserModel user = new UserModel(temp[0],temp[1],temp[2],temp[3],temp[4],
-                                                temp[5],temp[6],temp[7],temp[8]);
+                if (temp[0].equals("error") || temp[0].equals("message")) {
+                    Toast.makeText(this, " " + temp[1], Toast.LENGTH_LONG).show();
+                } else {
+                    UserModel user = new UserModel(temp[0], temp[1], temp[2], temp[3], temp[4],
+                            temp[5], temp[6], temp[7], temp[8]);
 
-                saveInfoTableDB(user);   // Теперь сохраните пользователя в sqlite
+                    saveInfoTableDB(user);   // Теперь сохраните пользователя в sqlite
+                }
             }
+        }catch(Exception ex){
+            Log.d("A111","LoginActivity / splitUserLogResult / exception = "+ex);
         }
     }
     // Теперь сохраните пользователя в sqlite
