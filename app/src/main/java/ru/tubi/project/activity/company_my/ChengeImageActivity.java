@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -165,6 +166,9 @@ public class ChengeImageActivity extends AppCompatActivity implements View.OnCli
         }
         else if(v.equals(tvApply)){
             if(apply_time  + 2000 > System.currentTimeMillis()){
+                //сделать кнопку не активной и серой
+                tvApply.setClickable(false);
+                tvApply.setBackgroundResource(R.drawable.round_background_grey_200_black);
                 //получить имя картинки
                 GenerateImageName image = new GenerateImageName();
                 imageName = image.generateImageName(category,productName,characteristic,brand);
@@ -174,22 +178,14 @@ public class ChengeImageActivity extends AppCompatActivity implements View.OnCli
                 UploadImageData uploadImage = new UploadImageData();
                 String messege = uploadImage.uploadImageData(newBitmap,imageName, REQUEST_UPLOAD_IMAGE);
 
-              /*  asyncDialog = new ProgressDialog(this);
-                asyncDialog.setMessage(UPLOADING_IMAGE_TAXT);
-                asyncDialog.show();*/
-
                 TimerTask timerTask = new TimerTask();
                 timerTask.execute();
-
-                //make allert dialog for ansver (image download)
-                //alertDialogImageDownload(imageName);
 
             }else{
                 Toast.makeText(this, ""+CLICK_AGAIN_TO_DOWNLOAD_IMAGE,
                         Toast.LENGTH_SHORT).show();
             }
             apply_time = System.currentTimeMillis();
-
         }
     }
     class TimerTask extends AsyncTask<Void, Void, Void> {
@@ -228,21 +224,29 @@ public class ChengeImageActivity extends AppCompatActivity implements View.OnCli
     }
     //проверить результат загрузки изображения
     private void checkUploadImageResult(){
+        //Изображение Успешно Загружено
         if(REQUEST_UPLOADED_IMAGE_INFO == 1){
-            //Изображение Успешно Загружено
             REQUEST_UPLOADED_IMAGE_INFO = 0;
             // меняем картинку в t_product_inventory
             downloadImageNameToTable(imageName);
 
             //make allert dialog for ansver (image download)
             alertDialogImageDownload(imageName);
-        }else if(REQUEST_UPLOADED_IMAGE_INFO == 2){
+        }
+        //Не удалось Загрузить Изображение
+        else if(REQUEST_UPLOADED_IMAGE_INFO == 2){
+            //сделать кнопку активной и зеленой
+            tvApply.setClickable(true);
+            tvApply.setBackgroundResource(R.drawable.round_corners_green_600_and_black);
             REQUEST_UPLOADED_IMAGE_INFO = 0;
-            //Не удалось Загрузить Изображение
             Toast.makeText(this, ""+IMAGE_UPLOADING_FAILED_TAXT, Toast.LENGTH_LONG).show();
-        }else if(REQUEST_UPLOADED_IMAGE_INFO == 3){
+        }
+        //ошибка соединения
+        else if(REQUEST_UPLOADED_IMAGE_INFO == 3){
+            //сделать кнопку активной и зеленой
+            tvApply.setClickable(true);
+            tvApply.setBackgroundResource(R.drawable.round_corners_green_600_and_black);
             REQUEST_UPLOADED_IMAGE_INFO = 0;
-            //ошибка соединения 
             Toast.makeText(this, ""+NETWORK_FAILED_TAXT, Toast.LENGTH_LONG).show();
         }else if(REQUEST_UPLOADED_IMAGE_INFO == 0){
             Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
