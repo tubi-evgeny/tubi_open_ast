@@ -286,7 +286,7 @@ public class ActivityAddProductsCheck extends AppCompatActivity {
                         brand_flag, characteristic, characteristic_flag, type_packaging,
                         type_packaging_flag, unit_measure, unit_measure_flag, weight_volume,
                         price, quantity, quantity_package, image, image_flag, description,
-                        abbreviation, counterparty, counterparty_flag, taxpayer_id, 0);
+                        abbreviation, counterparty, counterparty_flag, taxpayer_id, 1);
                 addProducts.add(addProduct);
                     /*
                      AddProduct addProduct = new AddProduct(Integer.parseInt(temp[0]), temp[1], Integer.parseInt(temp[2]),
