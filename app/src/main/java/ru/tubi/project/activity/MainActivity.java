@@ -134,15 +134,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             companyRole += Config.PARTNER_ROLE_LIST.get(i)+"\n";
         }
         //показать номер для пользователя, вернуть со скобками
-        String infoAboutMe = "tubi_1.12 test\n"+new FirstSimbolMakeBig()
+        String infoAboutMe = "tubi_1.14 test\n"+new FirstSimbolMakeBig()
                 .firstSimbolMakeBig(userDataModel.getName())+" "
                 + new CheckPhoneNumberInput()
                 .PhoneNumWhithBrackets(userDataModel.getPhone());
         tvName.setText(""+infoAboutMe);
 
         //показать номер для пользователя, вернуть со скобками
-        String activityName ="tubi_relise_3\n"+"phone: "
-                + new CheckPhoneNumberInput().PhoneNumWhithBrackets(userDataModel.getPhone());
+       // String activityName ="tubi_relise_3\n"+"phone: "
+        //        + new CheckPhoneNumberInput().PhoneNumWhithBrackets(userDataModel.getPhone());
         Log.d("A111","activity: "+infoAboutMe+"\n\nMY_NAME: "+ userDataModel.getName()
                 +"\nc_name: "+ userDataModel.getAbbreviation()+" "+ userDataModel.getCounterparty()
                 +"\ntax-id: "+ userDataModel.getCompany_tax_id()+"\nrole: "+ userDataModel.getRole()

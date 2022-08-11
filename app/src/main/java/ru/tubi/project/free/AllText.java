@@ -80,7 +80,7 @@ public class AllText {
     public static String DISTRIBUTION_WAREHOUSE = "распределительного склада";
     public static String COLLECT_PRODUCT_FOR = "Собрать товар для";
     public static String SEARCH_PRODUCT_BEFORE_DOWNLOADING_DATA="Проверка товара перед загрузкой в базу";
-    public static String CLICK_AGAIN_TO_DOWNLOAD_IMAGE = "Нажмите еще раз для загрузки фото";
+    public static String CLICK_AGAIN_TO_DOWNLOAD_IMAGE = "Нажмите ДВА РАЗА для загрузки фото";
     public static String CHENGE_SMALL = "Заменить";
     public static String PASS_CANNOD_BE_CHENGED = "Прошлое изменить нельзя";
     public static String SPECIFY_QUANTITY_OF_COLLECTED_GOODS = "Укажите колличество собранного товара";
