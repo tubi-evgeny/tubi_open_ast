@@ -49,7 +49,6 @@ public class InitialDataPOST extends AsyncTask<String,Void,String> {
                     response.append(inputLine);
                 }
                 in.close();
-
                 // get result
                 res  = response.toString();
             } else {
