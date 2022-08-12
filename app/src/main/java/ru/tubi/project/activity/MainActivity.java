@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import ru.tubi.project.BuildConfig;
 import ru.tubi.project.R;
 
 import ru.tubi.project.activity.AdminPanel.AdminActivity;
@@ -133,8 +134,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for(int i = 0; i < Config.PARTNER_ROLE_LIST.size(); i++){
             companyRole += Config.PARTNER_ROLE_LIST.get(i)+"\n";
         }
+        int versionCode = BuildConfig.VERSION_CODE;
+        String versionName = BuildConfig.VERSION_NAME;
         //показать номер для пользователя, вернуть со скобками
-        String infoAboutMe = "tubi_1.14 test\n"+new FirstSimbolMakeBig()
+        String infoAboutMe = "tubi "+versionName+"."+versionCode+" test\n"
+                +new FirstSimbolMakeBig()
                 .firstSimbolMakeBig(userDataModel.getName())+" "
                 + new CheckPhoneNumberInput()
                 .PhoneNumWhithBrackets(userDataModel.getPhone());
