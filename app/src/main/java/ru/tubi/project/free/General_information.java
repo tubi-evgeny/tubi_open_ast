@@ -8,7 +8,7 @@ public class General_information {
     сверить БД, таблицы, столбцы все в наличии
 
     ANDROID STUDIO
-    main_activity поменять релиз
+    main_activity убрать тест
     в build.gradle app поменять versionCode и при необходимости versionName
 
     сменить URL(Config) для запроса в рабочем PHP
