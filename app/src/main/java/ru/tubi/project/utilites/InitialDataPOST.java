@@ -73,7 +73,6 @@ public class InitialDataPOST extends AsyncTask<String,Void,String> {
                 e.printStackTrace();
             }
         });
-
         final String resultString = result.toString();
         return !resultString.isEmpty()
                 ? resultString.substring(0, resultString.length() - 1)
