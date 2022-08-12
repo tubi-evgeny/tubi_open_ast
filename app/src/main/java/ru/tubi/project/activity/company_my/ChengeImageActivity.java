@@ -132,6 +132,7 @@ public class ChengeImageActivity extends AppCompatActivity implements View.OnCli
         llImageTable.setLayoutParams(new LinearLayout.LayoutParams(width,height));
 
         if(!image_url.equals("")) {
+            Log.d("A111","ChengeImageActivity / onCreate / image_url = "+image_url);
             setDownloadImage(ADMIN_PANEL_URL_IMAGES + image_url);
         }else ivItWas.setImageResource(R.drawable.tubi_logo_no_image_300ps);
 
@@ -143,12 +144,12 @@ public class ChengeImageActivity extends AppCompatActivity implements View.OnCli
             }
         };
         bmp.execute(url);
+       // Log.d("A111","test");
     }
 
     private void showImage(Bitmap bitmap){
         //задаем размер фото для квадрата
-        new MakeImageToSquare(this,bitmap,ivItWas);//.makeImageToSquareAndShow(this,bitmap,ivItWas);
-
+        new MakeImageToSquare(this,bitmap,ivItWas);
     }
 
     @Override
@@ -326,6 +327,10 @@ public class ChengeImageActivity extends AppCompatActivity implements View.OnCli
 
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),patch);
 
+                //сжать фото до 1536 пиксель
+                int newHeight = (int) ( bitmap.getHeight() * (2064.0 / bitmap.getWidth()) );
+                bitmap = Bitmap.createScaledBitmap(bitmap, 2064, newHeight, true);
+
                 Log.d("a111","ChengeImageActivity / onActivityResult " +
                         "/ bmt height="+bitmap.getHeight()+" bmt width="+bitmap.getWidth());
                 //повернуть картинку
@@ -358,6 +363,11 @@ public class ChengeImageActivity extends AppCompatActivity implements View.OnCli
 
         try {
             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),contentUri);
+            //сжать фото до 1536 пиксель
+            int newHeight = (int) ( bitmap.getHeight() * (2064.0 / bitmap.getWidth()) );
+            bitmap = Bitmap.createScaledBitmap(bitmap, 2064, newHeight, true);
+            Log.d("a111","ChengeImageActivity / galleryAddPic " +
+                    "/ bmt height="+bitmap.getHeight()+" bmt width="+bitmap.getWidth());
         } catch (IOException e) {
             e.printStackTrace();
         }
