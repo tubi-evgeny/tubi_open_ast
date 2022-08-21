@@ -3,16 +3,16 @@ package ru.tubi.project.free;
 public class General_information {
 
     //сделать обновление master из версии разработчика
-    //создать новые ветки с будущим номером релиза
+
     /*
     БД
     сверить БД, таблицы, столбцы все в наличии
 
     ANDROID STUDIO
-    main_activity убрать тест
+    main_activity убрать слово-"тест"
     в build.gradle app поменять versionCode и при необходимости versionName
-
-    сменить URL(Config) для запроса в рабочем PHP
+    сделать synk now
+    сменить URL в (Config) для запроса в рабочем PHP
     установить проверку номера телефона
     сделать релиз
     залить релиз в Google play
@@ -22,7 +22,7 @@ public class General_information {
     на сервере в api_tubi удалить все файлы php, а папки с фото не трогать(image, preview_image)
     залить обновление в api_tubi
 
-
+    //создать новые ветки с будущим номером релиза
 
      */
 

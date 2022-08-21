@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Config {
 
     //your admin panel url
-   // public static final String ADMIN_PANEL_URL = "https://h102582557.nichost.ru/api_tubi/";
-    public static final String ADMIN_PANEL_URL = "https://h102582557.nichost.ru/test_tubi/";
+    public static final String ADMIN_PANEL_URL = "https://h102582557.nichost.ru/api_tubi/";
+    //public static final String ADMIN_PANEL_URL = "https://h102582557.nichost.ru/test_tubi/";
 
            //your admin images file
     public static final String ADMIN_PANEL_URL_IMAGES = ADMIN_PANEL_URL+"image/";

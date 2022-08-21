@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int versionCode = BuildConfig.VERSION_CODE;
         String versionName = BuildConfig.VERSION_NAME;
         //показать номер для пользователя, вернуть со скобками
-        infoAboutMe = "tubi "+versionName+"."+versionCode+" test\n"
+        infoAboutMe = "tubi "+versionName+"."+versionCode+"\n"
                 +new FirstSimbolMakeBig()
                 .firstSimbolMakeBig(userDataModel.getName())+" "
                 + new CheckPhoneNumberInput()
