@@ -467,6 +467,7 @@ public class ActivityProduct extends AppCompatActivity {
     }
     // разобрать результат с сервера список продуктов и колличество
     private void splitResultProductArray(String result){
+        Log.d("A111","ERROR / ActivityProduct / splitResultProductArray / result="+result);
         try{
             String [] res=result.split("<br>");
             for(int i=0;i<res.length;i++){

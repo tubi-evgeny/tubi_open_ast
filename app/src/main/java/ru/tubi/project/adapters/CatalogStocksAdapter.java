@@ -2,6 +2,7 @@ package ru.tubi.project.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,6 @@ public class CatalogStocksAdapter
         this.products=products;
         this.clickListener=clickListener;
     }
-
     @NonNull
     @Override
     public CatalogStocksAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -63,28 +63,27 @@ public class CatalogStocksAdapter
                 +IN_PACKAGE+" "+product.getQuantity_package();//product.getCategory()
         String strPackageCount = String.format("%.2f",+(product.getFree_balance() / product.getQuantity_package()));
 
-        holder.tvDescription.setText(""+description);
+        holder.tvDescription.setText(""+product.getProduct_info()+"("+product.getProduct_name_from_provider()+")");
         holder.tvPrice.setText(""+product.getPrice());
         holder.tvQuantity.setText(""+product.getFree_balance());
         holder.tvPosition.setText(""+(position+1));
         holder.tvPackageCount.setText("("+strPackageCount+" "+PACKAGE_SHORT+")");
 
-        if(!product.getImage_url().equals("null")) {
-                new DownloadImage() {
-                    @Override
-                    protected void onPostExecute(Bitmap result) {
-                        try{
-                            int check = result.getWidth();
-                            new MakeImageToSquare(result, holder.ivImageProduct);
-                        }catch (Exception ex){
-                            //bitmap пустой image не найден
-                            holder.ivImageProduct.setImageResource(R.drawable.tubi_logo_no_image_300ps);
-                        }
-                        //new MakeImageToSquare().MakeImageToSquare(result,holder.ivImageProduct);
+        if (!product.getImage_url().equals("null")) {
+            new DownloadImage() {
+                @Override
+                protected void onPostExecute(Bitmap result) {
+                    try {
+                        int check = result.getWidth();
+                        new MakeImageToSquare(result, holder.ivImageProduct);
+                    } catch (Exception ex) {
+                        //bitmap пустой image не найден
+                        holder.ivImageProduct.setImageResource(R.drawable.tubi_logo_no_image_300ps);
                     }
                 }
-                .execute(ADMIN_PANEL_URL_PREVIEW_IMAGES + product.getImage_url());
-        }else holder.ivImageProduct.setImageResource(R.drawable.tubi_logo_no_image_300ps);
+            }
+                    .execute(ADMIN_PANEL_URL_PREVIEW_IMAGES + product.getImage_url());
+        } else holder.ivImageProduct.setImageResource(R.drawable.tubi_logo_no_image_300ps);
 
         if(product.getProduct_id() == 0){
             holder.llProdInfo.setBackgroundColor(TUBI_GREY_100);

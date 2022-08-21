@@ -141,6 +141,7 @@
         <activity android:name=".activity.AdminPanel.ListPartnerForModerationActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.company_my.CatalogStocksActivity"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.company_my.InfoForProductCardFillActivity"

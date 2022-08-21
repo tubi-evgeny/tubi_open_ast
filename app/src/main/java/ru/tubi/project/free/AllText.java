@@ -56,6 +56,7 @@ public class AllText {
     public static String DOCUMENT_SAVED_BIG = "ДОКУМЕНТ СОХРАНЕН";
     public static String DOCUMENT_PROVIDER = "документ поставщика";
     public static String UPLOADING_IMAGE_TAXT = "Идет загрузка Изображения";
+    public static String DONT_SHOW_IT_ANYMORE = "Больше не показывать";
     public static String STOCK_OF_GOODS_REQUESTED_QUANTITY = "Запас товара на складе меньше запрошенного колличества";
     public static String IMAGE_UPLOADING_FAILED_TAXT = "Не удалось Загрузить Изображение";
     public static String NETWORK_FAILED_TAXT = "Ошибка соединения";

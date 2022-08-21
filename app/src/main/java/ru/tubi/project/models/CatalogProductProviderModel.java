@@ -1,5 +1,7 @@
 package ru.tubi.project.models;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 public class CatalogProductProviderModel implements Serializable {
@@ -23,6 +25,9 @@ public class CatalogProductProviderModel implements Serializable {
     private int order_product_id;
     private int checked;
     private int order_id;
+    private String product_info;
+    private String product_name_from_provider;
+    private Bitmap bmt;
 
     public CatalogProductProviderModel(String characteristic) {
         this.characteristic = characteristic;
@@ -49,6 +54,33 @@ public class CatalogProductProviderModel implements Serializable {
         this.order_id=order_id;
     }
     // CatalogStocksActivity//splitResult();
+    public CatalogProductProviderModel(int product_id, int product_inventory_id
+            , String category, String product_name, String brand, String characteristic
+            , String type_packaging, String unit_measure, int weight_volume
+            , double total_quantity, double price, int quantity_package
+            , String image_url, String description, double total_sale_quantity
+            , double free_balance,String product_info, String product_name_from_provider
+            , Bitmap bmt) {
+        this.product_id = product_id;
+        this.product_inventory_id = product_inventory_id;
+        this.category = category;
+        this.product_name=product_name;
+        this.brand = brand;
+        this.characteristic = characteristic;
+        this.type_packaging = type_packaging;
+        this.unit_measure = unit_measure;
+        this.weight_volume = weight_volume;
+        this.total_quantity = total_quantity;
+        this.price = price;
+        this.quantity_package = quantity_package;
+        this.image_url = image_url;
+        this.description = description;
+        this.total_sale_quantity = total_sale_quantity;
+        this.free_balance = free_balance;
+        this.product_info = product_info;
+        this.product_name_from_provider = product_name_from_provider;
+        this.bmt = bmt;
+    }
     // WriteOutProductActivity//splitResult();
     public CatalogProductProviderModel(int product_id, int product_inventory_id, String category,
                    String product_name, String brand, String characteristic, String type_packaging,
@@ -74,29 +106,6 @@ public class CatalogProductProviderModel implements Serializable {
         this.free_balance = free_balance;
     }
 
-  /*  public CatalogProductProviderModel(int product_id, int product_inventory_id,
-                   String category, String product_name, String brand,
-                   String characteristic, String type_packaging, String unit_measure,
-                   int weight_volume, double total_quantity, double price, int quantity_package,
-                   String image_url, String description, double total_sale_quantity,
-                   double free_balance) {
-        this.product_id = product_id;
-        this.product_inventory_id = product_inventory_id;
-        this.category = category;
-        this.product_name=product_name;
-        this.brand = brand;
-        this.characteristic = characteristic;
-        this.type_packaging = type_packaging;
-        this.unit_measure = unit_measure;
-        this.weight_volume = weight_volume;
-        this.total_quantity = total_quantity;
-        this.price = price;
-        this.quantity_package = quantity_package;
-        this.image_url = image_url;
-        this.description = description;
-        this.total_sale_quantity = total_sale_quantity;
-        this.free_balance = free_balance;
-    }*/
 
     public int getProduct_id() {
         return product_id;
@@ -228,10 +237,6 @@ public class CatalogProductProviderModel implements Serializable {
         this.free_balance = free_balance;
     }
 
-    @Override
-    public String toString() {
-        return   category + " " + brand + " " + characteristic;
-    }
 
     public double getQuantity() {
         return quantity;
@@ -264,4 +269,34 @@ public class CatalogProductProviderModel implements Serializable {
     public void setOrder_id(int order_id) {
         this.order_id = order_id;
     }
+
+    public String getProduct_info() {
+        return product_info;
+    }
+
+    public void setProduct_info(String product_info) {
+        this.product_info = product_info;
+    }
+
+    public String getProduct_name_from_provider() {
+        return product_name_from_provider;
+    }
+
+    public void setProduct_name_from_provider(String product_name_from_provider) {
+        this.product_name_from_provider = product_name_from_provider;
+    }
+
+    public Bitmap getBmt() {
+        return bmt;
+    }
+
+    public void setBmt(Bitmap bmt) {
+        this.bmt = bmt;
+    }
+
+    @Override
+    public String toString() {
+        return   product_info+ " " + product_name_from_provider;//return   category + " " + brand + " " + characteristic;
+    }
+
 }

@@ -25,4 +25,7 @@ public class VariablesHelpers {
     public static int  ORDER_FINISHED_ACTIVITY_MESSEGE = 0;
 
     public static int MESSAGE_NUMBER = 0;
+
+    //замена фото из склад товаров
+    public static int CHENGE_IMAGE_ALERT_SHOW = 0;
 }
