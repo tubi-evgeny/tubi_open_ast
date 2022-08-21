@@ -77,7 +77,8 @@ import static ru.tubi.project.free.AllText.YOUR_CEN_REDACT_PRODUCT_CARD_TEXT;
 
 public class CatalogStocksActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Intent takeit;
+    private int row;
+    private Intent takeit;
     private TextView tvWarehouse_info, tvWarehouse_info_short;
     private ImageView ivAddProductCard, ivSearch;
     private EditText etSearchTextInList;
@@ -209,13 +210,13 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
     //подбор товаров по запросу из editText
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void getNeedProduct() {
-        //Toast.makeText(this, "click edit: ", Toast.LENGTH_SHORT).show();
+        Log.d("A111","CatalogStocksActivity / getNeedProduct / click");
         listProduct.clear();
         parseListProduct.clear();
         parseListProduct.addAll(startListProduct);
 
         //меняем регистр букв на нижний
-        String searchSimbol = etSearchTextInList.getText().toString();
+        String searchSimbol = etSearchTextInList.getText().toString().trim();
         //Toast.makeText(this, "searchSimbol: " + searchSimbol, Toast.LENGTH_SHORT).show();
         for (int i = 0; i < parseListProduct.size(); i++) {
 
@@ -232,7 +233,12 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
         }
         adapter.notifyDataSetChanged();
     }
-
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void checkEtSearchTextLength(){
+        if(!etSearchTextInList.getText().toString().trim().isEmpty()){
+            getNeedProduct();
+        }
+    }
     @Override
     public void onClick(View v) {
         if (v.equals(ivAddProductCard)) {
@@ -322,7 +328,6 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
         };
         task.execute(url_get);
     }
-
     private void splitResultUpdateQuantity(String result) {
         String[] res = result.split("<br>");
         String[] one_temp = res[0].split("&nbsp");
@@ -371,7 +376,6 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
                     int product_id = Integer.parseInt(temp[0]);
                     int product_inventory_id = Integer.parseInt(temp[1]);
                     String category = temp[2];
-                    String product_name = temp[13];//"name test";
                     String brand = temp[3];
                     String characteristic = temp[4];
                     String type_packaging = temp[5];
@@ -384,11 +388,16 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
                     String description = temp[11];
                     double total_sale_quantity = 0;
                     double free_balance = Double.parseDouble(temp[12]);
+                    String product_name = temp[13];
+                    String product_info = temp[14];
+                    String product_name_from_provider = temp[15];
+                    Bitmap bmt = null;
 
                     CatalogProductProviderModel products = new CatalogProductProviderModel(product_id,
                             product_inventory_id, category, product_name, brand, characteristic, type_packaging, unit_measure,
                             weight_volume, total_quantity, price, quantity_package, image_url, description,
-                            total_sale_quantity, free_balance);
+                            total_sale_quantity, free_balance,product_info, product_name_from_provider
+                            ,bmt);
                     if (product_id == 0) {
                         startListProduct.add(products);
                     } else {
@@ -414,6 +423,7 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
         }catch (Exception ex){
             Toast.makeText(this, "ex: "+ex, Toast.LENGTH_SHORT).show();
         }
+        checkEtSearchTextLength();
     }
 
     private void copyProductcard() {
