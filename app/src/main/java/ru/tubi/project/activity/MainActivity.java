@@ -63,7 +63,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView ivCheckmark;
     private ListView lvMyCity;
     private Intent intent;
-    private String url, url_get;
+    private String url, url_get, infoAboutMe, order_id_string, companyRole;
+    private int countClick = 0;
+    private long timecount = 0;
     public static boolean FLAG_ORDER = false;
     private SearchOrder_id searchOrder_id = new SearchOrder_id();
     private HelperDB my_db = new HelperDB(this);
@@ -102,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnMenu.setOnClickListener(this);
         llMyCity.setOnClickListener(this);
         llMessege.setOnClickListener(this);
+        tvName.setOnClickListener(this);
 
         lvMyCity.setVisibility(View.VISIBLE);
         //проверить роль user, получить роли партнера
@@ -116,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //получить список заказав с характеристиками
         orderDataModelList = orderDataRecoveryUtil.getOrderDataRecovery(this);
 
-        String order_id_string = "";
+        order_id_string = "";
         for(int i=0;i < orderDataModelList.size();i++){
             order_id_string += orderDataModelList.get(i).getOrder_id();
             if(i != orderDataModelList.size()-1){
@@ -130,14 +133,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btnAdminActiv.setVisibility(View.GONE);
         }
 
-        String companyRole = "";
+        companyRole = "";
         for(int i = 0; i < Config.PARTNER_ROLE_LIST.size(); i++){
             companyRole += Config.PARTNER_ROLE_LIST.get(i)+"\n";
         }
         int versionCode = BuildConfig.VERSION_CODE;
         String versionName = BuildConfig.VERSION_NAME;
         //показать номер для пользователя, вернуть со скобками
-        String infoAboutMe = "tubi "+versionName+"."+versionCode+" test\n"
+        infoAboutMe = "tubi "+versionName+"."+versionCode+" test\n"
                 +new FirstSimbolMakeBig()
                 .firstSimbolMakeBig(userDataModel.getName())+" "
                 + new CheckPhoneNumberInput()
@@ -154,11 +157,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         AddressModel am1 = new AddressModel("Московская область", "Мытищенский район","Мытищи", "Мытищи", true);
-        AddressModel am2 = new AddressModel("Московская область", "Мытищенский район","Другой город","Другой город",true);
-        AddressModel am3 = new AddressModel("Московская область", "Мытищенский район", "Другой город","Если вашего города \nнет в списке выберите \n(-Другой город-)", false);
+        AddressModel am2 = new AddressModel("Смоленская область", "Смоленский район","Смоленск", "Смоленск", true);
+        AddressModel am3 = new AddressModel("Московская область", "Мытищенский район","Другой город","Другой город",true);
+        AddressModel am4 = new AddressModel("Московская область", "Мытищенский район", "Другой город","Если вашего города \nнет в списке выберите \n(-Другой город-)", false);
         CITY_LIST.add(am1);
         CITY_LIST.add(am2);
         CITY_LIST.add(am3);
+        CITY_LIST.add(am4);
 
         if(MY_CITY.isEmpty()){
             lvMyCity.setVisibility(View.VISIBLE);
@@ -220,13 +225,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this, MessageFeedActivity.class);
             startActivityForResult(intent, MESSAGE_FEED_REQUEST_CODE);
         }
+        else if(v.equals(tvName)){
+            //показать дополнительную информацию после 6 кликов
+            //countClicks();
+            if(System.currentTimeMillis() - 8000 < timecount){
+                countClick++;
+                if(countClick >= 5){
+                    infoAboutMe += "\nMY_NAME: "+ userDataModel.getName()
+                            +"\nc_name: "+ userDataModel.getAbbreviation()+" "+ userDataModel.getCounterparty()
+                            +"\ntax-id: "+ userDataModel.getCompany_tax_id()+"\nrole: "+ userDataModel.getRole()
+                            +"\norder_id: "+ order_id_string+"\ncompany role:\n"+companyRole;
+                    tvName.setText((""+infoAboutMe));
+                }
+            }else{
+                timecount = System.currentTimeMillis();
+                countClick = 1;
+            }
+        }
     }
     //проверить роль user
     private void searchUserRole(){
         Cursor yourCursor = my_db.getYourTableContents();
         //проверить колличество записей в таблице
         int i = 0;
-
         while (yourCursor.moveToNext()) {
             i += 1;
         }
