@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,6 +53,7 @@ import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_IMAGES;
 import static ru.tubi.project.free.AllCollor.alert_dialog_button_green_pressed;
 import static ru.tubi.project.free.AllText.CHENGE;
 import static ru.tubi.project.free.AllText.CLICK_AGAIN_TO_DOWNLOAD_IMAGE;
+import static ru.tubi.project.free.AllText.DONT_SHOW_IT_ANYMORE;
 import static ru.tubi.project.free.AllText.GO_CHENGE_IMAGE;
 import static ru.tubi.project.free.AllText.IMAGE;
 import static ru.tubi.project.free.AllText.IMAGE_DOWNLOAD;
@@ -61,6 +63,8 @@ import static ru.tubi.project.free.AllText.NETWORK_FAILED_TAXT;
 import static ru.tubi.project.free.AllText.UNDERSTOOD_BIG;
 import static ru.tubi.project.free.AllText.UPLOADING_IMAGE_TAXT;
 import static ru.tubi.project.utilites.Constant.PROVIDER_OFFICE;
+
+import static ru.tubi.project.free.VariablesHelpers.CHENGE_IMAGE_ALERT_SHOW;
 
 public class ChengeImageActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -166,7 +170,7 @@ public class ChengeImageActivity extends AppCompatActivity implements View.OnCli
             cretePictureIntent();
         }
         else if(v.equals(tvApply)){
-            if(apply_time  + 2000 > System.currentTimeMillis()){
+           // if(apply_time  + 2000 > System.currentTimeMillis()){
                 //сделать кнопку не активной и серой
                 tvApply.setClickable(false);
                 tvApply.setBackgroundResource(R.drawable.round_background_grey_200_black);
@@ -182,11 +186,11 @@ public class ChengeImageActivity extends AppCompatActivity implements View.OnCli
                 TimerTask timerTask = new TimerTask();
                 timerTask.execute();
 
-            }else{
+           /* }else{
                 Toast.makeText(this, ""+CLICK_AGAIN_TO_DOWNLOAD_IMAGE,
                         Toast.LENGTH_SHORT).show();
             }
-            apply_time = System.currentTimeMillis();
+            apply_time = System.currentTimeMillis();*/
         }
     }
     class TimerTask extends AsyncTask<Void, Void, Void> {
@@ -223,6 +227,13 @@ public class ChengeImageActivity extends AppCompatActivity implements View.OnCli
             checkUploadImageResult();
         }
     }
+    private void goBackActivity(String imageName){
+        Intent intent = new Intent();
+        intent.putExtra("product_inventory_id",product_inventory_id);
+        intent.putExtra("imageName",imageName);
+        setResult(RESULT_OK,intent);
+        finish();
+    }
     //проверить результат загрузки изображения
     private void checkUploadImageResult(){
         //Изображение Успешно Загружено
@@ -231,8 +242,13 @@ public class ChengeImageActivity extends AppCompatActivity implements View.OnCli
             // меняем картинку в t_product_inventory
             downloadImageNameToTable(imageName);
 
-            //make allert dialog for ansver (image download)
-            alertDialogImageDownload(imageName);
+            //если показать alert галочка не стоит то показать
+            if(CHENGE_IMAGE_ALERT_SHOW == 0){
+                //make allert dialog for ansver (image download)
+                alertDialogImageDownload(imageName);
+            }else{
+                goBackActivity(imageName);
+            }
         }
         //Не удалось Загрузить Изображение
         else if(REQUEST_UPLOADED_IMAGE_INFO == 2){
@@ -380,57 +396,32 @@ public class ChengeImageActivity extends AppCompatActivity implements View.OnCli
         tvApply.setClickable(true);
         tvApply.setBackgroundResource(R.drawable.round_corners_green_600_and_black);
     }
-    //получаем ориентацию картинки портрет или альбом
-  /*  @RequiresApi(api = Build.VERSION_CODES.N)
-    private int getExifOrientation(Intent data) {
-
-        ExifInterface exif;
-        int orientation = 0;
-        Uri uri = data.getData();
-        InputStream in;
-        try {
-            in = getContentResolver().openInputStream(uri);
-            exif = new ExifInterface(in);
-
-            orientation = exif.getAttributeInt(
-                    ExifInterface.TAG_ORIENTATION, 1 );
-        } catch ( IOException e ) {
-            //Toast.makeText(this, "ex: "+e, Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-       // Log.d(TAG, "got orientation " + orientation);
-        //Toast.makeText(this, "rrr "+orientation, Toast.LENGTH_SHORT).show();
-        return orientation;
-    }*/
-    //переворачивает картинку
-  /*  private static int exifToDegrees(int exifOrientation) {
-        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) { return 90; }
-        else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {  return 180; }
-        else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {  return 270; }
-        return 0;
-    }*/
 
     private void alertDialogImageDownload(String imageName){
         adb = new AlertDialog.Builder(this);
+        LinearLayout ll = new LinearLayout(this);
+        CheckBox chengeImageCheckBox = new CheckBox(this);
+        chengeImageCheckBox.setText(""+DONT_SHOW_IT_ANYMORE);
+        ll.addView(chengeImageCheckBox);
+
         String st1 = IMAGE_DOWNLOAD;
         String st2 = IMAGE_FOR_MODERATION_AND_COMMENT;
         adb.setTitle(st1);
         adb.setMessage(st2);
+        adb.setView(ll);
         adb.setPositiveButton(UNDERSTOOD_BIG, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //загружаем имя картинки в t_image_moderation (таблицу) для модерации
-
-                // меняем картинку в t_product_inventory
-               // downloadImageNameToTable(imageName);
-
-                Intent intent = new Intent();
+                if(chengeImageCheckBox.isChecked()){
+                    CHENGE_IMAGE_ALERT_SHOW = 1;
+                }
+                goBackActivity(imageName);
+               /* Intent intent = new Intent();
                 intent.putExtra("product_inventory_id",product_inventory_id);
                 intent.putExtra("imageName",imageName);
                 setResult(RESULT_OK,intent);
-                finish();
+                finish();*/
                 ad.cancel();
-                //onBackPressed();
             }
         });
 
