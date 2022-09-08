@@ -199,6 +199,8 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
            // llMinusTen.setOnClickListener(this);
             llPlus.setOnClickListener(this);
             //llPlusTen.setOnClickListener(this);
+            tvQuantity.setOnClickListener(this);
+
         }
 
         @Override

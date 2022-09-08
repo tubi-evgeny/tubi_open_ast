@@ -196,6 +196,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             //llMinusTen.setOnClickListener(this);
             llPlus.setOnClickListener(this);
             //llPlusTen.setOnClickListener(this);
+            tvQuantity.setOnClickListener(this);
         }
 
         @Override

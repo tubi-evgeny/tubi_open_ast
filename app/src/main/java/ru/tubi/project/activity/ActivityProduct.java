@@ -1,6 +1,7 @@
 package ru.tubi.project.activity;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,9 +11,15 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import ru.tubi.project.R;
@@ -73,6 +80,8 @@ public class ActivityProduct extends AppCompatActivity {
     private OrderDataRecoveryUtil orderDataRecoveryUtil = new OrderDataRecoveryUtil();
     private CheckEqualsDateUtil checkEqualsDate = new CheckEqualsDateUtil();
     private Context context;
+    private AlertDialog.Builder adb;
+    private AlertDialog ad;
 
     private int key;
     private static final int SHOP_BOX_REQUEST_CODE = 2;
@@ -244,6 +253,9 @@ public class ActivityProduct extends AppCompatActivity {
                 products.get(position).setQuantity(quantity - 10);
             }
         }*/
+        else if(str[1].equals("tvQuantity}")){
+            adSelectQuantity(position);
+        }
         adapter.notifyItemChanged(position);
     }
     //получить колличество товар которое надо добавить в заказ
@@ -585,6 +597,43 @@ public class ActivityProduct extends AppCompatActivity {
         }
         //
         //showProd();
+    }
+    private void adSelectQuantity(int position){
+        LinearLayout ll = new LinearLayout(this);
+        LinearLayout layout = new LinearLayout(this);
+        ListView lv = new ListView(this);
+        RelativeLayout.LayoutParams mParam = new RelativeLayout.LayoutParams((int)(200),(int)(600));
+        layout.setLayoutParams(mParam);
+        ll.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        double free_quantity = products.get(position).getFree_inventory();
+        ArrayList <Double> quantity_arr = new ArrayList();
+        double myQuantity = products.get(position).getMin_sell();
+        //показать собрать список какое можно выбрать колликество кратно
+        while(free_quantity > myQuantity){
+            if(myQuantity <= free_quantity){
+                quantity_arr.add(myQuantity);
+            }
+            myQuantity += products.get(position).getMultiple_of();
+        }
+        ArrayAdapter adap = new ArrayAdapter(this, android.R.layout.simple_list_item_1, quantity_arr);
+        lv.setAdapter(adap);
+        ll.addView(layout);
+        layout.addView(lv);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int pn, long id) {
+                double quantity = quantity_arr.get(pn);
+                products.get(position).setQuantity(quantity);
+                adapter.notifyItemChanged(position);
+                ad.cancel();
+            }
+        });
+
+        adb = new AlertDialog.Builder(this);
+        adb.setView(ll);
+        ad = adb.create();
+        ad.show();
     }
     //слушатель возврата по методу Back(); из предыдущей активности
     //нужен для обновления необходимой информации

@@ -11,9 +11,16 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import ru.tubi.project.R;
@@ -96,18 +103,14 @@ public class ActivityProductCard extends AppCompatActivity {
         try {
             product = (ProductModel) takeit.getSerializableExtra("product");
             product_id = product.getProduct_id();
-
             //если есть открытый заказ то получить его номер или 0 если заказа открытого нет
             searchOrder_id.searchStartedOrder(this);
-
             //получить список заказав с характеристиками
             orderDataModelList = orderDataRecoveryUtil.getOrderDataRecovery(this);
-
             showProd();
         }catch (Exception ex){
 
         }
-
         //запуск метода обновить меню,
         // нужен для обновления цвета корзины если не пустая
         invalidateOptionsMenu();
@@ -119,7 +122,6 @@ public class ActivityProductCard extends AppCompatActivity {
                         alertDialogShow( productCard,  position);
                     }
                 };
-
         ProductCardAdapter.RecyclerViewClickListener clickListener=
                 new ProductCardAdapter.RecyclerViewClickListener() {
                     @Override
@@ -128,23 +130,9 @@ public class ActivityProductCard extends AppCompatActivity {
                         // Toast.makeText(ActivityProductCard.this, "Button: "+view, Toast.LENGTH_SHORT).show();
                     }
                 };
-
         adapter=new ProductCardAdapter(this,allPrice,
                                         productCardClickListener, clickListener);
         recyclerViewProdCard.setAdapter(adapter);
-
-    }
-
-
-    private void alertDialogShow(ProductCardModel productCard, int position){
-
-        adb = new AlertDialog.Builder(this);
-        String str1 = allPrice.get(position).toString();
-        String str2 = allPrice.get(position).getDescription_prod();
-        adb.setTitle(str1);
-        adb.setMessage(str2);
-        ad = adb.create();
-        ad.show();
     }
     //какая кнопка нажата
     public void WhatButtonClicked(View view,int position){
@@ -256,6 +244,9 @@ public class ActivityProductCard extends AppCompatActivity {
                 allPrice.get(position).setQuantity(quantity - 10);
             }
         }*/
+        else if(str[1].equals("tvQuantity}")){
+            adSelectQuantity(position);
+        }
         adapter.notifyItemChanged(position);
     }
     //получить колличество товар которое надо добавить в заказ
@@ -568,7 +559,53 @@ public class ActivityProductCard extends AppCompatActivity {
             //Toast.makeText(this, "id "+warehouse_id, Toast.LENGTH_SHORT).show();
         }
     }
+    private void adSelectQuantity(int position){
+        LinearLayout ll = new LinearLayout(this);
+        LinearLayout layout = new LinearLayout(this);
+        ListView lv = new ListView(this);
+        RelativeLayout.LayoutParams mParam = new RelativeLayout.LayoutParams((int)(200),(int)(600));
+        layout.setLayoutParams(mParam);
+        ll.setGravity(Gravity.CENTER_HORIZONTAL);
 
+        double free_quantity = allPrice.get(position).getFree_inventory();
+        ArrayList <Double> quantity_arr = new ArrayList();
+        double myQuantity = allPrice.get(position).getMin_sell();
+        //показать собрать список какое можно выбрать колликество кратно
+        while(free_quantity > myQuantity){
+            if(myQuantity <= free_quantity){
+                quantity_arr.add(myQuantity);
+            }
+            myQuantity += allPrice.get(position).getMultiple_of();
+        }
+        ArrayAdapter adap = new ArrayAdapter(this, android.R.layout.simple_list_item_1, quantity_arr);
+        lv.setAdapter(adap);
+        ll.addView(layout);
+        layout.addView(lv);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int pn, long id) {
+                double quantity = quantity_arr.get(pn);
+                allPrice.get(position).setQuantity(quantity);
+                adapter.notifyItemChanged(position);
+                ad.cancel();
+            }
+        });
+
+        adb = new AlertDialog.Builder(this);
+        adb.setView(ll);
+        ad = adb.create();
+        ad.show();
+    }
+    private void alertDialogShow(ProductCardModel productCard, int position){
+
+        adb = new AlertDialog.Builder(this);
+        String str1 = allPrice.get(position).toString();
+        String str2 = allPrice.get(position).getDescription_prod();
+        adb.setTitle(str1);
+        adb.setMessage(str2);
+        ad = adb.create();
+        ad.show();
+    }
     @Override
     public void onBackPressed() {
         if(myPosition >= 0 ) {
