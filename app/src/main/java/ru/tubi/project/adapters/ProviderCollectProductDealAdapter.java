@@ -23,6 +23,8 @@ import ru.tubi.project.utilites.MakeImageToSquare;
 
 import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 import static ru.tubi.project.free.AllText.CHANGED_TEXT;
+import static ru.tubi.project.free.AllText.PACKAGE_SHORT;
+import static ru.tubi.project.free.AllText.QUANTITY_SIMB;
 
 public class ProviderCollectProductDealAdapter
         extends RecyclerView.Adapter<ProviderCollectProductDealAdapter.ViewHolder>{
@@ -71,11 +73,19 @@ public class ProviderCollectProductDealAdapter
                 +product.getBrand()+" "+product.getType_packaging()+" "
                 +product.getWeight_volume()+" "
                 +product.getUnit_measure()+" "+IN_PACKAGE+" "+product.getQuantity_package();*/
-
+        int packagingCount = (int)(product.getQuantity_to_deal() / product.getQuantity_package());
+        //отсаток от упаковки
+        double remainderOfPackage = (product.getQuantity_to_deal() - (packagingCount * product.getQuantity_package()));
         holder.tvProductInfo.setText(""+new FirstSimbolMakeBig()
                 .firstSimbolMakeBig(product.getDescription())
                 +" ("+product.getProduct_name_from_provider()+")");
         holder.tvPartnerStockQuantity.setText(""+product.getProvider_stock_quantity());
+        if(remainderOfPackage > 0){
+            holder.tvPackagingCount.setText(""+packagingCount+""+PACKAGE_SHORT
+                    +" +"+remainderOfPackage);
+        }else{
+            holder.tvPackagingCount.setText("("+packagingCount+""+PACKAGE_SHORT+")");
+        }
         holder.tvQuantityToDeal.setText(""+product.getQuantity_to_deal());
         holder.tvPosition.setText(""+(position+1));
         if(product.getCollected_check() == 1)
@@ -152,8 +162,9 @@ public class ProviderCollectProductDealAdapter
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         final CheckBox checkBox;
-        final TextView tvProductInfo,  tvPartnerStockQuantity, tvQuantityToDeal,
-                tvQuantityColected, tvPosition, tvCorrected;//, tvQuantityAdd;//tvPovider,
+        final TextView tvProductInfo,  tvPartnerStockQuantity
+                , tvQuantityToDeal, tvPackagingCount
+                , tvQuantityColected, tvPosition, tvCorrected;//, tvQuantityAdd;//tvPovider,
         final ImageView ivImageProduct,ivLogistic,ivTemperature;
         final LinearLayout llMain;
 
@@ -169,6 +180,7 @@ public class ProviderCollectProductDealAdapter
             tvProductInfo=itemView.findViewById(R.id.tvProductInfo);
             tvPartnerStockQuantity=itemView.findViewById(R.id.tvPartnerStockQuantity);
             tvQuantityToDeal=itemView.findViewById(R.id.tvQuantityToDeal);
+            tvPackagingCount=itemView.findViewById(R.id.tvPackagingCount);
             tvQuantityColected=itemView.findViewById(R.id.tvQuantityColected);
             tvPosition=itemView.findViewById(R.id.tvPosition);
             tvCorrected=itemView.findViewById(R.id.tvCorrected);

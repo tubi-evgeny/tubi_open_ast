@@ -83,7 +83,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="15dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:textColor="@color/black"
                 android:textSize="10dp"
                 android:gravity="center"
@@ -99,7 +99,7 @@
 
             <TextView
                 android:id="@+id/tvCorrected"
-                android:layout_width="95dp"
+                android:layout_width="65dp"
                 android:layout_height="15dp"
                 android:textColor="@color/red"
                 android:textSize="12dp"
@@ -137,15 +137,30 @@
                 android:textColor="@color/black"
                 android:textSize="20dp" />
 
-            <TextView
-                android:id="@+id/tvQuantityToDeal"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text=""
-                android:textColor="@color/black"
-                android:layout_weight="1"
-                android:textSize="20dp" />
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvPackagingCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="18dp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="14dp" />
+                <TextView
+                    android:id="@+id/tvQuantityToDeal"
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="17dp" />
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/tvQuantityColected"
                 android:layout_width="wrap_content"
@@ -168,7 +183,7 @@
 
             <ImageView
                 android:id="@+id/ivImageProduct"
-                android:layout_width="60dp"
+                android:layout_width="40dp"
                 android:layout_height="40dp"
                 app:srcCompat="@drawable/product_bag_250_ps" />
 
