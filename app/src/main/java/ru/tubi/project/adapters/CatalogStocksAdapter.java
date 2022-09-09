@@ -69,21 +69,27 @@ public class CatalogStocksAdapter
         holder.tvPosition.setText(""+(position+1));
         holder.tvPackageCount.setText("("+strPackageCount+" "+PACKAGE_SHORT+")");
 
-        if (!product.getImage_url().equals("null")) {
+        if (!product.getImage_url().equals("null") && product.getBmt() == null) {
             new DownloadImage() {
                 @Override
                 protected void onPostExecute(Bitmap result) {
                     try {
                         int check = result.getWidth();
                         new MakeImageToSquare(result, holder.ivImageProduct);
+                        products.get(position).setBmt(result);
                     } catch (Exception ex) {
                         //bitmap пустой image не найден
                         holder.ivImageProduct.setImageResource(R.drawable.tubi_logo_no_image_300ps);
                     }
                 }
             }
-                    .execute(ADMIN_PANEL_URL_PREVIEW_IMAGES + product.getImage_url());
-        } else holder.ivImageProduct.setImageResource(R.drawable.tubi_logo_no_image_300ps);
+            .execute(ADMIN_PANEL_URL_PREVIEW_IMAGES + product.getImage_url());
+        }
+        else if(product.getBmt() != null){
+            new MakeImageToSquare(product.getBmt(), holder.ivImageProduct);
+            //Log.d("A111","CatalogStocksAdapter / product.getBmt()");
+        }
+        else holder.ivImageProduct.setImageResource(R.drawable.tubi_logo_no_image_300ps);
 
         if(product.getProduct_id() == 0){
             holder.llProdInfo.setBackgroundColor(TUBI_GREY_100);

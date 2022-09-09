@@ -246,8 +246,37 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
             startActivity(intent);
         }
     }
-
-
+    //получить bitmap фоток
+   /* @RequiresApi(api = Build.VERSION_CODES.N)
+    private void receiveBmt(){
+        for(int i=0;i < startListProduct.size();i++){
+            row=i;
+            new DownloadImage() {
+                @Override
+                protected void onPostExecute(Bitmap bitmap) {
+                    try {
+                        int check = bitmap.getWidth();
+                        startListProduct.get(row).setBmt(bitmap);
+                        //Log.d("A111","CatalogStocksActivity / receiveBmt");
+                        //добавить в listProduct bitmap битмап
+                        //addListProductBmt(startListProduct.get(row).getProduct_inventory_id(), bitmap);
+                    } catch (Exception ex) {
+                        //bitmap пустой image не найден
+                    }
+                }
+            }.execute(ADMIN_PANEL_URL_PREVIEW_IMAGES + startListProduct.get(i).getImage_url());
+        }
+        checkEtSearchTextLength();
+    }
+    //добавить в listProduct bitmap битмап
+    private void addListProductBmt(int product_inv_id, Bitmap bitmap){
+        for(int i=0;i < listProduct.size();i++){
+            if(listProduct.get(i).getProduct_inventory_id() == product_inv_id){
+                listProduct.get(i).setBmt(bitmap);
+                //adapter.notifyItemRangeInserted(1,listProduct.size());
+            }
+        }
+    }*/
     //добавить колличество товара поставщика в БД
     private void chengeQuantityInDB() {
         url_get = "";
@@ -424,6 +453,8 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
             Toast.makeText(this, "ex: "+ex, Toast.LENGTH_SHORT).show();
         }
         checkEtSearchTextLength();
+        //получить bitmap фоток
+        //receiveBmt();
     }
 
     private void copyProductcard() {
