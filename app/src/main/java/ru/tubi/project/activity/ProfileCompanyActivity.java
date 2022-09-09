@@ -170,6 +170,63 @@ public class ProfileCompanyActivity extends AppCompatActivity implements View.On
             }else Toast.makeText(this, ""+YOUR_CONTRACT_ISNOT_SIGNATURE, Toast.LENGTH_SHORT).show();
         }
     }
+    @Override
+    public void onClick(View v) {
+        if(v.equals(ivEditCompany)){
+            //введите данные компании
+            enterCompanyDate();
+        }
+        else if(v.equals(llAddCounterpartyRole)){
+            //проверить есть ли данные о компании
+            if(!checkDateCompanyDontEmpty()){
+                //если данных о компании нет  //введите данные компании
+                enterCompanyDate();
+            }
+            else if(!checkDateAboutWarehouse()) {
+                //если данных о складе(складах) нет  //введите данные склада
+                enterWarehouseDate();
+            }else{
+                //данные о компании и складе(складах) есть
+                //сообщение о дальнейших действиях
+                allertDialog("provider");
+            }
+
+        }else if(v.equals(llAddRolePartnerWarehouse)){
+            //проверить есть ли данные о компании
+            if(!checkDateCompanyDontEmpty()){
+                //если данных о компании нет  //введите данные компании
+                enterCompanyDate();
+            }
+            else if(!checkDateAboutWarehouse()) {
+                //если данных о складе(складах) нет  //введите данные склада
+                enterWarehouseDate();
+            }else{
+                //данные о компании и складе(складах) есть
+                //сообщение о дальнейших действиях
+                allertDialog("partnerWarehouse");
+            }
+        }else if(v.equals(tvProvider)){
+            Toast.makeText(this, ""+PROVIDER_ROLE_WILL_BE_VERIFIED_TEXT, Toast.LENGTH_LONG).show();
+        }
+        else if(v.equals(tvPartnerWarehouse)){
+            Toast.makeText(this, ""+PARTNER_WAREHOUSE_ROLE_WILL_BE_VERIFIED_TEXT, Toast.LENGTH_LONG).show();
+        }
+        else if(v.equals(ivQuestionPartnerWarehouse)){
+            allertDialogQuestion();
+        }
+        else if(v.equals(llCreateWarehouse)){
+            if(userDataModel.getCompany_tax_id() != 0) {
+                //введите данные склада
+                enterWarehouseDate();
+               /* Intent intent = new Intent(this, WarehouseCreateActivity.class);
+                intent.putExtra("providerFlag", providerFlag);
+                intent.putExtra("partnerFlag", partnerFlag);
+                startActivityForResult(intent, RETURN_COMPANY_WAREHOUSE);*/
+            }else{
+                Toast.makeText(this, ""+DATE_ABOUT_COMPANY_MISSING, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
     private void createTipeWarehouse(String tipe, int position ,String active){
        // int warehouse_id = listAllWarehouse.get(position).getWarehouse_id();
         int warehouse_info_id = listAllWarehouse.get(position).getWarehouse_info_id();
@@ -351,6 +408,12 @@ public class ProfileCompanyActivity extends AppCompatActivity implements View.On
             return true;
         }else return false;
     }
+    //проверить данные о складах есть?
+    private boolean checkDateAboutWarehouse(){
+        boolean war_flag = false;
+        if(listAllWarehouse.size() > 0) war_flag = true;
+        return war_flag;
+    }
     //заполнить activity
     private void fillActivity() {
         tvCompanyName.setText(""+abbreviation+" "+counterparty);
@@ -375,51 +438,6 @@ public class ProfileCompanyActivity extends AppCompatActivity implements View.On
         sqdb.close();
         //заполнить activity
         fillActivity();
-    }
-
-    @Override
-    public void onClick(View v) {
-        if(v.equals(ivEditCompany)){
-            //введите данные компании
-            enterCompanyDate();
-        }
-        else if(v.equals(llAddCounterpartyRole)){
-            //проверить есть ли данные о компании
-            if(checkDateCompanyDontEmpty()){
-                //данные о компании есть //сообщение о дальнейших действиях
-                allertDialog("provider");
-            }else {
-                //если данных о компании нет  //введите данные компании
-                enterCompanyDate();
-            }
-        }else if(v.equals(llAddRolePartnerWarehouse)){
-            //проверить есть ли данные о компании
-            if(checkDateCompanyDontEmpty()){
-                //данные о компании есть //сообщение о дальнейших действиях
-                allertDialog("partnerWarehouse");
-            }else {
-                //если данных о компании нет  //введите данные компании
-                enterCompanyDate();
-            }
-        }else if(v.equals(tvProvider)){
-            Toast.makeText(this, ""+PROVIDER_ROLE_WILL_BE_VERIFIED_TEXT, Toast.LENGTH_LONG).show();
-        }
-        else if(v.equals(tvPartnerWarehouse)){
-            Toast.makeText(this, ""+PARTNER_WAREHOUSE_ROLE_WILL_BE_VERIFIED_TEXT, Toast.LENGTH_LONG).show();
-        }
-        else if(v.equals(ivQuestionPartnerWarehouse)){
-            allertDialogQuestion();
-        }
-        else if(v.equals(llCreateWarehouse)){
-            if(userDataModel.getCompany_tax_id() != 0) {
-                Intent intent = new Intent(this, WarehouseCreateActivity.class);
-                intent.putExtra("providerFlag", providerFlag);
-                intent.putExtra("partnerFlag", partnerFlag);
-                startActivityForResult(intent, RETURN_COMPANY_WAREHOUSE);
-            }else{
-                Toast.makeText(this, ""+DATE_ABOUT_COMPANY_MISSING, Toast.LENGTH_LONG).show();
-            }
-        }
     }
 
     //показать договор с поставщиком для ознакомления
@@ -450,7 +468,13 @@ public class ProfileCompanyActivity extends AppCompatActivity implements View.On
         //intent.putExtra("message",MES_1_PROFILE);
         startActivityForResult(intent, RETURN_COMPANY_DATE);
     }
-
+    //введите данные склада
+    private void enterWarehouseDate(){
+        Intent intent = new Intent(this, WarehouseCreateActivity.class);
+        intent.putExtra("providerFlag", providerFlag);
+        intent.putExtra("partnerFlag", partnerFlag);
+        startActivityForResult(intent, RETURN_COMPANY_WAREHOUSE);
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
