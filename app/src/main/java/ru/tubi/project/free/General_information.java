@@ -22,6 +22,9 @@ public class General_information {
     на сервере в api_tubi удалить все файлы php, а папки с фото не трогать(image, preview_image)
     залить обновление в api_tubi
 
+    SITE
+    в config.js поменять адрес сайта
+
     //создать новые ветки с будущим номером релиза
 
      */

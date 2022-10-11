@@ -18,6 +18,7 @@ public class AllText {
     public static String ERROR_BIG = "ОШИБКА";
     public static String PRODUCTS = "товарная";
     public static String QUANTITY_PACKAGE_SHORT = "шт/уп";
+    public static String QUANTITY_SIMB = "шт";
     public static String PHONE_SHORT = "тел";
     public static String TO_FIND = "найти";
     public static String CHANGED_TEXT = "изменен";
@@ -140,6 +141,8 @@ public class AllText {
     public static String ORDERS_BY_WAREHOUSE = "заказов по складам";
     public static String PROVIDER_WAREHOUSE_TEXT = "Склад поставщика";
     public static String DELIVERY_TO_WAREHOUSE = "Доставка склад-склад";
+    public static String CONFIRM_PHONE = "Подтвердите номер телефона";
+    public static String CODE_IS_FALSE = "КОД НЕ ВЕРЕН\n\nПроверьте код и отправьте еще раз";
     public static String SMOLENSCK = "Смоленск";
     public static String STORAGE_CONDITIONS = "Условия хранения";
     public static String COLLECT_PRODUCT = "Сборка товара";
@@ -442,5 +445,10 @@ public class AllText {
     public static String MES_24 = "Цены будут пересчитаны, \n\nцена товара плюс доставка";
     public static String MES_25 = "Тестировщики не могут создать заказ" +
             ", для создания заказа необходимо подписать договор с поставщиком";
+    public static String MES_26 = "Зеленый цвет - означает что поставщик подтвердил наличие у него товара в этом количестве. " +
+            "\n\nСерый цвет - означает что поставщик подтвердил наличие товара но количество может быть недостаточным." +
+            "\n\nЧисло является рейтингом компании, 100% равен наивысшему";
+
+
 
 }

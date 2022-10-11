@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity{
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //заполнить номер телефона скобками и тире
-                new CheckPhoneNumberInput(activity,etPhone,s,start,before,count);
+                //new CheckPhoneNumberInput(activity,etPhone,s,start,before,count);
             }
             @Override
             public void afterTextChanged(Editable s) { }
@@ -263,7 +263,7 @@ public class LoginActivity extends AppCompatActivity{
                 }
             }
         }catch(Exception ex){
-            Log.d("A111","LoginActivity / splitUserLogResult / exception = "+ex);
+            Log.d("A111","LoginActivity / splitUserLogResult / exception = "+ex+" result = "+result);
         }
     }
     // Теперь сохраните пользователя в sqlite

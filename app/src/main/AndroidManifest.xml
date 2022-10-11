@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -23,21 +23,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tubi"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.MessageFeedActivity"
-            android:screenOrientation="portrait" ></activity>
-        <activity android:name=".activity.agent.CodeGeneratorActivity"
+        <activity android:name=".activity.ConfirmPhoneActivity"></activity>
+        <activity
+            android:name=".activity.MessageFeedActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.agent.CodeGeneratorActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.agent.ChoosePartnerActivity"
-            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.buyer.PlaceOfReceiptOfGoodsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.buyer.PlaceOfReceiptOfGoodsActivity"
+        <activity
+            android:name=".activity.buyer.EnterForDeliveryAddressActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.buyer.EnterForDeliveryAddressActivity"
+        <activity
+            android:name=".activity.invoice.InvoiceProviderPDFActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.invoice.InvoiceProviderPDFActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.OrderToProviderListActivity"
+        <activity
+            android:name=".activity.company_my.OrderToProviderListActivity"
             android:screenOrientation="portrait" />
 
         <provider
@@ -50,129 +57,181 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".activity.invoice.InvoicePDFActivity"
+        <activity
+            android:name=".activity.invoice.InvoicePDFActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.Partner.OrderBuyerListActivity"
+        <activity
+            android:name=".activity.Partner.OrderBuyerListActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.logistics.HandOverProductActivity"
+        <activity
+            android:name=".activity.logistics.HandOverProductActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.GiveAwayProductActivity"
+        <activity
+            android:name=".activity.company_my.GiveAwayProductActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.ShipmentProductActivity"
+        <activity
+            android:name=".activity.company_my.ShipmentProductActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.ProviderCollectProductActivity"
+        <activity
+            android:name=".activity.company_my.ProviderCollectProductActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.OrderForCollectActivity"
+        <activity
+            android:name=".activity.company_my.OrderForCollectActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.invoice.ProductInvoicePDFActivity"
+        <activity
+            android:name=".activity.invoice.ProductInvoicePDFActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.buyer.ChooseDistributionWarehouseActivity"
+        <activity
+            android:name=".activity.buyer.ChooseDistributionWarehouseActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.logistics.IntercityDeliveryCalendarActivity"
+        <activity
+            android:name=".activity.logistics.IntercityDeliveryCalendarActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.invoice.PdfActivity"
+        <activity
+            android:name=".activity.invoice.PdfActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.MyProductInPartnerWarehouseActivity"
+        <activity
+            android:name=".activity.company_my.MyProductInPartnerWarehouseActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.InvoiceCreateActivity"
+        <activity
+            android:name=".activity.company_my.InvoiceCreateActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.ProductInvoiceCreateActivity"
+        <activity
+            android:name=".activity.company_my.ProductInvoiceCreateActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.CollectProductForAddActivity"
+        <activity
+            android:name=".activity.company_my.CollectProductForAddActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.WriteOutProductActivity"
+        <activity
+            android:name=".activity.company_my.WriteOutProductActivity"
             android:screenOrientation="portrait" /> <!-- <activity android:name=".activity.company_my.WriteOutOrderForBuyerActivity" /> -->
-        <activity android:name=".activity.company_my.CollectProductForActivity"
+        <activity
+            android:name=".activity.company_my.CollectProductForActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.CalendarActivity"
+        <activity
+            android:name=".activity.CalendarActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.ChengeImageActivity"
+        <activity
+            android:name=".activity.company_my.ChengeImageActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.ShowMyOrderActivity"
+        <activity
+            android:name=".activity.company_my.ShowMyOrderActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.Partner.BuyerOrderIssueActivity"
+        <activity
+            android:name=".activity.Partner.BuyerOrderIssueActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.Partner.ListBuyersIssueGoodsActivity"
+        <activity
+            android:name=".activity.Partner.ListBuyersIssueGoodsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.Partner.PartnerListBuyersForCollectActivity"
+        <activity
+            android:name=".activity.Partner.PartnerListBuyersForCollectActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.Partner.PartnerCollectProductActivity"
+        <activity
+            android:name=".activity.Partner.PartnerCollectProductActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.Partner.AcceptProductActivity"
+        <activity
+            android:name=".activity.Partner.AcceptProductActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.TransferProductActivity"
+        <activity
+            android:name=".activity.company_my.TransferProductActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.logistics.DeliveryToReceiveGoodsActivity"
+        <activity
+            android:name=".activity.logistics.DeliveryToReceiveGoodsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.logistics.CarrierPanelFilterActivity"
+        <activity
+            android:name=".activity.logistics.CarrierPanelFilterActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.logistics.CarrierPanelActivity"
+        <activity
+            android:name=".activity.logistics.CarrierPanelActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.CollectProductActivity"
+        <activity
+            android:name=".activity.company_my.CollectProductActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.CatalogInWarehouseActivity"
+        <activity
+            android:name=".activity.company_my.CatalogInWarehouseActivity"
             android:screenOrientation="portrait" /> <!-- <activity android:name=".activity.company_my.CatalogForWarehouseActivity" /> -->
-        <activity android:name=".activity.company_my.DistributionOrdersProviderPartnersActivity"
+        <activity
+            android:name=".activity.company_my.DistributionOrdersProviderPartnersActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ForDelete.DistributionOrdersByWarehousesActivity"
+        <activity
+            android:name=".activity.ForDelete.DistributionOrdersByWarehousesActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.WarehouseEditActivity"
+        <activity
+            android:name=".activity.company_my.WarehouseEditActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.WarehouseCreateActivity"
+        <activity
+            android:name=".activity.company_my.WarehouseCreateActivity"
             android:screenOrientation="portrait" />
         <!--
 <activity android:name=".activity.AdminPanel.AcceptProductAgentActivity" />
         <activity android:name=".activity.AdminPanel.AcceptProductListProvidersActivity" />
         -->
-        <activity android:name=".activity.AdminPanel.AgentProgressToCollectProductActivity"
+        <activity
+            android:name=".activity.AdminPanel.AgentProgressToCollectProductActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.AdminPanel.ListProvidersProcessingActivity"
+        <activity
+            android:name=".activity.AdminPanel.ListProvidersProcessingActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.ProviderListBuyersOrdersActivity"
+        <activity
+            android:name=".activity.company_my.ProviderListBuyersOrdersActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.AdminPanel.UserToInfoForOrderActivity"
+        <activity
+            android:name=".activity.AdminPanel.UserToInfoForOrderActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.AdminPanel.NewBuyerCheckActivity"
+        <activity
+            android:name=".activity.AdminPanel.NewBuyerCheckActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.AdminPanel.AddPartnerActivity"
+        <activity
+            android:name=".activity.AdminPanel.AddPartnerActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ProfileCompanyActivity"
+        <activity
+            android:name=".activity.ProfileCompanyActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.AdminPanel.ListPartnerForModerationActivity"
+        <activity
+            android:name=".activity.AdminPanel.ListPartnerForModerationActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.company_my.CatalogStocksActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.company_my.CatalogStocksActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.company_my.InfoForProductCardFillActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.company_my.ProductCardFillActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.CompanyMyActivity"
+        <activity
+            android:name=".activity.CompanyMyActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ContractFormActivity"
+        <activity
+            android:name=".activity.ContractFormActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.AdminPanel.AdminActivity"
+        <activity
+            android:name=".activity.AdminPanel.AdminActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.OrderHistoryActivity"
+        <activity
+            android:name=".activity.OrderHistoryActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ProfileUserActivity"
+        <activity
+            android:name=".activity.ProfileUserActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.CompanyDateFormActivity"
-            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.OrderFinishedActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.OrderFinishedActivity"
+        <activity
+            android:name=".activity.MessageOrderActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.MessageOrderActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activity.MakingOrderActivity"
+        <activity
+            android:name=".activity.MakingOrderActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.LoginActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -191,17 +250,23 @@
         <activity
             android:name=".activity.ActivtyAddProduct"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.AdmynPanel"
+        <activity
+            android:name=".activity.AdmynPanel"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ActivityProduct"
+        <activity
+            android:name=".activity.ActivityProduct"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ActivityCategory"
+        <activity
+            android:name=".activity.ActivityCategory"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.MenuActivity"
+        <activity
+            android:name=".activity.MenuActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ShopingBox"
+        <activity
+            android:name=".activity.ShopingBox"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ActivityCatalog"
+        <activity
+            android:name=".activity.ActivityCatalog"
             android:screenOrientation="portrait" />
         <!--
 <activity android:name=".MainActivity">
