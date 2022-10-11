@@ -158,6 +158,7 @@
     <string name="logout">Выйти из приложения</string>
     <string name="buyer">Покупатель</string>
     <string name="provider">Поставщик</string>
+    <string name="provider_short">П-щик</string>
     <string name="ip_big">ИП</string>
     <string name="ooo_big">ООО</string>
     <string name="Enter_details_your_company">Введите данные вашей компании</string>
@@ -244,6 +245,8 @@
     <string name="become_an_partner">Стать Партнером</string>
     <string name="add_status_warehouse">Добавьте статус вашим складам</string>
     <string name="edit_it">РЕДАКТИРОВАТЬ</string>
+    <string name="mes_2">На указанный Вами номер телефона</string>
+    <string name="mes_1">будет сделан вызов, вам необходимо ввести в окно ввода ниже последние 4(четыре) цифры входящего номера</string>
 
 
     //--------------------------------------------
