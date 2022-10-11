@@ -25,6 +25,8 @@ public class ProductCardModel implements Serializable {
     private double free_inventory;
     private String product_info;
     private String description_prod;
+    private int guarante_there_is_goods;
+    private int percent_no_goods;
 
 
     public ProductCardModel(int product_id, int product_inventory_id, String category
@@ -34,7 +36,7 @@ public class ProductCardModel implements Serializable {
             , double quantity, int quantity_package, long date_of_sale_millis
             , int provider_warehouse_id
             , int min_sell, int multiple_of, double free_inventory
-            , String product_info) {
+            , String product_info, int guarante_there_is_goods, int percent_no_goods) {
 
         this.product_id = product_id;
         this.product_inventory_id = product_inventory_id;
@@ -57,9 +59,11 @@ public class ProductCardModel implements Serializable {
         this.multiple_of = multiple_of;
         this.free_inventory = free_inventory;
         this.product_info = product_info;
+        this.guarante_there_is_goods=guarante_there_is_goods;
+        this.percent_no_goods=percent_no_goods;
 
     }
-    public ProductCardModel(int product_id, int product_inventory_id, String category
+   /* public ProductCardModel(int product_id, int product_inventory_id, String category
             , String product_name, String brand, String characteristic
             , String unit_measure, int weight_volume, double price,double process_price
             , String image_url, String description, String counterparty
@@ -84,7 +88,7 @@ public class ProductCardModel implements Serializable {
         this.date_of_sale_millis=date_of_sale_millis;
         this.provider_warehouse_id=provider_warehouse_id;
 
-    }
+    }*/
     public int getProduct_inventory_id() {
         return product_inventory_id;
     }
@@ -259,6 +263,22 @@ public class ProductCardModel implements Serializable {
 
     public void setDescription_prod(String description_prod) {
         this.description_prod = description_prod;
+    }
+
+    public int getGuarante_there_is_goods() {
+        return guarante_there_is_goods;
+    }
+
+    public void setGuarante_there_is_goods(int guarante_there_is_goods) {
+        this.guarante_there_is_goods = guarante_there_is_goods;
+    }
+
+    public int getPercent_no_goods() {
+        return percent_no_goods;
+    }
+
+    public void setPercent_no_goods(int percent_no_goods) {
+        this.percent_no_goods = percent_no_goods;
     }
 
     @Override

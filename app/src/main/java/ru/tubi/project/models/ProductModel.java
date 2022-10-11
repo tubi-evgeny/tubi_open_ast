@@ -27,8 +27,42 @@ public class ProductModel implements Serializable {
     private int min_sell;
     private int multiple_of;
     private double free_inventory;
+    private int guarante_there_is_goods;
+    private int percent_no_goods;
 
     // ActivityProduct//splitResultProductArray
+    public ProductModel(int product_id, int product_inventory_id, String category
+            , String product_name, String brand, String characteristic
+            , String unit_measure, int weight_volume, double price, double process_price
+            , String image_url, int min_sell, int multiple_of, String description
+            , double quantity
+            , int count_product_provider, int quantity_package, long date_of_sale_millis
+            , int provider_warehouse_id, double free_inventory, int guarante_there_is_goods
+            , int percent_no_goods) {
+
+        this.product_id = product_id;
+        this.product_inventory_id = product_inventory_id;
+        this.category = category;
+        this.product_name=product_name;
+        this.brand = brand;
+        this.characteristic = characteristic;
+        this.unit_measure = unit_measure;
+        this.weight_volume = weight_volume;
+        this.price = price;
+        this.image_url = image_url;
+        this.min_sell = min_sell;
+        this.multiple_of = multiple_of;
+        this.description = description;
+        this.quantity = quantity;
+        this.count_product_provider = count_product_provider;
+        this.quantity_package=quantity_package;
+        this.date_of_sale_millis=date_of_sale_millis;
+        this.process_price=process_price;
+        this.provider_warehouse_id=provider_warehouse_id;
+        this.free_inventory=free_inventory;
+        this.guarante_there_is_goods=guarante_there_is_goods;
+        this.percent_no_goods=percent_no_goods;
+    }
     public ProductModel(int product_id, int product_inventory_id, String category
             , String product_name, String brand, String characteristic
             , String unit_measure, int weight_volume, double price, double process_price
@@ -58,8 +92,7 @@ public class ProductModel implements Serializable {
         this.provider_warehouse_id=provider_warehouse_id;
         this.free_inventory=free_inventory;
     }
-
-    public ProductModel(int product_id, int product_inventory_id, String category
+   /* public ProductModel(int product_id, int product_inventory_id, String category
             , String product_name, String brand, String characteristic
             , String unit_measure, int weight_volume, double price, double process_price
             , String image_url, String abbreviation, String counterparty, double quantity
@@ -84,7 +117,7 @@ public class ProductModel implements Serializable {
         this.date_of_sale_millis=date_of_sale_millis;
         this.process_price=process_price;
         this.provider_warehouse_id=provider_warehouse_id;
-    }
+    }*/
 
 
     public int getProduct_inventory_id() {
@@ -263,6 +296,23 @@ public class ProductModel implements Serializable {
 
     public void setFree_inventory(double free_inventory) {
         this.free_inventory = free_inventory;
+    }
+
+
+    public int getGuarante_there_is_goods() {
+        return guarante_there_is_goods;
+    }
+
+    public void setGuarante_there_is_goods(int guarante_there_is_goods) {
+        this.guarante_there_is_goods = guarante_there_is_goods;
+    }
+
+    public int getPercent_no_goods() {
+        return percent_no_goods;
+    }
+
+    public void setPercent_no_goods(int percent_no_goods) {
+        this.percent_no_goods = percent_no_goods;
     }
 
     @Override
