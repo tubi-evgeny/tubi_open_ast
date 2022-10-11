@@ -46,6 +46,7 @@ import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.MAXIMUM;
 import static ru.tubi.project.free.AllText.MES_1_PROFILE;
 import static ru.tubi.project.free.AllText.MES_22;
+import static ru.tubi.project.free.AllText.MES_26;
 import static ru.tubi.project.free.AllText.NO_DELIVERY;
 import static ru.tubi.project.free.AllText.REPORT_A_BUG;
 import static ru.tubi.project.free.AllText.STOCK_OF_GOODS_REQUESTED_QUANTITY;
@@ -255,6 +256,9 @@ public class ActivityProduct extends AppCompatActivity {
         }*/
         else if(str[1].equals("tvQuantity}")){
             adSelectQuantity(position);
+        }
+        else if(str[1].equals("llProviderIfo}")){
+            adProviderIfo(position);
         }
         adapter.notifyItemChanged(position);
     }
@@ -506,14 +510,16 @@ public class ActivityProduct extends AppCompatActivity {
                     double process_price = Double.parseDouble(temp[17]);
                     int provider_warehouse_id = Integer.parseInt(temp[18]);
                     double free_inventory = Double.parseDouble(temp[19]);
-
+                    int guarante_there_is_goods = Integer.parseInt(temp[20]);
+                    int percent_no_goods = Integer.parseInt(temp[21]);
 
                     ProductModel product = new ProductModel(product_id, product_inventory_id
                             , category, product_name, brand, characteristic, unit_measure
                             , weight_volume, price, process_price, image_url, min_sell
                             , multiple_of, description
                             , quantity, count_product_provider, quantity_package
-                            , date_of_sale_millis, provider_warehouse_id, free_inventory);
+                            , date_of_sale_millis, provider_warehouse_id, free_inventory
+                            , guarante_there_is_goods, percent_no_goods);
                     products.add(product);
                 }catch (Exception ex){
                     Log.d("A111","ERROR / ActivityProduct / splitResultProductArray / temp="+i);
@@ -632,6 +638,13 @@ public class ActivityProduct extends AppCompatActivity {
 
         adb = new AlertDialog.Builder(this);
         adb.setView(ll);
+        ad = adb.create();
+        ad.show();
+    }
+    private void adProviderIfo(int position){
+        adb = new AlertDialog.Builder(this);
+        String str2 = MES_26;
+        adb.setMessage(str2);
         ad = adb.create();
         ad.show();
     }

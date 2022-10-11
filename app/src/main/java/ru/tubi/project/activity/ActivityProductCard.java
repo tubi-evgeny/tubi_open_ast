@@ -47,6 +47,7 @@ import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.MAXIMUM;
 import static ru.tubi.project.free.AllText.MES_1_PROFILE;
 import static ru.tubi.project.free.AllText.MES_22;
+import static ru.tubi.project.free.AllText.MES_26;
 import static ru.tubi.project.free.AllText.NO_DELIVERY;
 import static ru.tubi.project.free.AllText.REPORT_A_BUG;
 import static ru.tubi.project.free.AllText.STOCK_OF_GOODS_REQUESTED_QUANTITY;
@@ -247,6 +248,9 @@ public class ActivityProductCard extends AppCompatActivity {
         else if(str[1].equals("tvQuantity}")){
             adSelectQuantity(position);
         }
+        else if(str[1].equals("llProviderIfo}")){
+            adProviderIfo(position);
+        }
         adapter.notifyItemChanged(position);
     }
     //получить колличество товар которое надо добавить в заказ
@@ -435,13 +439,15 @@ public class ActivityProductCard extends AppCompatActivity {
                 int multiple_of = Integer.parseInt(temp[18]);
                 String product_info = temp[19];
                 double free_inventory = Double.parseDouble(temp[20]);
+                int guarante_there_is_goods = Integer.parseInt(temp[21]);
+                int percent_no_goods = Integer.parseInt(temp[22]);
 
                 ProductCardModel prodInfo = new ProductCardModel(product_id, product_inventory_id
                         , category, product_name, brand, characteristic, unit_measure
                         , weight_volume, price, process_price, image_url, description_prod
                         , counterparty, quantity, quantity_package, date_of_sale_millis
-                        , provider_warehouse_id
-                        , min_sell, multiple_of, free_inventory, product_info);
+                        , provider_warehouse_id, min_sell, multiple_of, free_inventory, product_info
+                        , guarante_there_is_goods, percent_no_goods);
                 allPrice.add(prodInfo);
             }
         }catch (Exception ex){
@@ -602,6 +608,15 @@ public class ActivityProductCard extends AppCompatActivity {
         String str1 = allPrice.get(position).toString();
         String str2 = allPrice.get(position).getDescription_prod();
         adb.setTitle(str1);
+        adb.setMessage(str2);
+        ad = adb.create();
+        ad.show();
+    }
+    private void adProviderIfo(int position){
+        adb = new AlertDialog.Builder(this);
+        //String str1 = allPrice.get(position).toString();
+        String str2 = MES_26;
+        //adb.setTitle(str1);
         adb.setMessage(str2);
         ad = adb.create();
         ad.show();
