@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,6 +56,7 @@ import static ru.tubi.project.free.AllText.RUB;
 import static ru.tubi.project.free.AllText.SHOPING_BOX;
 import static ru.tubi.project.free.AllText.SHOPING_BOX_EMPTY;
 import static ru.tubi.project.free.AllText.STOCK_OF_GOODS_REQUESTED_QUANTITY;
+import static ru.tubi.project.utilites.Constant.API;
 import static ru.tubi.project.utilites.Constant.API_TEST;
 
 public class ShopingBox extends AppCompatActivity implements View.OnClickListener {
@@ -73,7 +75,7 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
     private String whatQuestion;
     private int order_id = 0,myPosition = -1, deliveryKey;
     private ArrayList<ShopingBoxModel> shopinBoxArray = new ArrayList<>();
-    private double quantity, summ, freeQuantityDB;
+    private double quantity, orderSumm, freeQuantityDB, orderSummMax;
     private AlertDialog.Builder adb;
     private AlertDialog ad;
     private String timeReceiveOrder, counterparty,taxpayerID;
@@ -165,6 +167,7 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
         lvOrders.setAdapter(orderAdap);
 
         showShopingBox();// показать товары в корзине
+        receiveOrderSummMax();//получить максимальную сумму одного заказа
         adapter=new ShopingBoxAdapter(this, shopinBoxArray,shopingBoxClickListener,clickListener);
 
         recyclerView.setAdapter(adapter);
@@ -281,8 +284,13 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
                 if(myPosition >= 0 ){
                     addOrderProduct(shopinBoxArray.get(myPosition).getQuantity(), myPosition);
                 }
-                // данные о компании есть пойдем оформлять заказ
-                makingOrder();
+                if(orderSumm <= orderSummMax) {
+                    // данные о компании есть пойдем оформлять заказ
+                    makingOrder();
+                }else{
+                    //Сообщение сумма заказа превышенна
+                    adOrderSummMax();
+                }
             }
         }
     }
@@ -304,10 +312,18 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
         }
         return my_deliveryKey;
     }
-
+    //получить максимальную сумму одного заказа
+    private void receiveOrderSummMax(){
+        whatQuestion = "receive_order_summ_max";
+        url_get= API;
+        url_get += "receive_order_summ_max";
+        setInitialData(url_get, whatQuestion);
+       // Log.d("A111","ShopingBox / receiveOrderSummMax / url = "+url_get);
+    }
     private void deleteOrderProduct(int order_product_id){
         whatQuestion = "delete_order_product";
-        url_get = Constant.DELETE_ORDER_PRODUCT;
+        url_get= API_TEST;
+        url_get += "delete_order_product";
         url_get += "&" + "order_product_id="+order_product_id;
         setInitialData(url_get, whatQuestion);
     }
@@ -370,12 +386,18 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
                     }
                 }else if(whatQuestion.equals("add_order_product")){
                     showMessege(result);
+                }else if(whatQuestion.equals("receive_order_summ_max")){
+                    splitOrderSummMax(result);
                 }
                 //скрыть диалоговое окно
                 asyncDialog.dismiss();
             }
         };
         task.execute(url_get);
+    }
+    private void splitOrderSummMax(String result){
+        orderSummMax = Double.parseDouble(result);
+        Log.d("A111","ShopingBox / splitOrderSummMax / orderSummMax = "+orderSummMax);
     }
     private void showMessege(String result){
         try {
@@ -456,12 +478,12 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
     }
 
     private void allSumm(){ //-----стоимость товаров в корзине
-        summ = 0;
+        orderSumm = 0;
         for(int i=0;i < shopinBoxArray.size(); i++){
-            summ += (shopinBoxArray.get(i).getPrice() + shopinBoxArray.get(i).getPrice_process())
+            orderSumm += (shopinBoxArray.get(i).getPrice() + shopinBoxArray.get(i).getPrice_process())
                     * shopinBoxArray.get(i).getQuantity();
         }
-        tvBtnOrder.setText(String.format("%.2f", +summ)+" "+RUB+"    "+ GO_TO_DESIGN);
+        tvBtnOrder.setText(String.format("%.2f", +orderSumm)+" "+RUB+"    "+ GO_TO_DESIGN);
     }
 
 
@@ -605,5 +627,17 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
         setResult(RESULT_OK, intent);
         finish();
         super.onBackPressed();
+    }
+    //Сообщение сумма заказа превышенна
+    private void adOrderSummMax(){
+        adb = new AlertDialog.Builder(this);
+
+        String st1 = "Превышение суммы заказа";
+        String st2 = "Сумма заказа временно ограниченна\nмаксимум "+orderSummMax+" руб.\nпожалуйста уменьшите колличество товара в заказе";
+        adb.setTitle(st1);
+        adb.setMessage(st2);
+
+        ad=adb.create();
+        ad.show();
     }
 }
