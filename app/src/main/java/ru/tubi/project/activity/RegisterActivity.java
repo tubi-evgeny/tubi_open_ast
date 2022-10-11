@@ -1,5 +1,6 @@
 package ru.tubi.project.activity;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,6 +17,7 @@ import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -33,6 +36,7 @@ import static ru.tubi.project.activity.Config.MY_NAME;
 import static ru.tubi.project.activity.Config.MY_UID;
 import static ru.tubi.project.activity.Config.ROLE;
 import static ru.tubi.project.free.AllText.CHECK_PASSWORD_TO_COPY;
+import static ru.tubi.project.free.AllText.CONFIRM_PHONE;
 import static ru.tubi.project.free.AllText.ENTER_PHONE_NUM_ALL_TEXT;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.PLEASE_ENTER_YOUR_DETAILS;
@@ -41,16 +45,18 @@ import static ru.tubi.project.utilites.InitialDataPOST.getParamsString;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etName, etPhone,etPassword, etPasswordChek;
-    private ImageView ivPassEye, ivPassEyeChek;
+    private EditText etName, etPhone,etPassword, etPasswordChek;
+    private ImageView ivPassEye, ivPassEyeChek, ivPhoneTrue;
+    private Button btnConfirmPhoneNumber;
     private String url_get;
-    private String whatQuestion;
+    private String whatQuestion, phone;
     private SQLiteDatabase sqdb;
     private HelperDB my_db;
     private UserModel user;
-    Intent intent;
-    private boolean isHidePwd = true, isHidePwdCheck = true;
+    private Intent intent;
+    private boolean isHidePwd = true, isHidePwdCheck = true, phoneVerified = false;
     private Activity activity = (Activity) this;
+    private int CONFIRM_PHONE_REQUEST=28;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +69,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         etPasswordChek = findViewById(R.id.etPasswordChek);
         ivPassEye = findViewById(R.id.ivPassEye);
         ivPassEyeChek = findViewById(R.id.ivPassEyeChek);
+        btnConfirmPhoneNumber = findViewById(R.id.btnConfirmPhoneNumber);
+        ivPhoneTrue = findViewById(R.id.ivPhoneTrue);
 
         ivPassEye.setOnClickListener(this);
         ivPassEyeChek.setOnClickListener(this);
+        btnConfirmPhoneNumber.setOnClickListener(this);
 
         my_db = new HelperDB(this);
         sqdb = my_db.getWritableDatabase();
@@ -79,6 +88,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 //заполнить номер телефона скобками и тире
                 new CheckPhoneNumberInput(activity, etPhone
                                         , s, start, before, count);
+                phoneVerified=false;
             }
             @Override
             public void afterTextChanged(Editable s) { }
@@ -86,9 +96,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View v) {
-        if (v.equals(ivPassEye)) {
+        if (v.equals(btnConfirmPhoneNumber)) {
+            confirmPhoneNumber();
+        }
+        else if (v.equals(ivPassEye)) {
             if (isHidePwd) {
                 ivPassEye.setImageResource(R.drawable.eye_is_open_50ps);
                 etPassword.setTransformationMethod(new HideReturnsTransformationMethod());
@@ -101,7 +115,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 etPassword.setSelection(etPassword.getText().length());
                 isHidePwd = true;
             }
-        }else if (v.equals(ivPassEyeChek)) {
+        }
+        else if (v.equals(ivPassEyeChek)) {
             if (isHidePwdCheck) {
                 ivPassEyeChek.setImageResource(R.drawable.eye_is_open_50ps);
                 etPasswordChek.setTransformationMethod(new HideReturnsTransformationMethod());
@@ -126,13 +141,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String passwordCheck = etPasswordChek.getText().toString().trim();
 
         //очистить номер от скобок и тире
-        CheckPhoneNumberInput num = new CheckPhoneNumberInput();
-        String phone = num.clearPhoneNumber(etPhone);
+       /* CheckPhoneNumberInput num = new CheckPhoneNumberInput();
+        phone = num.clearPhoneNumber(etPhone);
         if(phone.length() != 11 ){
             Toast.makeText(this, ""+ENTER_PHONE_NUM_ALL_TEXT, Toast.LENGTH_SHORT).show();
             return;
+        }*/
+        if(!phoneVerified){
+            Toast.makeText(this, ""+CONFIRM_PHONE, Toast.LENGTH_SHORT).show();
+            btnConfirmPhoneNumber.setTextColor(Color.RED);
+            return;
         }
-
         if (!name.isEmpty() && !phone.isEmpty()
                 && !password.isEmpty() && !passwordCheck.isEmpty()) {
             if(password.equals(passwordCheck)){
@@ -148,30 +167,31 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     .show();
         }
     }
-   /* public void showPass(View view) {
-        if (isHidePwd) {
-            ivPassEye.setImageResource(R.drawable.eye_is_open_50ps);
-            //etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-            etPassword.setTransformationMethod(new HideReturnsTransformationMethod());
-            etPassword.setSelection(etPassword.getText().length());
-            isHidePwd = false;
-        } else {
-
-            ivPassEye.setImageResource(R.drawable.eye_is_closed_50ps);
-            //etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            etPassword.setTransformationMethod(new PasswordTransformationMethod());
-            etPassword.setSelection(etPassword.getText().length());
-            isHidePwd = true;
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void confirmPhoneNumber(){
+        //очистить номер от скобок и тире
+        CheckPhoneNumberInput num = new CheckPhoneNumberInput();
+        phone = num.clearPhoneNumber(etPhone);
+        if(phone.length() != 11 ){
+            Toast.makeText(this, ""+ENTER_PHONE_NUM_ALL_TEXT, Toast.LENGTH_SHORT).show();
         }
-        //etPassword.setSelection(R.drawable.shoping_box_60ps);
-    }*/
+        else{
+            intent = new Intent(this, ConfirmPhoneActivity.class);
+            intent.putExtra("phone",phone);
+            intent.putExtra("visualPhone",etPhone.getText().toString());
+            startActivityForResult(intent, CONFIRM_PHONE_REQUEST);
+           /* final Map<String, String> parameters = new HashMap<>();
+            parameters.put("authorization_to_call","");
+            parameters.put("phone",phone);
+            setInitialDataPOST(URL_REGISTER, parameters);*/
+        }
+    }
 
     public void goLinkToLoginScreen(View view) {
         intent = new Intent(this,LoginActivity.class);
         startActivity(intent);
         finish();
     }
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void registerUser(final String name, final String phone,
                               final String password){
@@ -296,6 +316,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         finish();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == CONFIRM_PHONE_REQUEST && resultCode==RESULT_OK && data != null){
+            if(data.getStringExtra("result").equals("OPEN")){
+                ivPhoneTrue.setImageResource(R.drawable.checkmark_green_140ps);
+                btnConfirmPhoneNumber.setTextColor(Color.WHITE);
+                phoneVerified = true;
+            }
+        }
+    }
 
     @Override
     public void onBackPressed() {
