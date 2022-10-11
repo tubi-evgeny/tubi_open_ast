@@ -98,6 +98,7 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
         holder.tvProductDescription.setText(""+myPrice.getProduct_info());
         holder.tvProvider.setText("" + new FirstSimbolMakeBig()
                 .firstSimbolMakeBig(myPrice.getCounterparty()));
+        holder.tvPercentNoGoods.setText(""+myPrice.getPercent_no_goods()+" %");
         holder.tvSumm.setText(String.format("%.2f", +quantity*price));
         holder.tvPrice.setText(String.format("%.2f",+price));
         holder.tvQuantity.setText(""+quantity);
@@ -121,6 +122,11 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
                 onClickListener.onProductCardClick(myPrice,position);
             }
         });
+        if(myPrice.getGuarante_there_is_goods() == 1){
+            holder.ivGuaranteThereIsGoods.setImageResource(R.drawable.oval_green_shape);
+        }else{
+            holder.ivGuaranteThereIsGoods.setImageResource(R.drawable.oval_grey_shape);
+        }
         if(quantity == 0 ){
             //LinearLayout.LayoutParams params=new LinearLayout.LayoutParams
             //        (LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -158,6 +164,7 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
 
         final ImageView ivImageProduct;
         final TextView tvProvider;
+        final TextView tvPercentNoGoods;
         final TextView tvProductDescription;
         final TextView tvPrice;
         final TextView tvDateForSale;
@@ -166,7 +173,8 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
         final TextView tvMinus;//, tvMinusTen;
         final TextView tvPlus;//, tvPlusTen;
         final TextView tvDeliveryStatus;
-        final LinearLayout llMinus,llMinusAll, llPlus,llQuantity;// llPlusTen,llMinusTen,  ;
+        final ImageView ivGuaranteThereIsGoods;
+        final LinearLayout llProviderIfo, llMinus,llMinusAll, llPlus,llQuantity;// llPlusTen,llMinusTen,  ;
 
         private final ProductCardAdapter.RecyclerViewClickListener mListener;
 
@@ -175,6 +183,7 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
 
             ivImageProduct=itemView.findViewById(R.id.ivImageProduct);
             tvProvider=itemView.findViewById(R.id.tvProvider);
+            tvPercentNoGoods=itemView.findViewById(R.id.tvPercentNoGoods);
             tvProductDescription=itemView.findViewById(R.id.tvProductDescription);
             tvPrice=itemView.findViewById(R.id.tvPrice);
             tvDateForSale=itemView.findViewById(R.id.tvDateForSale);
@@ -185,8 +194,9 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
             //tvMinusTen=itemView.findViewById(R.id.tvMinusTen);
             tvPlus=itemView.findViewById(R.id.tvPlus);
             tvDeliveryStatus=itemView.findViewById(R.id.tvDeliveryStatus);
-            //tvPlusTen=itemView.findViewById(R.id.tvPlusTen);
 
+            llProviderIfo=itemView.findViewById(R.id.llProviderIfo);
+            ivGuaranteThereIsGoods=itemView.findViewById(R.id.ivGuaranteThereIsGoods);
             llMinusAll=itemView.findViewById(R.id.llMinusAll);
             llMinus=itemView.findViewById(R.id.llMinus);
             //llMinusTen=itemView.findViewById(R.id.llMinusTen);
@@ -198,7 +208,7 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
             llMinus.setOnClickListener(this);
            // llMinusTen.setOnClickListener(this);
             llPlus.setOnClickListener(this);
-            //llPlusTen.setOnClickListener(this);
+            llProviderIfo.setOnClickListener(this);
             tvQuantity.setOnClickListener(this);
 
         }
