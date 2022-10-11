@@ -67,27 +67,46 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/llProviderIfo"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
+                android:gravity="right"
                 android:orientation="horizontal">
 
-                <TextView
+              <!--  <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="@string/provider"
+                    android:text="@string/provider_short"
                     android:textColor="@color/tubi_grey_600"
                     android:gravity="bottom"
-                    android:textSize="11dp" />
+                    android:textSize="11dp" />-->
 
                 <TextView
                     android:id="@+id/tvProvider"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="TextView"
                     android:textColor="?android:textColorPrimary"
                     android:gravity="bottom"
                     android:layout_marginLeft="5dp"
-                    android:textSize="15dp" />
+                    android:textSize="12dp" />
+
+                <ImageView
+                    android:id="@+id/ivGuaranteThereIsGoods"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/oval_grey_shape" />
+
+                <TextView
+                    android:id="@+id/tvPercentNoGoods"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="100%"
+                    android:layout_marginLeft="3dp"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="12dp" />
             </LinearLayout>
 
             <TableLayout

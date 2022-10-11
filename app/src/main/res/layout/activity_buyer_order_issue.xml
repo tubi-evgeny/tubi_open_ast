@@ -30,10 +30,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_weight="5"
-                android:background="@color/white"
+                android:background="?android:colorBackground"
                 android:gravity="center"
                 android:text=""
-                android:textColor="@color/black"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="17dp" />
 
 
@@ -54,10 +54,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:background="@color/white"
+                android:background="?android:colorBackground"
                 android:gravity="center"
                 android:text=""
-                android:textColor="@color/black"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="17dp" />
 
 

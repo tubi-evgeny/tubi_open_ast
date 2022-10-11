@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_weight="5"
-                android:background="@color/white"
+                android:background="?android:colorBackground"
                 android:gravity="center"
                 android:text="@string/select_warehouse"
                 android:textColor="@color/red"
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="5"
-                android:background="@color/white"
+                android:background="?android:colorBackground"
                 android:gravity="bottom"
                 android:orientation="horizontal">
 
@@ -50,7 +50,7 @@
                     android:id="@+id/imageView10"
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
-                    android:background="@color/white"
+                    android:background="?android:colorBackground"
                     app:srcCompat="@drawable/down_arrow_60ps" />
             </LinearLayout>
 

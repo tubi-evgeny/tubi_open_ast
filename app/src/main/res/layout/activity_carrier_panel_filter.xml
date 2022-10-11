@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:gravity="center"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="22dp"
             android:layout_weight="1"
             android:text="@string/filtres" />
@@ -53,8 +53,8 @@
             android:layout_height="50dp"
             android:gravity="center"
             android:textSize="18dp"
-            android:textColor="@color/black"
-            android:background="@color/white"
+            android:textColor="?android:textColorPrimary"
+            android:background="?android:colorBackground"
             android:layout_margin="7dp"
             android:text="@string/from_where" />
         <TextView
@@ -98,7 +98,7 @@
                 android:id="@+id/tvFromWhere"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textColor="@color/black"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="20dp"
                 android:gravity="center_vertical"
                 android:text="@string/from_where" />
@@ -115,7 +115,7 @@
                 android:id="@+id/tvWhere"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textColor="@color/black"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="20dp"
                 android:gravity="center_vertical"
                 android:text="@string/where" />
@@ -140,7 +140,7 @@
                     android:id="@+id/tvTempTrans"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:textColor="@color/black"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp"
                     android:gravity="center_vertical"
                     android:text="@string/temperature_transportation" />
@@ -166,7 +166,7 @@
                         android:id="@+id/cbStandart"
                         android:layout_width="wrap_content"
                         android:layout_height="60dp"
-                        android:textColor="@color/black"
+                        android:textColor="?android:textColorPrimary"
                         android:text="@string/usual" />
                 </TableRow>
 
@@ -185,7 +185,7 @@
                         android:id="@+id/cbCold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
+                        android:textColor="?android:textColorPrimary"
                         android:text="@string/fridge" />
                 </TableRow>
 
@@ -204,7 +204,7 @@
                         android:id="@+id/cbFrost"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
+                        android:textColor="?android:textColorPrimary"
                         android:text="@string/freezer" />
                 </TableRow>
 

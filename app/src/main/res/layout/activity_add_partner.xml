@@ -13,7 +13,7 @@
         android:id="@+id/tvProvider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:textColor="?android:textColorPrimary"
         android:textSize="20dp"
         android:text="TextView" />
 

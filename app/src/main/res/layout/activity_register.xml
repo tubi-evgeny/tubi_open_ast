@@ -36,23 +36,10 @@
                         android:id="@+id/etName"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="5dp"
                         android:background="@color/white"
                         android:hint="@string/hint_name"
                         android:inputType="textCapWords"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="@color/input_register"
-                        android:textColorHint="@color/input_register_hint" />
-
-                    <EditText
-                        android:id="@+id/etPhone"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:background="@color/white"
-                        android:hint="@string/hint_phone"
-                        android:inputType="phone"
                         android:padding="10dp"
                         android:singleLine="true"
                         android:textColor="@color/input_register"
@@ -65,10 +52,80 @@
                         android:weightSum="6">
 
                         <EditText
-                            android:id="@+id/etPassword"
+                            android:id="@+id/etPhone"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginBottom="10dp"
+                            android:background="@color/white"
+                            android:hint="@string/hint_phone"
+                            android:inputType="phone"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            android:layout_weight="1"
+                            android:textColor="@color/input_register"
+                            android:textColorHint="@color/input_register_hint" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="5"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/ivPhoneTrue"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:background="@color/white"
+                                app:srcCompat="@drawable/checkmark_gray_140ps" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="horizontal"
+                        android:weightSum="6">
+
+                        <Button
+                            android:id="@+id/btnConfirmPhoneNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:padding="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="#ea4c88"
+                            android:text="подтвердить номер"
+                            android:inputType="phone"
+                            android:textColor="@color/white" />
+                      <!--  <TextView
+                            android:id="@+id/tvConfirmPhoneNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:padding="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/round_backgraund_white_black"
+                            android:text="подтвердить номер" />-->
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="5dp"
+                        android:weightSum="6">
+
+                        <EditText
+                            android:id="@+id/etPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@color/white"
                             android:hint="@string/hint_password"
@@ -82,7 +139,6 @@
                             android:id="@+id/ivPassEye"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginBottom="10dp"
                             android:layout_weight="5"
                             android:background="@color/white"
                             android:padding="10dp"
@@ -95,13 +151,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:orientation="horizontal"
+                        android:layout_marginBottom="5dp"
                         android:weightSum="6">
 
                         <EditText
                             android:id="@+id/etPasswordChek"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginBottom="10dp"
                             android:layout_weight="1"
                             android:background="@color/white"
                             android:hint="@string/hint_password_check"
@@ -115,7 +171,6 @@
                             android:id="@+id/ivPassEyeChek"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginBottom="10dp"
                             android:layout_weight="5"
                             android:background="@color/white"
                             android:padding="10dp"
@@ -130,7 +185,6 @@
                         android:id="@+id/btnRegister"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dip"
                         android:background="#ea4c88"
                         android:onClick="goRegister"
                         android:text="@string/btn_register"
@@ -143,7 +197,7 @@
                         android:id="@+id/btnLinkToLoginScreen"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="40dip"
+                        android:layout_marginTop="15dp"
                         android:background="@null"
                         android:onClick="goLinkToLoginScreen"
                         android:text="@string/btn_link_to_login"

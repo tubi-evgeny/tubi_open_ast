@@ -8,15 +8,6 @@
     android:orientation="vertical"
     tools:context="ru.tubi.project.activity.AdminPanel.ActivityAddProductsCheck">
 
-  <!--  <TextView
-        android:id="@+id/textView9"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18dp"
-        android:textColor="@color/black"
-        android:background="@color/tubi_grey_200"
-        android:gravity="center"
-        android:text="@string/text001" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvList"

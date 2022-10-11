@@ -20,7 +20,7 @@
             android:id="@+id/tvTotalWeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="17dp"
             android:layout_weight="1"
             android:text="all weight" />
@@ -67,10 +67,10 @@
             android:layout_marginTop="1dp"
             android:layout_marginRight="1dp"
             android:layout_marginBottom="1dp"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:gravity="center"
             android:layout_weight="1"
-            android:background="@color/white"
+            android:background="?android:colorBackground"
             android:text="@string/cargo_weght" />
     </LinearLayout>
 

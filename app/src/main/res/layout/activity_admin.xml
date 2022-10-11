@@ -9,15 +9,6 @@
     android:padding="10dp"
     tools:context="ru.tubi.project.activity.AdminPanel.AdminActivity">
 
-    <!--<Button
-        android:id="@+id/btnCheckNewBuyer"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:onClick="goCheckNewBuyer"
-        android:text="@string/order_from_new_buyers" />-->
-
     <LinearLayout
         android:id="@+id/llCheckNewBuyer"
         android:layout_width="match_parent"
@@ -29,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="18dp"
             android:layout_weight="9"
             android:text="@string/order_from_new_buyers" />
@@ -71,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="18dp"
             android:layout_weight="9"
             android:text="@string/text014" />
@@ -103,7 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="18dp"
             android:layout_weight="9"
             android:text="@string/condidate_for_provider" />
@@ -135,7 +126,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="18dp"
             android:layout_weight="9"
             android:text="@string/candidate_for_partner_warehouse" />
@@ -174,7 +165,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="18dp"
             android:layout_weight="9"
             android:text="@string/provider_product_is_ready_for_delivery" />
@@ -194,30 +185,6 @@
         android:layout_marginRight="60dp"
         android:background="@color/tubi_grey_200"
         android:text="" />
-   <!-- <LinearLayout
-        android:id="@+id/llAcceptProd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tvAcceptProd"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center_vertical"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:layout_weight="9"
-            android:text="@string/accept_product_from_provider" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/strelka_dalshe_60ps" />
-    </LinearLayout>-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -229,7 +196,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="18dp"
             android:layout_weight="9"
             android:text="@string/product_is_ready_for_delivery_to_buyer" />
@@ -260,7 +227,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="18dp"
             android:layout_weight="9"
             android:text="@string/image_to_moderation" />
@@ -290,7 +257,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="18dp"
             android:layout_weight="9"
             android:text="@string/calendar" />
@@ -310,29 +277,5 @@
         android:background="@color/tubi_grey_200"
         android:text="" />
 
-   <!-- <LinearLayout
-        android:id="@+id/llCreateWarehouse"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tvCreateWarehouse"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center_vertical"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:layout_weight="9"
-            android:text="@string/create_warehouse" />
-
-        <ImageView
-            android:id="@+id/ivCreateWarehouse"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/strelka_dalshe_60ps" />
-    </LinearLayout>-->
 
 </LinearLayout>
