@@ -104,7 +104,7 @@ public class PlaceOfReceiptOfGoodsActivity extends AppCompatActivity implements 
             btnDelivery.setVisibility(View.GONE);
         }
         checkDeliveryOpen();
-        if(!MY_REGION.equals("Московская область") || MY_CITY.equals("Другой город")){
+        if(!MY_REGION.equals("Смоленская область") || MY_CITY.equals("Другой город")){
             tvRegionDistrictCity.setText(""+MY_REGION+" "+MY_CITY);
             tvMessege.setText(""+FOR_YOUR_CITY_IS_NOT_DELIVERY);
         }
@@ -155,7 +155,7 @@ public class PlaceOfReceiptOfGoodsActivity extends AppCompatActivity implements 
             }
         }
         else if(v.equals(btnDelivery)){
-            if(!MY_REGION.equals("Московская область")){
+            if(!MY_REGION.equals("Смоленская область")){
                 Toast.makeText(this, ""+FOR_YOUR_CITY_IS_NOT_DELIVERY, Toast.LENGTH_SHORT).show();
                 return;
             }
