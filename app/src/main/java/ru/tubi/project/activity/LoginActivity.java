@@ -84,8 +84,8 @@ public class LoginActivity extends AppCompatActivity{
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //заполнить номер телефона скобками и тире
-                //new CheckPhoneNumberInput(activity,etPhone,s,start,before,count);
+                //проверкa номера, заполнить номер телефона скобками и тире
+                new CheckPhoneNumberInput(activity,etPhone,s,start,before,count);
             }
             @Override
             public void afterTextChanged(Editable s) { }
