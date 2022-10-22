@@ -161,10 +161,10 @@ public class ProductCardFillActivity extends AppCompatActivity implements Adapte
         ivImage=findViewById(R.id.ivImage);
 
         //получить из sqlLite данные пользователя и компании
-        UserDataRecovery userDataRecovery = new UserDataRecovery();
+       UserDataRecovery userDataRecovery = new UserDataRecovery();
         userDataModel = userDataRecovery.getUserDataRecovery(this);
 
-        tvCategory.setText(CATEGORY_TEXT);
+         tvCategory.setText(CATEGORY_TEXT);
         tvProductName.setText(PRODUCT_NAME_TEXT);
         tvBrand.setText(BRAND_TEXT);
         tvCharacteristic.setText(CHARACTERISTIC_TEXT);

@@ -13,7 +13,6 @@ public class General_information {
     в build.gradle app поменять versionCode и при необходимости versionName
     сделать synk now
     сменить URL в (Config) для запроса в рабочем PHP
-    установить проверку номера телефона
     сделать релиз
     залить релиз в Google play
 

@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -45,12 +46,16 @@ import static ru.tubi.project.free.AllText.REGISTRATION;
 import static ru.tubi.project.utilites.Constant.URL_LOGIN;
 import static ru.tubi.project.utilites.InitialDataPOST.getParamsString;
 
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private long time, timeForTap;
+    private int tapCount=0;
+    private boolean checkPhoneFlag=true;
     private Button btnLogin;
     private Button btnLinkToRegisterScreen;
     private EditText etPhone;
     private EditText etPassword;
+    private LinearLayout llTapDontCheckPhone;
     private ImageView imageView;
     private ProgressDialog pDialog;
     private SQLiteDatabase sqdb;
@@ -71,7 +76,10 @@ public class LoginActivity extends AppCompatActivity{
         imageView = findViewById(R.id.imageView);
         btnLinkToRegisterScreen=findViewById(R.id.btnLinkToRegisterScreen);
         etPassword = findViewById(R.id.etPassword);
+        llTapDontCheckPhone=findViewById(R.id.llTapDontCheckPhone);
         etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+        llTapDontCheckPhone.setOnClickListener(this);
 
         btnLinkToRegisterScreen.setText(REGISTRATION);
         // Проверьте, вошел ли пользователь уже в систему или нет
@@ -84,8 +92,11 @@ public class LoginActivity extends AppCompatActivity{
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //проверкa номера, заполнить номер телефона скобками и тире
-                new CheckPhoneNumberInput(activity,etPhone,s,start,before,count);
+                //проверка номера телефона включена
+                if(checkPhoneFlag){
+                    //проверкa номера, заполнить номер телефона скобками и тире
+                    new CheckPhoneNumberInput(activity,etPhone,s,start,before,count);
+                }
             }
             @Override
             public void afterTextChanged(Editable s) { }
@@ -320,5 +331,29 @@ public class LoginActivity extends AppCompatActivity{
             isHidePwd = true;
         }
         //etPassword.setSelection(R.drawable.shoping_box_60ps);
+    }
+
+    @Override
+    public void onClick(View v) {
+        //отключить проверку заполнения номера телефона
+        if(v.equals(llTapDontCheckPhone)){
+            if(tapCount == 0){
+                //time= System.currentTimeMillis();
+                timeForTap=System.currentTimeMillis();
+                tapCount++;
+            }
+            else if(timeForTap+5000 > System.currentTimeMillis()){
+                tapCount++;
+                if(tapCount >= 5){
+                    checkPhoneFlag = false;
+                    Toast.makeText(this, "check false", Toast.LENGTH_SHORT).show();
+                }
+            }
+            else{
+                tapCount=0;
+                checkPhoneFlag = true;
+            }
+            Log.d("A111","tap test count = "+tapCount);
+        }
     }
 }
