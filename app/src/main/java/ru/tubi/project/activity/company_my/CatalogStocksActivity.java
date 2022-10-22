@@ -48,6 +48,7 @@ import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.MakeImageToSquare;
 import ru.tubi.project.utilites.UserDataRecovery;
 
+import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_IMAGES;
 import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 //import static com.example.tubi.Config.MY_TAXPAYER_ID;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
@@ -198,6 +199,8 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
             //Toast.makeText(this, "ivImageProduct", Toast.LENGTH_SHORT).show();
         } else if (str[1].equals("tvDescription}")) {
             alertDialogReallyMakeCopy();
+            Log.d("A111","CatalogStocksActivity / WhatButtonClicked / product_id="+listProduct.get(myPosition).getProduct_id()
+                    +" / product_inventory_id="+listProduct.get(myPosition).getProduct_inventory_id());
         } else if (!warehouseModel.getWarehouse_type().equals("partner")) {
             if (str[1].equals("tvPrice}")) {
                 alertDialogPriceShow(position);
@@ -422,11 +425,12 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
                     String product_name_from_provider = temp[15];
                     Bitmap bmt = null;
 
-                    CatalogProductProviderModel products = new CatalogProductProviderModel(product_id,
-                            product_inventory_id, category, product_name, brand, characteristic, type_packaging, unit_measure,
-                            weight_volume, total_quantity, price, quantity_package, image_url, description,
-                            total_sale_quantity, free_balance,product_info, product_name_from_provider
-                            ,bmt);
+                    CatalogProductProviderModel products =
+                            new CatalogProductProviderModel(product_id, product_inventory_id
+                            , category, product_name, brand, characteristic, type_packaging
+                            , unit_measure, weight_volume, total_quantity, price, quantity_package
+                            , image_url, description, total_sale_quantity, free_balance
+                            ,product_info, product_name_from_provider, bmt);
                     if (product_id == 0) {
                         startListProduct.add(products);
                     } else {
@@ -458,9 +462,39 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
     }
 
     private void copyProductcard() {
-        Intent intent = new Intent(this, ProductCardFillActivity.class);
-        intent.putExtra("product_card_info", listProduct.get(myPosition));
-        startActivity(intent);
+        //Bitmap не сериализуется, выдает ошибку, приложение падает
+        try {
+            int product_id = listProduct.get(myPosition).getProduct_id();
+            int product_inventory_id = listProduct.get(myPosition).getProduct_inventory_id();
+            String category = listProduct.get(myPosition).getCategory();
+            String brand = listProduct.get(myPosition).getBrand();
+            String characteristic = listProduct.get(myPosition).getCharacteristic();
+            String type_packaging = listProduct.get(myPosition).getType_packaging();
+            String unit_measure = listProduct.get(myPosition).getUnit_measure();
+            int weight_volume = listProduct.get(myPosition).getWeight_volume();
+            double total_quantity = listProduct.get(myPosition).getTotal_quantity();
+            double price = listProduct.get(myPosition).getPrice();
+            int quantity_package = listProduct.get(myPosition).getQuantity_package();
+            String image_url = listProduct.get(myPosition).getImage_url();
+            String description = listProduct.get(myPosition).getDescription();
+            double total_sale_quantity = listProduct.get(myPosition).getTotal_sale_quantity();
+            double free_balance = listProduct.get(myPosition).getFree_balance();
+            String product_name = listProduct.get(myPosition).getProduct_name();
+            String product_info = listProduct.get(myPosition).getProduct_info();
+            String product_name_from_provider = listProduct.get(myPosition).getProduct_name_from_provider();
+            Intent intent = new Intent(this, ProductCardFillActivity.class);
+            CatalogProductProviderModel product_card_info=new CatalogProductProviderModel(product_id
+                    , product_inventory_id, category, product_name, brand, characteristic
+                    , type_packaging, unit_measure, weight_volume, total_quantity, price
+                    , quantity_package, image_url, description, total_sale_quantity
+                    , free_balance,product_info, product_name_from_provider);
+            intent.putExtra("product_card_info", product_card_info);
+            startActivity(intent);
+        }catch(Exception ex) {
+            Log.d("A111","CatalogStocksActivity / copyProductcard / ex = "+ex);
+        }
+            Log.d("A111","CatalogStocksActivity / copyProductcard / intent = "+listProduct.get(myPosition).toString());
+
     }
 
     private void chengeImage(int position){
@@ -561,7 +595,7 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
                    // asyncDialog.dismiss();
                 }
             }
-            .execute(ADMIN_PANEL_URL_PREVIEW_IMAGES+image_url);
+            .execute(ADMIN_PANEL_URL_IMAGES+image_url);
 
         }else ivImage.setImageResource(R.drawable.tubi_logo_no_image_300ps);
 
