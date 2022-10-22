@@ -81,6 +81,32 @@ public class CatalogProductProviderModel implements Serializable {
         this.product_name_from_provider = product_name_from_provider;
         this.bmt = bmt;
     }
+    // CatalogStocksActivity//copyProductcard();
+    public CatalogProductProviderModel(int product_id, int product_inventory_id
+            , String category, String product_name, String brand, String characteristic
+            , String type_packaging, String unit_measure, int weight_volume
+            , double total_quantity, double price, int quantity_package
+            , String image_url, String description, double total_sale_quantity
+            , double free_balance,String product_info, String product_name_from_provider) {
+        this.product_id = product_id;
+        this.product_inventory_id = product_inventory_id;
+        this.category = category;
+        this.product_name=product_name;
+        this.brand = brand;
+        this.characteristic = characteristic;
+        this.type_packaging = type_packaging;
+        this.unit_measure = unit_measure;
+        this.weight_volume = weight_volume;
+        this.total_quantity = total_quantity;
+        this.price = price;
+        this.quantity_package = quantity_package;
+        this.image_url = image_url;
+        this.description = description;
+        this.total_sale_quantity = total_sale_quantity;
+        this.free_balance = free_balance;
+        this.product_info = product_info;
+        this.product_name_from_provider = product_name_from_provider;
+    }
     // WriteOutProductActivity//splitResult();
     public CatalogProductProviderModel(int product_id, int product_inventory_id, String category,
                    String product_name, String brand, String characteristic, String type_packaging,
