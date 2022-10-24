@@ -3,6 +3,7 @@ package ru.tubi.project.activity.logistics;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -235,6 +236,7 @@ public class IntercityDeliveryCalendarActivity extends AppCompatActivity impleme
                     for(int i=0;i < intercityDeliveryList.size();i++){
                         calendar.setTimeInMillis(intercityDeliveryList.get(i));
                         int myDay = calendar.get(Calendar.DAY_OF_MONTH);
+                        //Log.d("A111","myDay = "+myDay);
                         if(myDay == writeDay){
                             text.setTextColor(RED_600);
                             i = intercityDeliveryList.size();
@@ -298,6 +300,10 @@ public class IntercityDeliveryCalendarActivity extends AppCompatActivity impleme
                         if(writeMillis){
                             calendar.set(selectYear, selectMonth, Integer.parseInt(text.getText().toString()),00, 00,00);
                             intercityDeliveryList.add(calendar.getTimeInMillis());
+                           // Log.d("A111","year-"+selectYear+" month-"+selectMonth+" day-"+Integer.parseInt(text.getText().toString()));
+                            //Log.d("A111","year-"+calendar.get(Calendar.YEAR)+" month-"+calendar.get(Calendar.MONTH)+" day-"+calendar.get(Calendar.DAY_OF_MONTH)+" millis-"+calendar.getTimeInMillis());
+                           // Log.d("A111","calendar = "+calendar.toString());
+
                         }
                         makeCalendarTable();
                         tvSave.setClickable(true);

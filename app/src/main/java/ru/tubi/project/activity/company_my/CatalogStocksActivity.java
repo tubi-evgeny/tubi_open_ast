@@ -228,7 +228,8 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
             forParse.add(parseListProduct.get(i).toString().toLowerCase());
             ArrayList<String> res;
             //ведем поиск строки по запросу (ищем совпадения)
-            res = (ArrayList<String>) forParse.stream().filter(lang -> lang.contains(searchSimbol)).collect(Collectors.toList());
+            res = (ArrayList<String>) forParse.stream().filter(lang
+                    -> lang.contains(searchSimbol)).collect(Collectors.toList());
             if (res.size() != 0) {
                 //пишем в новый каталог
                 listProduct.add(parseListProduct.get(i));
