@@ -21,6 +21,8 @@ import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.InitialData;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.UserDataRecovery;
@@ -153,6 +155,10 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
                 int order_deleted=Integer.parseInt(temp[10]);
                 double price_process=Double.parseDouble(temp[11]);
                 int delivery=Integer.parseInt(temp[12]);
+
+                GregorianCalendar calendar = (GregorianCalendar) GregorianCalendar.getInstance();
+                calendar.setTimeInMillis(Long.parseLong(get_date));
+                get_date = calendar.get(Calendar.DAY_OF_MONTH)+"."+(calendar.get(Calendar.MONTH)+1)+"."+calendar.get(Calendar.YEAR);
 
                 OrderHistoryModel orderHistory = new OrderHistoryModel(order_id,category,
                         brand, characteristic, weight_volume, price, quantity,
