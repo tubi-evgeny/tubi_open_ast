@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import ru.tubi.project.R;
@@ -58,7 +59,7 @@ import static ru.tubi.project.utilites.Constant.API_TEST;
 //import static com.example.tubi.utilites.Constant.GET_PRODUCT;
 
 
-public class ActivityProduct extends AppCompatActivity {
+public class ActivityProduct extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private Intent intent, takeit;
     private RecyclerView recyclerView;
@@ -667,7 +668,12 @@ public class ActivityProduct extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.main_menu,menu);
+        getMenuInflater().inflate(R.menu.menu_and_search,menu);//getMenuInflater().inflate(R.menu.main_menu,menu);
+
+        MenuItem searchItem = menu.findItem(R.id.app_bar_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(this);
+        //searchView.setIconified(false);
         return true;
     }
 
@@ -713,5 +719,25 @@ public class ActivityProduct extends AppCompatActivity {
         }
         finish();
         super.onBackPressed();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        intent=new Intent(this,ActivityProductCard.class);
+        intent.putExtra("searchText",query.trim());
+        startActivity(intent);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if(newText.toCharArray().length > 2){
+            //Эта ху-ня почемуто не работает на возврат со страницы сюда
+           // intent=new Intent(this,ActivityProductCard.class);
+           // intent.putExtra("searchText",newText.trim());
+           // startActivityForResult(intent,ADD_PRODUCT_ACTIVITY_REQUEST_CODE);
+            // startActivity(intent);
+        }
+        return false;
     }
 }

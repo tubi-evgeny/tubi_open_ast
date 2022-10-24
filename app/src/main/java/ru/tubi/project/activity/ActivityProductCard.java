@@ -15,12 +15,12 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import ru.tubi.project.R;
@@ -57,7 +57,7 @@ import static ru.tubi.project.free.VariablesHelpers.MY_REGION;
 import static ru.tubi.project.utilites.Constant.API_TEST;
 //import static com.example.tubi.utilites.Constant.SEARCH_OPEN_ORDER;
 
-public class ActivityProductCard extends AppCompatActivity {
+public class ActivityProductCard extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private Intent intent, takeit;
     private int product_id, myPosition = -1,order_id,partner_warehouse_id,a;
@@ -66,7 +66,7 @@ public class ActivityProductCard extends AppCompatActivity {
     private ArrayList<ProductCardModel> allPrice =new ArrayList<ProductCardModel>();
     private ProductCardAdapter adapter;
     private RecyclerView recyclerViewProdCard;
-    private String url_get;
+    private String url_get, searchText;
     private double quantity,freeQuantityDB;
     private long dateOfSaleMillis;
     private String whatQuestion;
@@ -99,18 +99,25 @@ public class ActivityProductCard extends AppCompatActivity {
 
         //получить из sqlLite данные пользователя и компании
         userDataModel = userDataRecovery.getUserDataRecovery(this);
+        //если есть открытый заказ то получить его номер или 0 если заказа открытого нет
+        searchOrder_id.searchStartedOrder(this);
+        //получить список заказав с характеристиками
+        orderDataModelList = orderDataRecoveryUtil.getOrderDataRecovery(this);
 
         takeit=getIntent();
+        product = (ProductModel) takeit.getSerializableExtra("product");
+        searchText=takeit.getStringExtra("searchText");
         try {
-            product = (ProductModel) takeit.getSerializableExtra("product");
+            //product = (ProductModel) takeit.getSerializableExtra("product");
             product_id = product.getProduct_id();
             //если есть открытый заказ то получить его номер или 0 если заказа открытого нет
-            searchOrder_id.searchStartedOrder(this);
+           // searchOrder_id.searchStartedOrder(this);
             //получить список заказав с характеристиками
-            orderDataModelList = orderDataRecoveryUtil.getOrderDataRecovery(this);
+           // orderDataModelList = orderDataRecoveryUtil.getOrderDataRecovery(this);
             showProd();
         }catch (Exception ex){
-
+            //отправить запрос на поиск товаров по введенному тексту в стоку поиска
+            //searchProductShow(searchText);
         }
         //запуск метода обновить меню,
         // нужен для обновления цвета корзины если не пустая
@@ -291,6 +298,31 @@ public class ActivityProductCard extends AppCompatActivity {
         setInitialData(url,whatQuestion);
         Log.d("A111","ActivityProductCard / showProd / url="+url);
     }
+    //отправить запрос на поиск товаров по введенному тексту в стоку поиска
+    private void searchProductShow(String searchText){
+        //получить список заказав с характеристиками
+        orderDataModelList.clear();
+        orderDataModelList = orderDataRecoveryUtil.getOrderDataRecovery(this);
+
+        String order_id_string = "";
+        for(int i=0;i < orderDataModelList.size();i++){
+            order_id_string += orderDataModelList.get(i).getOrder_id();
+            if(i != orderDataModelList.size()-1){
+                order_id_string += ";";
+            }
+        }
+        String url = Constant.API_TEST;
+        url += "search_product_by_text";
+        url += "&" + "text_for_search=" + searchText;
+        url += "&" + "order_id=" + order_id_string;
+        url += "&" + "city_id=" + 2;
+        url += "&" + "my_city=" + MY_CITY;
+        url += "&" + "my_region=" + MY_REGION;
+        url += "&" + "delivery=" + DELIVERY_TO_BUYER_STATUS;
+        whatQuestion = "search_product_by_text";
+        setInitialData(url,whatQuestion);
+        Log.d("A111","ActivityProductCard / searchProductShow / url="+url);
+    }
     //добавить продукт и колличество в заказ
     private void addOrderProduct(double myQuantity, int position){
         //выбрать заказ(order_id) для этого товара
@@ -366,12 +398,18 @@ public class ActivityProductCard extends AppCompatActivity {
             protected void onPostExecute(String result) {
                 if(whatQuestion.equals("show_product_price_all_provider")) {
                     splitResult(result);
-                }else if(whatQuestion.equals("get_my_order_id")){
+                }
+                else if(whatQuestion.equals("search_product_by_text")){
+                    splitResult(result);
+                    Log.d("A111","result = "+result);
+                }
+                else if(whatQuestion.equals("get_my_order_id")){
                     addFirstProductInOrder(result);
                 }
-               else if(whatQuestion.equals("add_order_product")) {
+                else if(whatQuestion.equals("add_order_product")) {
                     showMessege(result);
                 }
+
                 //скрыть диалоговое окно
                 asyncDialog.dismiss();
             }
@@ -477,64 +515,6 @@ public class ActivityProductCard extends AppCompatActivity {
 
         }
     }
-    //проверка соединения интернета
-    protected boolean isOnline() {
-        String cs = Context.CONNECTIVITY_SERVICE;
-        ConnectivityManager cm = (ConnectivityManager)
-                getSystemService(cs);
-        if (cm.getActiveNetworkInfo() == null) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-    //слушатель возврата по методу Back(); из предыдущей активности
-    //нужен для обновления необходимой информации
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        //запуск метода обновить меню,
-        // нужен для обновления цвета корзины если не пустая
-        invalidateOptionsMenu();
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) { //----invalidateOptionsMenu();
-        GetColorShopingBox gc = new GetColorShopingBox();
-        menu = gc.color(this, menu);
-        return super.onPrepareOptionsMenu(menu);
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.main_menu,menu);
-        return true;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item){
-        int itemID=item.getItemId();
-        if(itemID==R.id.menu){
-            intent=new Intent(this,MenuActivity.class);
-            startActivity(intent);
-        }
-        if(itemID==R.id.main){
-            intent=new Intent(this, MainActivity.class);
-            startActivity(intent);
-        }
-        if(itemID==R.id.category){
-            intent=new Intent(this, ActivityCatalog.class);
-            startActivity(intent);
-        }
-        if(itemID==R.id.shoping_box){
-            if(myPosition >= 0 ) {
-                addOrderProduct(allPrice.get(myPosition).getQuantity(), myPosition);
-            }
-            intent=new Intent(this, ShopingBox.class);
-            startActivityForResult(intent,ADD_PRODUCT_CARD_ACTIVITY_REQUEST_CODE);
-            //startActivity(intent);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -621,6 +601,78 @@ public class ActivityProductCard extends AppCompatActivity {
         ad = adb.create();
         ad.show();
     }
+    //проверка соединения интернета
+    protected boolean isOnline() {
+        String cs = Context.CONNECTIVITY_SERVICE;
+        ConnectivityManager cm = (ConnectivityManager)
+                getSystemService(cs);
+        if (cm.getActiveNetworkInfo() == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    //слушатель возврата по методу Back(); из предыдущей активности
+    //нужен для обновления необходимой информации
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        //запуск метода обновить меню,
+        // нужен для обновления цвета корзины если не пустая
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) { //----invalidateOptionsMenu();
+        GetColorShopingBox gc = new GetColorShopingBox();
+        menu = gc.color(this, menu);
+        return super.onPrepareOptionsMenu(menu);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_and_search,menu);
+
+        MenuItem searchItem = menu.findItem(R.id.app_bar_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(this);
+        try{
+            if(searchText != null){
+                searchView.setIconified(false);
+                searchView.setQuery(searchText,true);
+                //Log.d("A111","onCreateOptionsMenu / OK");
+            }
+        }catch (Exception ex){
+            Log.d("A111","onCreateOptionsMenu / ex="+ex);
+        }
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        int itemID=item.getItemId();
+        if(itemID==R.id.menu){
+            intent=new Intent(this,MenuActivity.class);
+            startActivity(intent);
+        }
+        if(itemID==R.id.main){
+            intent=new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+        if(itemID==R.id.category){
+            intent=new Intent(this, ActivityCatalog.class);
+            startActivity(intent);
+        }
+        if(itemID==R.id.shoping_box){
+            if(myPosition >= 0 ) {
+                addOrderProduct(allPrice.get(myPosition).getQuantity(), myPosition);
+            }
+            intent=new Intent(this, ShopingBox.class);
+            startActivityForResult(intent,ADD_PRODUCT_CARD_ACTIVITY_REQUEST_CODE);
+            //startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     @Override
     public void onBackPressed() {
         if(myPosition >= 0 ) {
@@ -630,5 +682,21 @@ public class ActivityProductCard extends AppCompatActivity {
         setResult(RESULT_OK, intent);
         finish();
         super.onBackPressed();
+    }
+
+    @Override  //поисковая строка
+    public boolean onQueryTextSubmit(String query) {
+        searchProductShow(query.trim());
+        Log.d("A111","search true / query="+query);
+        return false;
+    }
+    @Override   //поисковая строка
+    public boolean onQueryTextChange(String newText) {
+        if(newText.toCharArray().length > 2){
+            searchProductShow(newText.trim());
+        }
+        Log.d("A111","search new text / newText="+newText
+                            +" length="+newText.toCharArray().length);
+        return false;
     }
 }

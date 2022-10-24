@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import ru.tubi.project.R;
@@ -36,7 +37,7 @@ import static ru.tubi.project.free.VariablesHelpers.MY_REGION;
 import static ru.tubi.project.utilites.Constant.GET_CATALOG;
 import static ru.tubi.project.utilites.InitialDataPOST.getParamsString;
 
-public class ActivityCatalog extends AppCompatActivity {
+public class ActivityCatalog extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
     Intent intent;
     private RecyclerView recyclerView;
@@ -209,7 +210,11 @@ public class ActivityCatalog extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.main_menu,menu);
+        getMenuInflater().inflate(R.menu.menu_and_search,menu);
+
+        MenuItem searchItem = menu.findItem(R.id.app_bar_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(this);
         return true;
     }
 
@@ -232,5 +237,18 @@ public class ActivityCatalog extends AppCompatActivity {
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        intent=new Intent(this,ActivityProductCard.class);
+        intent.putExtra("searchText",query.trim());
+        startActivity(intent);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }
