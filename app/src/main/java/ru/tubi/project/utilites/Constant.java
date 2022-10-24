@@ -14,13 +14,13 @@ public class Constant {
 
     private static final String OPEN_ORDER_CONDITION = "";
     public static final String GET_CATALOG = BASE_URL + "select_catalog.php?";
-    public static final String PUT_CATALOG = BASE_URL + "insert_catalog.php";
+   // public static final String PUT_CATALOG = BASE_URL + "insert_catalog.php";
     public static final String GET_CATEGORY = BASE_URL + "select_category.php?catalog=";
-    public static final String PUT_CATEGORY = BASE_URL + "insert_category.php";//
+    //public static final String PUT_CATEGORY = BASE_URL + "insert_category.php";//
     public static final String API_TEST = BASE_URL  + "api_test.php?";
-    public static final String GET_PRODUCT_AND_QUANTITY = BASE_URL + "api_test.php?show_product_and_quantity";
-    public static final String GET_PRODUCT_PRICE_ALL_PROVIDER = BASE_URL  +
-                                    "api_test.php?show_product_price_all_provider";
+    //public static final String GET_PRODUCT_AND_QUANTITY = BASE_URL + "api_test.php?show_product_and_quantity";
+   // public static final String GET_PRODUCT_PRICE_ALL_PROVIDER = BASE_URL  +
+    //                                "api_test.php?show_product_price_all_provider";
     public static final String SEARCH_MY_OPEN_ORDER = BASE_URL + "api_test.php?search_my_open_order";//<delete>
     public static final String SEARCH_MY_ACTIVE_ORDER = BASE_URL + "api.php?search_my_active_order";
 

@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tubi"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.ConfirmPhoneActivity"></activity>
+        <activity android:name=".activity.ConfirmPhoneActivity" />
         <activity
             android:name=".activity.MessageFeedActivity"
             android:screenOrientation="portrait" />
