@@ -40,8 +40,10 @@ import static ru.tubi.project.free.AllText.FOR_YOUR_CITY_IS_NOT_DELIVERY;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.MES_23;
 import static ru.tubi.project.free.AllText.MES_24;
+import static ru.tubi.project.free.AllText.MES_27;
 import static ru.tubi.project.free.AllText.PLACE_OF_RECEIPT_OF_GOODS;
 import static ru.tubi.project.free.AllText.PRICES_WILL_BE_CHANGED;
+import static ru.tubi.project.free.AllText.RUB;
 import static ru.tubi.project.free.AllText.VIEW_PRICES_TEXT;
 import static ru.tubi.project.free.VariablesHelpers.DELIVERY_OPEN;
 import static ru.tubi.project.free.VariablesHelpers.DELIVERY_TO_BUYER_STATUS;
@@ -57,6 +59,7 @@ public class PlaceOfReceiptOfGoodsActivity extends AppCompatActivity implements 
     private Button btnApply, btnDelivery, btnPickUpFromWarehouse;
     private String addressPartnerWarehouse, from_activity;
     private int partner_warehouse_id, addDeliveryKey;
+    private double orderSummMin=0;
     private DeliveryAddressModel addressForDelivery;
     public static int ENTER_FOR_DDELIVERY_ADDRESS_REQUEST = 7;
     public static int CHOOSE_DISTRIBUTION_WAREHOUSE_REQUEST = 8;
@@ -104,6 +107,7 @@ public class PlaceOfReceiptOfGoodsActivity extends AppCompatActivity implements 
             btnDelivery.setVisibility(View.GONE);
         }
         checkDeliveryOpen();
+        receiveOrderSummMin();
         if(!MY_REGION.equals("Смоленская область") || MY_CITY.equals("Другой город")){
             tvRegionDistrictCity.setText(""+MY_REGION+" "+MY_CITY);
             tvMessege.setText(""+FOR_YOUR_CITY_IS_NOT_DELIVERY);
@@ -195,10 +199,19 @@ public class PlaceOfReceiptOfGoodsActivity extends AppCompatActivity implements 
     private void checkDeliveryOpen(){
         final Map<String, String> parameters = new HashMap<>();
         parameters.put("check_delivery_open","");
-        setInitialDataPOST(API, parameters);
+        String whatQuestion = "check_delivery_open";
+        setInitialDataPOST(API, parameters, whatQuestion);
+    }
+    //проверить минимальная сумма одного заказа
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void receiveOrderSummMin(){
+        final Map<String, String> parameters = new HashMap<>();
+        parameters.put("receive_order_summ_min","");
+        String whatQuestion = "receive_order_summ_min";
+        setInitialDataPOST(API, parameters, whatQuestion);
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void setInitialDataPOST(String url, Map<String, String> param){
+    private void setInitialDataPOST(String url, Map<String, String> param, String whatQuestion){
         ProgressDialog asyncDialog = new ProgressDialog(this);
 
         InitialDataPOST task = new InitialDataPOST(){
@@ -210,13 +223,24 @@ public class PlaceOfReceiptOfGoodsActivity extends AppCompatActivity implements 
             }
             @Override
             protected void onPostExecute(String s) {
-                splitResult(s);
-
+                if(whatQuestion.equals("check_delivery_open")) {
+                    splitResult(s);
+                }
+                else if(whatQuestion.equals("receive_order_summ_min")) {
+                    splitOrderSummMin(s);
+                }
                 //скрыть диалоговое окно
                 asyncDialog.dismiss();
             }
         };
         task.execute(url, getParamsString(param));
+    }
+    private void splitOrderSummMin(String result){
+        try{
+            orderSummMin = Double.parseDouble(result);
+        }catch (Exception ex){
+            Log.d("A111","PlaceOfReceiptOfGoodsActivity / splitOrderSummMin / result="+result+" / ex="+ex);
+        }
     }
     private void splitResult(String result){
         try{
@@ -270,7 +294,7 @@ public class PlaceOfReceiptOfGoodsActivity extends AppCompatActivity implements 
     //показать цены на товары плюс доставка?
     private void adPricePlusDelivery(){
         adb = new AlertDialog.Builder(this);
-        String st1 = PRICES_WILL_BE_CHANGED;
+        String st1 = MES_27+" "+orderSummMin+" "+RUB;
         String st2 = MES_24;
 
         adb.setPositiveButton(CONTINUE_TEXT, new DialogInterface.OnClickListener() {

@@ -32,6 +32,7 @@ import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.GetColorShopingBox;
 import ru.tubi.project.utilites.HelperDB;
 import ru.tubi.project.utilites.InitialData;
+import ru.tubi.project.utilites.InitialDataPOST;
 import ru.tubi.project.utilites.OrderDataRecoveryUtil;
 import ru.tubi.project.utilites.SearchOrder_id;
 
@@ -39,6 +40,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.UserDataRecovery;
@@ -58,6 +61,7 @@ import static ru.tubi.project.free.AllText.SHOPING_BOX_EMPTY;
 import static ru.tubi.project.free.AllText.STOCK_OF_GOODS_REQUESTED_QUANTITY;
 import static ru.tubi.project.utilites.Constant.API;
 import static ru.tubi.project.utilites.Constant.API_TEST;
+import static ru.tubi.project.utilites.InitialDataPOST.getParamsString;
 
 public class ShopingBox extends AppCompatActivity implements View.OnClickListener {
 
@@ -75,7 +79,7 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
     private String whatQuestion;
     private int order_id = 0,myPosition = -1, deliveryKey;
     private ArrayList<ShopingBoxModel> shopinBoxArray = new ArrayList<>();
-    private double quantity, orderSumm, freeQuantityDB, orderSummMax;
+    private double quantity, orderSumm, freeQuantityDB, orderSummMax=0, orderSummMin=0;
     private AlertDialog.Builder adb;
     private AlertDialog ad;
     private String timeReceiveOrder, counterparty,taxpayerID;
@@ -167,6 +171,7 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
         lvOrders.setAdapter(orderAdap);
 
         showShopingBox();// показать товары в корзине
+        receiveOrderSummMin();//получить минимальную сумму одного заказа
         receiveOrderSummMax();//получить максимальную сумму одного заказа
         adapter=new ShopingBoxAdapter(this, shopinBoxArray,shopingBoxClickListener,clickListener);
 
@@ -284,12 +289,15 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
                 if(myPosition >= 0 ){
                     addOrderProduct(shopinBoxArray.get(myPosition).getQuantity(), myPosition);
                 }
-                if(orderSumm <= orderSummMax) {
+                if(orderSumm <= orderSummMax && orderSumm >= orderSummMin) {
                     // данные о компании есть пойдем оформлять заказ
                     makingOrder();
-                }else{
+                }else if(orderSumm >= orderSummMax ){
                     //Сообщение сумма заказа превышенна
                     adOrderSummMax();
+                }else if(orderSumm <= orderSummMin){
+                    //Сообщение сумма заказа меньше чем допускается
+                    adOrderSummMin();
                 }
             }
         }
@@ -352,6 +360,42 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
             setInitialData(url_get,whatQuestion);
         }
     }
+    //получить минимальную сумму одного заказа
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void receiveOrderSummMin(){
+        final Map<String, String> parameters = new HashMap<>();
+        parameters.put("receive_order_summ_min","");
+        String whatQuestion = "receive_order_summ_min";
+        setInitialDataPOST(API, parameters, whatQuestion);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void setInitialDataPOST(String url, Map<String, String> param, String whatQuestion){
+        //проверка соединения интернета
+        if ( !isOnline() ){
+            Toast.makeText(getApplicationContext(),
+                    "Нет соединения с интернетом!",Toast.LENGTH_LONG).show();
+            return;
+        }
+        ProgressDialog asyncDialog = new ProgressDialog(this);
+
+        InitialDataPOST task = new InitialDataPOST(){
+            @Override
+            protected void onPreExecute() {
+                asyncDialog.setMessage(LOAD_TEXT);
+                asyncDialog.show();
+                super.onPreExecute();
+            }
+            @Override
+            protected void onPostExecute(String s) {
+                if(whatQuestion.equals("receive_order_summ_min")) {
+                    splitOrderSummMin(s);
+                }
+                //скрыть диалоговое окно
+                asyncDialog.dismiss();
+            }
+        };
+        task.execute(url, getParamsString(param));
+    }
 
     private void setInitialData(String url_get, String whatQuestion) {
         ProgressDialog asyncDialog = new ProgressDialog(this);
@@ -394,6 +438,13 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
             }
         };
         task.execute(url_get);
+    }
+    private void splitOrderSummMin(String result){
+        try{
+            orderSummMin = Double.parseDouble(result);
+        }catch (Exception ex){
+            Log.d("A111","ShopingBox / splitOrderSummMin / result="+result+" / ex="+ex);
+        }
     }
     private void splitOrderSummMax(String result){
         orderSummMax = Double.parseDouble(result);
@@ -634,6 +685,18 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
 
         String st1 = "Превышение суммы заказа";
         String st2 = "Сумма заказа временно ограниченна\nмаксимум "+orderSummMax+" руб.\nпожалуйста уменьшите колличество товара в заказе";
+        adb.setTitle(st1);
+        adb.setMessage(st2);
+
+        ad=adb.create();
+        ad.show();
+    }
+    //Сообщение сумма заказа меньше чем допускается
+    private void adOrderSummMin(){
+        adb = new AlertDialog.Builder(this);
+
+        String st1 = "Сумма заказа недостаточна";
+        String st2 = "Сумма заказа при доставке\nминимум "+orderSummMin+" руб.\nпожалуйста добавьте колличество товара в заказ";
         adb.setTitle(st1);
         adb.setMessage(st2);
 
