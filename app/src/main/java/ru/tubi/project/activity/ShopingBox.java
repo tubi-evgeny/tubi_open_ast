@@ -59,6 +59,7 @@ import static ru.tubi.project.free.AllText.RUB;
 import static ru.tubi.project.free.AllText.SHOPING_BOX;
 import static ru.tubi.project.free.AllText.SHOPING_BOX_EMPTY;
 import static ru.tubi.project.free.AllText.STOCK_OF_GOODS_REQUESTED_QUANTITY;
+import static ru.tubi.project.free.VariablesHelpers.DELIVERY_TO_BUYER_STATUS;
 import static ru.tubi.project.utilites.Constant.API;
 import static ru.tubi.project.utilites.Constant.API_TEST;
 import static ru.tubi.project.utilites.InitialDataPOST.getParamsString;
@@ -289,7 +290,29 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
                 if(myPosition >= 0 ){
                     addOrderProduct(shopinBoxArray.get(myPosition).getQuantity(), myPosition);
                 }
-                if(orderSumm <= orderSummMax && orderSumm >= orderSummMin) {
+                if(orderSumm <= orderSummMax) {
+                    if(DELIVERY_TO_BUYER_STATUS == 0){
+                        // данные о компании есть пойдем оформлять заказ
+                        makingOrder();
+                    }else{
+                        if(orderSumm < orderSummMin){
+                            //Сообщение сумма заказа меньше чем допускается
+                            adOrderSummMin();
+                        }else{
+                            // данные о компании есть пойдем оформлять заказ
+                            makingOrder();
+                        }
+                    }
+
+                }else if(orderSumm > orderSummMax ){
+                    //Сообщение сумма заказа превышенна
+                    adOrderSummMax();
+                }
+            }
+        }
+    }
+    /*
+    if(orderSumm <= orderSummMax && orderSumm >= orderSummMin) {
                     // данные о компании есть пойдем оформлять заказ
                     makingOrder();
                 }else if(orderSumm >= orderSummMax ){
@@ -299,9 +322,7 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
                     //Сообщение сумма заказа меньше чем допускается
                     adOrderSummMin();
                 }
-            }
-        }
-    }
+     */
     //очистить данные и выйти со страницы
     private void clearActivityAndBack(String result){
         invalidateOptionsMenu();
