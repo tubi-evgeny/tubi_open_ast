@@ -28,4 +28,7 @@ public class VariablesHelpers {
 
     //замена фото из склад товаров
     public static int CHENGE_IMAGE_ALERT_SHOW = 0;
+
+    //сообщение в UserToInfoForOrderActivity
+    public static int DIALOG_BUY_GOODS_TOGETHER = 0;
 }

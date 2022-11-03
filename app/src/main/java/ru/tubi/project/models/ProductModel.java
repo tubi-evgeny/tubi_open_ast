@@ -29,6 +29,9 @@ public class ProductModel implements Serializable {
     private double free_inventory;
     private int guarante_there_is_goods;
     private int percent_no_goods;
+    private int quantity_joint;
+    private String product_info;
+
 
     // ActivityProduct//splitResultProductArray
     public ProductModel(int product_id, int product_inventory_id, String category
@@ -92,32 +95,18 @@ public class ProductModel implements Serializable {
         this.provider_warehouse_id=provider_warehouse_id;
         this.free_inventory=free_inventory;
     }
-   /* public ProductModel(int product_id, int product_inventory_id, String category
-            , String product_name, String brand, String characteristic
-            , String unit_measure, int weight_volume, double price, double process_price
-            , String image_url, String abbreviation, String counterparty, double quantity
-            , int count_product_provider, int quantity_package, long date_of_sale_millis
-            ,int provider_warehouse_id) {
-
+    public ProductModel(int product_id, int product_inventory_id
+            , String image_url, double price, double process_price
+            , int min_sell, int quantity_joint, String product_info) {
         this.product_id = product_id;
         this.product_inventory_id = product_inventory_id;
-        this.category = category;
-        this.product_name=product_name;
-        this.brand = brand;
-        this.characteristic = characteristic;
-        this.unit_measure = unit_measure;
-        this.weight_volume = weight_volume;
-        this.price = price;
         this.image_url = image_url;
-        this.counterparty = counterparty;
-        this.quantity = quantity;
-        this.count_product_provider = count_product_provider;
-        this.abbreviation = abbreviation;
-        this.quantity_package=quantity_package;
-        this.date_of_sale_millis=date_of_sale_millis;
+        this.price = price;
         this.process_price=process_price;
-        this.provider_warehouse_id=provider_warehouse_id;
-    }*/
+        this.min_sell = min_sell;
+        this.quantity_joint=quantity_joint;
+        this.product_info=product_info;
+    }
 
 
     public int getProduct_inventory_id() {
@@ -314,6 +303,23 @@ public class ProductModel implements Serializable {
     public void setPercent_no_goods(int percent_no_goods) {
         this.percent_no_goods = percent_no_goods;
     }
+
+    public int getQuantity_joint() {
+        return quantity_joint;
+    }
+
+    public void setQuantity_joint(int quantity_joint) {
+        this.quantity_joint = quantity_joint;
+    }
+
+    public String getProduct_info() {
+        return product_info;
+    }
+
+    public void setProduct_info(String product_info) {
+        this.product_info = product_info;
+    }
+
 
     @Override
     public String toString() {

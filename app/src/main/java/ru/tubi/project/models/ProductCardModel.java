@@ -27,7 +27,23 @@ public class ProductCardModel implements Serializable {
     private String description_prod;
     private int guarante_there_is_goods;
     private int percent_no_goods;
+    private int quantity_joint;
+    private String joint_buy_list;
 
+    //BuyGoodsTogetherActivity / splitResultThisWarehouseJointBuy()
+    public ProductCardModel(int product_id, int product_inventory_id
+            , String image_url, double price, double process_price
+            , int min_sell, int quantity_joint, String product_info,String joint_buy_list) {
+        this.product_id = product_id;
+        this.product_inventory_id = product_inventory_id;
+        this.image_url = image_url;
+        this.price = price;
+        this.process_price=process_price;
+        this.min_sell = min_sell;
+        this.quantity_joint=quantity_joint;
+        this.product_info=product_info;
+        this.joint_buy_list=joint_buy_list;
+    }
 
     public ProductCardModel(int product_id, int product_inventory_id, String category
             , String product_name, String brand, String characteristic
@@ -279,6 +295,22 @@ public class ProductCardModel implements Serializable {
 
     public void setPercent_no_goods(int percent_no_goods) {
         this.percent_no_goods = percent_no_goods;
+    }
+
+    public int getQuantity_joint() {
+        return quantity_joint;
+    }
+
+    public void setQuantity_joint(int quantity_joint) {
+        this.quantity_joint = quantity_joint;
+    }
+
+    public String getJoint_buy_list() {
+        return joint_buy_list;
+    }
+
+    public void setJoint_buy_list(String joint_buy_list) {
+        this.joint_buy_list = joint_buy_list;
     }
 
     @Override

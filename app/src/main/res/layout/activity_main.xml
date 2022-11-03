@@ -137,6 +137,13 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/btnBuyGoodsTogether"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Совместные закупки"
+            android:visibility="gone"/>
+        <Button
             android:id="@+id/btnCatalog"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -149,6 +156,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="@string/my_company_big" />
+        <Button
+            android:id="@+id/btnDownloadFullPricePDF"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/download_full_price_PDF" />
 
         <Button
             android:id="@+id/btnAdminActiv"
