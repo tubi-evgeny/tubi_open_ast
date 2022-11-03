@@ -2,6 +2,8 @@ package ru.tubi.project.models;
 
 public class InvoiceModel {
 
+    private int product_id;
+    private String catalog;
     private int in_warehouse_id;
     private int out_warehouse_id;
     private int out_warehouse_info_id;
@@ -18,6 +20,7 @@ public class InvoiceModel {
     private String description_docs;
     private String product_name_from_provider;
     private double price;
+    private double process_price;
     private String image_url;
     private int order_id;
     private int order_partner_id;
@@ -32,6 +35,8 @@ public class InvoiceModel {
     private int document_num;
     private String text;
     private int quantity_package;
+    private int min_sell;
+    private String product_info;
 
 
     // OrderBuyerListActivity //splitInvoiceInfoListResult()
@@ -46,6 +51,18 @@ public class InvoiceModel {
         this.document_num = document_num;
         this.invoice_key_id=invoice_key_id;
         this.text=text;
+    }
+    //DownloadFullPricePDFActivity / splitInvoiceResult();
+    public InvoiceModel(int product_id
+            , int productInventory_id,double price, double process_price
+            , int min_sell, String product_info, String catalog) {
+        this.product_id = product_id;
+        this.productInventory_id = productInventory_id;
+        this.price=price;
+        this.process_price=process_price;
+        this.min_sell=min_sell;
+        this.product_info=product_info;
+        this.catalog=catalog;
     }
     //OrderToProviderListActivity //splitResult();
     public InvoiceModel(int order_partner_id, int executed, int out_warehouse_info_id
@@ -105,6 +122,14 @@ public class InvoiceModel {
         this.quantity = quantity;
         this.price = price;
         this.product_name_from_provider = product_name_from_provider;
+    }
+
+    public String getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(String catalog) {
+        this.catalog = catalog;
     }
 
     public int getIn_warehouse_id() {
@@ -346,5 +371,38 @@ public class InvoiceModel {
 
     public void setQuantity_package(int quantity_package) {
         this.quantity_package = quantity_package;
+    }
+
+    public int getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(int product_id) {
+        this.product_id = product_id;
+    }
+
+
+    public double getProcess_price() {
+        return process_price;
+    }
+
+    public void setProcess_price(double process_price) {
+        this.process_price = process_price;
+    }
+
+    public int getMin_sell() {
+        return min_sell;
+    }
+
+    public void setMin_sell(int min_sell) {
+        this.min_sell = min_sell;
+    }
+
+    public String getProduct_info() {
+        return product_info;
+    }
+
+    public void setProduct_info(String product_info) {
+        this.product_info = product_info;
     }
 }

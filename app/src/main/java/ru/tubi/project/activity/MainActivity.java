@@ -29,6 +29,8 @@ import ru.tubi.project.BuildConfig;
 import ru.tubi.project.R;
 
 import ru.tubi.project.activity.AdminPanel.AdminActivity;
+import ru.tubi.project.activity.buyer.BuyGoodsTogetherActivity;
+import ru.tubi.project.activity.invoice.DownloadFullPricePDFActivity;
 import ru.tubi.project.free.CheckNewMessege;
 import ru.tubi.project.models.AddressModel;
 import ru.tubi.project.models.OrderModel;
@@ -58,7 +60,8 @@ import static ru.tubi.project.free.VariablesHelpers.MY_REGION;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView tvName, tvMyCity;
-    private Button btnCatalog, btnAdminActiv, btnMyCompany, btnMenu;
+    private Button btnBuyGoodsTogether,btnCatalog, btnAdminActiv, btnMyCompany
+            ,btnDownloadFullPricePDF, btnMenu;
     private LinearLayout llMyCity, llMessege;
     private ImageView ivCheckmark;
     private ListView lvMyCity;
@@ -87,8 +90,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         setTitle(AllText.MAIN_ACTIVITY);//ГЛАВНАЯ
 
+        btnBuyGoodsTogether=findViewById(R.id.btnBuyGoodsTogether);
         btnCatalog=findViewById(R.id.btnCatalog);
         btnMyCompany=findViewById(R.id.btnMyCompany);
+        btnDownloadFullPricePDF=findViewById(R.id.btnDownloadFullPricePDF);
         btnMenu=findViewById(R.id.btnMenu);
         llMessege=findViewById(R.id.llMessege);
         tvMyCity=findViewById(R.id.tvMyCity);
@@ -99,8 +104,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnAdminActiv = findViewById(R.id.btnAdminActiv);
         btnMyCompany = findViewById(R.id.btnMyCompany);
 
+        btnBuyGoodsTogether.setOnClickListener(this);
         btnCatalog.setOnClickListener(this);
         btnMyCompany.setOnClickListener(this);
+        btnDownloadFullPricePDF.setOnClickListener(this);
         btnMenu.setOnClickListener(this);
         llMyCity.setOnClickListener(this);
         llMessege.setOnClickListener(this);
@@ -206,12 +213,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, ""+ENTER_YOUR_CITY, Toast.LENGTH_SHORT).show();
             return;
         }
-        if (v.equals(btnCatalog)) {
+        if (v.equals(btnBuyGoodsTogether)) {
+            Intent intent = new Intent(this, BuyGoodsTogetherActivity.class);
+            intent.putExtra("activity","main");
+            startActivity(intent);
+        }
+        else if (v.equals(btnCatalog)) {
             Intent intent = new Intent(this, ActivityCatalog.class);
             startActivity(intent);
         }
         else if (v.equals(btnMyCompany)) {
             Intent intent = new Intent(this, CompanyMyActivity.class);
+            startActivity(intent);
+        }
+        else if(v.equals(btnDownloadFullPricePDF)){
+            Intent intent = new Intent(this, DownloadFullPricePDFActivity.class);
             startActivity(intent);
         }
         else if(v.equals(btnMenu)){
