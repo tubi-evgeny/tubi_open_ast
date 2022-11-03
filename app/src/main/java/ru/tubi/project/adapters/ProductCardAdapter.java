@@ -95,7 +95,8 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
                     .execute(ADMIN_PANEL_URL_PREVIEW_IMAGES+myPrice.getImage_url());
         }else holder.ivImageProduct.setImageResource(R.drawable.tubi_logo_no_image_300ps);
 
-        holder.tvProductDescription.setText(""+myPrice.getProduct_info());
+        holder.tvProductDescription.setText(""+myPrice.getProduct_info()
+                +" (id-"+myPrice.getProduct_inventory_id()+")");
         holder.tvProvider.setText("" + new FirstSimbolMakeBig()
                 .firstSimbolMakeBig(myPrice.getCounterparty()));
         holder.tvPercentNoGoods.setText(""+myPrice.getPercent_no_goods()+" %");
@@ -208,7 +209,7 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
             llMinus.setOnClickListener(this);
            // llMinusTen.setOnClickListener(this);
             llPlus.setOnClickListener(this);
-            llProviderIfo.setOnClickListener(this);
+            //llProviderIfo.setOnClickListener(this);
             tvQuantity.setOnClickListener(this);
 
         }
