@@ -58,6 +58,7 @@ public class AllText {
     public static String DOCUMENT_PROVIDER = "документ поставщика";
     public static String UPLOADING_IMAGE_TAXT = "Идет загрузка Изображения";
     public static String DONT_SHOW_IT_ANYMORE = "Больше не показывать";
+    public static String MAKE_LESS = "Укажите товара меньше";
     public static String STOCK_OF_GOODS_REQUESTED_QUANTITY = "Запас товара на складе меньше запрошенного колличества";
     public static String IMAGE_UPLOADING_FAILED_TAXT = "Не удалось Загрузить Изображение";
     public static String NETWORK_FAILED_TAXT = "Ошибка соединения";
@@ -409,8 +410,11 @@ public class AllText {
     public static String MAXIMUM = "Максимум";
     public static String CONTRACT_BIG = "ДОГОВОР";
     public static String CALENDAR_TEXT = "Календарь";
+    public static String BUY_TOGETHER_TEXT = "Совместные закупки";
+    public static String DONT_SHOW_TEXT = "Больше не показывать";
     public static String INTERCITY_DELIVERY_TEXT = "междугородних доставок";
     public static String ADD_TIPE = "Добавить статус склада";
+    public static String PRICE_LIST = "Прайс лист";
     public static String EDIT_WAREHOUSE = "Редактировать склад";
     public static String BUYERS_ORDERS = "Заказы покупателей";
     public static String PARTNER_WAREHOUSE_TEXT = "Склад партнер";
@@ -449,7 +453,12 @@ public class AllText {
             "\n\nСерый цвет - означает что поставщик подтвердил наличие товара но количество может быть недостаточным." +
             "\n\nЧисло является рейтингом компании, 100% равен наивысшему";
     public static String MES_27 = "Минимальная сумма заказа доставки";
-
+    public static String MES_28 = "Если ваша компания не может или не желает приобретать минимальное количество " +
+        "товара указанное в карточке товара, то здесь можно участвовать в совместной " +
+        "закупке, несколько участников объединяются и когда минимальное количество заказа " +
+        "товара достигнуто открывается заказ и товар заносится в него, поздравляем теперь " +
+        "вам доступно самое лучшее предложение благодаря вашим партнерам, которые тоже " +
+        "принимают участие в закупке.";
 
 
 }

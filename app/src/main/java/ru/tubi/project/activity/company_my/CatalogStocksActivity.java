@@ -408,11 +408,11 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
 
                     int product_id = Integer.parseInt(temp[0]);
                     int product_inventory_id = Integer.parseInt(temp[1]);
-                    String category = temp[2];
-                    String brand = temp[3];
-                    String characteristic = temp[4];
-                    String type_packaging = temp[5];
-                    String unit_measure = temp[6];
+                    String category = ""+temp[2];
+                    String brand = ""+temp[3];
+                    String characteristic = ""+temp[4];
+                    String type_packaging = ""+temp[5];
+                    String unit_measure = ""+temp[6];
                     int weight_volume = Integer.parseInt(temp[7]);
                     double total_quantity = 0;
                     double price = Double.parseDouble(temp[8]);
@@ -455,6 +455,7 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
                 adapter.notifyDataSetChanged();
             }
         }catch (Exception ex){
+            Log.d("A111","ex: "+ex);
             Toast.makeText(this, "ex: "+ex, Toast.LENGTH_SHORT).show();
         }
         checkEtSearchTextLength();

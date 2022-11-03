@@ -198,6 +198,7 @@
     <string name="update">Обновить</string>
     <string name="slash"> / </string>
     <string name="quan_pack">шт/уп</string>
+    <string name="pieces_short">шт</string>
     <string name="save">Сохранить</string>
     <string name="order_for_collect">Заказы для сборки</string>
     <string name="shipment_product">Открузка товара</string>
@@ -217,6 +218,7 @@
     <string name="products_invoice">Товарные накладные</string>
     <string name="product_invoice">Товарная накладная</string>
     <string name="menu_invoice_list">документы</string>
+    <string name="download_full_price_PDF">скачать полный прайс PDF</string>
     <string name="warehouse_for_receiving_goods">Склад получения товара</string>
     <string name="place_receiving_goods">Место получения товара</string>
     <string name="my_product_to_partner_warehouse">Мои товары на складах партнеров</string>
@@ -226,6 +228,7 @@
     <string name="choose_day_where_get_order">Выберите день когда заберете заказ</string>
     <string name="condidate_for_provider">Кандидаты в поставщики</string>
     <string name="new_order">Новый заказ</string>
+    <string name="available">доступно</string>
     <string name="i_want_to_be_provider">Я хочу стать поставщиком</string>
     <string name="my_company">Моя компания</string>
     <string name="contract_make_for_signing">договор начнут готовить к подписанию</string>
