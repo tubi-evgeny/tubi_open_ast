@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -24,6 +29,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import ru.tubi.project.R;
+import ru.tubi.project.activity.buyer.BuyGoodsTogetherActivity;
 import ru.tubi.project.activity.buyer.PlaceOfReceiptOfGoodsActivity;
 import ru.tubi.project.adapters.ProductCardAdapter;
 import ru.tubi.project.models.DeliveryAddressModel;
@@ -32,8 +38,10 @@ import ru.tubi.project.models.ProductModel;
 import ru.tubi.project.models.ProductCardModel;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.CheckEqualsDateUtil;
+import ru.tubi.project.utilites.DownloadImage;
 import ru.tubi.project.utilites.GetColorShopingBox;
 import ru.tubi.project.utilites.InitialData;
+import ru.tubi.project.utilites.MakeImageToSquare;
 import ru.tubi.project.utilites.OrderDataRecoveryUtil;
 import ru.tubi.project.utilites.SearchOrder_id;
 
@@ -42,7 +50,11 @@ import java.util.ArrayList;
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.UserDataRecovery;
 
+import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_IMAGES;
 import static ru.tubi.project.activity.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
+import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
+import static ru.tubi.project.free.AllCollor.alert_dialog_button_green_pressed;
+import static ru.tubi.project.free.AllText.CHENGE_SMALL;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.MAXIMUM;
 import static ru.tubi.project.free.AllText.MES_1_PROFILE;
@@ -50,6 +62,7 @@ import static ru.tubi.project.free.AllText.MES_22;
 import static ru.tubi.project.free.AllText.MES_26;
 import static ru.tubi.project.free.AllText.NO_DELIVERY;
 import static ru.tubi.project.free.AllText.REPORT_A_BUG;
+import static ru.tubi.project.free.AllText.RETURN_BIG;
 import static ru.tubi.project.free.AllText.STOCK_OF_GOODS_REQUESTED_QUANTITY;
 import static ru.tubi.project.free.VariablesHelpers.DELIVERY_TO_BUYER_STATUS;
 import static ru.tubi.project.free.VariablesHelpers.MY_CITY;
@@ -71,7 +84,7 @@ public class ActivityProductCard extends AppCompatActivity implements SearchView
     private long dateOfSaleMillis;
     private String whatQuestion;
     private AlertDialog.Builder adb;
-    private AlertDialog ad;
+    private AlertDialog ad, ad2;
     private SearchOrder_id searchOrder_id = new SearchOrder_id();
     private UserDataRecovery userDataRecovery = new UserDataRecovery();
     private Context context;
@@ -80,6 +93,7 @@ public class ActivityProductCard extends AppCompatActivity implements SearchView
     private ArrayList<OrderModel> orderDataModelList = new ArrayList<>();
     private OrderDataRecoveryUtil orderDataRecoveryUtil = new OrderDataRecoveryUtil();
     private CheckEqualsDateUtil checkEqualsDate = new CheckEqualsDateUtil();
+    private ProgressDialog asyncDialog;
 
     private static final int ADD_PRODUCT_CARD_ACTIVITY_REQUEST_CODE = 6;
     private static final int ADD_PRODUCT_CARD_TO_COMPANY_DATE_FORM_REQUEST_CODE = 14;
@@ -96,6 +110,7 @@ public class ActivityProductCard extends AppCompatActivity implements SearchView
         }
 
         recyclerViewProdCard=(RecyclerView)findViewById(R.id.recyclerViewProdCard);
+        asyncDialog = new ProgressDialog(this);
 
         //получить из sqlLite данные пользователя и компании
         userDataModel = userDataRecovery.getUserDataRecovery(this);
@@ -215,7 +230,6 @@ public class ActivityProductCard extends AppCompatActivity implements SearchView
                 Intent intent = new Intent(this, PlaceOfReceiptOfGoodsActivity.class);
                 startActivityForResult(intent,PLACE_OF_RECEIPT_OF_GOODS_REQUEST_CODE);
             }
-
         }
        /* else if(str[1].equals("llPlusTen}")) {
             allPrice.get(position).setQuantity(quantity+10);
@@ -255,9 +269,9 @@ public class ActivityProductCard extends AppCompatActivity implements SearchView
         else if(str[1].equals("tvQuantity}")){
             adSelectQuantity(position);
         }
-        else if(str[1].equals("llProviderIfo}")){
+       /* else if(str[1].equals("llProviderIfo}")){
             adProviderIfo(position);
-        }
+        }*/
         adapter.notifyItemChanged(position);
     }
     //получить колличество товар которое надо добавить в заказ
@@ -583,6 +597,110 @@ public class ActivityProductCard extends AppCompatActivity implements SearchView
         ad.show();
     }
     private void alertDialogShow(ProductCardModel productCard, int position){
+        LinearLayout ll = new LinearLayout(this);
+        ll.setOrientation(LinearLayout.VERTICAL);
+        Button btnJointBayer = new Button(this);
+        Button btnShowBigImage = new Button(this);
+        Button btnDescription = new Button(this);
+        Button btnProviderInfo = new Button(this);
+        btnJointBayer.setText("Купить этот товар совместно");
+        btnShowBigImage.setText("Увеличить картинку");
+        btnDescription.setText("Описание товара");
+        btnProviderInfo.setText("О Поставщике");
+        btnJointBayer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("A111","btn test 1");
+                ProductCardModel productCard = allPrice.get(position);
+                Intent intent=new Intent(ActivityProductCard.this
+                        , BuyGoodsTogetherActivity.class);
+                intent.putExtra("productCard",productCard);
+                intent.putExtra("activity","productCard");
+                startActivity(intent);
+                ad2.cancel();
+            }
+        });
+        btnShowBigImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adShowBigImage(position);
+                ad2.cancel();
+            }
+        });
+        btnDescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adDescriptionProduct(productCard, position);
+                ad2.cancel();
+            }
+        });
+        btnProviderInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adProviderIfo(position);
+                ad2.cancel();
+            }
+        });
+        ll.addView(btnJointBayer);
+        ll.addView(btnShowBigImage);
+        ll.addView(btnDescription);
+        ll.addView(btnProviderInfo);
+        adb = new AlertDialog.Builder(this);
+        adb.setView(ll);
+        ad2 = adb.create();
+        ad2.show();
+    }
+    private void adShowBigImage(int position){
+        ImageView ivImage = new ImageView(this);
+        LinearLayout linearLayout = new LinearLayout(this);
+
+        linearLayout.addView(ivImage, new LinearLayout.LayoutParams(1000,1000));
+        linearLayout.setGravity(Gravity.CENTER);
+
+        String image_url = allPrice.get(position).getImage_url();
+        if(!image_url.equals("null")) {
+            //проверка соединения интернета
+            if ( !isOnline() ){
+                Toast.makeText(getApplicationContext(),
+                        "Нет соединения с интернетом!",Toast.LENGTH_LONG).show();
+                return;
+            }
+            new DownloadImage(){
+                  @Override
+                  protected void onPreExecute() {
+                      //asyncDialog.setMessage(LOAD_TEXT);
+                      //asyncDialog.show();
+                      asyncDialogShow();
+                      super.onPreExecute();
+                  }
+                @Override
+                protected void onPostExecute(Bitmap result) {
+                    try {
+                        int check = result.getWidth();
+                        new MakeImageToSquare(result, ivImage);
+                    }catch (Exception ex){
+                        ivImage.setImageResource(R.drawable.tubi_logo_no_image_300ps);
+                    }
+                    asyncDialogDismiss();//asyncDialog.dismiss();
+                }
+            }
+                    .execute(ADMIN_PANEL_URL_IMAGES+image_url);
+
+        }else ivImage.setImageResource(R.drawable.tubi_logo_no_image_300ps);
+
+        adb = new AlertDialog.Builder(this);
+        adb.setView(linearLayout);
+        ad=adb.create();
+        ad.show();
+    }
+    private void asyncDialogShow(){
+        asyncDialog.setMessage(LOAD_TEXT);
+        asyncDialog.show();
+    }
+    private void asyncDialogDismiss(){
+        asyncDialog.dismiss();
+    }
+    private void adDescriptionProduct(ProductCardModel productCard, int position){
 
         adb = new AlertDialog.Builder(this);
         String str1 = allPrice.get(position).toString();
@@ -592,6 +710,7 @@ public class ActivityProductCard extends AppCompatActivity implements SearchView
         ad = adb.create();
         ad.show();
     }
+
     private void adProviderIfo(int position){
         adb = new AlertDialog.Builder(this);
         //String str1 = allPrice.get(position).toString();
