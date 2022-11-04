@@ -139,6 +139,7 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
         Log.d("A111",getClass()+" / splitInvoiceResult \n res=" +result);
         //Toast.makeText(this, "res\n"+result, Toast.LENGTH_SHORT).show();
         try{
+            result=result.trim();
             String[] res = result.split("<br>");
             for (int i = 0; i < res.length; i++) {
                 String[] temp = res[i].split("&nbsp");
@@ -147,7 +148,7 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
                 double price = Double.parseDouble(temp[2]);
                 double process_price = Double.parseDouble(temp[3]);
                 int min_sell = Integer.parseInt(temp[4]);
-                String product_info = temp[5];
+                String product_info= temp[5];
                 String catalog = temp[6];
 
                 InvoiceModel order_info = new InvoiceModel(product_id
@@ -162,13 +163,16 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
             invoice_list.sort(Comparator.comparing(InvoiceModel::getCatalog)
                     .thenComparing(InvoiceModel::getWarehouse_info_id));
              */
-
-            createdPDF();
-            pdfView.fromFile(file).load();
-
         }catch(Exception ex){
             Log.d("A111",getClass()+" / splitInvoiceResult \n ex=" +ex);
+            ex.printStackTrace();
             Toast.makeText(this, "Exception: "+ex, Toast.LENGTH_SHORT).show();
+        }
+        try{
+            createdPDF();
+            pdfView.fromFile(file).load();
+        }catch(Exception ex){
+            Log.d("A111",getClass()+" / splitInvoiceResult \n ex2=" +ex);
         }
     }
     private void createdPDF(){

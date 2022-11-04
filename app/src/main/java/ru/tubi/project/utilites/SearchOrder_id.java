@@ -103,7 +103,7 @@ public class SearchOrder_id {
         //if(result.trim().length() > 0){//string.trim().length() == 0
             try{
                 //checkOrUpdataOrderId(result);
-
+                result=result.trim();
                 if(Integer.parseInt(result) > 0){
                      ORDER_ID = Integer.parseInt(result);
                 }else{
@@ -117,6 +117,7 @@ public class SearchOrder_id {
     //разобрать результат и записать в таблицу
     private void insertOrders(String result){
         try {
+            result=result.trim();
             if(!result.isEmpty()){
                 my_db = new HelperDB(this.context);
                 my_db.clearTableOrders();
