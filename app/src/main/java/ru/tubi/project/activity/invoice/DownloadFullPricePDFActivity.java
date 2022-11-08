@@ -139,7 +139,7 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
         Log.d("A111",getClass()+" / splitInvoiceResult \n res=" +result);
         //Toast.makeText(this, "res\n"+result, Toast.LENGTH_SHORT).show();
         try{
-            result=result.trim();
+            //result=result.trim();
             String[] res = result.split("<br>");
             for (int i = 0; i < res.length; i++) {
                 String[] temp = res[i].split("&nbsp");
@@ -371,6 +371,7 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
         File fileWrite = new File(Environment.getExternalStorageDirectory(),"/"+fileDir+filePath);
         try {
             myPdfDocument.writeTo(new FileOutputStream(fileWrite));
+            Toast.makeText(this, "Прайс загружен, папка МОИ ФАЙЛЫ -> ПАМЯТЬ УСРОЙСТВА -> папка tubi", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -382,7 +383,7 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         myPdfDocument.close();
-        Toast.makeText(this, "Прайс загружен, папка МОИ ФАЙЛЫ -> ПАМЯТЬ УСРОЙСТВА -> папка tubi", Toast.LENGTH_LONG).show();
+
     }
     //найти или создать директорию хранения
     private String giveFolderPath(){

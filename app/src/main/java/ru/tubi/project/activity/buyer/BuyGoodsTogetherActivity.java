@@ -1,5 +1,6 @@
 package ru.tubi.project.activity.buyer;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,43 +40,61 @@ import java.util.Map;
 import ru.tubi.project.R;
 import ru.tubi.project.activity.ActivityProductCard;
 import ru.tubi.project.activity.ActivtyAddProduct;
+import ru.tubi.project.activity.CompanyDateFormActivity;
 import ru.tubi.project.adapters.BuyGoodsTogetherAdapter;
 import ru.tubi.project.adapters.ProductAdapter;
+import ru.tubi.project.models.OrderModel;
 import ru.tubi.project.models.ProductCardModel;
 import ru.tubi.project.models.ProductCardModel;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.DownloadImage;
 import ru.tubi.project.utilites.InitialDataPOST;
 import ru.tubi.project.utilites.MakeImageToSquare;
+import ru.tubi.project.utilites.OrderDataRecoveryUtil;
 import ru.tubi.project.utilites.UserDataRecovery;
 
 import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_IMAGES;
+import static ru.tubi.project.activity.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
 import static ru.tubi.project.free.AllText.BUY_TOGETHER_TEXT;
 import static ru.tubi.project.free.AllText.DONE_BIG;
 import static ru.tubi.project.free.AllText.DONT_SHOW_TEXT;
 import static ru.tubi.project.free.AllText.LEAVE_A_COMMENT;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.MAKE_LESS;
+import static ru.tubi.project.free.AllText.MES_1_PROFILE;
+import static ru.tubi.project.free.AllText.MES_22;
 import static ru.tubi.project.free.AllText.MES_28;
+import static ru.tubi.project.free.AllText.MES_29;
 import static ru.tubi.project.free.AllText.ORDER_APPROVED;
 import static ru.tubi.project.free.AllText.RETURN_BIG;
 import static ru.tubi.project.free.AllText.SEARCH_PRODUCT_BEFORE_DOWNLOADING_DATA;
 import static ru.tubi.project.free.VariablesHelpers.DIALOG_BUY_GOODS_TOGETHER;
+import static ru.tubi.project.free.VariablesHelpers.MY_REGION;
+import static ru.tubi.project.free.VariablesHelpers.WAREHOUSE_ID_FOR_JOINT_BUY;
 import static ru.tubi.project.utilites.Constant.JOINT_BUY;
 import static ru.tubi.project.utilites.InitialDataPOST.getParamsString;
 
 public class BuyGoodsTogetherActivity extends AppCompatActivity {
 
+    private TextView tvWarehouseInfo;
+    private ListView lvWarehouses;
+    private ArrayList <String> warehouseInfoList = new ArrayList<>();
+    private ArrayList <Integer>warehouseIdList = new ArrayList<>();
     private Intent takeit, intent;
     private ProductCardModel productCard;
     final Context context = this;
     private String activityName;
-    private int quantityProductOrderIn=0, partner_warehouse_id=14;// ИП цыганков склад=14
+    private int quantityProductOrderIn=0, partner_warehouse_id=4;// ИП цыганков склад=14
     private ArrayList<ProductCardModel> products =new ArrayList<ProductCardModel>();
     private Dialog dialog;
     private UserModel userDataModel;
+    private UserDataRecovery userDataRecovery = new UserDataRecovery();
+    private ArrayList<OrderModel> orderDataModelList = new ArrayList<>();
+    private OrderDataRecoveryUtil orderDataRecoveryUtil = new OrderDataRecoveryUtil();
     private RecyclerView recyclerView;
     private BuyGoodsTogetherAdapter adapter;
+    private ArrayAdapter<String> adapWarehouse;
+    private static final int ADD_PRODUCT_TO_COMPANY_DATE_FORM_REQUEST_CODE = 15;
 
     private AlertDialog.Builder adb;
     private AlertDialog ad;
@@ -86,15 +106,23 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
         setTitle("Каталог");
         getSupportActionBar().setSubtitle("совместных закупок");
 
-        recyclerView=(RecyclerView)findViewById(R.id.rvList);
+        recyclerView=findViewById(R.id.rvList);
+        lvWarehouses = findViewById(R.id.lvWarehouses);
+        tvWarehouseInfo = findViewById(R.id.tvWarehouseInfo);
+
+        lvWarehouses.setVisibility(View.GONE);
 
         //получить из sqlLite данные пользователя и компании
-        UserDataRecovery userDataRecovery = new UserDataRecovery();
+        //UserDataRecovery userDataRecovery = new UserDataRecovery();
         userDataModel = userDataRecovery.getUserDataRecovery(this);
+        //получить список заказав с характеристиками
+        orderDataModelList = orderDataRecoveryUtil.getOrderDataRecovery(this);
 
         takeit = getIntent();
         activityName = takeit.getStringExtra("activity");
-        showThisWarehouseJointBuy();
+        //получить список складов партнеров
+        getPartnerWarehouseList();
+        //showThisWarehouseJointBuy();
         try{
             productCard = (ProductCardModel) takeit.getSerializableExtra("productCard");
             //adProductBuy(productCard);
@@ -102,6 +130,25 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
             //пришли из главной активности
             if(DIALOG_BUY_GOODS_TOGETHER == 0) adInfoBuyTogether();
         }
+        tvWarehouseInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lvWarehouses.setVisibility(View.VISIBLE);
+            }
+        });
+        lvWarehouses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                tvWarehouseInfo.setText(""+warehouseInfoList.get(position));
+                WAREHOUSE_ID_FOR_JOINT_BUY = warehouseIdList.get(position);
+                lvWarehouses.setVisibility(View.GONE);
+                showThisWarehouseJointBuy();
+                Log.d("A111",getClass()+" / onCreate / position="+position);
+            }
+        });
+        adapWarehouse = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, warehouseInfoList);
+        lvWarehouses.setAdapter(adapWarehouse);
 
         BuyGoodsTogetherAdapter.RecyclerViewClickListener clickListener=
                 new BuyGoodsTogetherAdapter.RecyclerViewClickListener() {
@@ -133,7 +180,6 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
             quantityProductOrderIn = productCard.getQuantity_joint();
             adProductBuy(productCard);
         }
-
     }
 
     private void adProductBuy(ProductCardModel productCard){
@@ -150,27 +196,32 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
         ListView lvBuyerInfo = dialog.findViewById(R.id.lvBuyerInfo);
 
 
-        ArrayList <String>buyerList = new ArrayList<>();
+        ArrayList <String>buyerList = new ArrayList<String>();
         try {
-            JSONArray joint_buy_list = new JSONArray(productCard.getJoint_buy_list());
-            Log.d("A111",getClass()+" / adProductBuy / json length="+joint_buy_list.length());
-            for(int i = 0;i < joint_buy_list.length();i++){
-                JSONObject detail = joint_buy_list.getJSONObject(i);
-                String buyerInfo = detail.getString("companyInfoString_short");
-                buyerInfo += " кол-"+detail.getString("quantity_joint")+"шт.";
-                buyerList.add(buyerInfo);
-              //  Log.d("A111",getClass()+" / adProductBuy / json detail="
-             //           +detail.getString("companyInfoString_short")
-             //           +" кол-"+detail.getString("quantity_joint")+" i="+i);
-
+            if(productCard.getJoint_buy_list() != null) {
+                JSONArray joint_buy_list = new JSONArray(productCard.getJoint_buy_list());
+                Log.d("A111", getClass() + " / adProductBuy / json length=" + joint_buy_list.length());
+                for (int i = 0; i < joint_buy_list.length(); i++) {
+                    JSONObject detail = joint_buy_list.getJSONObject(i);
+                    String buyerInfo = "" + detail.getString("companyInfoString_short");
+                    buyerInfo += " кол-" + detail.getString("quantity_joint") + "шт.";
+                    buyerList.add(buyerInfo);
+               /* Log.d("A111",getClass()+" / adProductBuy / json detail="
+                        +detail.getString("companyInfoString_short")
+                        +" кол-"+detail.getString("quantity_joint")+" i="+i);*/
+                }
+            }else{
+                Log.d("A111",getClass()+" / adProductBuy / json string= null");
             }
-           // Log.d("A111",getClass()+" / adProductBuy / json string="
-          //          +buyerList.toString());
+          /* Log.d("A111",getClass()+" / adProductBuy / json string="
+                    +buyerList.toString());*/
         }catch(JSONException ex){
             Log.d("A111",getClass()+" / adProductBuy / json ex="+ex);
         }
+        String[] mBuyerList = new String[buyerList.size()];
+        mBuyerList = buyerList.toArray(mBuyerList);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, buyerList);
+                android.R.layout.simple_list_item_1, mBuyerList);
         lvBuyerInfo.setAdapter(adapter);
 
         double freeStock = productCard.getMin_sell() - quantityProductOrderIn;
@@ -189,6 +240,9 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
                     if (quantityToOrder <= freeStock) {
                         createNewJointBuy(productCard.getProduct_inventory_id(), quantityToOrder);
                         activityName = "";
+                        //обновить
+                        showThisWarehouseJointBuy();
+                        dialog.dismiss();
                        // Log.d("A111", "" + getClass() + " / quantity = " + tvQuantityToOrder.getText().toString());
                     } else {
                         Toast.makeText(BuyGoodsTogetherActivity.this, "" + MAKE_LESS, Toast.LENGTH_SHORT).show();
@@ -197,6 +251,34 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
             }
         });
         dialog.show();
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void showWarehouseInfo(){
+        if(warehouseIdList.size() == 0){
+            tvWarehouseInfo.setText("");
+            lvWarehouses.setVisibility(View.GONE);
+            WAREHOUSE_ID_FOR_JOINT_BUY = 0;
+            Toast.makeText(this, ""+MES_29, Toast.LENGTH_SHORT).show();
+        }
+        else if(warehouseIdList.size() == 1){
+            tvWarehouseInfo.setText(""+warehouseInfoList.get(0));
+            WAREHOUSE_ID_FOR_JOINT_BUY = warehouseIdList.get(0);
+            showThisWarehouseJointBuy();
+            lvWarehouses.setVisibility(View.GONE);
+        }
+        else{
+            tvWarehouseInfo.setText("");
+            lvWarehouses.setVisibility(View.VISIBLE);
+        }
+    }
+    //получить список складов партнеров
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void getPartnerWarehouseList(){
+        final Map<String, String> parameters = new HashMap<>();
+        parameters.put("get_partner_warehouse_list", "");
+        parameters.put("my_region", ""+MY_REGION);
+        String whatQuestion = "get_partner_warehouse_list";
+        setInitialDataPOST(JOINT_BUY, parameters, whatQuestion);
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void showThisWarehouseJointBuy() {
@@ -208,6 +290,26 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void createNewJointBuy(int product_inventory_id, int quantityToOrder){
+        if(WAREHOUSE_ID_FOR_JOINT_BUY == 0){
+            Toast.makeText(this, "Выберите склад", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //если это агент и нет company_tax_id партнера
+        if(userDataModel.getRole().equals("sales_agent")
+                && PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT == 0){
+            Log.d("A111","ActivityProduct / WhatButtonClicked / if (sales_agent)");
+            Toast.makeText(this, ""+MES_22, Toast.LENGTH_LONG).show();
+            return;
+        }
+        //если это не агент и нет данных о компании
+        else if(!userDataModel.getRole().equals("sales_agent")
+                && userDataModel.getCompany_tax_id() == 0){
+            Intent intent= new Intent(this, CompanyDateFormActivity.class);
+            intent.putExtra("message",MES_1_PROFILE);
+            startActivityForResult(intent
+                    ,ADD_PRODUCT_TO_COMPANY_DATE_FORM_REQUEST_CODE);
+            return;
+        }
         final Map<String, String> parameters = new HashMap<>();
         parameters.put("create_new_joint_buy", "");
         parameters.put("partner_warehouse_id", ""+partner_warehouse_id);
@@ -216,6 +318,7 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
         parameters.put("user_uid", userDataModel.getUid());
         String whatQuestion = "create_new_joint_buy";
         setInitialDataPOST(JOINT_BUY, parameters, whatQuestion);
+        Log.d("A111",getClass()+" / createNewJointBuy / url="+parameters.toString());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -236,6 +339,10 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
                 }
                 else if(whatQuestion.equals("show_this_warehouse_joint_buy") ) {
                     splitResultThisWarehouseJointBuy(result);
+                }
+                else if(whatQuestion.equals("get_partner_warehouse_list") ) {
+                    splitPartnerWarehouseList(result);
+                    Log.d("A111",getClass()+" / setInitialDataPOST / result="+result);
                 }
                 //скрыть диалоговое окно
                 asyncDialog.dismiss();
@@ -258,6 +365,28 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
                 }
             }.execute(ADMIN_PANEL_URL_IMAGES+image_url);
         }else ivImageProduct.setImageResource(R.drawable.tubi_logo_no_image_300ps);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void splitPartnerWarehouseList(String result){
+        warehouseInfoList.clear();
+        warehouseIdList.clear();
+        Log.d("A111",getClass()+" / splitResultThisWarehouseJointBuy / result="+result);
+        try {
+            String[] res = result.split("<br>");
+            for (int i = 0; i < res.length; i++) {
+                String[] temp = res[i].split("&nbsp");
+                int warehouse_id=Integer.parseInt(temp[0]);
+                String warehouseInfoString=temp[1];
+
+                warehouseIdList.add(warehouse_id);
+                warehouseInfoList.add(""+warehouseInfoString);
+            }
+        }catch (Exception ex){
+            Log.d("A111",getClass()+" / splitResultThisWarehouseJointBuy / ex="+ex);
+            //Toast.makeText(this, "ex: splitResult\n"+ex, Toast.LENGTH_SHORT).show();
+        }
+        adapWarehouse.notifyDataSetChanged();
+        showWarehouseInfo();
     }
     private void splitResultThisWarehouseJointBuy(String result){
         products.clear();
@@ -295,8 +424,20 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
             Toast.makeText(this, "Все отлично, товар теперь в совместных закупках", Toast.LENGTH_SHORT).show();
         }else if(result.equals("NO_RESULT")){
             Toast.makeText(this, "Не получилось сохранить, попробуйте еще раз", Toast.LENGTH_SHORT).show();
+        }else{
+            try {
+                String[] res = result.split("<br>");
+                for (int i = 0; i < res.length; i++) {
+                    String[] temp = res[i].split("&nbsp");
+                    if(temp[0].equals("message")){
+                        Toast.makeText(this, ""+temp[1], Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }catch (Exception ex){
+                Log.d("A111",getClass()+" / splitResultJointBuy / ex="+ex);
+            }
         }
-       // Log.d("A111",""+getClass()+" / result="+result);
+        Log.d("A111",""+getClass()+" / result="+result);
     }
     private void adInfoBuyTogether(){
         adb = new AlertDialog.Builder(this);
@@ -318,4 +459,15 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
         ad.show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == ADD_PRODUCT_TO_COMPANY_DATE_FORM_REQUEST_CODE
+                && resultCode == RESULT_OK){
+            //обновить/получить из sqlLite данные пользователя и компании
+            userDataModel = userDataRecovery.getUserDataRecovery(this);
+            //обновить/получить список заказав с характеристиками
+            orderDataModelList = orderDataRecoveryUtil.getOrderDataRecovery(this);
+        }
+    }
 }

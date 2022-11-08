@@ -610,6 +610,13 @@ public class ActivityProductCard extends AppCompatActivity implements SearchView
         btnJointBayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dateOfSaleMillis = allPrice.get(position).getDate_of_sale_millis();
+                //если дата доставки не указана вызвать возврат
+                if(dateOfSaleMillis == 0){
+                    Toast.makeText(ActivityProductCard.this, ""
+                            +REPORT_A_BUG+" "+NO_DELIVERY, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Log.d("A111","btn test 1");
                 ProductCardModel productCard = allPrice.get(position);
                 Intent intent=new Intent(ActivityProductCard.this

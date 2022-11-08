@@ -166,7 +166,7 @@ public class ActivityCatalog extends AppCompatActivity implements SearchView.OnQ
     }*/
     //новый лист с данными из сервера б/д
     private void splitResult(String result){
-        //Toast.makeText(this, "res\n"+result, Toast.LENGTH_SHORT).show();
+        Log.d("A111",getClass()+" / splitResult / res="+result);
         String[] searchException= result.split(":");
         if(searchException[0].equals("Exception")){
             Toast.makeText(this, ""+CHECK_CONNECT_INTERNET, Toast.LENGTH_LONG).show();

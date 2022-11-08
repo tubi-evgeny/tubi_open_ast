@@ -7,13 +7,35 @@
     android:layout_height="match_parent"
     android:layout_marginRight="10dp"
     android:layout_marginLeft="10dp"
+    android:orientation="vertical"
     tools:context="ru.tubi.project.activity.ActivityProduct">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvWarehouseInfo"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="TextView" />
+
+        <ListView
+            android:id="@+id/lvWarehouses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/tubi_grey_600"/>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
     </androidx.recyclerview.widget.RecyclerView>
 

@@ -408,7 +408,7 @@ public class CompanyDateFormActivity extends AppCompatActivity implements View.O
     private void adInputRegistrationCode() {
         int maxLength = 4;
         String st1 = INPUT_TOUR_CODE_REGISTRATION;
-        String st2 = "Код можно получить у агента";
+        String st2 = "Код можно получить у вашего агента";
         String st3 = "получить?";
         EditText editText = new EditText(this);
         editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});

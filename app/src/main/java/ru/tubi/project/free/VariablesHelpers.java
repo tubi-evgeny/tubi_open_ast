@@ -31,4 +31,7 @@ public class VariablesHelpers {
 
     //сообщение в UserToInfoForOrderActivity
     public static int DIALOG_BUY_GOODS_TOGETHER = 0;
+
+    //склад который выбран для получения совместной покупки
+    public static int WAREHOUSE_ID_FOR_JOINT_BUY = 0;
 }

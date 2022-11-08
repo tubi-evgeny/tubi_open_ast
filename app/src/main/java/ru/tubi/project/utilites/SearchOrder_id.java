@@ -82,6 +82,7 @@ public class SearchOrder_id {
         url_get += "&" + "company_tax_id=" + company_tax_id;
         String whatQuestions="search_my_active_orders_list";
         setInitialData(url_get,whatQuestions);
+        Log.d("A111",getClass()+" / go / url="+url_get);
     }
 
     private void setInitialData(String url_get, String whatQuestion) {
@@ -103,7 +104,7 @@ public class SearchOrder_id {
         //if(result.trim().length() > 0){//string.trim().length() == 0
             try{
                 //checkOrUpdataOrderId(result);
-                result=result.trim();
+                //result=result.trim();
                 if(Integer.parseInt(result) > 0){
                      ORDER_ID = Integer.parseInt(result);
                 }else{
@@ -117,7 +118,7 @@ public class SearchOrder_id {
     //разобрать результат и записать в таблицу
     private void insertOrders(String result){
         try {
-            result=result.trim();
+            //result=result.trim();
             if(!result.isEmpty()){
                 my_db = new HelperDB(this.context);
                 my_db.clearTableOrders();
@@ -165,7 +166,7 @@ public class SearchOrder_id {
             }
 
         }catch (Exception ex){
-            Log.d("A111","SearchOrder_id. ошибка при получении списка заказов "+ex.toString());
+            Log.d("A111","SearchOrder_id. ошибка при получении списка заказов / ex="+ex);
         }
     }
     public void checkOrUpdataOrderId(String result){
