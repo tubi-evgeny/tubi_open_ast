@@ -29,8 +29,8 @@ public class OrderDataRecoveryUtil extends Fragment {
                 order_id_string += ";";
             }
         }
-                Log.d("A111","OrderDataRecoveryUtil " +
-                        "/ getOrderDataRecovery / order_id string = "+order_id_string);
+            Log.d("A111","OrderDataRecoveryUtil " +
+                    "/ getOrderDataRecovery / order_id string = "+order_id_string);
         return orderDataModelList;
     }
     // Проверить есть ли в таблице данные о открытых заказах
@@ -44,6 +44,7 @@ public class OrderDataRecoveryUtil extends Fragment {
         int col1 = сursor.getColumnIndex(HelperDB.DATE_MILLIS);
         int col2 = сursor.getColumnIndex(HelperDB.CATEGORY);
         int col3 = сursor.getColumnIndex(HelperDB.DELIVERY);
+        int col4 = сursor.getColumnIndex(HelperDB.JOINT_BUY);
 
         сursor.moveToFirst();
         while(!сursor.isAfterLast()){
@@ -51,8 +52,9 @@ public class OrderDataRecoveryUtil extends Fragment {
             long dateMillis = Long.parseLong(сursor.getString(col1));
             String category = сursor.getString(col2);
             int delivery = Integer.parseInt(сursor.getString(col3));
+            int joint_buy = Integer.parseInt(сursor.getString(col4));
 
-            orderDataModel = new OrderModel(order_id, dateMillis, category, delivery);
+            orderDataModel = new OrderModel(order_id, dateMillis, category, delivery,joint_buy);
             orderDataModelList.add(orderDataModel);
 
             сursor.moveToNext();

@@ -47,6 +47,7 @@ public class OrderModel implements Serializable {
     private int order_id;
     private int corrected;
     private int delivery;
+    private int joint_buy;
 
 
     //CollectProductActivity//ArrayList<OrderModel> checkedList
@@ -62,11 +63,13 @@ public class OrderModel implements Serializable {
 
     }
     //OrderDataRecoveryUtil//goReadUid
-    public OrderModel(int order_id, long date_millis, String category, int delivery) {
+    public OrderModel(int order_id, long date_millis, String category
+            , int delivery, int joint_buy) {
         this.order_id = order_id;
         this.date_millis=date_millis;
         this.category=category;
         this.delivery=delivery;
+        this.joint_buy=joint_buy;
     }
 
     //ShowMyOrderActivity //splitResult();
@@ -683,5 +686,13 @@ public class OrderModel implements Serializable {
 
     public void setDelivery(int delivery) {
         this.delivery = delivery;
+    }
+
+    public int getJoint_buy() {
+        return joint_buy;
+    }
+
+    public void setJoint_buy(int joint_buy) {
+        this.joint_buy = joint_buy;
     }
 }

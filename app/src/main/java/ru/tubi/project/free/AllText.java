@@ -408,6 +408,7 @@ public class AllText {
     public static String ORDER_DELETE_DEFECTIVE = "Заказ дефектный \n  УДАЛИТЬ";
     public static String ORDER_APPROVED = "ОДОБРЕНО";
     public static String MAXIMUM = "Максимум";
+    public static String JOINT_BUY_TEXT = "Совместная закупка";
     public static String CONTRACT_BIG = "ДОГОВОР";
     public static String CALENDAR_TEXT = "Календарь";
     public static String BUY_TOGETHER_TEXT = "Совместные закупки";

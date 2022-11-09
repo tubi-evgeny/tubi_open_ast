@@ -49,6 +49,7 @@ import ru.tubi.project.utilites.UserDataRecovery;
 import static ru.tubi.project.free.AllText.DELIVERY_TO_ADDRESS;
 import static ru.tubi.project.free.AllText.FOR_REGISTRATION_ORDER_NEED;
 import static ru.tubi.project.free.AllText.GO_TO_DESIGN;
+import static ru.tubi.project.free.AllText.JOINT_BUY_TEXT;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.MAXIMUM;
 import static ru.tubi.project.free.AllText.ON;
@@ -94,6 +95,7 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
     private ArrayList<OrderModel> orderDataModelList = new ArrayList<>();
     private OrderDataRecoveryUtil orderDataRecoveryUtil = new OrderDataRecoveryUtil();
     private Context context;
+    public static int JOIN_BUY_MEANING = 0;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -174,7 +176,8 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
         showShopingBox();// показать товары в корзине
         receiveOrderSummMin();//получить минимальную сумму одного заказа
         receiveOrderSummMax();//получить максимальную сумму одного заказа
-        adapter=new ShopingBoxAdapter(this, shopinBoxArray,shopingBoxClickListener,clickListener);
+        adapter=new ShopingBoxAdapter(this
+                , shopinBoxArray,shopingBoxClickListener,clickListener);//,1);
 
         recyclerView.setAdapter(adapter);
     }
@@ -186,7 +189,10 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
         order_id  = receiveOrder_id(position);
         deliveryKey = receiveDeliveryKey(order_id);
         timeReceiveOrder = timeReceiveOrder(position);
+        JOIN_BUY_MEANING = orderDataModelList.get(position).getJoint_buy();
 
+       // Log.d("A111",getClass()+" / whatPositionClicked / joint_buy="+joint_buy);
+        //adapter.notifyDataSetChanged();
         showShopingBox();
 
         llOrder.setVisibility(View.GONE);
@@ -617,12 +623,18 @@ public class ShopingBox extends AppCompatActivity implements View.OnClickListene
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             String myDate = dateFormat.format(new Date(myMillis));
             String st = ""+ORDER+" "+"№ "+myOrder_id+" "+ON+" "+myDate;
+            int joint_buy = orderDataModelList.get(i).getJoint_buy();
+            //если это совместная закупка
+            if(joint_buy == 1){
+                st += "\n   "+JOINT_BUY_TEXT;
+            }
             //если есть доставка
             if(deliveryKey == 1){
                 st += "\n          "+DELIVERY_TO_ADDRESS;
             }else{
                 st += "\n          "+RECEIVING_FROM_WAREHOUSE;
             }
+
             ordersList.add(st);
            // Toast.makeText(this, "test: \n"+st, Toast.LENGTH_SHORT).show();
         }

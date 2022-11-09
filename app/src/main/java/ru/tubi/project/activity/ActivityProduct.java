@@ -180,35 +180,39 @@ public class ActivityProduct extends AppCompatActivity implements SearchView.OnQ
             }
             //проверить есть ли открытый заказ для данного товара (на нужную дату)
             boolean openOrderThisDate = false;
-            for(int i=0;i < orderDataModelList.size();i++){
-                long dateOfOrderMillis = orderDataModelList.get(i).getDate_millis();
+            for(int i=0;i < orderDataModelList.size();i++) {
+                //заказ не должен быть совместный
+                if (orderDataModelList.get(i).getJoint_buy() != 1) {
 
-                boolean flag = checkEqualsDate.check(dateOfOrderMillis, dateOfSaleMillis);
-                if(flag){
-                    openOrderThisDate=true;
+                    long dateOfOrderMillis = orderDataModelList.get(i).getDate_millis();
 
-                    //Если колличество товара =0 то добавить мин.заказ
-                    if(quantity == 0){
-                        //получить колличество товар которое надо добавить в заказ
-                        double myQuantity = getQuantityOfProductToAdd(position);
+                    boolean flag = checkEqualsDate.check(dateOfOrderMillis, dateOfSaleMillis);
+                    if (flag) {
+                        openOrderThisDate = true;
 
-                        products.get(position).setQuantity(myQuantity);
+                        //Если колличество товара =0 то добавить мин.заказ
+                        if (quantity == 0) {
+                            //получить колличество товар которое надо добавить в заказ
+                            double myQuantity = getQuantityOfProductToAdd(position);
 
-                    }else{
-                        //проверить запас товара + (кратно)
-                        if((quantity + products.get(position).getMultiple_of())
-                                <= products.get(position).getFree_inventory()){
+                            products.get(position).setQuantity(myQuantity);
 
-                            //добавить к колиичеству (кратно)
-                            products.get(position).setQuantity(quantity + products
-                                    .get(position).getMultiple_of());
-                        }else{
-                            //добавить остаток
-                            products.get(position).setQuantity
-                                    (quantity + (products.get(position).getFree_inventory() - quantity));
+                        } else {
+                            //проверить запас товара + (кратно)
+                            if ((quantity + products.get(position).getMultiple_of())
+                                    <= products.get(position).getFree_inventory()) {
 
-                            Toast.makeText(this, ""
-                                    +STOCK_OF_GOODS_REQUESTED_QUANTITY, Toast.LENGTH_LONG).show();
+                                //добавить к колиичеству (кратно)
+                                products.get(position).setQuantity(quantity + products
+                                        .get(position).getMultiple_of());
+                            } else {
+                                //добавить остаток
+                                products.get(position).setQuantity
+                                        (quantity + (products.get(position).getFree_inventory() - quantity));
+
+                                Toast.makeText(this, ""
+                                        + STOCK_OF_GOODS_REQUESTED_QUANTITY, Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 }
@@ -313,9 +317,12 @@ public class ActivityProduct extends AppCompatActivity implements SearchView.OnQ
         String myCategory="";
         String order_id_string = "";
         for(int i=0;i < orderDataModelList.size();i++){
-            order_id_string += orderDataModelList.get(i).getOrder_id();
-            if(i != orderDataModelList.size()-1){
-                order_id_string += ";";
+            //заказ не должен быть совместный
+            if (orderDataModelList.get(i).getJoint_buy() != 1) {
+                order_id_string += orderDataModelList.get(i).getOrder_id();
+                if (i != orderDataModelList.size() - 1) {
+                    order_id_string += ";";
+                }
             }
         }
         if(key == CATEGORY_ACTIVITY) {
@@ -360,10 +367,13 @@ public class ActivityProduct extends AppCompatActivity implements SearchView.OnQ
         //выбрать заказ(order_id) для этого товара
         int order_id = 0;
         for(int i=0;i < orderDataModelList.size();i++){
-            if(checkEqualsDate.check(orderDataModelList.get(i).getDate_millis()
-                    ,products.get(position).getDate_of_sale_millis())){
-                order_id = orderDataModelList.get(i).getOrder_id();
-                //Toast.makeText(this, "order_id: "+order_id, Toast.LENGTH_SHORT).show();
+            //заказ не должен быть совместный
+            if (orderDataModelList.get(i).getJoint_buy() != 1) {
+                if (checkEqualsDate.check(orderDataModelList.get(i).getDate_millis()
+                        , products.get(position).getDate_of_sale_millis())) {
+                    order_id = orderDataModelList.get(i).getOrder_id();
+                    //Toast.makeText(this, "order_id: "+order_id, Toast.LENGTH_SHORT).show();
+                }
             }
         }
 

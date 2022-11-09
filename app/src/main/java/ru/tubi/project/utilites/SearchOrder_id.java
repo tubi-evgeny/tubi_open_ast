@@ -131,6 +131,7 @@ public class SearchOrder_id {
                     long date_millis = Long.parseLong(temp[1]);
                     String category = temp[2];
                     String delivery = temp[3];
+                    String joint_buy = temp[4];
 
                     ContentValues cv = new ContentValues();
 
@@ -138,6 +139,7 @@ public class SearchOrder_id {
                     cv.put(my_db.DATE_MILLIS, date_millis);
                     cv.put(my_db.CATEGORY, category);
                     cv.put(my_db.DELIVERY, delivery);
+                    cv.put(my_db.JOINT_BUY, joint_buy);
 
                     sqdb = my_db.getWritableDatabase();
                     sqdb.insert(my_db.TABLE_NAME_ORDER_ID, null, cv);
@@ -157,6 +159,7 @@ public class SearchOrder_id {
                 cv.put(my_db.DATE_MILLIS, 0);
                 cv.put(my_db.CATEGORY, 0);
                 cv.put(my_db.DELIVERY, 0);
+                cv.put(my_db.JOINT_BUY, 0);
 
                 sqdb = my_db.getWritableDatabase();
                 sqdb.insert(my_db.TABLE_NAME_ORDER_ID, null, cv);

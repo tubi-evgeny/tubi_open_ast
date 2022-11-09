@@ -22,7 +22,7 @@ public class HelperDB extends SQLiteOpenHelper {
     public static final String TABLE_NAME_ORDER_ID = "order_id";
 
     private static final String DATABASE_NAME = "tubi.db";
-    private static final int DATABASE_VERSION = 17;
+    private static final int DATABASE_VERSION = 18;
 
     public static final String USER_NAME = "name";
     public static final String USER_PHONE = "phone";
@@ -39,6 +39,7 @@ public class HelperDB extends SQLiteOpenHelper {
     public static final String DATE_MILLIS = "date_millis";
     public static final String CATEGORY = "category";
     public static final String DELIVERY = "delivery";
+    public static final String JOINT_BUY = "joint_buy";
 
 
     String SQL_Create = "";
@@ -71,7 +72,8 @@ public class HelperDB extends SQLiteOpenHelper {
             SQL_Create += ORDER_ID + " TEXT, ";
             SQL_Create += DATE_MILLIS + " TEXT, ";
             SQL_Create += CATEGORY + " TEXT, ";
-            SQL_Create += DELIVERY + " TEXT);";
+            SQL_Create += DELIVERY + " TEXT, ";
+            SQL_Create += JOINT_BUY + " TEXT);";
             db.execSQL(SQL_Create);
 
             Log.d("A111", "While creating db: ");

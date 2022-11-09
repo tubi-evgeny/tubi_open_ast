@@ -20,6 +20,7 @@ import ru.tubi.project.utilites.MakeImageToSquare;
 import java.util.List;
 
 import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
+import static ru.tubi.project.activity.ShopingBox.JOIN_BUY_MEANING;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_400;
 import static ru.tubi.project.free.AllText.MORE_SMALL;
@@ -41,13 +42,16 @@ public class ShopingBoxAdapter extends RecyclerView.Adapter<ShopingBoxAdapter.Vi
 
     private final LayoutInflater inflater;
     private final List<ShopingBoxModel> allPrices;
+   // private final int joint_buy;
 
     public ShopingBoxAdapter(Context context, List<ShopingBoxModel>allPrices, OnShopingBoxClickListener onClickListener,
-                             ShopingBoxAdapter.RecyclerViewClickListener boxClickListener) {
+                             ShopingBoxAdapter.RecyclerViewClickListener boxClickListener){
+                    //,int joint_buy) {
         this.inflater = LayoutInflater.from(context);
         this.allPrices = allPrices;
         this.onClickListener = onClickListener;
         this.boxClickListener=boxClickListener;
+        //this.joint_buy = joint_buy;
     }
 
     @Override
@@ -118,6 +122,13 @@ public class ShopingBoxAdapter extends RecyclerView.Adapter<ShopingBoxAdapter.Vi
             }else{
                 holder.tvMinus.setText("-"+myPrice.getMin_sell());
             }
+        }
+        if(JOIN_BUY_MEANING == 1){
+            holder.llPlus.setVisibility(View.GONE);
+            holder.llMinus.setVisibility(View.GONE);
+        }else{
+            holder.llPlus.setVisibility(View.VISIBLE);
+            holder.llMinus.setVisibility(View.VISIBLE);
         }
     }
 
