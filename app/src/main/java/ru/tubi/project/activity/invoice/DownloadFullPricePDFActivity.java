@@ -243,16 +243,15 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
         canvas.drawText("№",90,y+30,titlePaint);
         canvas.drawText("id",160,y+30,titlePaint);
         canvas.drawText("Описание товара",230,y+30,titlePaint);
-        //canvas.drawText("кол-во",720,y+30,titlePaint);
-       // canvas.drawText("к-во уп",850,y+30,titlePaint);
-        canvas.drawText("в упак",1000,y+30,titlePaint);
-        canvas.drawText("цена",1110,y+30,titlePaint);
+        canvas.drawText("в упак",920,y+30,titlePaint);
+        canvas.drawText("цена",1010,y+30,titlePaint);
+        canvas.drawText("цена уп.",1100,y+30,titlePaint);
 
         canvas.drawLine(140,y+5,140,y+35,myPaint);
         canvas.drawLine(210,y+5,210,y+35,myPaint);
         //canvas.drawLine(700,y+5,700,y+35,myPaint);
-        //canvas.drawLine(840,y+5,840,y+35,myPaint);
-        canvas.drawLine(980,y+5,980,y+35,myPaint);
+        canvas.drawLine(900,y+5,900,y+35,myPaint);
+        canvas.drawLine(990,y+5,990,y+35,myPaint);
         canvas.drawLine(1080,y+5,1080,y+35,myPaint);
 
        // try{
@@ -261,7 +260,7 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
         double total = 0, totalSumm=0;
         y+=40;//y+=65;
         myPaint.setTextAlign(Paint.Align.LEFT);
-        myPaint.setStyle(Paint.Style.FILL);
+        //myPaint.setStyle(Paint.Style.FILL);
         myPaint.setTextSize(18f);
         myPaint.setStyle(Paint.Style.STROKE);
         myPaint.setStrokeWidth(2f);
@@ -288,7 +287,7 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
             String productDescription = invoice_list.get(i).getProduct_info();
             //получить длинну строки и при привышении максимума сделать перенос строки
             ArrayList<String> stringList = new ArrayList<>();
-            int stringLength = 80;
+            int stringLength = 70;
             if(productDescription.length() > stringLength){//54
                 String[]wordsList = productDescription.split(" ");
                 String stringLine = "";
@@ -310,25 +309,31 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
                 stringList.add(productDescription);
             }
             myPaint.setTextAlign(Paint.Align.LEFT);
-            canvas.drawText(String.valueOf(i+1),75,y,myPaint);
+            titlePaint.setTextAlign(Paint.Align.LEFT);
+            canvas.drawText(String.valueOf(i+1),75,y,titlePaint);
             myPaint.setStrokeWidth(2f);
             canvas.drawLine(140,y-25,140,y+3,myPaint);
-            canvas.drawText(String.valueOf(invoice_list.get(i).getProductInventory_id()),145,y,myPaint);
+            canvas.drawText(String.valueOf(invoice_list.get(i).getProductInventory_id()),145,y,titlePaint);
 
             myPaint.setTextAlign(Paint.Align.RIGHT);
+            titlePaint.setTextAlign(Paint.Align.RIGHT);
             myPaint.setTextSize(18f);
-            canvas.drawText(String.format("%d",invoice_list.get(i).getMin_sell()),1070,y,myPaint);
+            canvas.drawText(String.format("%d",invoice_list.get(i).getMin_sell()),980,y,titlePaint);
 
             total = invoice_list.get(i).getPrice() + invoice_list.get(i).getProcess_price();
             myPaint.setTextAlign(Paint.Align.RIGHT);
-            canvas.drawText(String.format("%.2f",total),pageWidth-70,y,myPaint);
+            canvas.drawText(String.format("%.2f",total),1070,y,titlePaint);
+
+            double minSellTotalPrice=invoice_list.get(i).getMin_sell()*total;
+            canvas.drawText(String.format("%.2f",minSellTotalPrice),pageWidth-65,y,titlePaint);
             //строка с переносом строки
             myPaint.setTextAlign(Paint.Align.LEFT);
+            titlePaint.setTextAlign(Paint.Align.LEFT);
             for(int j=0;j < stringList.size();j++){
                 String myText="";
                 if(j==0)myText=new FirstSimbolMakeBig().firstSimbolMakeBig(stringList.get(j).toString());
                 else myText=stringList.get(j).toString();
-                canvas.drawText(""+myText,220,y,myPaint);
+                canvas.drawText(""+myText,220,y,titlePaint);
                 canvas.drawLine(140,y-20,140,y+3,myPaint);
                 y+=18;
             }
