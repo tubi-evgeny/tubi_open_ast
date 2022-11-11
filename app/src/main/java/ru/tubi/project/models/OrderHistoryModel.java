@@ -19,8 +19,31 @@ public class OrderHistoryModel implements Serializable {
     private String get_date;
     private int order_deleted;
     private int delivery;
+    private int joint_buy;
 
     //OrderHistoryActivity //splitOrderHistoryResult();
+    public OrderHistoryModel(int order_id, String category, String brand,
+                             String characteristic, int weight_volume,
+                             double price, double quantity, int executed,
+                             String date, String get_date,int order_deleted
+            ,double price_process, int delivery, int joint_buy) {
+
+        this.category = category;
+        this.brand = brand;
+        this.characteristic = characteristic;
+        this.weight_volume = weight_volume;
+        this.price = price;
+        this.quantity=quantity;
+        this.executed=executed;
+        this.order_id=order_id;
+        this.date=date;
+        this.get_date=get_date;
+        this.order_deleted=order_deleted;
+        this.price_process = price_process;
+        this.delivery=delivery;
+        this.joint_buy=joint_buy;
+    }
+
     public OrderHistoryModel(int order_id, String category, String brand,
                              String characteristic, int weight_volume,
                              double price, double quantity, int executed,
@@ -153,6 +176,14 @@ public class OrderHistoryModel implements Serializable {
 
     public void setDelivery(int delivery) {
         this.delivery = delivery;
+    }
+
+    public int getJoint_buy() {
+        return joint_buy;
+    }
+
+    public void setJoint_buy(int joint_buy) {
+        this.joint_buy = joint_buy;
     }
 }
 

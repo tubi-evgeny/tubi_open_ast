@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,6 +83,7 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
         intent.putExtra("order_id",listFinishOrderHistory.get(position).getOrder_id());
         intent.putExtra("executed",listFinishOrderHistory.get(position).getExecuted());
         intent.putExtra("delivery",listFinishOrderHistory.get(position).getDelivery());
+        intent.putExtra("joint_buy",listFinishOrderHistory.get(position).getJoint_buy());
         intent.putExtra("order_deleted",listFinishOrderHistory.get(position).getOrder_deleted());
         startActivity(intent);
     }
@@ -118,7 +120,6 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
                 //Do your thing
                 if(whatQuestion.equals("receive_my_order_history")){
                     splitOrderHistoryResult(result);
-                    //Toast.makeText(OrderHistoryActivity.this, "A: "+result, Toast.LENGTH_SHORT).show();
 
                     //скрыть диалоговое окно
                     asyncDialog.dismiss();
@@ -129,6 +130,7 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
     }
     // разобрать результат с сервера список продуктов и колличество
     private void splitOrderHistoryResult(String result){
+        Log.d("A111",getClass()+" / splitOrderHistoryResult / res="+result);
         listOrders.clear();
         String [] res=result.split("<br>");
         //Toast.makeText(this, ""+res[0], Toast.LENGTH_SHORT).show();
@@ -155,6 +157,7 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
                 int order_deleted=Integer.parseInt(temp[10]);
                 double price_process=Double.parseDouble(temp[11]);
                 int delivery=Integer.parseInt(temp[12]);
+                int joint_buy=Integer.parseInt(temp[13]);
 
                 GregorianCalendar calendar = (GregorianCalendar) GregorianCalendar.getInstance();
                 calendar.setTimeInMillis(Long.parseLong(get_date));
@@ -162,7 +165,8 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
 
                 OrderHistoryModel orderHistory = new OrderHistoryModel(order_id,category,
                         brand, characteristic, weight_volume, price, quantity,
-                        executed, date, get_date, order_deleted, price_process, delivery);
+                        executed, date, get_date, order_deleted, price_process
+                        , delivery, joint_buy);
 
                 listOrders.add(orderHistory);
             }
@@ -183,11 +187,13 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
          int listSize = listOrders.size();
         int order_deleted;
         int delivery;
+        int joint_buy;
 
          if(listOrders.size() > 0) {
              order_id = listOrders.get(0).getOrder_id();
              order_deleted=listOrders.get(0).getOrder_deleted();
              delivery = listOrders.get(0).getDelivery();
+             joint_buy = listOrders.get(0).getJoint_buy();
 
              for(int i=0;i<listOrders.size();i++){
                  int a = i+1;
@@ -228,12 +234,13 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
                                 //записываем в лист собранные данные
                              OrderHistoryFinishModel finishOrder = new OrderHistoryFinishModel(
                                      order_id,positionCount,descriptionFirst,descriptionSecond,
-                                     date,get_date,executed,summ, order_deleted, delivery);
+                                     date,get_date,executed,summ, order_deleted, delivery, joint_buy);
                              listFinishOrderHistory.add(finishOrder);
 
                              order_id = listOrders.get(a).getOrder_id();
                              order_deleted=listOrders.get(a).getOrder_deleted();
                              delivery=listOrders.get(a).getDelivery();
+                             joint_buy=listOrders.get(a).getJoint_buy();
                              positionCount = 0;
                              descriptionFirst = null;
                              descriptionSecond = "....";
@@ -247,7 +254,7 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
              //записываем последние собранные данные в лист
              OrderHistoryFinishModel finishOrder = new OrderHistoryFinishModel(
                      order_id,positionCount,descriptionFirst,descriptionSecond,
-                     date,get_date,executed,summ, order_deleted, delivery);
+                     date,get_date,executed,summ, order_deleted, delivery, joint_buy);
              listFinishOrderHistory.add(finishOrder);
          }
         adapter.notifyDataSetChanged();

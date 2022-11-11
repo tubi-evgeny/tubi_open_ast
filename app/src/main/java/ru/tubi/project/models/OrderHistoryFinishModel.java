@@ -14,9 +14,25 @@ public class OrderHistoryFinishModel implements Serializable {
     private double summ;
     private int order_deleted;
     private int delivery;
-
+    private int joint_buy;
 
     //OrderHistoryActivity / makeOrderHistoryList()
+    public OrderHistoryFinishModel(int order_id, int positionCount, String descriptionFirst,
+                                   String descriptionSecond, String date, String get_date,
+                                   int executed, double summ, int order_deleted
+            , int delivery, int joint_buy) {
+        this.order_id = order_id;
+        this.positionCount = positionCount;
+        this.descriptionFirst = descriptionFirst;
+        this.descriptionSecond = descriptionSecond;
+        this.date = date;
+        this.get_date=get_date;
+        this.executed=executed;
+        this.summ = summ;
+        this.order_deleted=order_deleted;
+        this.delivery=delivery;
+        this.joint_buy=joint_buy;
+    }
     public OrderHistoryFinishModel(int order_id, int positionCount, String descriptionFirst,
                                    String descriptionSecond, String date, String get_date,
                                    int executed, double summ, int order_deleted, int delivery) {
@@ -31,7 +47,7 @@ public class OrderHistoryFinishModel implements Serializable {
         this.order_deleted=order_deleted;
         this.delivery=delivery;
     }
-    public OrderHistoryFinishModel(int order_id, int positionCount, String descriptionFirst,
+  /*  public OrderHistoryFinishModel(int order_id, int positionCount, String descriptionFirst,
                                    String descriptionSecond, String date, String get_date,
                                    int executed, double summ, int order_deleted) {
         this.order_id = order_id;
@@ -43,7 +59,7 @@ public class OrderHistoryFinishModel implements Serializable {
         this.executed=executed;
         this.summ = summ;
         this.order_deleted=order_deleted;
-    }
+    }*/
 
     public int getOrder_id() {
         return order_id;
@@ -125,5 +141,14 @@ public class OrderHistoryFinishModel implements Serializable {
     public void setDelivery(int delivery) {
         this.delivery = delivery;
     }
+
+    public int getJoint_buy() {
+        return joint_buy;
+    }
+
+    public void setJoint_buy(int joint_buy) {
+        this.joint_buy = joint_buy;
+    }
+
 }
 

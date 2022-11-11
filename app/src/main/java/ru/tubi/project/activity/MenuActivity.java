@@ -17,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import ru.tubi.project.R;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.GetColorShopingBox;
@@ -30,9 +32,15 @@ import static ru.tubi.project.activity.Config.MY_ABBREVIATION;
 import static ru.tubi.project.activity.Config.MY_COMPANY_TAXPAYER_ID;
 import static ru.tubi.project.activity.Config.MY_NAME;
 import static ru.tubi.project.activity.Config.MY_NAME_COMPANY;
-//import static com.example.tubi.Config.MY_TAXPAYER_ID;
 import static ru.tubi.project.activity.Config.MY_UID;
+import static ru.tubi.project.activity.Config.COUNTERPARTY_ID;
 import static ru.tubi.project.activity.Config.ORDER_ID;
+import static ru.tubi.project.activity.Config.ROLE;
+import static ru.tubi.project.activity.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
+import static ru.tubi.project.activity.Config.PARTNER_COMPANY_INFO_FOR_AGENT;
+import static ru.tubi.project.activity.Config.OPEN_ORDER_CONDITION;
+import static ru.tubi.project.activity.Config.PARTNER_ROLE_LIST;
+import static ru.tubi.project.activity.Config.ROLE_PARTNER_TEST;
 import static ru.tubi.project.free.AllCollor.alert_dialog_button_green_pressed;
 import static ru.tubi.project.free.AllText.LAST_ORDERS_TEXT;
 import static ru.tubi.project.free.AllText.MES_5;
@@ -87,18 +95,24 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     }
     // удалить пользователя из таблицы SQLlite
     public void logoutUser(View view) {
-      /*  SQLiteDatabase db = my_db.getWritableDatabase();
-        // Delete All Rows
-        db.delete("my_user", null, null);
-        db.close();*/
+        //очистить SQLlite
         my_db.deleteUsers();
 
+        //привести все статик переменные к значению по УМОЛЧАНИЮ
+        new Config();
+       /* COUNTERPARTY_ID = 0;
         MY_UID = null;
         MY_NAME = null;
+        ROLE = null;
         MY_ABBREVIATION = null;
         MY_NAME_COMPANY = null;
         MY_COMPANY_TAXPAYER_ID = null;
         ORDER_ID = 0;
+        PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT = 0;
+        PARTNER_COMPANY_INFO_FOR_AGENT = "";
+        OPEN_ORDER_CONDITION = false;
+        PARTNER_ROLE_LIST = new ArrayList<>();
+        ROLE_PARTNER_TEST  = "";*/
         // Запуск действия по входу в систему
         Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
         startActivity(intent);

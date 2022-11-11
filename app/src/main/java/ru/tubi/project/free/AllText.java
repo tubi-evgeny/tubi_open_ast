@@ -409,6 +409,9 @@ public class AllText {
     public static String ORDER_APPROVED = "ОДОБРЕНО";
     public static String MAXIMUM = "Максимум";
     public static String JOINT_BUY_TEXT = "Совместная закупка";
+    public static String JOINT_BUY_SHORT_TEXT = "Совм.зак-а";
+    public static String JOINT_BUY_CHAR_TEXT = "С/З";
+    public static String CANOT_DELETE_ORDER_TEXT = "Удалить заказ нельзя";
     public static String CONTRACT_BIG = "ДОГОВОР";
     public static String CALENDAR_TEXT = "Календарь";
     public static String BUY_TOGETHER_TEXT = "Совместные закупки";
@@ -461,6 +464,6 @@ public class AllText {
         "вам доступно самое лучшее предложение благодаря вашим партнерам, которые тоже " +
         "принимают участие в закупке.";
     public static String MES_29 = "В вашем регионе еще нет распределительного склада для совместных закупок";
-
+    public static String MES_30 = "Это совместный заказ и если его удалить то другие заказчики не получат свой товар, но вы можете после получения сделать возврат товаров из этого заказа.";
 
 }

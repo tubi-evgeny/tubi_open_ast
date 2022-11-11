@@ -17,6 +17,8 @@ import ru.tubi.project.models.OrderHistoryFinishModel;
 import java.util.List;
 
 import static ru.tubi.project.free.AllText.DELIVERY_TEXT;
+import static ru.tubi.project.free.AllText.JOINT_BUY_SHORT_TEXT;
+import static ru.tubi.project.free.AllText.JOINT_BUY_TEXT;
 import static ru.tubi.project.free.AllText.ORDERS_BY_WAREHOUSE;
 import static ru.tubi.project.free.AllText.ORDER_BIG;
 import static ru.tubi.project.free.AllText.POSITIONS;
@@ -49,7 +51,11 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     @Override
     public void onBindViewHolder( ViewHolder holder, int position) {
         OrderHistoryFinishModel order = orders.get(position);
+        int joint_buy = order.getJoint_buy();
         String order_info = ORDER_BIG+": "+order.getOrder_id();
+        if(joint_buy == 1){
+            order_info += " "+JOINT_BUY_SHORT_TEXT;
+        }
         if(order.getDelivery() == 1){
             order_info += " "+DELIVERY_TEXT;
         }else{

@@ -290,6 +290,7 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void createNewJointBuy(int product_inventory_id, int quantityToOrder){
+        long company_tax_id = userDataModel.getCompany_tax_id();
         if(WAREHOUSE_ID_FOR_JOINT_BUY == 0){
             Toast.makeText(this, "Выберите склад", Toast.LENGTH_SHORT).show();
             return;
@@ -300,6 +301,10 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
             Log.d("A111","ActivityProduct / WhatButtonClicked / if (sales_agent)");
             Toast.makeText(this, ""+MES_22, Toast.LENGTH_LONG).show();
             return;
+        }//проверить заказ создает агент продаж
+        else if(userDataModel.getRole().equals("sales_agent")
+                && PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT != 0){
+                company_tax_id = PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
         }
         //если это не агент и нет данных о компании
         else if(!userDataModel.getRole().equals("sales_agent")
@@ -315,7 +320,8 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
         parameters.put("partner_warehouse_id", ""+partner_warehouse_id);
         parameters.put("product_inventory_id", ""+product_inventory_id);
         parameters.put("quantityToOrder", String.valueOf(quantityToOrder));
-        parameters.put("user_uid", userDataModel.getUid());
+        parameters.put("user_uid", ""+userDataModel.getUid());
+        parameters.put("company_tax_id", ""+company_tax_id);
         String whatQuestion = "create_new_joint_buy";
         setInitialDataPOST(JOINT_BUY, parameters, whatQuestion);
         Log.d("A111",getClass()+" / createNewJointBuy / url="+parameters.toString());

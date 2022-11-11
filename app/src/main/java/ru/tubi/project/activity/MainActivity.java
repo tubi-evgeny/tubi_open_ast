@@ -49,6 +49,7 @@ import ru.tubi.project.free.AllText;
 
 import static ru.tubi.project.activity.Config.MY_COMPANY_TAXPAYER_ID;
 import static ru.tubi.project.activity.Config.MY_UID;
+import static ru.tubi.project.activity.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllText.ENTER_YOUR_CITY;
 import static ru.tubi.project.free.AllText.I_UNDERSTAND_SMOL;
@@ -148,11 +149,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String versionName = BuildConfig.VERSION_NAME;
         //показать номер для пользователя, вернуть со скобками
         infoAboutMe = "tubi "+versionName+"."+versionCode
-                +" test"
+                //+" test"
                 +" \n"+new FirstSimbolMakeBig()
                 .firstSimbolMakeBig(userDataModel.getName())+" "
                 + new CheckPhoneNumberInput()
                 .PhoneNumWhithBrackets(userDataModel.getPhone());
+        if(PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT != 0){
+            infoAboutMe += "\n"+PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
+        }
+        //userDataModel.getAbbreviation().toUpperCase()+" "
+               // + new FirstSimbolMakeBig().firstSimbolMakeBig(userDataModel.getCounterparty());
         tvName.setText(""+infoAboutMe);
 
         //показать номер для пользователя, вернуть со скобками

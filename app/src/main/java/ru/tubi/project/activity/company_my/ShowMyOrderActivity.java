@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
@@ -33,11 +34,16 @@ import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.MakeImageToSquare;
 import ru.tubi.project.utilites.UserDataRecovery;
 
+import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_IMAGES;
 import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
 import static ru.tubi.project.free.AllCollor.alert_dialog_button_green_pressed;
 import static ru.tubi.project.free.AllText.BUILDING;
+import static ru.tubi.project.free.AllText.CANOT_DELETE_ORDER_TEXT;
 import static ru.tubi.project.free.AllText.DELIVERY_TEXT;
+import static ru.tubi.project.free.AllText.JOINT_BUY_CHAR_TEXT;
+import static ru.tubi.project.free.AllText.JOINT_BUY_SHORT_TEXT;
+import static ru.tubi.project.free.AllText.MES_30;
 import static ru.tubi.project.free.AllText.NO_BACK;
 import static ru.tubi.project.free.AllText.ORDER;
 import static ru.tubi.project.free.AllText.PERFORM;
@@ -56,8 +62,8 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
     private Intent takeit;
     private ArrayList<OrderModel> productList = new ArrayList<>();
     private ShowMyOrderAdapter adapter;
-    private int order_id, executed, order_deleted, deliveryKey, x=0 ;
-    private String address_for_delivery, placeDeliveryOrderInfo;
+    private int order_id, executed, order_deleted, deliveryKey, joint_buy, x=0 ;
+    private String address_for_delivery, placeDeliveryOrderInfo, joint_buy_str="";
     private AlertDialog.Builder adb;
     private AlertDialog ad;
     private UserModel userDataModel;
@@ -89,9 +95,13 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
         order_id = takeit.getIntExtra("order_id",0);
         executed = takeit.getIntExtra("executed",0);
         deliveryKey = takeit.getIntExtra("delivery",0);
+        joint_buy = takeit.getIntExtra("joint_buy",0);
         order_deleted = takeit.getIntExtra("order_deleted",0);
 
-        tvOrderInfo.setText(""+ORDER+" № "+order_id);
+        if(joint_buy == 1) {
+            joint_buy_str = JOINT_BUY_SHORT_TEXT;
+        }
+        tvOrderInfo.setText(""+ORDER+" № "+order_id+" "+joint_buy_str);
 
         if(executed == 1 || order_deleted == 1){
             llEditDelete.setVisibility(View.GONE);
@@ -124,7 +134,12 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
 
         }
         else if (v.equals(ivDeleteOrder)) {
-            adDeleteOrder();
+            if(joint_buy == 1) {
+                //если совместный заказ удалять нельзя
+                adCanotDelete();
+            }else{
+                adDeleteOrder();
+            }
         }
         else if(v.equals(llOrderInfo)){
             adPlaceDeliveryInfo();
@@ -140,7 +155,7 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
     }
     private void showPlaceReceivingOrder(String placeDeliveryOrderInfo){
 
-        tvOrderInfo.setText(""+ORDER+" № "+order_id+"  "+placeDeliveryOrderInfo);
+        tvOrderInfo.setText(""+ORDER+" № "+order_id+" "+joint_buy_str+"  "+placeDeliveryOrderInfo);
     }
     //получить адресс доставки
     private void receiveDeliveryAddress(){
@@ -299,6 +314,16 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
         adapter.notifyDataSetChanged();
         tvTotalSumm.setText(String.format("%.2f",totalSumm));
     }
+    private void adCanotDelete(){
+        adb = new AlertDialog.Builder(this);
+        String st1 = CANOT_DELETE_ORDER_TEXT;
+        String st2 = MES_30;
+        adb.setTitle(st1);
+        adb.setMessage(st2);
+
+        ad=adb.create();
+        ad.show();
+    }
     private void adDeleteOrder(){
         adb = new AlertDialog.Builder(this);
         String st1 = YOU_REALLY_WANT_TO_DELETE_ORDER;
@@ -331,6 +356,7 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
     private void adShowImage(int position){
         String image_url = productList.get(position).getImage_url();
         adb = new AlertDialog.Builder(this);
+        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
         ImageView imageView = new ImageView(this);
 
         if(!image_url.equals("null")) {
@@ -340,12 +366,13 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
                     new MakeImageToSquare(result,imageView);
                 }
             }
-                    .execute(ADMIN_PANEL_URL_PREVIEW_IMAGES+image_url);
+                    .execute(ADMIN_PANEL_URL_IMAGES+image_url);
         }else imageView.setImageResource(R.drawable.tubi_logo_no_image_300ps);
 
         adb.setView(imageView);
         ad=adb.create();
         ad.show();
+        ad.getWindow().setLayout(width, width);
     }
     private void adPlaceDeliveryInfo(){
         AlertDialog.Builder adb= new AlertDialog.Builder(this);
