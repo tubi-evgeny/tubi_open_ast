@@ -4,6 +4,7 @@ public class InvoiceModel {
 
     private int product_id;
     private String catalog;
+    private String category;
     private int in_warehouse_id;
     private int out_warehouse_id;
     private int out_warehouse_info_id;
@@ -53,6 +54,18 @@ public class InvoiceModel {
         this.text=text;
     }
     //DownloadFullPricePDFActivity / splitInvoiceResult();
+    public InvoiceModel(int product_id
+            , int productInventory_id,double price, double process_price
+            , int min_sell, String product_info, String catalog, String category) {
+        this.product_id = product_id;
+        this.productInventory_id = productInventory_id;
+        this.price=price;
+        this.process_price=process_price;
+        this.min_sell=min_sell;
+        this.product_info=product_info;
+        this.catalog=catalog;
+        this.category=category;
+    }
     public InvoiceModel(int product_id
             , int productInventory_id,double price, double process_price
             , int min_sell, String product_info, String catalog) {
@@ -130,6 +143,14 @@ public class InvoiceModel {
 
     public void setCatalog(String catalog) {
         this.catalog = catalog;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public int getIn_warehouse_id() {

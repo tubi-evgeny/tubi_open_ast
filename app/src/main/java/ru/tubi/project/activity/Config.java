@@ -5,17 +5,20 @@ import java.util.ArrayList;
 
 public class Config {
 
+    //hosting url
+    public static final String HOSTING_URL = "https://h102582557.nichost.ru/";
     //your admin panel url
-    public static final String ADMIN_PANEL_URL = "https://h102582557.nichost.ru/api_tubi/";
-   // public static final String ADMIN_PANEL_URL = "https://h102582557.nichost.ru/test_tubi/";
+   // public static final String ADMIN_PANEL_URL = HOSTING_URL+"api_tubi/";
+    public static final String ADMIN_PANEL_URL = HOSTING_URL+"api_23/";
+   // public static final String ADMIN_PANEL_URL = HOSTING_URL+"test_tubi/";
 
            //your admin images file
-    public static final String ADMIN_PANEL_URL_IMAGES = ADMIN_PANEL_URL+"image/";
-    //public static final String ADMIN_PANEL_URL_IMAGES = "https://h102582557.nichost.ru/api/image/";
+    //public static final String ADMIN_PANEL_URL_IMAGES = ADMIN_PANEL_URL+"image/";
+    public static final String ADMIN_PANEL_URL_IMAGES = HOSTING_URL+"images/image/";
     //your admin preview images file
-    public static final String ADMIN_PANEL_URL_PREVIEW_IMAGES = ADMIN_PANEL_URL+"preview_image/";
-    //public static final String ADMIN_PANEL_URL_PREVIEW_IMAGES =
-    //                                            "https://h102582557.nichost.ru/api/preview_image/";
+    //public static final String ADMIN_PANEL_URL_PREVIEW_IMAGES = ADMIN_PANEL_URL+"preview_image/";
+    public static final String
+            ADMIN_PANEL_URL_PREVIEW_IMAGES = HOSTING_URL+"images/preview_image/";
 
        //your counterparty id
     public static int COUNTERPARTY_ID = 0;

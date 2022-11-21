@@ -104,7 +104,7 @@ public class InvoiceProviderPDFActivity extends AppCompatActivity {
         String whatQuestion = "show_document";
         setInitialData(url, whatQuestion);
 
-       // Log.d("A111","InvoiceProviderPDFActivity / showDocument \n " +url);
+        Log.d("A111","InvoiceProviderPDFActivity / showDocument / url=" +url);
         //Toast.makeText(this, "InvoicePDFActivity / showDocument \n " +url, Toast.LENGTH_SHORT).show();
     }
     private void setInitialData(String url_get, String whatQuestion) {
@@ -442,7 +442,6 @@ public class InvoiceProviderPDFActivity extends AppCompatActivity {
 
         //создать директорию если нет
         final String folderPath = giveFolderPath();
-        //final String folderPath = Environment.getExternalStorageDirectory() + "/tubi/documents";
         File folder = new File(folderPath);
         if (!folder.exists()) {
             File wallpaperDirectory = new File(folderPath);
@@ -504,9 +503,9 @@ public class InvoiceProviderPDFActivity extends AppCompatActivity {
             folderPath = Environment.getExternalStorageDirectory() + "/tubi/nakladnie";
         }else if(docName.equals("товарный чек")){
             folderPath = Environment.getExternalStorageDirectory() + "/tubi/cheki";
+        }else{
+            folderPath = Environment.getExternalStorageDirectory() + "/tubi/zakazy";
         }
-        //final String folderPath = Environment.getExternalStorageDirectory() + "/tubi/nakladnie";
-
         return folderPath;
     }
     //создать имя файла
@@ -516,6 +515,8 @@ public class InvoiceProviderPDFActivity extends AppCompatActivity {
             fileName = "tovar_nak_";
         }else if(docName.equals("товарный чек")){
             fileName = "tov_chek_";
+        }else if(docName.equals("заказ")){
+            fileName = "zakaz_";
         }
         filePath = fileName+docNum+".pdf";
         //String filePath = "invoice_see_"+111+".pdf";
@@ -524,11 +525,13 @@ public class InvoiceProviderPDFActivity extends AppCompatActivity {
     }
     // директорию хранения файла
     private String makeFileDir(){
-        String fileDir = "tubi/documents/";
+        String fileDir = "";
         if(docName.equals("товарная накладная")){
             fileDir = "tubi/nakladnie/";
         }else if(docName.equals("товарный чек")){
             fileDir = "tubi/cheki/";
+        }else if(docName.equals("заказ")){
+            fileDir = "tubi/zakazy/";
         }
         //String fileDir = "tubi/documents/";
 

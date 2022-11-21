@@ -83,7 +83,7 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
         bmt = BitmapFactory.decodeResource(getResources(),R.drawable.tubi_logo_200ps);
         scaledbmt = Bitmap.createScaledBitmap(bmt, 100,90,false);
         bmt = BitmapFactory.decodeResource(getResources(),R.drawable.qr_code_tubi);
-        qr_scaledbmt = Bitmap.createScaledBitmap(bmt, 100,100,false);
+        qr_scaledbmt = Bitmap.createScaledBitmap(bmt, 130,130,false);
 
         //разрешения
         ActivityCompat.requestPermissions(this,new String[]{
@@ -150,15 +150,17 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
                 int min_sell = Integer.parseInt(temp[4]);
                 String product_info= temp[5];
                 String catalog = temp[6];
+                String category = temp[7];
 
                 InvoiceModel order_info = new InvoiceModel(product_id
                         ,product_inventory_id, price, process_price
-                        ,min_sell,product_info,catalog);
+                        ,min_sell,product_info,catalog, category);
                 invoice_list.add(order_info);
             }
             //Log.d("A111",getClass()+" / splitInvoiceResult \n invoice_list size=" +invoice_list.size());
             //сортируем лист по 2 полям (logistic_product и car_or_warehouse_id)
-            invoice_list.sort(Comparator.comparing(InvoiceModel::getCatalog));
+            invoice_list.sort(Comparator.comparing(InvoiceModel::getCatalog)
+                    .thenComparing(InvoiceModel::getCategory));
             /*
             invoice_list.sort(Comparator.comparing(InvoiceModel::getCatalog)
                     .thenComparing(InvoiceModel::getWarehouse_info_id));
@@ -188,7 +190,7 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
         Canvas canvas = myPage1.getCanvas();
 
         canvas.drawBitmap(scaledbmt,70,30,myPaint);
-        canvas.drawBitmap(qr_scaledbmt,pageWidth-160,30,myPaint);
+        canvas.drawBitmap(qr_scaledbmt,pageWidth-190,25,myPaint);
 
        /* //посмотреть границы страницы
         canvas.drawText("+", 10,10,myPaint);
@@ -199,7 +201,7 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
         myPaint.setColor(Color.parseColor("#5c5c5c"));
         myPaint.setTextSize(16f);
         myPaint.setTextAlign(Paint.Align.RIGHT);
-        canvas.drawText("для Андройд", pageWidth-60,145,myPaint);
+        canvas.drawText("для Андройд", pageWidth-195,145,myPaint);
          /*canvas.drawText("8-985-138-00-xx]", 1160,80,myPaint);*/
 
         titlePaint.setTextAlign(Paint.Align.CENTER);
@@ -273,9 +275,9 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
                 String myCatalogName=new FirstSimbolMakeBig()
                                         .firstSimbolMakeBig(invoice_list.get(i).getCatalog().toString());
                 if(i==0){
-                    canvas.drawText(""+myCatalogName,200,y+25,myPaint);
+                    canvas.drawText(""+myCatalogName,200,y+25,titlePaint);
                 }else{
-                    canvas.drawText(""+myCatalogName,200,y,myPaint);
+                    canvas.drawText(""+myCatalogName,200,y,titlePaint);
                 }
                 y+=29;
                 if(i == 0)y+=25;
