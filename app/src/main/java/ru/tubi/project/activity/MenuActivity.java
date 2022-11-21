@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import ru.tubi.project.R;
+import ru.tubi.project.free.VariablesHelpers;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.GetColorShopingBox;
 import ru.tubi.project.utilites.HelperDB;
@@ -98,8 +99,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         //очистить SQLlite
         my_db.deleteUsers();
 
-        //привести все статик переменные к значению по УМОЛЧАНИЮ
-        new Config();
        /* COUNTERPARTY_ID = 0;
         MY_UID = null;
         MY_NAME = null;
@@ -113,10 +112,12 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         OPEN_ORDER_CONDITION = false;
         PARTNER_ROLE_LIST = new ArrayList<>();
         ROLE_PARTNER_TEST  = "";*/
+
         // Запуск действия по входу в систему
         Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
         startActivity(intent);
-        finish();
+       //перезапуск, привести все статик переменные к значению по УМОЛЧАНИЮ
+        System.exit(0);
     }
     @Override
     public void onClick(View v) {
