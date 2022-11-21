@@ -1,17 +1,21 @@
 package ru.tubi.project.activity;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -30,10 +34,15 @@ import java.util.Map;
 import ru.tubi.project.utilites.UserDataRecovery;
 
 import static ru.tubi.project.activity.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
+import static ru.tubi.project.free.AllCollor.RED_600;
+import static ru.tubi.project.free.AllCollor.alert_dialog_button_green_pressed;
 import static ru.tubi.project.free.AllText.CHECK_CONNECT_INTERNET;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
+import static ru.tubi.project.free.AllText.MES_31;
+import static ru.tubi.project.free.AllText.MES_32;
 import static ru.tubi.project.free.VariablesHelpers.MY_CITY;
 import static ru.tubi.project.free.VariablesHelpers.MY_REGION;
+import static ru.tubi.project.free.VariablesHelpers.YOUR_ARE_EIGHTEEN;
 import static ru.tubi.project.utilites.Constant.GET_CATALOG;
 import static ru.tubi.project.utilites.InitialDataPOST.getParamsString;
 
@@ -47,6 +56,8 @@ public class ActivityCatalog extends AppCompatActivity implements SearchView.OnQ
     private String [] strResult;
     private SearchOrder_id searchOrder_id = new SearchOrder_id();
     private UserModel userDataModel;
+    private AlertDialog.Builder adb;
+    private AlertDialog ad;
 
     public static final int CATALOG_IS_MINE = 3;
 
@@ -80,20 +91,33 @@ public class ActivityCatalog extends AppCompatActivity implements SearchView.OnQ
         // нужен для обновления цвета корзины если не пустая
         invalidateOptionsMenu();
     }
-
     private void goCategoryProductActivity(int position){
         String positionName=listCatalog.get(position).getCategoryName();
         if(!positionName.equals("Мой каталог")) {
-            intent = new Intent(this, ActivityCategory.class);
-            intent.putExtra("position", position);//
-            intent.putExtra("positionName", positionName);
-            startActivity(intent);
+            int catalog_id =listCatalog.get(position).getCatalog_id();
+            //37 табак, 52 пиво, 53 алкоголь
+            if(catalog_id == 37 || catalog_id == 52 || catalog_id == 53){
+                //вам есть восемнадцать
+                if(YOUR_ARE_EIGHTEEN == 0 ){
+                    adMessForYongBoys(position);
+                }else{
+                    goCategoryActivity(position);
+                }
+            }else{
+                goCategoryActivity(position);
+            }
         }else{
-           // Toast.makeText(this, "hi", Toast.LENGTH_SHORT).show();
             intent = new Intent(this, ActivityProduct.class);
             intent.putExtra("key",CATALOG_IS_MINE);
             startActivity(intent);
         }
+    }
+    private void goCategoryActivity(int position){
+        String positionName=listCatalog.get(position).getCategoryName();
+        intent = new Intent(this, ActivityCategory.class);
+        intent.putExtra("position", position);//
+        intent.putExtra("positionName", positionName);
+        startActivity(intent);
     }
     //стартовый лист для запуска.
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -104,14 +128,6 @@ public class ActivityCatalog extends AppCompatActivity implements SearchView.OnQ
             tax_id = PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
             Log.d("A111","ActivityCatalog / startList / agent");
         }
-       /* String url = GET_CATALOG;
-        url += "receive_catalog";
-        url += "&" + "my_city=" + MY_CITY;
-        url += "&" + "my_region=" + MY_REGION;
-        url += "&" + "taxpayer_id=" + tax_id;//userDataModel.getCompany_tax_id();*/
-        //setInitialData(url);
-        //Log.d("A111","ActivityCatalog / startList / url="+url);
-
         final Map<String, String> parameters = new HashMap<>();
         parameters.put("receive_catalog","");
         parameters.put("my_city", MY_CITY);
@@ -178,12 +194,13 @@ public class ActivityCatalog extends AppCompatActivity implements SearchView.OnQ
         for(int i=0;i<strResult.length;i++){
             String[]twoString=strResult[i].split("&nbsp");
             strCategory=twoString[0];
-            if(twoString.length>1){
-                strImageURL=twoString[1];
+            int catalog_id = Integer.parseInt(twoString[1]);
+            if(twoString.length>2){
+                strImageURL=twoString[2];
             }else {
                 strImageURL="null";
             }
-            Catalog category=new Catalog(strCategory,strImageURL);
+            Catalog category=new Catalog(strCategory,strImageURL,catalog_id);
             listCatalog.add(category);
         }
 
@@ -237,6 +254,26 @@ public class ActivityCatalog extends AppCompatActivity implements SearchView.OnQ
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void adMessForYongBoys(int position){
+        adb = new AlertDialog.Builder(this);
+        String st1 = MES_31;
+        String st2 = MES_32;
+        adb.setTitle(st1);
+        adb.setMessage(st2);
+        adb.setPositiveButton("Мне исполнилось 18 лет", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                YOUR_ARE_EIGHTEEN = 1;
+                goCategoryActivity(position);
+                ad.cancel();            }
+        });
+        ad=adb.create();
+        ad.show();
+        Button buttonbackground1 = ad.getButton(DialogInterface.BUTTON_POSITIVE);
+        buttonbackground1.setBackgroundColor(RED_600);
+        buttonbackground1.setTextColor(Color.WHITE);
     }
 
     @Override

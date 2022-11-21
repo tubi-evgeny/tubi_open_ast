@@ -87,20 +87,14 @@ public class ActivityCategory extends AppCompatActivity implements SearchView.On
         //setInitialData();
     }
     private void goProductActivity(int position){
-        intent = new Intent(this, ActivityProduct.class);
         String category = list.get(position);
+
+        intent = new Intent(this, ActivityProduct.class);
         intent.putExtra("category",category);
         intent.putExtra("key",CATEGORY_ACTIVITY);
         startActivity(intent);
     }
-    private void splitResult(String result){
-        String [] res=result.split("<br>");
-       // Toast.makeText(this, "res: "+res[0], Toast.LENGTH_SHORT).show();
-        for(int i=0;i<res.length;i++){
-            list.add(res[i]);
-        }
-        adapter.notifyDataSetChanged();
-    }
+
     private void startList(){
         url= Constant.GET_CATEGORY;
         url += positionCatalogName;
@@ -135,6 +129,14 @@ public class ActivityCategory extends AppCompatActivity implements SearchView.On
         };
         task.execute(url);
 
+    }
+    private void splitResult(String result){
+        String [] res=result.split("<br>");
+        // Toast.makeText(this, "res: "+res[0], Toast.LENGTH_SHORT).show();
+        for(int i=0;i<res.length;i++){
+            list.add(res[i]);
+        }
+        adapter.notifyDataSetChanged();
     }
     //слушатель возврата по методу Back(); из предыдущей активности
     //нужен для обновления необходимой информации

@@ -34,4 +34,7 @@ public class VariablesHelpers {
 
     //склад который выбран для получения совместной покупки
     public static int WAREHOUSE_ID_FOR_JOINT_BUY = 0;
+
+    //вам есть восемнадцать
+    public static int YOUR_ARE_EIGHTEEN = 0;
 }

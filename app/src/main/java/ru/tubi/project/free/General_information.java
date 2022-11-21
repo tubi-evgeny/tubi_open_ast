@@ -2,6 +2,7 @@ package ru.tubi.project.free;
 
 public class General_information {
 
+    //Сделать Commit
     //сделать обновление master из версии разработчика
 
     /*
