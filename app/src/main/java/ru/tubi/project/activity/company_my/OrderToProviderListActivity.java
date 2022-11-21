@@ -150,8 +150,7 @@ public class OrderToProviderListActivity extends AppCompatActivity {
     }
     //получить номер товарной накладной
     private void splitInvoiceInfoListResult(String result){
-
-        //Toast.makeText(this, "res\n"+result, Toast.LENGTH_SHORT).show();
+        Log.d("A111","OrderToProviderListActivity / splitInvoiceInfoListResult / result="+result);
         try{
             String[] res = result.split("<br>");
             String[] one_temp = res[0].split("&nbsp");

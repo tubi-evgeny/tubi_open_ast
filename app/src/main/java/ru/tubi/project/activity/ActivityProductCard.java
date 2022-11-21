@@ -474,6 +474,7 @@ public class ActivityProductCard extends AppCompatActivity implements SearchView
     }
     private void splitResult(String result){
         allPrice.clear();
+        Log.d("A111",getClass()+" / splitResult / result="+result);
         try {
             String[] res = result.split("<br>");
             for (int i = 0; i < res.length; i++) {
