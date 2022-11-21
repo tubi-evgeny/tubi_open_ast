@@ -30,6 +30,7 @@ public class AllText {
     public static String ACTIVATE_BIG = "АКТИВИРОВАТЬ";
     public static String SEE_BIG = "СМОТРЕТЬ";
     public static String COLLECT = "собран";
+    public static String SHOW_FOR_MY_PRODUCTS = "Показать только товары с моим участием";
     public static String FOR_SMALL = "для";
     public static String MY_STOCKS = "мои запасы";
     public static String FROM_PARTNERS = "у партнеров";

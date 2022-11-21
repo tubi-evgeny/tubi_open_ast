@@ -65,16 +65,19 @@ import static ru.tubi.project.free.AllText.MES_1_PROFILE;
 import static ru.tubi.project.free.AllText.MES_22;
 import static ru.tubi.project.free.AllText.MES_28;
 import static ru.tubi.project.free.AllText.MES_29;
+import static ru.tubi.project.free.AllText.NO_DELIVERY;
 import static ru.tubi.project.free.AllText.ORDER_APPROVED;
+import static ru.tubi.project.free.AllText.REPORT_A_BUG;
 import static ru.tubi.project.free.AllText.RETURN_BIG;
 import static ru.tubi.project.free.AllText.SEARCH_PRODUCT_BEFORE_DOWNLOADING_DATA;
+import static ru.tubi.project.free.AllText.SHOW_FOR_MY_PRODUCTS;
 import static ru.tubi.project.free.VariablesHelpers.DIALOG_BUY_GOODS_TOGETHER;
 import static ru.tubi.project.free.VariablesHelpers.MY_REGION;
 import static ru.tubi.project.free.VariablesHelpers.WAREHOUSE_ID_FOR_JOINT_BUY;
 import static ru.tubi.project.utilites.Constant.JOINT_BUY;
 import static ru.tubi.project.utilites.InitialDataPOST.getParamsString;
 
-public class BuyGoodsTogetherActivity extends AppCompatActivity {
+public class BuyGoodsTogetherActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView tvWarehouseInfo;
     private ListView lvWarehouses;
@@ -84,8 +87,10 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
     private ProductCardModel productCard;
     final Context context = this;
     private String activityName;
-    private int quantityProductOrderIn=0, partner_warehouse_id=4;// ИП цыганков склад=14
-    private ArrayList<ProductCardModel> products =new ArrayList<ProductCardModel>();
+    private int quantityProductOrderIn=0, myCounterparty_id = 0;// partner_warehouse_id=4;// ИП цыганков склад=14
+    private ArrayList<ProductCardModel> productsList =new ArrayList<ProductCardModel>();
+    private ArrayList<ProductCardModel> startProductsList =new ArrayList<ProductCardModel>();
+    private ImageView ivFilter;
     private Dialog dialog;
     private UserModel userDataModel;
     private UserDataRecovery userDataRecovery = new UserDataRecovery();
@@ -109,6 +114,9 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
         recyclerView=findViewById(R.id.rvList);
         lvWarehouses = findViewById(R.id.lvWarehouses);
         tvWarehouseInfo = findViewById(R.id.tvWarehouseInfo);
+        ivFilter = findViewById(R.id.ivFilter);
+
+        ivFilter.setOnClickListener(this);
 
         lvWarehouses.setVisibility(View.GONE);
 
@@ -120,6 +128,8 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
 
         takeit = getIntent();
         activityName = takeit.getStringExtra("activity");
+        //получить мой counterparty_id для поиска товаров в списке которых я учавствую
+        getMyCounterpaty_id();
         //получить список складов партнеров
         getPartnerWarehouseList();
         //showThisWarehouseJointBuy();
@@ -159,27 +169,55 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
                         Log.d("A111",getClass()+" / BuyGoodsTogetherAdapter / position="+position);
                     }
                 };
-        adapter=new BuyGoodsTogetherAdapter(this, products,clickListener);
+        adapter=new BuyGoodsTogetherAdapter(this, productsList,clickListener);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.setAdapter(adapter);
     }
+    @Override
+    public void onClick(View v) {
+        if(v.equals(ivFilter)){
+            alertDialogShow();
+        }
+    }
     private void whathButtonClicked(int position) {
-        quantityProductOrderIn = products.get(position).getQuantity_joint();
+        quantityProductOrderIn = productsList.get(position).getQuantity_joint();
 
-        productCard = products.get(position);
+        productCard = productsList.get(position);
         adProductBuy(productCard);
     }
     private void showAlertDialog(){
         //если товар есть в списке товаров к совместной закупке то показать товар из списка
         if(activityName.equals("productCard")){
-            for(int i=0; i < products.size();i++){
-                if(products.get(i).getProduct_inventory_id() == productCard.getProduct_inventory_id()){
-                    productCard = products.get(i);
+            for(int i=0; i < productsList.size();i++){
+                if(productsList.get(i).getProduct_inventory_id() == productCard.getProduct_inventory_id()){
+                    productCard = productsList.get(i);
                 }
             }
             quantityProductOrderIn = productCard.getQuantity_joint();
             adProductBuy(productCard);
         }
+    }
+    private void showForMyProducts(){
+        if (myCounterparty_id == 0) {
+            Toast.makeText(this, "Закралась какая-то ошибка, ваша компания не определена", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        productsList.clear();
+        for(int i=0;i < startProductsList.size();i++){
+            try{
+                JSONArray joint_buy_list = new JSONArray(startProductsList.get(i).getJoint_buy_list());
+                for (int j = 0; j < joint_buy_list.length(); j++) {
+                    JSONObject detail = joint_buy_list.getJSONObject(j);
+                    int buyerCounterparty_id = Integer.parseInt(detail.getString("counterparty_id"));
+                    if(buyerCounterparty_id == myCounterparty_id){
+                        productsList.add(startProductsList.get(i));
+                    }
+                }
+            }catch(Exception ex){
+                Log.d("A111",getClass()+" / showForMyProducts / ex="+ex);
+            }
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void adProductBuy(ProductCardModel productCard){
@@ -271,6 +309,16 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
             lvWarehouses.setVisibility(View.VISIBLE);
         }
     }
+    //получить мой counterparty_id для поиска товаров в списке которых я учавствую
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void getMyCounterpaty_id(){
+        final Map<String, String> parameters = new HashMap<>();
+        parameters.put("get_my_counterpaty_id", "");
+        parameters.put("company_tax_id", ""+userDataModel.getCompany_tax_id());
+        String whatQuestion = "get_my_counterpaty_id";
+        setInitialDataPOST(JOINT_BUY, parameters, whatQuestion);
+        Log.d("A111",getClass()+" / getMyCounterpaty_id / url="+JOINT_BUY+parameters);
+    }
     //получить список складов партнеров
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void getPartnerWarehouseList(){
@@ -284,7 +332,7 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
     private void showThisWarehouseJointBuy() {
         final Map<String, String> parameters = new HashMap<>();
         parameters.put("show_this_warehouse_joint_buy", "");
-        parameters.put("partner_warehouse_id", ""+partner_warehouse_id);
+        parameters.put("partner_warehouse_id", ""+WAREHOUSE_ID_FOR_JOINT_BUY);//partner_warehouse_id);
         String whatQuestion = "show_this_warehouse_joint_buy";
         setInitialDataPOST(JOINT_BUY, parameters, whatQuestion);
     }
@@ -317,7 +365,7 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
         }
         final Map<String, String> parameters = new HashMap<>();
         parameters.put("create_new_joint_buy", "");
-        parameters.put("partner_warehouse_id", ""+partner_warehouse_id);
+        parameters.put("partner_warehouse_id", ""+WAREHOUSE_ID_FOR_JOINT_BUY);//partner_warehouse_id);
         parameters.put("product_inventory_id", ""+product_inventory_id);
         parameters.put("quantityToOrder", String.valueOf(quantityToOrder));
         parameters.put("user_uid", ""+userDataModel.getUid());
@@ -348,7 +396,15 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
                 }
                 else if(whatQuestion.equals("get_partner_warehouse_list") ) {
                     splitPartnerWarehouseList(result);
-                    Log.d("A111",getClass()+" / setInitialDataPOST / result="+result);
+                   // Log.d("A111",getClass()+" / setInitialDataPOST / result="+result);
+                }
+                else if(whatQuestion.equals("get_my_counterpaty_id") ) {
+                    try{
+                        myCounterparty_id = Integer.parseInt(result);
+                         Log.d("A111",getClass()+" / setInitialDataPOST / result="+result);
+                    }catch(Exception ex){
+                        Log.d("A111",getClass()+" / setInitialDataPOST / ex="+ex);
+                    }
                 }
                 //скрыть диалоговое окно
                 asyncDialog.dismiss();
@@ -395,7 +451,8 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
         showWarehouseInfo();
     }
     private void splitResultThisWarehouseJointBuy(String result){
-        products.clear();
+        productsList.clear();
+        startProductsList.clear();
         Log.d("A111",getClass()+" / splitResultThisWarehouseJointBuy / result="+result);
         try {
             String[] res = result.split("<br>");
@@ -413,8 +470,9 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
                 ProductCardModel prodInfo = new ProductCardModel(product_id,product_inventory_id
                         ,image_url, price, process_price, min_sell, quantity_joint,product_info
                         ,joint_buy_list);
-                products.add(prodInfo);
+                productsList.add(prodInfo);
             }
+            startProductsList.addAll(productsList);
         }catch (Exception ex){
             Log.d("A111",getClass()+" / splitResultThisWarehouseJointBuy / ex="+ex);
             //Toast.makeText(this, "ex: splitResult\n"+ex, Toast.LENGTH_SHORT).show();
@@ -464,6 +522,25 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
         //ad.getWindow().setSoftInputMode (WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         ad.show();
     }
+    private void alertDialogShow(){
+        LinearLayout ll = new LinearLayout(this);
+        ll.setOrientation(LinearLayout.VERTICAL);
+        Button btnForMyProducts = new Button(this);
+        btnForMyProducts.setText(""+SHOW_FOR_MY_PRODUCTS);
+
+        btnForMyProducts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showForMyProducts();
+                ad.cancel();
+            }
+        });
+        ll.addView(btnForMyProducts);
+        adb = new AlertDialog.Builder(this);
+        adb.setView(ll);
+        ad = adb.create();
+        ad.show();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -476,4 +553,6 @@ public class BuyGoodsTogetherActivity extends AppCompatActivity {
             orderDataModelList = orderDataRecoveryUtil.getOrderDataRecovery(this);
         }
     }
+
+
 }
