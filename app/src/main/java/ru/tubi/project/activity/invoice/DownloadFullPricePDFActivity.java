@@ -44,10 +44,13 @@ import ru.tubi.project.activity.MainActivity;
 import ru.tubi.project.activity.MenuActivity;
 import ru.tubi.project.models.CarrierPanelModel;
 import ru.tubi.project.models.InvoiceModel;
+import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.FirstSimbolMakeBig;
 import ru.tubi.project.utilites.InitialData;
+import ru.tubi.project.utilites.UserDataRecovery;
 
+import static ru.tubi.project.activity.Config.PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.PRICE_LIST;
 import static ru.tubi.project.free.VariablesHelpers.DELIVERY_TO_BUYER_STATUS;
@@ -70,6 +73,7 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
     private int pageWidth = 1240;
     private int pageHeght = 1754;
     private int pageNumber = 1;
+    private UserModel userDataModel;
     private int positionCount = 0, allProductQuantity=0;
 
     @Override
@@ -91,15 +95,26 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this,new String[]{
                 Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
+        //получить из sqlLite данные пользователя и компании
+        UserDataRecovery userDataRecovery = new UserDataRecovery();
+        userDataModel = userDataRecovery.getUserDataRecovery(this);
+
         //показать документ
         showDocument();
     }
     //показать документ
     private void showDocument(){
+        long tax_id = userDataModel.getCompany_tax_id();
+        //проверить это агент продаж?
+        if(userDataModel.getRole().equals("sales_agent")){
+            tax_id = PARTNER_COMPANY_TAXPAYER_ID_FOR_AGENT;
+            Log.d("A111","ActivityCatalog / startList / agent");
+        }
         String url = Constant.USER_OFFICE;
         url += "show_full_price";
         url += "&" + "my_city=" + MY_CITY;
         url += "&" + "my_region=" + MY_REGION;
+        url += "&" + "taxpayer_id=" + tax_id;
         String whatQuestion = "show_full_price";
         setInitialData(url, whatQuestion);
          Log.d("A111",getClass()+" / showDocument / url=" +url);
