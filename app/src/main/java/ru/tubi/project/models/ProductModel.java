@@ -7,6 +7,7 @@ import ru.tubi.project.utilites.FirstSimbolMakeBig;
 public class ProductModel implements Serializable {
     private int product_id;                 //0
     private int product_inventory_id;//
+    private String catalog;
     private String category;
     private String product_name;
     private String brand;
@@ -31,6 +32,9 @@ public class ProductModel implements Serializable {
     private int percent_no_goods;
     private int quantity_joint;
     private String product_info;
+    private String type_packaging;
+    private String in_product_name;
+    private String storage_conditions;
 
 
     // ActivityProduct//splitResultProductArray
@@ -66,13 +70,13 @@ public class ProductModel implements Serializable {
         this.guarante_there_is_goods=guarante_there_is_goods;
         this.percent_no_goods=percent_no_goods;
     }
+    //RedactProductCardActivity / splitResult();
     public ProductModel(int product_id, int product_inventory_id, String category
-            , String product_name, String brand, String characteristic
-            , String unit_measure, int weight_volume, double price, double process_price
-            , String image_url, int min_sell, int multiple_of, String description
-            , double quantity
-            , int count_product_provider, int quantity_package, long date_of_sale_millis
-            ,int provider_warehouse_id, double free_inventory) {
+            , String product_name, String brand, String characteristic, String type_packaging
+            , String unit_measure, int weight_volume, int quantity_package
+            , String image_url, String storage_conditions, double price, String in_product_name
+            , int min_sell, int multiple_of, String description, String product_info
+            , String catalog) {
 
         this.product_id = product_id;
         this.product_inventory_id = product_inventory_id;
@@ -80,20 +84,19 @@ public class ProductModel implements Serializable {
         this.product_name=product_name;
         this.brand = brand;
         this.characteristic = characteristic;
+        this.type_packaging = type_packaging;
         this.unit_measure = unit_measure;
         this.weight_volume = weight_volume;
-        this.price = price;
+        this.quantity_package=quantity_package;
         this.image_url = image_url;
+        this.storage_conditions = storage_conditions;
+        this.price = price;
+        this.in_product_name=in_product_name;
         this.min_sell = min_sell;
         this.multiple_of = multiple_of;
         this.description = description;
-        this.quantity = quantity;
-        this.count_product_provider = count_product_provider;
-        this.quantity_package=quantity_package;
-        this.date_of_sale_millis=date_of_sale_millis;
-        this.process_price=process_price;
-        this.provider_warehouse_id=provider_warehouse_id;
-        this.free_inventory=free_inventory;
+        this.product_info=product_info;
+        this.catalog=catalog;
     }
     public ProductModel(int product_id, int product_inventory_id
             , String image_url, double price, double process_price
@@ -171,6 +174,14 @@ public class ProductModel implements Serializable {
 
     public void setProduct_id(int product_id) {
         this.product_id = product_id;
+    }
+
+    public String getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(String catalog) {
+        this.catalog = catalog;
     }
 
     public String getCategory() {
@@ -320,6 +331,29 @@ public class ProductModel implements Serializable {
         this.product_info = product_info;
     }
 
+    public String getType_packaging() {
+        return type_packaging;
+    }
+
+    public void setType_packaging(String type_packaging) {
+        this.type_packaging = type_packaging;
+    }
+
+    public String getIn_product_name() {
+        return in_product_name;
+    }
+
+    public void setIn_product_name(String in_product_name) {
+        this.in_product_name = in_product_name;
+    }
+
+    public String getStorage_conditions() {
+        return storage_conditions;
+    }
+
+    public void setStorage_conditions(String storage_conditions) {
+        this.storage_conditions = storage_conditions;
+    }
 
     @Override
     public String toString() {

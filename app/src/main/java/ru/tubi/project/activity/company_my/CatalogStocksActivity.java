@@ -49,7 +49,6 @@ import ru.tubi.project.utilites.MakeImageToSquare;
 import ru.tubi.project.utilites.UserDataRecovery;
 
 import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_IMAGES;
-import static ru.tubi.project.activity.Config.ADMIN_PANEL_URL_PREVIEW_IMAGES;
 //import static com.example.tubi.Config.MY_TAXPAYER_ID;
 import static ru.tubi.project.free.AllCollor.TUBI_BLACK;
 import static ru.tubi.project.free.AllCollor.TUBI_GREY_200;
@@ -91,7 +90,7 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
     private ArrayList<CatalogProductProviderModel> parseListProduct = new ArrayList<>();
     private String url, url_get;
     private AlertDialog.Builder adb;
-    private AlertDialog ad;
+    private AlertDialog ad, ad2;
     private double newPrice, addQuantity;
     private int myPosition;
     private WarehouseModel warehouseModel;
@@ -155,8 +154,8 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
                     @Override
                     public void onClick(View view, int position) {
                         WhatButtonClicked(view, position);
-                        // Toast.makeText(CatalogProviderActivity.this,
-                        //         "click position "+position+"\n"+"view "+view, Toast.LENGTH_SHORT).show();
+                      //  Log.d("A111",getClass().getName()+" / CatalogStocksAdapter " +
+                         //       "/ click position "+position+" / view "+view);
                     }
                 };
         adapter = new CatalogStocksAdapter(this, listProduct, clickListener);
@@ -194,20 +193,104 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
         String string = String.valueOf(view);
         String str[] = string.split("/");
 
-        if (str[1].equals("ivImageProduct}")) {
+        if (str[1].equals("tvDescription}") || str[1].equals("tvPrice}")
+                || str[1].equals("tvQuantity}") || str[1].equals("ivImageProduct}")) {
+            alertDialogShow(position);
+            Log.d("A111",getClass().getName()+" / WhatButtonClicked / llProdInfo");
+        }
+       /* if (str[1].equals("ivImageProduct}")) {
             alertDialogChengeImage(position);
             //Toast.makeText(this, "ivImageProduct", Toast.LENGTH_SHORT).show();
-        } else if (str[1].equals("tvDescription}")) {
+        }
+        else if (str[1].equals("dtvDescription}")) {
             alertDialogReallyMakeCopy();
             Log.d("A111","CatalogStocksActivity / WhatButtonClicked / product_id="+listProduct.get(myPosition).getProduct_id()
                     +" / product_inventory_id="+listProduct.get(myPosition).getProduct_inventory_id());
-        } else if (!warehouseModel.getWarehouse_type().equals("partner")) {
+        }
+        else */
+       /* else if (!warehouseModel.getWarehouse_type().equals("partner")) {
             if (str[1].equals("tvPrice}")) {
                 alertDialogPriceShow(position);
             } else if (str[1].equals("tvQuantity}")) {
                 alertDialogQuantityShow(position);
             }
-        }
+        }*/
+    }
+    private void alertDialogShow(int position){
+        LinearLayout ll = new LinearLayout(this);
+        ll.setOrientation(LinearLayout.VERTICAL);
+        Button btnReallyMakeCopy = new Button(this);
+        Button btnChengeImage = new Button(this);
+        Button btnPriceShow = new Button(this);
+        Button btnQuantityShow = new Button(this);
+        Button btnRedactProductCard = new Button(this);
+        btnReallyMakeCopy.setText("Создать копию товара");
+        btnChengeImage.setText("Заменить фото");
+        btnPriceShow.setText("Редактор цена");
+        btnQuantityShow.setText("Редактор количество");
+        btnRedactProductCard.setText("Редактор карточки товара");
+
+        btnReallyMakeCopy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialogReallyMakeCopy();
+                Log.d("A111","CatalogStocksActivity / WhatButtonClicked / product_id="+listProduct.get(myPosition).getProduct_id()
+                        +" / product_inventory_id="+listProduct.get(myPosition).getProduct_inventory_id());
+                ad2.cancel();
+            }
+        });
+        btnChengeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialogChengeImage(position);
+                ad2.cancel();
+            }
+        });
+        btnPriceShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!warehouseModel.getWarehouse_type().equals("partner")) {
+                    alertDialogPriceShow(position);
+                }else{
+                    Toast.makeText(CatalogStocksActivity.this, "Редактирование не доступно", Toast.LENGTH_SHORT).show();
+                }
+                ad2.cancel();
+            }
+        });
+        btnQuantityShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!warehouseModel.getWarehouse_type().equals("partner")) {
+                    alertDialogQuantityShow(position);
+                }else{
+                    Toast.makeText(CatalogStocksActivity.this, "Редактирование не доступно", Toast.LENGTH_SHORT).show();
+                }
+                ad2.cancel();
+            }
+        });
+        btnRedactProductCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CatalogStocksActivity.this,RedactProductCardActivity.class);
+                CatalogProductProviderModel product_card_info = makeProductCardWithoutBitmap(position);
+                intent.putExtra("product_inventory_id",product_card_info.getProduct_inventory_id());
+                //intent.putExtra("product_card_info",product_card_info);
+                startActivity(intent);
+                //Log.d("A111",getClass().getName()+" / alertDialogShow / btnRedactProductCard");
+                ad2.cancel();
+            }
+        });
+        ll.addView(btnReallyMakeCopy);
+        ll.addView(btnChengeImage);
+        ll.addView(btnPriceShow);
+        ll.addView(btnQuantityShow);
+        ll.addView(btnRedactProductCard);
+        adb = new AlertDialog.Builder(this);
+        String st1 = "Выберите действие";
+        adb.setTitle(st1);
+        adb.setView(ll);
+        ad2 = adb.create();
+        ad2.show();
     }
 
     //подбор товаров по запросу из editText
@@ -394,6 +477,7 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
     // разобрать результат с сервера список продуктов и колличество
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void splitResult(String result) {
+        Log.d("A111",getClass()+ " / splitResult / result: "+result);
         listProduct.clear();
         startListProduct.clear();
         try {
@@ -403,39 +487,45 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
                 Toast.makeText(this, "" + one_temp[1], Toast.LENGTH_LONG).show();
                 return;
             } else {
+                int pi = 0;
                 for (int i = 0; i < res.length; i++) {
+                    try{
                     String[] temp = res[i].split("&nbsp");
 
                     int product_id = Integer.parseInt(temp[0]);
                     int product_inventory_id = Integer.parseInt(temp[1]);
-                    String category = ""+temp[2];
-                    String brand = ""+temp[3];
-                    String characteristic = ""+temp[4];
-                    String type_packaging = ""+temp[5];
-                    String unit_measure = ""+temp[6];
+                    String category = "" + temp[2];
+                    String brand = "" + temp[3];
+                    String characteristic = "" + temp[4];
+                    String type_packaging = "" + temp[5];
+                    String unit_measure = "" + temp[6];
                     int weight_volume = Integer.parseInt(temp[7]);
                     double total_quantity = 0;
                     double price = Double.parseDouble(temp[8]);
                     int quantity_package = Integer.parseInt(temp[9]);
-                    String image_url = temp[10];
-                    String description = temp[11];
+                    String image_url = "" + temp[10];
+                    String description = "" + temp[11];
                     double total_sale_quantity = 0;
                     double free_balance = Double.parseDouble(temp[12]);
-                    String product_name = temp[13];
-                    String product_info = temp[14];
-                    String product_name_from_provider = temp[15];
+                    String product_name = "" + temp[13];
+                    String product_info = "" + temp[14];
+                    String product_name_from_provider = "" + temp[15];
                     Bitmap bmt = null;
 
                     CatalogProductProviderModel products =
                             new CatalogProductProviderModel(product_id, product_inventory_id
-                            , category, product_name, brand, characteristic, type_packaging
-                            , unit_measure, weight_volume, total_quantity, price, quantity_package
-                            , image_url, description, total_sale_quantity, free_balance
-                            ,product_info, product_name_from_provider, bmt);
+                                    , category, product_name, brand, characteristic, type_packaging
+                                    , unit_measure, weight_volume, total_quantity, price, quantity_package
+                                    , image_url, description, total_sale_quantity, free_balance
+                                    , product_info, product_name_from_provider, bmt);
                     if (product_id == 0) {
                         startListProduct.add(products);
                     } else {
                         listProduct.add(products);
+                    }
+                    pi=product_inventory_id;
+                }catch (Exception ex){
+                        Log.d("A111",getClass()+ " / splitResult / ex2: "+ex +" / i="+i+" / product_inventory_id="+pi);
                     }
                 }
                 //сортируем лист по 4 полям (getCategory, getProduct_name, getCharacteristic,getBrand )
@@ -455,7 +545,7 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
                 adapter.notifyDataSetChanged();
             }
         }catch (Exception ex){
-            Log.d("A111","ex: "+ex);
+            Log.d("A111",getClass()+ " / splitResult / ex: "+ex);
             Toast.makeText(this, "ex: "+ex, Toast.LENGTH_SHORT).show();
         }
         checkEtSearchTextLength();
@@ -466,7 +556,7 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
     private void copyProductcard() {
         //Bitmap не сериализуется, выдает ошибку, приложение падает
         try {
-            int product_id = listProduct.get(myPosition).getProduct_id();
+            /*int product_id = listProduct.get(myPosition).getProduct_id();
             int product_inventory_id = listProduct.get(myPosition).getProduct_inventory_id();
             String category = listProduct.get(myPosition).getCategory();
             String brand = listProduct.get(myPosition).getBrand();
@@ -483,13 +573,15 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
             double free_balance = listProduct.get(myPosition).getFree_balance();
             String product_name = listProduct.get(myPosition).getProduct_name();
             String product_info = listProduct.get(myPosition).getProduct_info();
-            String product_name_from_provider = listProduct.get(myPosition).getProduct_name_from_provider();
-            Intent intent = new Intent(this, ProductCardFillActivity.class);
-            CatalogProductProviderModel product_card_info=new CatalogProductProviderModel(product_id
+            String product_name_from_provider = listProduct.get(myPosition).getProduct_name_from_provider();*/
+
+           /* CatalogProductProviderModel product_card_info=new CatalogProductProviderModel(product_id
                     , product_inventory_id, category, product_name, brand, characteristic
                     , type_packaging, unit_measure, weight_volume, total_quantity, price
                     , quantity_package, image_url, description, total_sale_quantity
-                    , free_balance,product_info, product_name_from_provider);
+                    , free_balance,product_info, product_name_from_provider);*/
+            CatalogProductProviderModel product_card_info = makeProductCardWithoutBitmap(myPosition);
+            Intent intent = new Intent(this, ProductCardFillActivity.class);
             intent.putExtra("product_card_info", product_card_info);
             startActivity(intent);
         }catch(Exception ex) {
@@ -497,6 +589,33 @@ public class CatalogStocksActivity extends AppCompatActivity implements View.OnC
         }
             Log.d("A111","CatalogStocksActivity / copyProductcard / intent = "+listProduct.get(myPosition).toString());
 
+    }
+    private CatalogProductProviderModel makeProductCardWithoutBitmap(int myPosition){
+        int product_id = listProduct.get(myPosition).getProduct_id();
+        int product_inventory_id = listProduct.get(myPosition).getProduct_inventory_id();
+        String category = listProduct.get(myPosition).getCategory();
+        String brand = listProduct.get(myPosition).getBrand();
+        String characteristic = listProduct.get(myPosition).getCharacteristic();
+        String type_packaging = listProduct.get(myPosition).getType_packaging();
+        String unit_measure = listProduct.get(myPosition).getUnit_measure();
+        int weight_volume = listProduct.get(myPosition).getWeight_volume();
+        double total_quantity = listProduct.get(myPosition).getTotal_quantity();
+        double price = listProduct.get(myPosition).getPrice();
+        int quantity_package = listProduct.get(myPosition).getQuantity_package();
+        String image_url = listProduct.get(myPosition).getImage_url();
+        String description = listProduct.get(myPosition).getDescription();
+        double total_sale_quantity = listProduct.get(myPosition).getTotal_sale_quantity();
+        double free_balance = listProduct.get(myPosition).getFree_balance();
+        String product_name = listProduct.get(myPosition).getProduct_name();
+        String product_info = listProduct.get(myPosition).getProduct_info();
+        String product_name_from_provider = listProduct.get(myPosition).getProduct_name_from_provider();
+
+        CatalogProductProviderModel product_card_info=new CatalogProductProviderModel(product_id
+                , product_inventory_id, category, product_name, brand, characteristic
+                , type_packaging, unit_measure, weight_volume, total_quantity, price
+                , quantity_package, image_url, description, total_sale_quantity
+                , free_balance,product_info, product_name_from_provider);
+        return product_card_info;
     }
 
     private void chengeImage(int position){
