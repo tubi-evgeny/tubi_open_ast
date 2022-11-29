@@ -37,4 +37,7 @@ public class VariablesHelpers {
 
     //вам есть восемнадцать
     public static int YOUR_ARE_EIGHTEEN = 0;
+
+    //условия хранения и перевозки товаров
+    public static String []  STORAGE_CONDITIONS_LIST = {"обычное","холод","мороз"};
 }

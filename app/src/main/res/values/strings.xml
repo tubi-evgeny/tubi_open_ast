@@ -131,6 +131,20 @@
     <string name="text015">Добавить</string>
     <string name="text016">Заменить</string>
     <string name="text017">Заменить на</string>
+
+    <string name="category_text">Категория</string>
+    <string name="product_name_text">Наименование</string>
+    <string name="brand_text">Брэнд</string>
+    <string name="characteristic_text">Характеристика</string>
+    <string name="unit_measure_text">Мера измерения</string>
+    <string name="weiht_wolume_text">Вес/объем (гр, мл)</string>
+    <string name="tipe_pacaging_text">Тип упаковки</string>
+    <string name="price_text">Цена товара</string>
+    <string name="product_quantity_text">Колич. поставки</string>
+    <string name="quantity_package_text">Колич. в упак.(шт)</string>
+    <string name="product_data_text">Данные товара</string>
+    <string name="description_text">Описание товара</string>
+
     <string name="select_image">выбрать фотографию</string>
     <string name="enter_in_catalog">добавить в каталог</string>
     <string name="BACK">Назад</string>

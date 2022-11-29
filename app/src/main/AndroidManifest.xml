@@ -23,9 +23,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tubi"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.invoice.DownloadFullPricePDFActivity"></activity>
-        <activity android:name=".activity.buyer.BuyGoodsTogetherActivity" />
-        <activity android:name=".activity.ConfirmPhoneActivity" />
+        <activity android:name=".activity.company_my.RedactProductCardActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activity.invoice.DownloadFullPricePDFActivity" />
+        <activity android:name=".activity.buyer.BuyGoodsTogetherActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ConfirmPhoneActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.MessageFeedActivity"
             android:screenOrientation="portrait" />
@@ -232,9 +237,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.LoginActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            android:exported="true">
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -282,9 +287,8 @@
         -->
         <activity
             android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"
             android:exported="true"
-            />
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

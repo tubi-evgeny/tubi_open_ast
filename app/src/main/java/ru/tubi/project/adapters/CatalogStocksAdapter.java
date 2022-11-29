@@ -112,7 +112,7 @@ public class CatalogStocksAdapter
             holder.tvQuantity.setClickable(true);
             holder.ivImageProduct.setClickable(true);
         }
-       /* holder.itemView.setOnClickListener(new View.OnClickListener() {
+      /*  holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickListener.onClick(v,position);

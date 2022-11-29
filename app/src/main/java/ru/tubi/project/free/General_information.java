@@ -12,7 +12,7 @@ public class General_information {
     ANDROID STUDIO
     main_activity убрать слово-"тест"
     в build.gradle app поменять versionCode и при необходимости versionName
-    увеличить targetSdkVersion 31
+    увеличить targetSdkVersion 32
     сделать synk now
     сменить URL в (Config) для запроса в рабочем PHP
     сделать релиз

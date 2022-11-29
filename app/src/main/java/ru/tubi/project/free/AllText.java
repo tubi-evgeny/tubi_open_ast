@@ -315,6 +315,9 @@ public class AllText {
     public static String PARTNER_WAREHOUSE = "партнер склада хранения";
     public static String MY_COMPANY = "МОЯ КОМПАНИЯ ";
     public static String FILL_PRODUCT_CARD = "ЗАПОЛНИТЬ КАРТОЧКУ ТОВАРА";
+    public static String FILL = "Заполнить";
+    public static String REDACT = "Редактировать";
+    public static String PRODUCT_CARD = "карточка товара";
     public static String RECEIVE_PRODUCT_INFO = "ПОЛУЧИТЬ ДАННЫЕ ТОВАРА";
     public static String CATEGORY_TEXT = "Категория";
     public static String PRODUCT_NAME_TEXT = "Наименование";
@@ -324,6 +327,8 @@ public class AllText {
     public static String WEIHT_VOLUME_TEXT = "Вес/объем (гр, мл)";
     public static String TIPE_PACAGING_TEXT = "Тип упаковки";
     public static String QUANTITY_PACKAGE_TEXT = "Колл. в упаковке(шт)";
+    public static String MIN_SELL_TEXT = "Мин. продажа";
+    public static String MULTIPLE_OF_TEXT = "Продажа кратно";
     public static String IN_PACKAGE = "в упаковке(шт)";
     public static String PRICE_TEXT = "Цена товара";
     public static String PRODUCT_QUANTITY_TEXT = "Коллич. поставки";

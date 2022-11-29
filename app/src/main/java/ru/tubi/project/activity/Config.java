@@ -11,8 +11,8 @@ public class Config {
    // public static final String ADMIN_PANEL_URL = HOSTING_URL+"api_tubi/";
    // public static final String ADMIN_PANEL_URL = HOSTING_URL+"api_23/";
     //public static final String ADMIN_PANEL_URL = HOSTING_URL+"api_24/";
-    public static final String ADMIN_PANEL_URL = HOSTING_URL+"api_25/";
-    //public static final String ADMIN_PANEL_URL = HOSTING_URL+"test_tubi/";
+    //public static final String ADMIN_PANEL_URL = HOSTING_URL+"api_25/";
+    public static final String ADMIN_PANEL_URL = HOSTING_URL+"test_tubi/";
 
            //your admin images file
     //public static final String ADMIN_PANEL_URL_IMAGES = ADMIN_PANEL_URL+"image/";

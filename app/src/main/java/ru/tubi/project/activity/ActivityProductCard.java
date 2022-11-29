@@ -664,6 +664,8 @@ public class ActivityProductCard extends AppCompatActivity implements SearchView
         ll.addView(btnDescription);
         ll.addView(btnProviderInfo);
         adb = new AlertDialog.Builder(this);
+        String st1 = "Выберите действие";
+        adb.setTitle(st1);
         adb.setView(ll);
         ad2 = adb.create();
         ad2.show();

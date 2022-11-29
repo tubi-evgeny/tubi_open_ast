@@ -60,11 +60,12 @@ import static ru.tubi.project.free.AllText.CATEGORY_TEXT;
 import static ru.tubi.project.free.AllText.CHARACTERISTIC_TEXT;
 import static ru.tubi.project.free.AllText.CHECK_CONNECT_INTERNET;
 import static ru.tubi.project.free.AllText.DESCRIPTION_PRODUCT;
-import static ru.tubi.project.free.AllText.FILL_PRODUCT_CARD;
+import static ru.tubi.project.free.AllText.FILL;
 import static ru.tubi.project.free.AllText.IS_NO_DESCRIPTION;
 import static ru.tubi.project.free.AllText.I_UNDERSTAND;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
 import static ru.tubi.project.free.AllText.PRICE_TEXT;
+import static ru.tubi.project.free.AllText.PRODUCT_CARD;
 import static ru.tubi.project.free.AllText.PRODUCT_DATA_TEXT;
 import static ru.tubi.project.free.AllText.PRODUCT_MUST_PASS_MODERATION_TEXT;
 import static ru.tubi.project.free.AllText.PRODUCT_NAME_TEXT;
@@ -77,6 +78,7 @@ import static ru.tubi.project.free.AllText.TIPE_PACAGING_TEXT;
 import static ru.tubi.project.free.AllText.UNIT_MEASURE_TEXT;
 import static ru.tubi.project.free.AllText.WAREHOUSE;
 import static ru.tubi.project.free.AllText.WEIHT_VOLUME_TEXT;
+import static ru.tubi.project.free.VariablesHelpers.STORAGE_CONDITIONS_LIST;
 import static ru.tubi.project.utilites.Constant.PRODUCT_CARD_ADD;
 import static ru.tubi.project.utilites.InitialDataPOST.getParamsString;
 
@@ -112,7 +114,7 @@ public class ProductCardFillActivity extends AppCompatActivity implements Adapte
     private Spinner spStorageWarehouse,spinnerStorageConditions;
     private ArrayList<String> storageWarehouseList = new ArrayList<>();
     //private ArrayList<String> storageConditionsList = new ArrayList<>("мороз","холод","обычное");
-    private String []  storageConditionsList = {"обычное","холод","мороз"};
+    //private String []  storageConditionsList = {"обычное","холод","мороз"};
     private ArrayAdapter<String>adapWarehouse;
     private ArrayAdapter<String>adapStorageConditions;
     private UserModel userDataModel;
@@ -122,7 +124,8 @@ public class ProductCardFillActivity extends AppCompatActivity implements Adapte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_card_fill);
-        setTitle(FILL_PRODUCT_CARD);//ЗАПОЛНИТЬ КАРТОЧКУ ТОВАРА
+        setTitle(FILL);//ЗАПОЛНИТЬ КАРТОЧКУ ТОВАРА
+        getSupportActionBar().setSubtitle(PRODUCT_CARD);
 
         tvCategory=findViewById(R.id.tvCategory);
         tvProductName=findViewById(R.id.tvProductName);
@@ -207,7 +210,7 @@ public class ProductCardFillActivity extends AppCompatActivity implements Adapte
         spStorageWarehouse.setAdapter(adapWarehouse);
 
         adapStorageConditions = new ArrayAdapter<String>(
-                this, android.R.layout.simple_list_item_1,storageConditionsList);
+                this, android.R.layout.simple_list_item_1,STORAGE_CONDITIONS_LIST);
         spinnerStorageConditions.setAdapter(adapStorageConditions);
 
         intent = getIntent();
@@ -227,7 +230,7 @@ public class ProductCardFillActivity extends AppCompatActivity implements Adapte
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                // ((TextView) parent.getChildAt(0)).setTextColor(Color.BLUE);
                 ((TextView) parent.getChildAt(0)).setTextSize(18);
-                storageConditions=storageConditionsList[position];
+                storageConditions=STORAGE_CONDITIONS_LIST[position];
                 productStringBuider();
             }
             @Override
