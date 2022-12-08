@@ -61,12 +61,12 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
 
     private String docName="lll", out_companyInfoString="aaa", in_companyInfoString="bbb",
             out_warehouseInfoString="ccc", in_warehouseInfoString="ddd", date_created_doc="12345";
-    private String catalogName;
+    private String catalogName, categoryName;
     private int docNum=999, order_partner_id=0, invoice_key_id;
     private Intent intent, takeit;
     private ArrayList<InvoiceModel> invoice_list = new ArrayList<>();
     private String myDate = new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
-
+    private boolean categoryFlag = false, flag = false;
     private PDFView pdfView;
     private File file;
     private Bitmap bmt, scaledbmt, qr_scaledbmt;
@@ -86,7 +86,7 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
         pdfView=findViewById(R.id.pdfView);
         bmt = BitmapFactory.decodeResource(getResources(),R.drawable.tubi_logo_200ps);
         scaledbmt = Bitmap.createScaledBitmap(bmt, 100,90,false);
-        bmt = BitmapFactory.decodeResource(getResources(),R.drawable.qr_code_tubi);
+        bmt = BitmapFactory.decodeResource(getResources(),R.drawable.qrc_tubi);
         qr_scaledbmt = Bitmap.createScaledBitmap(bmt, 130,130,false);
 
         //разрешения
@@ -213,7 +213,8 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
         canvas.drawText("+", 10,pageHeght-10,myPaint);
         canvas.drawText("+", pageWidth-10,pageHeght-10,myPaint);*/
 
-        myPaint.setColor(Color.parseColor("#5c5c5c"));
+        myPaint.setColor(Color.parseColor("#000000"));
+        //myPaint.setColor(Color.parseColor("#5c5c5c"));
         myPaint.setTextSize(16f);
         myPaint.setTextAlign(Paint.Align.RIGHT);
         canvas.drawText("для Андройд", pageWidth-195,145,myPaint);
@@ -222,9 +223,7 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
         titlePaint.setTextAlign(Paint.Align.CENTER);
         titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT,Typeface.BOLD));
         titlePaint.setTextSize(25f);
-        //dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-       // String myDate = new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
-        //String myDocName = new FirstSimbolMakeBig().firstSimbolMakeBig(docName);
+
         canvas.drawText(PRICE_LIST+" от "+myDate+" г."
                 , pageWidth/2,145,titlePaint);
         int y=155;
@@ -256,7 +255,9 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
         titlePaint.setTextSize(18f);
         titlePaint.setTextAlign(Paint.Align.LEFT);
         titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT,Typeface.BOLD));
+        titlePaint.setColor(Color.parseColor("#000000"));
         //titlePaint.setStyle(Paint.Style.FILL);
+
         canvas.drawText("№",90,y+30,titlePaint);
         canvas.drawText("id",160,y+30,titlePaint);
         canvas.drawText("Описание товара",230,y+30,titlePaint);
@@ -286,25 +287,67 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
         }*/
         for(int i=0;i<invoice_list.size();i++){
             if(!invoice_list.get(i).getCatalog().toString().equals(catalogName)){
+                titlePaint.setTextSize(18f);
+                titlePaint.setTextAlign(Paint.Align.CENTER);
+                titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT,Typeface.BOLD));
                 catalogName=invoice_list.get(i).getCatalog().toString();
                 String myCatalogName=new FirstSimbolMakeBig()
                                         .firstSimbolMakeBig(invoice_list.get(i).getCatalog().toString());
                 if(i==0){
-                    canvas.drawText(""+myCatalogName,200,y+25,titlePaint);
+                    canvas.drawText(""+myCatalogName,pageWidth/2,y+19,titlePaint);
+                    canvas.drawLine(140,y,140,y+30,myPaint);
+                    canvas.drawLine(900,y,900,y+30,myPaint);
+                    canvas.drawLine(990,y,990,y+30,myPaint);
+                    canvas.drawLine(1080,y,1080,y+30,myPaint);
+                    canvas.drawLine(pageWidth-60,y,pageWidth-60,y+31,myPaint);
                 }else{
-                    canvas.drawText(""+myCatalogName,200,y,titlePaint);
+                    canvas.drawText(""+myCatalogName,pageWidth/2,y,titlePaint);
+                    canvas.drawLine(140,y-17,140,y+5,myPaint);
+                    canvas.drawLine(900,y-17,900,y+5,myPaint);
+                    canvas.drawLine(990,y-17,990,y+5,myPaint);
+                    canvas.drawLine(1080,y-17,1080,y+5,myPaint);
+                    canvas.drawLine(pageWidth-60,y-17,pageWidth-60,y+6,myPaint);
                 }
-                y+=29;
-                if(i == 0)y+=25;
-                canvas.drawLine(70,y-25,pageWidth-60,y-25,myPaint);
+                //перенос текста в одном квадкате на величину
+                y+=23;
+                if(i == 0)y+=23;
+                //canvas.drawLine(70,y-17,pageWidth-60,y-17,myPaint);
 
+                titlePaint.setTextSize(15f);
+                titlePaint.setTextAlign(Paint.Align.LEFT);
+                titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT,Typeface.NORMAL));
+               // flag = true;
+                //categoryFlag = true;
+            }
+            if(!invoice_list.get(i).getCategory().equals(categoryName)){
+                //flag = false;
+                titlePaint.setTextSize(18f);
+                titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT,Typeface.BOLD));
+                categoryName=invoice_list.get(i).getCategory();
+                String myCategoryName=new FirstSimbolMakeBig()
+                        .firstSimbolMakeBig(invoice_list.get(i).getCategory().toString());
+
+                    canvas.drawText(""+myCategoryName,240,y,titlePaint);
+                    canvas.drawLine(140,y-17,140,y+5,myPaint);
+                    canvas.drawLine(900,y-17,900,y+5,myPaint);
+                    canvas.drawLine(990,y-17,990,y+5,myPaint);
+                    canvas.drawLine(1080,y-17,1080,y+5,myPaint);
+                    canvas.drawLine(pageWidth-60,y-17,pageWidth-60,y+6,myPaint);
+
+                //перенос текста в одном квадкате на величину
+                y+=23;
+              //  if(i == 0)y+=23;
+                canvas.drawLine(70,y-17,pageWidth-60,y-17,myPaint);
+
+                titlePaint.setTextSize(15f);
+                titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT,Typeface.NORMAL));
             }
             positionCount=i;
             allProductQuantity+=invoice_list.get(i).getMin_sell();
             String productDescription = invoice_list.get(i).getProduct_info();
             //получить длинну строки и при привышении максимума сделать перенос строки
             ArrayList<String> stringList = new ArrayList<>();
-            int stringLength = 70;
+            int stringLength = 83;//70;
             if(productDescription.length() > stringLength){//54
                 String[]wordsList = productDescription.split(" ");
                 String stringLine = "";
@@ -329,7 +372,12 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
             titlePaint.setTextAlign(Paint.Align.LEFT);
             canvas.drawText(String.valueOf(i+1),75,y,titlePaint);
             myPaint.setStrokeWidth(2f);
-            canvas.drawLine(140,y-25,140,y+3,myPaint);
+            //вертикальная планка
+            canvas.drawLine(140,y-19,140,y+3,myPaint);
+            canvas.drawLine(900,y-19,900,y+3,myPaint);
+            canvas.drawLine(990,y-19,990,y+3,myPaint);
+            canvas.drawLine(1080,y-19,1080,y+3,myPaint);
+            canvas.drawLine(pageWidth-60,y-19,pageWidth-60,y+5,myPaint);
             canvas.drawText(String.valueOf(invoice_list.get(i).getProductInventory_id()),145,y,titlePaint);
 
             myPaint.setTextAlign(Paint.Align.RIGHT);
@@ -351,11 +399,18 @@ public class DownloadFullPricePDFActivity extends AppCompatActivity {
                 if(j==0)myText=new FirstSimbolMakeBig().firstSimbolMakeBig(stringList.get(j).toString());
                 else myText=stringList.get(j).toString();
                 canvas.drawText(""+myText,220,y,titlePaint);
-                canvas.drawLine(140,y-20,140,y+3,myPaint);
-                y+=18;
+                //вертикальная планка добавочная
+                canvas.drawLine(140,y-15,140,y+3,myPaint);
+                canvas.drawLine(900,y-15,900,y+3,myPaint);
+                canvas.drawLine(990,y-15,990,y+3,myPaint);
+                canvas.drawLine(1080,y-15,1080,y+3,myPaint);
+                canvas.drawLine(pageWidth-60,y-15,pageWidth-60,y+5,myPaint);
+                //перенос текста в одном квадкате на величину
+                y+=15;
             }
-            y+=11;
-            canvas.drawLine(70,y-25,pageWidth-60,y-25,myPaint);
+            y+=5;
+            //линия под текстом
+            canvas.drawLine(70,y-16,pageWidth-60,y-16,myPaint);
             totalSumm +=total;
             if(y > pageHeght-60){
                 myPdfDocument.finishPage(myPage1);
