@@ -182,6 +182,7 @@ public class ShowMyOrderActivity extends AppCompatActivity implements View.OnCli
         url += "&"+"order_id="+order_id;
         String whatQuestion = "delelte_order_from_database";
         setInitialData(url, whatQuestion);
+        Log.d("A111",getClass()+" / deleteOrderFromDataBase / url = "+url);
 
         onBackPressed();
     }

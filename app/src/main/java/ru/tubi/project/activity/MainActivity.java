@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String versionName = BuildConfig.VERSION_NAME;
         //показать номер для пользователя, вернуть со скобками
         infoAboutMe = "tubi "+versionName+"."+versionCode
-               // +" test "
+                +" test "
                 +" \n"+new FirstSimbolMakeBig()
                 .firstSimbolMakeBig(userDataModel.getName())+" "
                 + new CheckPhoneNumberInput()
