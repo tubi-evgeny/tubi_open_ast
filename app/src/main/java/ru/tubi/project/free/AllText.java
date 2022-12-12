@@ -369,6 +369,9 @@ public class AllText {
     public static String LAST_ORDERS_TEXT = "Последние заказы";
     public static String MY_COMPANY_TEXT = "МОЯ КОМПАНИЯ";
     public static String PROVIDER_TO_MODERATION_TEXT = "ПОСТАВЩИК(оформляется)";
+    public static String THER_AR_DELETED_GOODS = "Есть удаленные товары";
+    public static String IGNORE_BIG = "ИГНОРИРОВАТЬ";
+    public static String SHOW_BIG = "ПОКАЗАТЬ";
     public static String PROVIDER_TEXT = "Поставщик";
     public static String IMPORTANT_TEXT = "это важно";
     public static String MES_4 = "Вам необходимо ознакомится " +
@@ -428,6 +431,7 @@ public class AllText {
     public static String EDIT_WAREHOUSE = "Редактировать склад";
     public static String BUYERS_ORDERS = "Заказы покупателей";
     public static String PARTNER_WAREHOUSE_TEXT = "Склад партнер";
+    public static String REJECTION_BIG = "ОТКАЗАТЬ";
     public static String WHAT_MEAN_BECOME_AGENT = "что значит стать Агентом?";
     public static String MES_6 = "Это значит что вы можете стать партнером, по распределению товаров среди покупателей, предоставив свои персонал и склады под ответственное хранение  для приема и распределения товаров от других поставщиков его сортировки и сборки заказов с дальнейшей передачей заказчику";
     public static String MES_7 = "Указывается склад на который необходимо доставить заказ";
@@ -473,6 +477,8 @@ public class AllText {
     public static String MES_30 = "Это совместный заказ и если его удалить то другие заказчики не получат свой товар, но вы можете после получения сделать возврат товаров из этого заказа.";
     public static String MES_31 = "18+";
     public static String MES_32 = "Раздел содержит информацию о табачной и алкагольной продукции и не рекомендуется для лиц не достигших совершеннотетия.\n\nСведения, размещенные в приложении, не являются рекламой, носят исключительно информационный характер, и предназначены только для использования юридическими лицами в предпринимательских целях.";
+    public static String MES_33 = "Ваше изменение было отклонено, перепроверьте позицию и совершите действие повторно.";
+    public static String MES_34 = "В заказе этой позиции произошли изменения";
 
 
 }

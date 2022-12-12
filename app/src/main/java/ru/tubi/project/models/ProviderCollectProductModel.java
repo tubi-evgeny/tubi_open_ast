@@ -23,6 +23,26 @@ public class ProviderCollectProductModel {
     private int corrected;
     private String description;
     private String product_name_from_provider;
+    private int order_product_part_id;
+    private int status_collect_provider;
+    private double quantity_full_orders;
+    private double quantity_deleted_product;
+    private String product_info;
+    private int deleted_goods_id;
+
+    //ProviderCollectProductActivity / splitDeletedGoodsListResult();
+    public ProviderCollectProductModel(int order_product_part_id , int productInventory_id
+            , int warehouse_inventory_id, double quantity_full_orders, double quantity_deleted_product
+            , int status_collect_provider, String product_info, int deleted_goods_id) {
+        this.order_product_part_id = order_product_part_id;
+        this.productInventory_id = productInventory_id;
+        this.warehouse_inventory_id = warehouse_inventory_id;
+        this.quantity_full_orders = quantity_full_orders;
+        this.quantity_deleted_product = quantity_deleted_product;
+        this.status_collect_provider = status_collect_provider;
+        this.product_info = product_info;
+        this.deleted_goods_id = deleted_goods_id;
+    }
 
     //ProviderCollectProductActivity //splitProductForCollectResult();
     public ProviderCollectProductModel(int product_id, int productInventory_id
@@ -232,5 +252,53 @@ public class ProviderCollectProductModel {
 
     public void setProduct_name_from_provider(String product_name_from_provider) {
         this.product_name_from_provider = product_name_from_provider;
+    }
+
+    public int getOrder_product_part_id() {
+        return order_product_part_id;
+    }
+
+    public void setOrder_product_part_id(int order_product_part_id) {
+        this.order_product_part_id = order_product_part_id;
+    }
+
+    public int getStatus_collect_provider() {
+        return status_collect_provider;
+    }
+
+    public void setStatus_collect_provider(int status_collect_provider) {
+        this.status_collect_provider = status_collect_provider;
+    }
+
+    public double getQuantity_full_orders() {
+        return quantity_full_orders;
+    }
+
+    public void setQuantity_full_orders(double quantity_full_orders) {
+        this.quantity_full_orders = quantity_full_orders;
+    }
+
+    public double getQuantity_deleted_product() {
+        return quantity_deleted_product;
+    }
+
+    public void setQuantity_deleted_product(double quantity_deleted_product) {
+        this.quantity_deleted_product = quantity_deleted_product;
+    }
+
+    public String getProduct_info() {
+        return product_info;
+    }
+
+    public void setProduct_info(String product_info) {
+        this.product_info = product_info;
+    }
+
+    public int getDeleted_goods_id() {
+        return deleted_goods_id;
+    }
+
+    public void setDeleted_goods_id(int deleted_goods_id) {
+        this.deleted_goods_id = deleted_goods_id;
     }
 }

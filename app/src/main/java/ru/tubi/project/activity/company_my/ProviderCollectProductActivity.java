@@ -19,19 +19,26 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ru.tubi.project.R;
+import ru.tubi.project.activity.Provider.CorrectedQuantityFromDeletedOrdersActivity;
 import ru.tubi.project.adapters.ProviderCollectProductAdapter;
 import ru.tubi.project.adapters.ProviderCollectProductDealAdapter;
 import ru.tubi.project.models.AcceptProductListProvidersModel;
@@ -50,14 +57,21 @@ import static ru.tubi.project.free.AllText.CANCEL_BIG;
 import static ru.tubi.project.free.AllText.COLLECTED;
 import static ru.tubi.project.free.AllText.ERROR_BIG;
 import static ru.tubi.project.free.AllText.FOR_COLLECT;
+import static ru.tubi.project.free.AllText.IGNORE_BIG;
 import static ru.tubi.project.free.AllText.LIST_PRODUCT;
 import static ru.tubi.project.free.AllText.LOAD_TEXT;
+import static ru.tubi.project.free.AllText.MES_33;
+import static ru.tubi.project.free.AllText.MES_34;
 import static ru.tubi.project.free.AllText.PERFORM;
+import static ru.tubi.project.free.AllText.REJECTION_BIG;
 import static ru.tubi.project.free.AllText.RESERVE;
 import static ru.tubi.project.free.AllText.RESERVE_IN_WAAREHOUSE;
 import static ru.tubi.project.free.AllText.RESERVE_TO_WAREHOUSE_WILBEE_CORRECT;
 import static ru.tubi.project.free.AllText.RETURN_BIG;
+import static ru.tubi.project.free.AllText.SHOW_BIG;
 import static ru.tubi.project.free.AllText.SPECIFY_QUANTITY_OF_COLLECTED_GOODS;
+import static ru.tubi.project.free.AllText.THER_AR_DELETED_GOODS;
+import static ru.tubi.project.free.AllText.UNDERSTOOD_BIG;
 
 public class ProviderCollectProductActivity extends AppCompatActivity
                 implements View.OnClickListener {
@@ -71,11 +85,13 @@ public class ProviderCollectProductActivity extends AppCompatActivity
     private ProviderCollectProductDealAdapter adapDeal;
     private ArrayList<AcceptProductListProvidersModel> productList = new ArrayList<>();
     private ArrayList<ProviderCollectProductModel> productDealList = new ArrayList<>();
+    private ArrayList<ProviderCollectProductModel> productDeletedList = new ArrayList<>();
     private ArrayList<Integer> checkedList = new ArrayList<>();
-    private int providerWarehouse_id,order_partner_id, order_active,x=0 ;
+    private int providerWarehouse_id,order_partner_id, order_active,x=0, count=0;
     private AlertDialog.Builder adb;
     private AlertDialog ad;
     private UserModel userDataModel;
+    private Timer timer = new Timer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +124,18 @@ public class ProviderCollectProductActivity extends AppCompatActivity
 
         tvWarehouseInfo.setText(myWarehousInfo);
         tvBuyerInfo.setText(stBuyersCompany);
+
+        //бесконечный цикл, для запроса изменений?
+        int sleepSecond = 200;
+        TimerTask t = new TimerTask() {
+            @Override
+            public void run() {
+                Log.d("A111",getClass()+" / TimerTask / run");
+                //getInfoToDeletedGoods();
+                TimerMethod();
+            }
+        };
+        timer.scheduleAtFixedRate(t,1000,sleepSecond *1000);
 
         switchOnOffDelivery.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -180,6 +208,15 @@ public class ProviderCollectProductActivity extends AppCompatActivity
         }
 
     }
+    private void TimerMethod(){
+        this.runOnUiThread(Timer_Tick);
+    }
+    private Runnable Timer_Tick = new Runnable() {
+        public void run() {
+            getInfoToDeletedGoods();
+        }
+    };
+
     private void whatClicked(View v, int position){
         String string=String.valueOf(v);
         String str[]=string.split("/");
@@ -193,13 +230,11 @@ public class ProviderCollectProductActivity extends AppCompatActivity
     private void whatCheckClicked(boolean flag, int position){
         if(productDealList.get(position).getProvider_stock_quantity() <
                 productDealList.get(position).getQuantity_to_deal()){
-           // adapter.notifyItemChanged(position);
         }else{
             int check=0;
             if (flag) check = 1;
             checkedList.set(position,check);
 
-            //tvApply.setBackgroundColor(TUBI_GREEN_600);
             tvApply.setBackgroundResource(R.drawable.round_corners_green_600_and_black);
             tvApply.setClickable(true);
         }
@@ -213,9 +248,6 @@ public class ProviderCollectProductActivity extends AppCompatActivity
             //перепроверить доствка нужна и записать
             checkLogistic();
         }
-        //else if(v.equals(tvDeleteApply)){
-            //clearAllProductCollect();
-       // }
     }
     //перепроверить доствка нужна и записать
     private void checkLogistic(){
@@ -226,7 +258,6 @@ public class ProviderCollectProductActivity extends AppCompatActivity
     }
     //записать товары в таблицу t_warehouse_inventory_in_out и в listProduct
     private void writeCheckToTable() {
-
         for (int i = 0; i < productDealList.size(); i++) {
             //if(checkedList.get(i) != productList.get(i).getChecked()){
             if(checkedList.get(i) == 1 && productDealList.get(i).getCollected_check() == 0){
@@ -236,14 +267,49 @@ public class ProviderCollectProductActivity extends AppCompatActivity
 
                 productDealList.get(i).setCollected_check(1);
                 productDealList.get(i).setProvider_stock_quantity(
-                        productDealList.get(i).getProvider_stock_quantity() -
-                                productDealList.get(i).getQuantity_to_deal());
+                        productDealList.get(i).getProvider_stock_quantity()
+                      - productDealList.get(i).getQuantity_to_deal());
             }
         }
         tvApply.setBackgroundColor(TUBI_GREY_200);
         tvApply.setClickable(false);
 
         adapter.notifyDataSetChanged();
+    }
+    //откоректировать количество товара из-за удаления товара
+    private void goCorrectedProductQuantityForCollect
+                    (ProviderCollectProductModel product, int correctStatus){
+        String url = Constant.PROVIDER_OFFICE;
+        url += "corrected_product_quantity_for_collect";
+        url += "&"+"deleted_goods_id="+product.getDeleted_goods_id();
+        url += "&"+"order_partner_id="+order_partner_id;
+        url += "&"+"product_inventory_id="+product.getProductInventory_id();
+        url += "&"+"warehouse_inventory_id="+product.getWarehouse_inventory_id();
+        url += "&"+"quantity_deleted_product="+product.getQuantity_deleted_product();
+        url += "&"+"correct_status="+correctStatus;
+        String whatQuestion = "corrected_product_quantity_for_collect";
+        setInitialData(url, whatQuestion);
+        Log.d("A111",getClass()+" / goCorrectedProductQuantityForCollect / url = "+url);
+        //Обновить старт список
+        //showProductForWorkToCollect();
+    }
+    //получить список товаров которые удалены в заказе
+    private void showDeletedGoods(){
+        String url = Constant.WAREHOUSE_OFFICE;
+        url += "get_deleted_goods_list";
+        url += "&"+"order_partner_id="+order_partner_id;
+        String whatQuestion = "get_deleted_goods_list";
+        setInitialData(url, whatQuestion);
+        Log.d("A111",getClass()+" / showDeletedGoods / url = "+url);
+    }
+    //получить ответ, есть удаленные товары для обработки
+    private void getInfoToDeletedGoods(){
+        String url = Constant.WAREHOUSE_OFFICE;
+        url += "get_deleted_goods_flag";
+        url += "&"+"order_partner_id="+order_partner_id;
+        String whatQuestion = "get_deleted_goods_flag";
+        setInitialData(url, whatQuestion);
+        Log.d("A111",getClass()+" / getInfoToDeletedGoods / url = "+url);
     }
     //поставщик откорректировал остаток в заказе(уменьшил)
     private void corectStockToWarehouse(double quantity_to_deal, double quantity_collect, int warehouse_inventory_id){
@@ -273,7 +339,6 @@ public class ProviderCollectProductActivity extends AppCompatActivity
     }
     //запись в (t_warehouse_inventory_in_out and t_order_product_part) о том что товар собран(collected)
     private void addProductForMoving(int position){
-        //Toast.makeText(this, "hi", Toast.LENGTH_SHORT).show();
         int warehouse_inventory_id = productDealList.get(position).getWarehouse_inventory_id();
         int product_inventory_id = productDealList.get(position).getProductInventory_id();
         int collected = 1;//1=yes
@@ -331,13 +396,76 @@ public class ProviderCollectProductActivity extends AppCompatActivity
                 else if(whatQuestion.equals("receive_list_product_for_collect")){
                     splitProductForCollectResult(result);
                 }
+                else if(whatQuestion.equals("correct_stock_to_warehouse_to_order")){
+                    splitAnswerFromCorrectResult(result);
+                }
+                else if(whatQuestion.equals("get_deleted_goods_flag")){
+                    splitAnswerFromDeletedGoodsResult(result);
+                }
+                else if(whatQuestion.equals("get_deleted_goods_list")){
+                    //splitDeletedGoodsListResult(result);
+                }
                 //hide the dialog
                 asyncDialog.dismiss();
             }
         };
         task.execute(url_get);
     }
+    private void splitDeletedGoodsListResult(String result){
+        Log.d("A111",getClass()+" / splitDeletedGoodsListResult / result = "+result);
+        productDeletedList.clear();
+        try{
+            String[] res = result.split("<br>");
+            String[] one_temp = res[0].split("&nbsp");
+            if (one_temp[0].equals("error") || one_temp[0].equals("messege")) {
+                Toast.makeText(this, "" + one_temp[1], Toast.LENGTH_LONG).show();
+                adapDeal.notifyDataSetChanged();
+                return;
+            } else {
+                for (int i = 0; i < res.length; i++) {
+                    String[] temp = res[i].split("&nbsp");
+                    int order_product_part_id = Integer.parseInt(temp[0]);
+                    int productInventory_id = Integer.parseInt(temp[1]);
+                    int warehouse_inventory_id = Integer.parseInt(temp[2]);
+                    double quantity_full_orders = Double.parseDouble(temp[3]);
+                    double quantity_deleted_product = Double.parseDouble(temp[4]);
+                    int status_collect_provider = Integer.parseInt(temp[5]);
+                    String product_info  = ""+temp[6];
+                    int deleted_goods_id = Integer.parseInt(temp[7]);
 
+                    ProviderCollectProductModel product
+                            = new ProviderCollectProductModel(order_product_part_id
+                            , productInventory_id, warehouse_inventory_id
+                            , quantity_full_orders, quantity_deleted_product
+                            , status_collect_provider, product_info, deleted_goods_id);
+                    productDeletedList.add(product);
+                }
+            }
+            adCorrectProductsQuantity();
+        }catch(Exception ex){
+            Log.d("A111","error. ProviderCollectProductActivity " +
+                    "/ splitDeletedGoodsListResult \n"+ex.toString()+"\n"+result);
+        }
+    }
+    private void splitAnswerFromDeletedGoodsResult(String result){
+        Log.d("A111",getClass()+" / splitAnswerFromDeletedGoodsResult / result = "+result);
+        int deletedGoods = Integer.parseInt(result);
+        //если товары которые удалил покупатель есть и они еще не обработаны показать сообщение
+        if(deletedGoods == 1){
+            timer.cancel();
+            adWhatDoToDeletedGoods();
+        }
+    }
+    //проверить ответ сервера если не ок то обновить данные
+    private void splitAnswerFromCorrectResult(String result){
+        String[] res = result.split("<br>");
+        String[] one_temp = res[0].split("&nbsp");
+        if (one_temp[0].equals("command")) {
+            if (one_temp[1].equals("NO_RESULT")) {
+                adUpdateProductList();
+            }
+        }
+    }
     // разобрать результат с сервера, список продуктов которые собраны для отправки и их колличество
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void splitProductForCollectResult(String result){
@@ -527,6 +655,97 @@ public class ProviderCollectProductActivity extends AppCompatActivity
         buttonbackground2.setBackgroundColor(TUBI_GREY_200);
         buttonbackground2.setTextColor(Color.WHITE);
     }
+    //сообщить что данные о заказе этой позиции изменились
+    private void adUpdateProductList(){
+        adb = new AlertDialog.Builder(this);
+        String st1 = ""+MES_34;
+        String st2 = ""+MES_33;
+        adb.setTitle(st1);
+        adb.setMessage(st2);
+        adb.setPositiveButton(UNDERSTOOD_BIG, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Обновить старт список
+                showProductForWorkToCollect();
+                ad.cancel();
+            }
+        });
+        ad=adb.create();
+        ad.setCanceledOnTouchOutside(false);
+        ad.setCancelable(false);
+        ad.show();
+        Button buttonbackground1 = ad.getButton(DialogInterface.BUTTON_POSITIVE);
+        buttonbackground1.setBackgroundColor(alert_dialog_button_green_pressed);
+        buttonbackground1.setTextColor(Color.WHITE);
+    }
+    private void adCorrectProductsQuantity(){
+        adb = new AlertDialog.Builder(this);
+        ListView lv = new ListView(this);
+        ArrayAdapter adap;
+        ArrayList productsDeletedList = new ArrayList();
+        for(int i=0; i < productDeletedList.size();i++){
+            ProviderCollectProductModel prm = productDeletedList.get(i);
+            String str = prm.getProduct_info()+" \nв заказе-"+prm.getQuantity_full_orders()
+                    +" удалить-"+prm.getQuantity_deleted_product();
+            productsDeletedList.add(str);
+        }
+        adap = new ArrayAdapter(this, android.R.layout.simple_list_item_1, productsDeletedList);
+        lv.setAdapter(adap);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("A111",getClass()+" / adCorrectProductsQuantity / i = "+i);
+                //adCorrectedDeletedProduct(i);
+            }
+        });
+        String st1 = "Список удаленных товаров";
+        adb.setTitle(st1);
+        adb.setView(lv);
+        ad=adb.create();
+        ad.show();
+    }
+    //окно коррекции количества товра если удален заказ
+   /* private void adCorrectedDeletedProduct(int position){
+        ProviderCollectProductModel product = productDeletedList.get(position);
+        String str = product.getProduct_info()+" \nв заказе-"+product.getQuantity_full_orders()
+                +" удалить-"+product.getQuantity_deleted_product();
+        adb = new AlertDialog.Builder(this);
+        String st1 = "Отредактировать количество товара";
+        adb.setTitle(st1);
+        adb.setMessage(str);
+        adb.setPositiveButton(PERFORM, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int correctStatus = 1;//внести изменения=1;
+                //goCorrectedProductQuantityForCollect(product, correctStatus);
+                //Обновить старт список
+                showProductForWorkToCollect();
+                ad.cancel();
+            }
+        });
+        adb.setNegativeButton(REJECTION_BIG, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                int correctStatus = 2;//отказать в изменениях=2;
+                //goCorrectedProductQuantityForCollect(product, correctStatus);
+                //Обновить старт список
+                showProductForWorkToCollect();
+                ad.cancel();
+            }
+        });
+        ad=adb.create();
+        ad.setCanceledOnTouchOutside(false);
+        ad.setCancelable(false);
+        ad.show();
+
+        Button buttonbackground1 = ad.getButton(DialogInterface.BUTTON_POSITIVE);
+        buttonbackground1.setBackgroundColor(alert_dialog_button_green_pressed);
+        buttonbackground1.setTextColor(Color.WHITE);
+        Button buttonbackground2 = ad.getButton(DialogInterface.BUTTON_NEGATIVE);
+        buttonbackground2.setBackgroundColor(TUBI_GREY_200);
+        buttonbackground2.setTextColor(Color.WHITE);
+
+    }*/
     private void adShowBigImage(int position){
         ImageView iv = new ImageView(this);
         String imageUrl = productDealList.get(position).getImage_url();
@@ -539,11 +758,47 @@ public class ProviderCollectProductActivity extends AppCompatActivity
             }
                     .execute(ADMIN_PANEL_URL_PREVIEW_IMAGES + imageUrl);
         }else iv.setImageResource(R.drawable.tubi_logo_no_image_300ps);
-
         adb = new AlertDialog.Builder(this);
         adb.setView(iv);
         ad=adb.create();
         ad.show();
+    }
+    //сообщить что есть в заказе удаленные клиентом товары
+    private void adWhatDoToDeletedGoods(){
+        adb = new AlertDialog.Builder(this);
+        String st1 = THER_AR_DELETED_GOODS;
+        adb.setTitle(st1);
+        adb.setPositiveButton(SHOW_BIG, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(getApplication()
+                        , CorrectedQuantityFromDeletedOrdersActivity.class);
+                intent.putExtra("order_partner_id",order_partner_id);
+                startActivity(intent);
+                //showDeletedGoods();
+                timer.cancel();
+                ad.cancel();
+            }
+        });
+        adb.setNeutralButton(IGNORE_BIG, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                timer.cancel();
+                ad.cancel();
+            }
+        });
+
+        ad=adb.create();
+        ad.setCanceledOnTouchOutside(false);
+        ad.setCancelable(false);
+        ad.show();
+
+        Button buttonbackground1 = ad.getButton(DialogInterface.BUTTON_POSITIVE);
+        buttonbackground1.setBackgroundColor(alert_dialog_button_green_pressed);
+        buttonbackground1.setTextColor(Color.WHITE);
+        Button buttonbackground2 = ad.getButton(DialogInterface.BUTTON_NEUTRAL);
+        buttonbackground2.setBackgroundColor(TUBI_GREY_200);
+        buttonbackground2.setTextColor(Color.WHITE);
     }
     private void adChengeDataInTheCollect(int position){
         double stockOfGoods = productDealList.get(position).getProvider_stock_quantity();
@@ -636,5 +891,11 @@ public class ProviderCollectProductActivity extends AppCompatActivity
         } else {
             return true;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        timer.cancel();
     }
 }

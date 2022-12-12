@@ -13,9 +13,13 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,10 +27,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 import ru.tubi.project.R;
+import ru.tubi.project.activity.Provider.CorrectedQuantityFromDeletedOrdersActivity;
 import ru.tubi.project.adapters.OrderForCollect_partners_Adapter;
 import ru.tubi.project.adapters.OrderForCollect_warehouse_Adapter;
 import ru.tubi.project.models.CarrierPanelModel;
 import ru.tubi.project.models.OrderForCollectModel;
+import ru.tubi.project.models.ProviderCollectProductModel;
 import ru.tubi.project.models.UserModel;
 import ru.tubi.project.utilites.Constant;
 import ru.tubi.project.utilites.InitialData;
@@ -56,6 +62,7 @@ public class OrderForCollectActivity extends AppCompatActivity
     private OrderForCollect_warehouse_Adapter adapter_warehouse;
     private OrderForCollect_partners_Adapter adapter_buyer;
     private int warehouse_id;
+    private ArrayList <Integer> corrected_order_partner_id_arr= new ArrayList<>();
     private String myWarehousInfo;
     private AlertDialog.Builder adb;
     private AlertDialog ad;
@@ -152,6 +159,20 @@ public class OrderForCollectActivity extends AppCompatActivity
         startActivity(intent);
         // Toast.makeText(this, "order_id: "+order_id, Toast.LENGTH_SHORT).show();
     }
+
+    //получить ответ, есть удаленные товары для обработки
+    private void getInfoToDeletedGoodsList(){
+        String allOrders = "";
+        for(int i=0; i < buyersCompanyList.size();i++){
+            allOrders += buyersCompanyList.get(i).getOrder_partner_id()+";";
+        }
+        String url = Constant.WAREHOUSE_OFFICE;
+        url += "get_all_orders_deleted_goods";
+        url += "&"+"all_order_partner_id_str="+allOrders;
+        String whatQuestion = "get_all_orders_deleted_goods";
+        setInitialData(url, whatQuestion);
+        Log.d("A111",getClass()+" / getInfoToDeletedGoodsList / url = "+url);
+    }
     //активировать заказ для начала оформления документов
     //объединить и внести все товары в t_warehouse_inventory
     private void goOrderPartnerActivation(int position){
@@ -207,6 +228,9 @@ public class OrderForCollectActivity extends AppCompatActivity
                 else if(whatQuestion.equals("go_order_partner_activation")){
                     splitOrderPartnerActivationResult(result);
                 }
+                else if(whatQuestion.equals("get_all_orders_deleted_goods")){
+                    splitOrderPartnerForCorrectedResult(result);
+                }
                 //скрыть диалоговое окно
                 asyncDialog.dismiss();
             }
@@ -214,6 +238,23 @@ public class OrderForCollectActivity extends AppCompatActivity
         task.execute(url_get);
     }
 
+    //список заказов в которых есть товары которые удаленазчиком
+    private void splitOrderPartnerForCorrectedResult(String result){
+        corrected_order_partner_id_arr.clear();
+        Log.d("A111",getClass()+" / splitOrderPartnerForCorrectedResult / result = "+result);
+        try {
+            String[] res = result.split("<br>");
+
+            for (int i = 0; i < res.length; i++) {
+                corrected_order_partner_id_arr.add(Integer.parseInt(res[i]));
+            }
+            if (corrected_order_partner_id_arr.size() > 0) {
+                adOrdersForCorrectedList();
+            }
+        }catch (Exception ex){
+
+        }
+    }
     private void splitOrderPartnerActivationResult(String result){
         //Toast.makeText(this, "res\n"+result, Toast.LENGTH_SHORT).show();
         try{
@@ -268,6 +309,8 @@ public class OrderForCollectActivity extends AppCompatActivity
                     +ex, Toast.LENGTH_SHORT).show();
         }
         adapter_buyer.notifyDataSetChanged();
+        //получить ответ, есть удаленные товары для обработки
+        getInfoToDeletedGoodsList();
     }
     //разобрать результат от сервера список складов
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -331,7 +374,35 @@ public class OrderForCollectActivity extends AppCompatActivity
         }catch (Exception ex){
 
         }
-
+    }
+    // список заказов для коректировки удаленных заказов
+    private void adOrdersForCorrectedList(){
+        adb = new AlertDialog.Builder(this);
+        ListView lv = new ListView(this);
+        ArrayAdapter adap;
+        ArrayList ordersCorrectedList = new ArrayList();
+        for(int i=0; i < corrected_order_partner_id_arr.size();i++){
+            String str = "Заказ № "+corrected_order_partner_id_arr.get(i);
+            ordersCorrectedList.add(str);
+        }
+        adap = new ArrayAdapter(this, android.R.layout.simple_list_item_1, ordersCorrectedList);
+        lv.setAdapter(adap);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("A111",getClass()+" / adCorrectProductsQuantity / i = "+i);
+                Intent intent = new Intent(getApplication()
+                        , CorrectedQuantityFromDeletedOrdersActivity.class);
+                intent.putExtra("order_partner_id",corrected_order_partner_id_arr.get(i));
+                startActivity(intent);
+                ad.cancel();
+            }
+        });
+        String st1 = "Список заказов с удаленными товарами";
+        adb.setTitle(st1);
+        adb.setView(lv);
+        ad=adb.create();
+        ad.show();
     }
     //проверка соединения интернета
     protected boolean isOnline() {
